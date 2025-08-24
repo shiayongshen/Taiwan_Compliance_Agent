@@ -1,0 +1,637 @@
+[
+  {
+    "id": "insurance:capital_adequacy_ratio_min",
+    "desc": "保險業資本適足率不得低於資本適足等級比率",
+    "expr": [
+      "GE",
+      "CAR",
+      [
+        "VAR",
+        "insurance:capital_adequate_min_ratio"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_ratio_min",
+    "desc": "保險業淨值比率不得低於資本適足等級比率",
+    "expr": [
+      "GE",
+      "NWR",
+      [
+        "VAR",
+        "insurance:net_worth_min_ratio"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate_min_ratio",
+    "desc": "資本適足等級最低比率",
+    "expr": 200.0,
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_min_ratio",
+    "desc": "淨值比率最低要求",
+    "expr": 3.0,
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate",
+    "desc": "資本適足：CAR≥200% 且最近二期NWR至少一期≥3%",
+    "expr": [
+      "AND",
+      [
+        "GE",
+        "CAR",
+        200.0
+      ],
+      [
+        "OR",
+        [
+          "GE",
+          "NWR",
+          3.0
+        ],
+        [
+          "GE",
+          "NWR_prev",
+          3.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_inadequate",
+    "desc": "資本不足：CAR≥150% 但<200%，或最近二期NWR均<3%且至少一期≥2%",
+    "expr": [
+      "OR",
+      [
+        "AND",
+        [
+          "GE",
+          "CAR",
+          150.0
+        ],
+        [
+          "LT",
+          "CAR",
+          200.0
+        ]
+      ],
+      [
+        "AND",
+        [
+          "LT",
+          "NWR",
+          3.0
+        ],
+        [
+          "LT",
+          "NWR_prev",
+          3.0
+        ],
+        [
+          "OR",
+          [
+            "GE",
+            "NWR",
+            2.0
+          ],
+          [
+            "GE",
+            "NWR_prev",
+            2.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_inadequate",
+    "desc": "資本顯著不足：CAR≥50% 但<150%，或最近二期NWR均<2%且≥0",
+    "expr": [
+      "OR",
+      [
+        "AND",
+        [
+          "GE",
+          "CAR",
+          50.0
+        ],
+        [
+          "LT",
+          "CAR",
+          150.0
+        ]
+      ],
+      [
+        "AND",
+        [
+          "LT",
+          "NWR",
+          2.0
+        ],
+        [
+          "LT",
+          "NWR_prev",
+          2.0
+        ],
+        [
+          "GE",
+          "NWR",
+          0.0
+        ],
+        [
+          "GE",
+          "NWR_prev",
+          0.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_inadequate",
+    "desc": "資本嚴重不足：CAR<50% 或淨值<0",
+    "expr": [
+      "OR",
+      [
+        "LT",
+        "CAR",
+        50.0
+      ],
+      [
+        "LT",
+        "NetWorth",
+        0.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_classification",
+    "desc": "保險業資本等級分類",
+    "expr": [
+      "CASE",
+      [
+        "VAR",
+        "insurance:capital_severely_inadequate"
+      ],
+      "severely_inadequate",
+      [
+        "VAR",
+        "insurance:capital_significantly_inadequate"
+      ],
+      "significantly_inadequate",
+      [
+        "VAR",
+        "insurance:capital_inadequate"
+      ],
+      "inadequate",
+      [
+        "VAR",
+        "insurance:capital_adequate"
+      ],
+      "adequate",
+      "unknown"
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_classification_priority",
+    "desc": "保險業依劃分標準如同時符合二等級，以較低等級為資本等級",
+    "expr": [
+      "VAR",
+      "insurance:capital_classification"
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:car_calculation",
+    "desc": "資本適足率計算公式",
+    "expr": [
+      "MUL",
+      [
+        "DIV",
+        "OwnCapital",
+        "RiskCapital"
+      ],
+      100.0
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:nwr_calculation",
+    "desc": "淨值比率計算公式",
+    "expr": [
+      "MUL",
+      [
+        "DIV",
+        "NetWorth",
+        [
+          "SUB",
+          "TotalAssets",
+          "InvestmentTypeInsuranceAssets"
+        ]
+      ],
+      100.0
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_required",
+    "desc": "資本不足時須提出改善計畫",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "inadequate"
+        ]
+      ],
+      [
+        "VAR",
+        "ImprovementPlanSubmitted"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_execution",
+    "desc": "資本不足時須確實執行改善計畫",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "inadequate"
+        ]
+      ],
+      [
+        "NOT",
+        [
+          "VAR",
+          "ImprovementPlanSubmitted"
+        ]
+      ],
+      [
+        "VAR",
+        "ImprovementPlanExecuted"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:significantly_inadequate_measures",
+    "desc": "資本顯著不足時須採取相關監理措施",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "significantly_inadequate"
+        ]
+      ],
+      [
+        "VAR",
+        "SignificantlyInadequateMeasuresImplemented"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:severely_inadequate_measures",
+    "desc": "資本嚴重不足時須採取相關監理措施",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "severely_inadequate"
+        ]
+      ],
+      [
+        "VAR",
+        "SeverelyInadequateMeasuresImplemented"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:own_capital_composition",
+    "desc": "自有資本組成",
+    "expr": [
+      "EQ",
+      "OwnCapital",
+      [
+        "ADD",
+        "Tier1NonRestrictedCapital",
+        "Tier1RestrictedCapital",
+        "Tier2Capital"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:risk_capital_life_insurance",
+    "desc": "人身保險業風險資本組成",
+    "expr": [
+      "EQ",
+      "RiskCapital_Life",
+      [
+        "ADD",
+        "AssetRisk_Life",
+        "InsuranceRisk_Life",
+        "InterestRateRisk_Life",
+        "OtherRisk_Life"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:risk_capital_property_insurance",
+    "desc": "財產保險業風險資本組成",
+    "expr": [
+      "EQ",
+      "RiskCapital_Property",
+      [
+        "ADD",
+        "AssetRisk_Property",
+        "CreditRisk_Property",
+        "UnderwritingRisk_Property",
+        "AssetLiabilityAllocationRisk_Property",
+        "OtherRisk_Property"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:inadequate_product_restriction",
+    "desc": "資本不足時可能限制保險商品銷售或開辦",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "inadequate"
+        ]
+      ],
+      [
+        "NOT",
+        [
+          "VAR",
+          "ProductRestrictionRequired"
+        ]
+      ],
+      [
+        "VAR",
+        "ProductRestrictionImplemented"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:inadequate_investment_restriction",
+    "desc": "資本不足時可能限制資金運用範圍",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "inadequate"
+        ]
+      ],
+      [
+        "NOT",
+        [
+          "VAR",
+          "InvestmentRestrictionRequired"
+        ]
+      ],
+      [
+        "VAR",
+        "InvestmentRestrictionImplemented"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:inadequate_compensation_restriction",
+    "desc": "資本不足時可能限制負責人酬勞、紅利等給付",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "inadequate"
+        ]
+      ],
+      [
+        "NOT",
+        [
+          "VAR",
+          "CompensationRestrictionRequired"
+        ]
+      ],
+      [
+        "VAR",
+        "CompensationRestrictionImplemented"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:significantly_inadequate_compensation_reduction",
+    "desc": "資本顯著不足時負責人報酬降低不超過前12個月平均的70%",
+    "expr": [
+      "OR",
+      [
+        "NOT",
+        [
+          "EQ",
+          [
+            "VAR",
+            "insurance:capital_classification"
+          ],
+          "significantly_inadequate"
+        ]
+      ],
+      [
+        "NOT",
+        [
+          "VAR",
+          "CompensationReductionRequired"
+        ]
+      ],
+      [
+        "LE",
+        "ResponsiblePersonCompensation",
+        [
+          "MUL",
+          "ResponsiblePersonAvgCompensationPrior12Months",
+          0.7
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:no_penalty_if_all_pass",
+    "desc": "若所有 constraint 成立則 penalty 為 false",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:capital_adequacy_ratio_min"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:net_worth_ratio_min"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:improvement_plan_required"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:improvement_plan_execution"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:significantly_inadequate_measures"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:severely_inadequate_measures"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:inadequate_product_restriction"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:inadequate_investment_restriction"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:inadequate_compensation_restriction"
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "VAR",
+              "insurance:significantly_inadequate_compensation_reduction"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

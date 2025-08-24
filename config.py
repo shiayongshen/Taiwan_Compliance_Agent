@@ -9,6 +9,6 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 llm_config = {
     "model": OPENAI_MODEL,
     "api_key": OPENAI_API_KEY,
-    "api_base": OPENAI_BASE_URL,
+    "base_url": OPENAI_BASE_URL,
     "temperature": 0.2,
 }

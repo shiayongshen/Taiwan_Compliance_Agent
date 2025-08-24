@@ -18,16 +18,25 @@ s = Solver()
 
 print("Z3 constraints generated. You can s.check() after adding specifics.")
 """
-
-def render_z3_snippet(varspecs: List[VarSpec], facts: Dict[str, Any], constraints: List[ConstraintSpec]) -> str:
+def render_z3_snippet(
+    case_id: str,
+    varspecs: List[VarSpec],
+    facts: Dict[str, Any],
+    constraints: List[ConstraintSpec],
+) -> str:
     decl_lines = []
     for v in varspecs:
-        if v.type == "Real": decl_lines.append(f"{v.name} = Real('{v.name}')")
-        elif v.type == "Int": decl_lines.append(f"{v.name} = Int('{v.name}')")
-        else: decl_lines.append(f"{v.name} = Bool('{v.name}')")
+        if v.type == "Real":
+            decl_lines.append(f"{v.name} = Real('{v.name}')")
+        elif v.type == "Int":
+            decl_lines.append(f"{v.name} = Int('{v.name}')")
+        else:
+            decl_lines.append(f"{v.name} = Bool('{v.name}')")
         if v.domain:
-            if v.domain.min is not None: decl_lines.append(f"s.add({v.name} >= {v.domain.min})")
-            if v.domain.max is not None: decl_lines.append(f"s.add({v.name} <= {v.domain.max})")
+            if getattr(v.domain, "min", None) is not None:
+                decl_lines.append(f"s.add({v.name} >= {v.domain.min})")
+            if getattr(v.domain, "max", None) is not None:
+                decl_lines.append(f"s.add({v.name} <= {v.domain.max})")
 
     fact_lines = []
     for k, val in facts.items():
@@ -39,12 +48,12 @@ def render_z3_snippet(varspecs: List[VarSpec], facts: Dict[str, Any], constraint
     rule_lines = []
     for c in constraints:
         rule_name = f"{c.id}"
-        # 直接把 S-expr 放成註解，方便對照；實際求解建議用 core/dsl.py 的工具編譯
         rule_lines.append(f"# {rule_name}: {c.desc}")
         rule_lines.append(f"# expr: {c.expr}")
-        rule_lines.append(f"{rule_name} = Bool('{rule_name}')  # placeholder; compile via DSL in Python runtime")
+        rule_lines.append(f"{rule_name} = Bool('{rule_name}')  # placeholder; compile via DSL in runtime")
 
     return TEMPLATE.format(
+        case_id=case_id,
         decls="\n".join(decl_lines),
         facts="\n".join(fact_lines),
         rules="\n".join(rule_lines),
