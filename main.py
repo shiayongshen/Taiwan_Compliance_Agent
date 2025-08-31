@@ -147,15 +147,15 @@ def main():
         (OUT / f"{case_id}.varspec_facts.json").write_text(
             json.dumps(mapping, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        z3_prompt = GENERATE_Z3CODE_PROMPT.format(
-            constraint_spec=json.dumps(constraints, ensure_ascii=False, indent=2),
-            varspec_facts=json.dumps(mapping, ensure_ascii=False, indent=2)
-        )
+        # z3_prompt = GENERATE_Z3CODE_PROMPT.format(
+        #     constraint_spec=json.dumps(constraints, ensure_ascii=False, indent=2),
+        #     varspec_facts=json.dumps(mapping, ensure_ascii=False, indent=2)
+        # )
 
-        z3_response = team["solver"].generate_reply(messages=[{"role": "user", "content": z3_prompt}])
-        z3_code = z3_response["content"] if isinstance(z3_response, dict) else str(z3_response)
+        # z3_response = team["solver"].generate_reply(messages=[{"role": "user", "content": z3_prompt}])
+        # z3_code = z3_response["content"] if isinstance(z3_response, dict) else str(z3_response)
 
-        (OUT / f"{case_id}.z3.py").write_text(z3_code, encoding="utf-8")
+        # (OUT / f"{case_id}.z3.py").write_text(z3_code, encoding="utf-8")
 
 
         # 寫入對話 log

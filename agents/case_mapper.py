@@ -40,16 +40,8 @@ MAPPER_SYS_PROMPT =  """
 
 - 只對原始變數（來自 var_list）賦值
 - 若案例中有明確敘述該變數 → 提取對應值
-- 若未明確敘述 → 自動補上預設值（見下表）
 - 衍生變數不應出現在 facts 中，由 constraint 自行推論
 - 系統保留變數 `penalty` 必須預設為 false，並加入 facts（即使未在 var_list 中）
-
-
-| 型別 | 預設值 |
-|------|--------|
-| Bool | false  |
-| Real | 0.0    |
-| Int  | 0      |
 
 ---
 

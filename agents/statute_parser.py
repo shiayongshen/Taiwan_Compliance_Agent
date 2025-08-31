@@ -17,24 +17,7 @@ PARSER_SYS_PROMPT = r"""
 
 1. **涵蓋法條的所有條件、分類、例外、附屬條件、計算方式**（比率、加總、平均、期間、捨入/截尾、上下限、排除/納入項目）。
 2. 所有運算**一律 inline 展開**，不得使用衍生變數。比率請寫成 `["MUL", ["DIV", A, B], 100.0]`。
-3. **分類邏輯必須轉為數值（Int）或布林變數（Bool）表達，禁止用字串比對**。例如：
-
-```json
-{
-  "id": "insurance:capital_classification",
-  "desc": "資本分類（1:嚴重不足, 2:顯著不足, 3:不足, 4:足夠, 0:未知）",
-  "expr": [
-    "CASE",
-    ["VAR", "insurance:capital_severely_inadequate"], 1,
-    ["VAR", "insurance:capital_significantly_inadequate"], 2,
-    ["VAR", "insurance:capital_inadequate"], 3,
-    ["VAR", "insurance:capital_adequate"], 4,
-    0
-  ],
-  "weight": 1,
-  "domain": "insurance"
-}
-
+3. **分類邏輯必須轉為數值（Int）或布林變數（Bool）表達，禁止用字串比對**。
 4. 所有條件邏輯（如需同時成立、至少一項等）請用 "AND"、"OR"、"NOT"。
 5. 若有涉及時間範圍，請在 expr 中明確使用變數（例如 NWR 與 NWR_prev 表示最近二期）。
 6. 若有分類條件重疊，應使用 CASE，並明確依規定「就低不就高」順序處理。

@@ -20,67 +20,21 @@ USER: 【法律案例】
 (三)考量貴公司為強化資本，自111年迄今已完成不動產之處分或轉列、出售所持有證券投資信託公司股權，並完成4次現金增資共137.51億元，另預計於113年度再完成現金增資3億股，據貴公司113年第1季財務報表顯示淨值比率已達3%，已有就增資盡一定努力，經綜合評估考量，爰依保險法第143條之6第2款第6目規定，核處限制貴公司自本處分書送達翌日起，不得新增與利害關係人之授信或其他交易（不包括既有已簽約或續約之利害關係人交易），直至貴公司資本適足率達法定標準並報經金管會同意後，始得恢復辦理，暨依同條第2款第1目規定，令貴公司於一個月內提報具體、完整且可使113年度資本適足率符合法令規定之增資、財務或業務改善計畫。
 附註：受處分人如不服本處分，應於本處分送達之次日起30日內，依訴願法第58條第1項規定，繕具訴願書經由本會（新北市板橋區縣民大道二段7號18樓）向行政院提起訴願。惟依訴願法第93條第1項規定，除法律另有規定外，訴願之提起並不停止本處分之執行。
 【需用到的變數】
-AssetLiabilityAllocationRisk_Property, AssetRisk_Life, AssetRisk_Property, CAR, CreditRisk_Property, InsuranceRisk_Life, InterestRateRisk_Life, InvestmentTypeInsuranceAssets, NWR, NWR_prev, NetWorth, OtherRisk_Life, OtherRisk_Property, OwnCapital, ResponsiblePersonAvgCompensationPrior12Months, ResponsiblePersonCompensation, RiskCapital, RiskCapital_Life, RiskCapital_Property, Tier1NonRestrictedCapital, Tier1RestrictedCapital, Tier2Capital, TotalAssets, UnderwritingRisk_Property, adequate, inadequate, penalty, severely_inadequate, significantly_inadequate, unknown
+capital_adequacy_ratio, capital_level, net_worth_ratio, net_worth_ratio_prev, penalty
 ——請輸出 varspecs+facts（JSON 物件）。
 
 ASSISTANT: {
   "varspecs": [
-    { "name": "AssetLiabilityAllocationRisk_Property", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "AssetRisk_Life", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "AssetRisk_Property", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "CAR", "type": "Real", "unit": "%", "domain": { "min": 0, "max": 1000 }, "source": "case_text:資本適足率" },
-    { "name": "CreditRisk_Property", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "InsuranceRisk_Life", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "InterestRateRisk_Life", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "InvestmentTypeInsuranceAssets", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "NWR", "type": "Real", "unit": "%", "domain": { "min": -100, "max": 100 }, "source": "case_text:淨值比率" },
-    { "name": "NWR_prev", "type": "Real", "unit": "%", "domain": { "min": -100, "max": 100 }, "source": "case_text:淨值比率" },
-    { "name": "NetWorth", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "OtherRisk_Life", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "OtherRisk_Property", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "OwnCapital", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "ResponsiblePersonAvgCompensationPrior12Months", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "ResponsiblePersonCompensation", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "RiskCapital", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "RiskCapital_Life", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "RiskCapital_Property", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "Tier1NonRestrictedCapital", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "Tier1RestrictedCapital", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "Tier2Capital", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "TotalAssets", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "UnderwritingRisk_Property", "type": "Real", "unit": "NTD", "domain": { "min": 0 }, "source": "default" },
-    { "name": "adequate", "type": "Bool", "source": "derived_from_case" },
-    { "name": "inadequate", "type": "Bool", "source": "derived_from_case" },
-    { "name": "severely_inadequate", "type": "Bool", "source": "derived_from_case" },
-    { "name": "significantly_inadequate", "type": "Bool", "source": "derived_from_case" },
-    { "name": "unknown", "type": "Bool", "source": "derived_from_case" },
+    { "name": "capital_adequacy_ratio", "type": "Real", "unit": "%", "domain": { "min": 0, "max": 1000 }, "source": "case_text:資本適足率" },
+    { "name": "capital_level", "type": "Int", "source": "derived_from_case" },
+    { "name": "net_worth_ratio", "type": "Real", "unit": "%", "domain": { "min": -100, "max": 100 }, "source": "case_text:淨值比率" },
+    { "name": "net_worth_ratio_prev", "type": "Real", "unit": "%", "domain": { "min": -100, "max": 100 }, "source": "case_text:淨值比率" },
     { "name": "penalty", "type": "Bool", "source": "default" }
   ],
   "facts": {
-    "AssetLiabilityAllocationRisk_Property": 0.0,
-    "AssetRisk_Life": 0.0,
-    "AssetRisk_Property": 0.0,
-    "CAR": 111.09,
-    "CreditRisk_Property": 0.0,
-    "InsuranceRisk_Life": 0.0,
-    "InterestRateRisk_Life": 0.0,
-    "InvestmentTypeInsuranceAssets": 0.0,
-    "NWR": 2.97,
-    "NWR_prev": 2.97,
-    "NetWorth": 0.0,
-    "OtherRisk_Life": 0.0,
-    "OtherRisk_Property": 0.0,
-    "OwnCapital": 0.0,
-    "ResponsiblePersonAvgCompensationPrior12Months": 0.0,
-    "ResponsiblePersonCompensation": 0.0,
-    "RiskCapital": 0.0,
-    "RiskCapital_Life": 0.0,
-    "RiskCapital_Property": 0.0,
-    "Tier1NonRestrictedCapital": 0.0,
-    "Tier1RestrictedCapital": 0.0,
-    "Tier2Capital": 0.0,
-    "TotalAssets": 0.0,
-    "UnderwritingRisk_Property": 0.0,
+    "capital_adequacy_ratio": 111.09,
+    "net_worth_ratio": 2.97,
+    "net_worth_ratio_prev": 2.97,
     "penalty": false
   }
 }
