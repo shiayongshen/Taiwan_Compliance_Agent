@@ -1,375 +1,544 @@
 [
   {
-    "id": "insurance:capital_adequacy_ratio_calc",
-    "desc": "資本適足率計算 = (自有資本 / 風險資本) * 100",
+    "id": "bank:internal_control_and_audit_mandatory",
+    "desc": "銀行是否建立內部控制及稽核制度、內部處理制度與程序、內部作業制度與程序且確實執行",
     "expr": [
       "EQ",
-      "capital_adequacy_ratio",
+      "bank:internal_control_and_audit_mandatory",
       [
-        "MUL",
+        "AND",
         [
-          "DIV",
-          [
-            "VAR",
-            "own_capital"
-          ],
-          [
-            "VAR",
-            "risk_capital"
-          ]
+          "EQ",
+          "internal_control_established",
+          true
         ],
-        100.0
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_internal_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_business_internal_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
       ]
     ],
     "weight": 1,
-    "domain": "insurance"
+    "domain": "bank"
   },
   {
-    "id": "insurance:net_worth_ratio_calc",
-    "desc": "淨值比率計算 = 業主權益 / 不含投資型保險專設帳簿資產總額 * 100",
+    "id": "bank:derivative_personnel_qualification",
+    "desc": "銀行辦理衍生性金融商品業務人員具備專業資格條件",
     "expr": [
       "EQ",
-      "net_worth_ratio",
-      [
-        "MUL",
-        [
-          "DIV",
-          [
-            "VAR",
-            "owner_equity"
-          ],
-          [
-            "VAR",
-            "total_assets_excluding_investment"
-          ]
-        ],
-        100.0
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_severe_insufficient",
-    "desc": "資本嚴重不足 = (資本適足率 < 50%) OR (淨值 < 0)",
-    "expr": [
-      "OR",
-      [
-        "LT",
-        "capital_adequacy_ratio",
-        50.0
-      ],
-      [
-        "LT",
-        [
-          "VAR",
-          "net_worth"
-        ],
-        0.0
-      ]
-    ],
-    "weight": 2,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_significant_insufficient",
-    "desc": "資本顯著不足 = (資本適足率 ≥ 50% 且 < 150%) OR (最近二期淨值比率均 < 2% 且 ≥ 0%)",
-    "expr": [
-      "OR",
-      [
-        "AND",
-        [
-          "GE",
-          "capital_adequacy_ratio",
-          50.0
-        ],
-        [
-          "LT",
-          "capital_adequacy_ratio",
-          150.0
-        ]
-      ],
-      [
-        "AND",
-        [
-          "LT",
-          "net_worth_ratio",
-          2.0
-        ],
-        [
-          "LT",
-          "net_worth_ratio_prev",
-          2.0
-        ],
-        [
-          "GE",
-          "net_worth_ratio",
-          0.0
-        ],
-        [
-          "GE",
-          "net_worth_ratio_prev",
-          0.0
-        ]
-      ]
-    ],
-    "weight": 2,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_insufficient",
-    "desc": "資本不足 = (資本適足率 ≥ 150% 且 < 200%) OR (最近二期淨值比率均 < 3% 且至少一期 ≥ 2%)",
-    "expr": [
-      "OR",
-      [
-        "AND",
-        [
-          "GE",
-          "capital_adequacy_ratio",
-          150.0
-        ],
-        [
-          "LT",
-          "capital_adequacy_ratio",
-          200.0
-        ]
-      ],
-      [
-        "AND",
-        [
-          "LT",
-          "net_worth_ratio",
-          3.0
-        ],
-        [
-          "LT",
-          "net_worth_ratio_prev",
-          3.0
-        ],
-        [
-          "OR",
-          [
-            "GE",
-            "net_worth_ratio",
-            2.0
-          ],
-          [
-            "GE",
-            "net_worth_ratio_prev",
-            2.0
-          ]
-        ]
-      ]
-    ],
-    "weight": 2,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_adequate",
-    "desc": "資本適足 = (資本適足率 ≥ 200%) 且 (最近二期淨值比率至少一期 ≥ 3%)",
-    "expr": [
-      "AND",
-      [
-        "GE",
-        "capital_adequacy_ratio",
-        200.0
-      ],
+      "bank:derivative_personnel_qualification",
       [
         "OR",
         [
           "GE",
-          "net_worth_ratio",
-          3.0
+          "derivative_training_months",
+          3
+        ],
+        [
+          "EQ",
+          "derivative_license_held",
+          true
         ],
         [
           "GE",
-          "net_worth_ratio_prev",
-          3.0
+          "derivative_internship_years",
+          1
+        ],
+        [
+          "GE",
+          "derivative_experience_months",
+          6
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_structured_product_staff",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "derivative_license_held",
+              true
+            ],
+            [
+              "EQ",
+              "passed_structured_product_exam",
+              true
+            ]
+          ]
         ]
       ]
     ],
-    "weight": 2,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_level",
-    "desc": "資本等級依序為嚴重不足=1、顯著不足=2、不足=3、適足=4，若同時符合多等級，取最低等級",
-    "expr": [
-      "CASE",
-      [
-        "VAR",
-        "insurance:capital_severe_insufficient"
-      ],
-      1,
-      [
-        "VAR",
-        "insurance:capital_significant_insufficient"
-      ],
-      2,
-      [
-        "VAR",
-        "insurance:capital_insufficient"
-      ],
-      3,
-      [
-        "VAR",
-        "insurance:capital_adequate"
-      ],
-      4,
-      0
-    ],
-    "weight": 2,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:supervisory_measures_capital_insufficient",
-    "desc": "資本不足者應採取監理措施之一部或全部",
-    "expr": [
-      "IMPLIES",
-      [
-        "EQ",
-        "capital_level",
-        3
-      ],
-      [
-        "VAR",
-        "supervisory_measures_insufficient"
-      ]
-    ],
     "weight": 1,
-    "domain": "insurance"
+    "domain": "bank"
   },
   {
-    "id": "insurance:supervisory_measures_capital_significant_insufficient",
-    "desc": "資本顯著不足者應採取監理措施之一部或全部及其他特定措施",
+    "id": "bank:risk_control_unit_mandatory",
+    "desc": "銀行設置獨立專責風險控管單位並定期向董監事會報告",
     "expr": [
-      "IMPLIES",
-      [
-        "EQ",
-        "capital_level",
-        2
-      ],
-      [
-        "VAR",
-        "supervisory_measures_significant_insufficient"
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:supervisory_measures_capital_severe_insufficient",
-    "desc": "資本嚴重不足者應採取資本顯著不足措施及第149條第3項第1款規定之處分",
-    "expr": [
-      "IMPLIES",
-      [
-        "EQ",
-        "capital_level",
-        1
-      ],
+      "EQ",
+      "bank:risk_control_unit_mandatory",
       [
         "AND",
         [
-          "VAR",
-          "supervisory_measures_significant_insufficient"
+          "EQ",
+          "risk_control_unit_established",
+          true
         ],
         [
-          "VAR",
-          "disposition_article_149_3_1"
+          "EQ",
+          "risk_control_report_to_board",
+          true
         ]
       ]
     ],
     "weight": 1,
-    "domain": "insurance"
+    "domain": "bank"
   },
   {
-    "id": "insurance:capital_adequacy_ratio_minimum",
-    "desc": "資本適足率及淨值比率不得低於主管機關定之一定比率",
+    "id": "bank:risk_control_mechanism_principles",
+    "desc": "銀行風險控管機制符合五項原則",
     "expr": [
-      "AND",
+      "EQ",
+      "bank:risk_control_mechanism_principles",
       [
-        "GE",
-        "capital_adequacy_ratio",
+        "AND",
         [
-          "VAR",
-          "minimum_capital_adequacy_ratio"
-        ]
-      ],
-      [
-        "GE",
-        "net_worth_ratio",
-        [
-          "VAR",
-          "minimum_net_worth_ratio"
-        ]
-      ]
-    ],
-    "weight": 2,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_severe_insufficient_additional",
-    "desc": "資本嚴重不足條件補充：資本適足率低於一定比率的25%",
-    "expr": [
-      "OR",
-      [
-        "LT",
-        "capital_adequacy_ratio",
-        [
-          "MUL",
-          [
-            "VAR",
-            "minimum_capital_adequacy_ratio"
-          ],
-          0.25
-        ]
-      ],
-      [
-        "LT",
-        [
-          "VAR",
-          "net_worth"
+          "EQ",
+          "capital_adequacy_monitored",
+          true
         ],
-        0.0
+        [
+          "EQ",
+          "liquidity_management_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "asset_allocation_and_risk_management_established",
+          true
+        ],
+        [
+          "EQ",
+          "asset_quality_and_loss_provisioning_established",
+          true
+        ],
+        [
+          "EQ",
+          "information_security_and_emergency_plan_established",
+          true
+        ]
       ]
     ],
-    "weight": 2,
-    "domain": "insurance"
+    "weight": 1,
+    "domain": "bank"
   },
   {
-    "id": "insurance:capital_level_adjusted",
-    "desc": "資本等級調整，若同時符合多等級，以較低等級為資本等級",
+    "id": "bank:compliance_unit_duties",
+    "desc": "法令遵循單位履行法令傳達、更新、評估、訓練及督導等職責",
     "expr": [
-      "CASE",
+      "EQ",
+      "bank:compliance_unit_duties",
       [
-        "VAR",
-        "insurance:capital_severe_insufficient_additional"
-      ],
-      1,
-      [
-        "VAR",
-        "insurance:capital_severe_insufficient"
-      ],
-      1,
-      [
-        "VAR",
-        "insurance:capital_significant_insufficient"
-      ],
-      2,
-      [
-        "VAR",
-        "insurance:capital_insufficient"
-      ],
-      3,
-      [
-        "VAR",
-        "insurance:capital_adequate"
-      ],
-      4,
-      0
+        "AND",
+        [
+          "EQ",
+          "law_regulation_communication_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "operation_regulations_updated_timely",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_opinion_signed_before_new_business",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_evaluation_and_supervision_established",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_training_provided",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_supervision_implemented",
+          true
+        ]
+      ]
     ],
-    "weight": 2,
-    "domain": "insurance"
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:compliance_foreign_units_supervision",
+    "desc": "法令遵循單位督導國外營業單位法令遵循及風險監控",
+    "expr": [
+      "EQ",
+      "bank:compliance_foreign_units_supervision",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_unit_financial_regulations_collected",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_compliance_self_assessment_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_compliance_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_compliance_resources_adequate",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_compliance_risk_monitoring_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_external_expert_verification_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:compliance_self_assessment_frequency",
+    "desc": "法令遵循自行評估每半年至少辦理一次且資料保存五年",
+    "expr": [
+      "EQ",
+      "bank:compliance_self_assessment_frequency",
+      [
+        "AND",
+        [
+          "GE",
+          "compliance_self_assessment_frequency_per_year",
+          2
+        ],
+        [
+          "GE",
+          "compliance_self_assessment_data_retention_years",
+          5
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_policy_and_procedure",
+    "desc": "內部控制制度涵蓋所有營運活動並訂定適當政策及程序且適時檢討修訂",
+    "expr": [
+      "EQ",
+      "bank:internal_control_policy_and_procedure",
+      [
+        "AND",
+        [
+          "EQ",
+          "organization_rules_established",
+          true
+        ],
+        [
+          "EQ",
+          "business_regulations_and_handbooks_established",
+          true
+        ],
+        [
+          "EQ",
+          "periodic_review_and_revision_implemented",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_policy_details",
+    "desc": "內部控制制度政策及程序包含組織規程、業務規範及其他必要項目",
+    "expr": [
+      "EQ",
+      "bank:internal_control_policy_details",
+      [
+        "AND",
+        [
+          "EQ",
+          "organization_system_defined",
+          true
+        ],
+        [
+          "EQ",
+          "clear_authority_and_responsibility_defined",
+          true
+        ],
+        [
+          "EQ",
+          "investment_guidelines_defined",
+          true
+        ],
+        [
+          "EQ",
+          "customer_data_confidentiality_defined",
+          true
+        ],
+        [
+          "EQ",
+          "related_party_transaction_rules_defined",
+          true
+        ],
+        [
+          "EQ",
+          "equity_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_statement_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "general_affairs_it_hr_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "external_information_disclosure_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_inspection_report_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer_protection_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "major_incident_handling_mechanism_defined",
+          true
+        ],
+        [
+          "EQ",
+          "anti_money_laundering_and_terrorism_financing_defined",
+          true
+        ],
+        [
+          "EQ",
+          "other_business_regulations_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:subsidiary_control_and_aml_program",
+    "desc": "對子公司控制作業及集團整體防制洗錢及打擊資恐計畫建立",
+    "expr": [
+      "EQ",
+      "bank:subsidiary_control_and_aml_program",
+      [
+        "AND",
+        [
+          "EQ",
+          "subsidiary_control_operations_defined",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_foreign_law_considered",
+          true
+        ],
+        [
+          "EQ",
+          "group_aml_and_cft_program_established",
+          true
+        ],
+        [
+          "EQ",
+          "group_aml_information_sharing_policy_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_supervision_and_audit",
+    "desc": "內部控制制度應包含監督作業及內部稽核缺失溝通與改善",
+    "expr": [
+      "EQ",
+      "bank:internal_control_supervision_and_audit",
+      [
+        "AND",
+        [
+          "EQ",
+          "continuous_and_individual_evaluations_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_findings_communicated_to_management_and_board",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_deficiencies_timely_corrected",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_business_management",
+    "desc": "銀行辦理衍生性金融商品業務應訂定內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "bank:derivative_business_management",
+      [
+        "AND",
+        [
+          "EQ",
+          "derivative_business_scope_defined",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_business_personnel_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_business_customer_protection_defined",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_business_risk_management_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:foreign_exchange_derivative_business_approval",
+    "desc": "銀行辦理外匯衍生性商品業務應依類別申請許可或函報備查",
+    "expr": [
+      "EQ",
+      "bank:foreign_exchange_derivative_business_approval",
+      [
+        "AND",
+        [
+          "EQ",
+          "pre_opening_permit_applied_for_restricted_products",
+          true
+        ],
+        [
+          "EQ",
+          "pre_opening_filing_for_permitted_products",
+          true
+        ],
+        [
+          "EQ",
+          "post_opening_filing_for_permitted_products",
+          true
+        ],
+        [
+          "EQ",
+          "professional_investor_and_high_net_worth_client_restrictions_followed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_condition_violation",
+    "desc": "銀行未依規定建立或執行內部控制及稽核制度等，應處罰",
+    "expr": [
+      "EQ",
+      "bank:penalty_condition_violation",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "outsourcing_internal_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_business_internal_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
   },
   {
     "id": "meta:penalty_default_false",
@@ -395,64 +564,113 @@
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_severe_insufficient"
+              "EQ",
+              "bank:internal_control_and_audit_mandatory",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_significant_insufficient"
+              "EQ",
+              "bank:derivative_personnel_qualification",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_insufficient"
+              "EQ",
+              "bank:risk_control_unit_mandatory",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_adequate"
+              "EQ",
+              "bank:risk_control_mechanism_principles",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_level_adjusted"
+              "EQ",
+              "bank:compliance_unit_duties",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_adequacy_ratio_calc"
+              "EQ",
+              "bank:compliance_foreign_units_supervision",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:net_worth_ratio_calc"
+              "EQ",
+              "bank:compliance_self_assessment_frequency",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_adequacy_ratio_minimum"
+              "EQ",
+              "bank:internal_control_policy_and_procedure",
+              true
             ]
           ],
           [
             "NOT",
             [
-              "VAR",
-              "insurance:capital_severe_insufficient_additional"
+              "EQ",
+              "bank:internal_control_policy_details",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:subsidiary_control_and_aml_program",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_supervision_and_audit",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:derivative_business_management",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:foreign_exchange_derivative_business_approval",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:penalty_condition_violation",
+              false
             ]
           ]
         ]

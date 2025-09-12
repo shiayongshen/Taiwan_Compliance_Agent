@@ -1,0 +1,516 @@
+[
+  {
+    "id": "bank:internal_control_and_audit_mandatory",
+    "desc": "銀行是否建立內部控制及稽核制度、內部處理制度與程序、內部作業制度與程序且確實執行",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "internal_control_established",
+        true
+      ],
+      [
+        "EQ",
+        "internal_control_executed",
+        true
+      ],
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ],
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ],
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ],
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance_unit_mandatory",
+    "desc": "銀行法令遵循單位應建立適當法令規章傳達、諮詢、協調與溝通系統，並確保作業及管理規章符合法令規定",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "legal_compliance_communication_system_established",
+        true
+      ],
+      [
+        "EQ",
+        "operation_and_management_regulations_updated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance_self_assessment_mandatory",
+    "desc": "銀行法令遵循單位應定期督導各單位自行評估法令遵循執行情形並簽報總經理",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "legal_compliance_self_assessment_defined",
+        true
+      ],
+      [
+        "EQ",
+        "legal_compliance_self_assessment_executed",
+        true
+      ],
+      [
+        "EQ",
+        "legal_compliance_self_assessment_reported_to_general_manager",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance_training_mandatory",
+    "desc": "銀行應對各單位人員施以適當合宜之法規訓練",
+    "expr": [
+      "EQ",
+      "legal_compliance_training_provided",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance_supervision_mandatory",
+    "desc": "銀行法令遵循主管應督導相關內部規範導入、建置與實施",
+    "expr": [
+      "EQ",
+      "legal_compliance_supervision_executed",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance_foreign_unit_mandatory",
+    "desc": "銀行國外營業單位法令遵循單位應蒐集當地法規資料、執行自行評估並委請外部專家驗證高風險機制有效性",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "foreign_unit_financial_regulations_collected",
+        true
+      ],
+      [
+        "EQ",
+        "foreign_unit_legal_compliance_self_assessment_executed",
+        true
+      ],
+      [
+        "EQ",
+        "foreign_unit_legal_compliance_supervisor_qualified",
+        true
+      ],
+      [
+        "EQ",
+        "foreign_unit_legal_compliance_resources_adequate",
+        true
+      ],
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "foreign_unit_high_risk",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_external_expert_verification_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance_self_assessment_frequency",
+    "desc": "銀行法令遵循自行評估每半年至少辦理一次，結果送法令遵循單位備查",
+    "expr": [
+      "AND",
+      [
+        "GE",
+        "legal_compliance_self_assessment_frequency_per_year",
+        2
+      ],
+      [
+        "EQ",
+        "legal_compliance_self_assessment_results_reported",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_unit_mandatory",
+    "desc": "銀行應設置獨立專責風險控管單位並定期向董監事會報告",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "independent_risk_control_unit_established",
+        true
+      ],
+      [
+        "EQ",
+        "risk_control_report_to_board_regularly",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_unit_immediate_action_mandatory",
+    "desc": "風險控管單位發現重大風險應立即採取措施並向董監事會報告",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "major_risk_detected",
+        true
+      ],
+      [
+        "AND",
+        [
+          "EQ",
+          "immediate_risk_mitigation_action_taken",
+          true
+        ],
+        [
+          "EQ",
+          "risk_reported_to_board_immediately",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_management_principles_mandatory",
+    "desc": "銀行風險控管機制應包含監控資本適足性、流動性風險管理、資產配置及資產品質評估等原則",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "capital_adequacy_monitored",
+        true
+      ],
+      [
+        "EQ",
+        "liquidity_risk_management_mechanism_established",
+        true
+      ],
+      [
+        "EQ",
+        "asset_allocation_considered_risk_characteristics",
+        true
+      ],
+      [
+        "EQ",
+        "asset_quality_and_classification_evaluated",
+        true
+      ],
+      [
+        "EQ",
+        "information_security_and_emergency_plan_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_comprehensive_mandatory",
+    "desc": "銀行內部控制制度應涵蓋所有營運活動並訂定適當政策及作業程序且適時檢討修訂",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "organization_rules_defined",
+        true
+      ],
+      [
+        "EQ",
+        "business_regulations_and_handbooks_defined",
+        true
+      ],
+      [
+        "EQ",
+        "salary_committee_management_included",
+        true
+      ],
+      [
+        "EQ",
+        "audit_committee_management_included",
+        true
+      ],
+      [
+        "EQ",
+        "subsidiary_control_defined",
+        true
+      ],
+      [
+        "EQ",
+        "group_anti_money_laundering_and_terrorism_financing_plan_established",
+        true
+      ],
+      [
+        "EQ",
+        "regulations_revision_includes_compliance_audit_risk_units",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:board_and_management_internal_code_mandatory",
+    "desc": "董（理）事會與經理人應建立內部行為準則，包括董（理）事行為準則及員工行為準則",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "board_internal_code_established",
+        true
+      ],
+      [
+        "EQ",
+        "management_internal_code_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_deficiency_communication_mandatory",
+    "desc": "發現內部控制制度缺失應向管理階層、董（理）事會及監察人或審計委員會溝通並及時改善",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "internal_control_deficiency_found",
+        true
+      ],
+      [
+        "AND",
+        [
+          "EQ",
+          "deficiency_reported_to_management",
+          true
+        ],
+        [
+          "EQ",
+          "deficiency_reported_to_board_and_audit_committee",
+          true
+        ],
+        [
+          "EQ",
+          "deficiency_timely_corrected",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_internal_control_violation",
+    "desc": "未依規定建立或執行內部控制及稽核制度、內部處理制度與程序、內部作業制度與程序者，應處罰",
+    "expr": [
+      "EQ",
+      "bank:internal_control_and_audit_mandatory",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:no_penalty_if_all_pass",
+    "desc": "若所有 constraint 成立則 penalty 為 false",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_and_audit_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:legal_compliance_unit_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:legal_compliance_self_assessment_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:legal_compliance_training_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:legal_compliance_supervision_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:legal_compliance_foreign_unit_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:legal_compliance_self_assessment_frequency",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:risk_control_unit_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:risk_control_unit_immediate_action_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:risk_management_principles_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_comprehensive_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:board_and_management_internal_code_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_deficiency_communication_mandatory",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

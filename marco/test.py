@@ -7,6 +7,10 @@ import pulp
 def dump_to_smt2(path: str, hard_constraints, soft_constraints):
     all_constraints = list(hard_constraints) + list(soft_constraints)
     syms = {}
+    for i, c in enumerate(all_constraints, 1):
+        if not is_bool(c):
+            raise TypeError(f"Constraint c{i} 不是 Bool: {c}")
+
     def visit(ast):
         if not isinstance(ast, AstRef):
             return
@@ -119,7 +123,7 @@ def enumerate_all_mhs_ilp(mus_list, soft_count, exclude=set()):
 def pretty_print_results(hard_constraints, soft_constraints):
     mus_list = run_marco_cli(hard_constraints, soft_constraints, kind="MUS")
     hard_n, soft_n = len(hard_constraints), len(soft_constraints)
-
+    print(f'All MUS set : {mus_list}')
     print(f"=== 所有 MUS (原始索引) ===")
     for idx_set in mus_list:
 
@@ -154,11 +158,11 @@ def pretty_print_results(hard_constraints, soft_constraints):
     # 找 penalty 的 index
     exclude = {i for i, c in enumerate(soft_constraints) if str(c).startswith("penalty")}
 
-    mhs = compute_mhs_with_ilp(mus_soft, soft_n, exclude=exclude)
-    print("\n=== 單一 Minimal Hitting Set (候選 MCS，不含 penalty) ===")
-    print("Soft indices:", mhs)
-    for i in mhs:
-        print(f" - soft[{i}]: {soft_constraints[i]}")
+    # mhs = compute_mhs_with_ilp(mus_soft, soft_n, exclude=exclude)
+    # print("\n=== 單一 Minimal Hitting Set (候選 MCS，不含 penalty) ===")
+    # print("Soft indices:", mhs)
+    # for i in mhs:
+    #     print(f" - soft[{i}]: {soft_constraints[i]}")
 
     # 多解
     all_mhs = enumerate_all_mhs_ilp(mus_soft, soft_n, exclude=exclude)

@@ -1,0 +1,931 @@
+[
+  {
+    "id": "bank:internal_control_and_audit_mandatory",
+    "desc": "銀行是否建立內部控制及稽核制度、內部處理制度與程序、內部作業制度與程序且確實執行",
+    "expr": [
+      "EQ",
+      "bank:internal_control_and_audit_mandatory",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_internal_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_business_internal_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_internal_procedures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_business_internal_procedures_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_unit_mandatory",
+    "desc": "銀行應設置獨立專責風險控管單位並定期向董監事會報告",
+    "expr": [
+      "EQ",
+      "bank:risk_control_unit_mandatory",
+      [
+        "AND",
+        [
+          "EQ",
+          "independent_risk_control_unit_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_control_report_to_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_unit_substitute",
+    "desc": "信用合作社得指定總社管理單位替代獨立專責風險控管單位",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "is_credit_cooperative",
+        true
+      ],
+      [
+        "EQ",
+        "risk_control_unit_substitute_accepted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_business_staff_qualification",
+    "desc": "銀行辦理衍生性金融商品業務人員具備專業資格條件",
+    "expr": [
+      "EQ",
+      "bank:derivative_business_staff_qualification",
+      [
+        "OR",
+        [
+          "GE",
+          "derivative_training_months",
+          3
+        ],
+        [
+          "EQ",
+          "derivative_business_license_held",
+          true
+        ],
+        [
+          "GE",
+          "derivative_business_internship_years",
+          1
+        ],
+        [
+          "GE",
+          "derivative_business_experience_months",
+          6
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_structured_product_sales_staff",
+            true
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "derivative_training_months",
+              3
+            ],
+            [
+              "EQ",
+              "derivative_business_license_held",
+              true
+            ],
+            [
+              "GE",
+              "derivative_business_internship_years",
+              1
+            ],
+            [
+              "GE",
+              "derivative_business_experience_months",
+              6
+            ],
+            [
+              "EQ",
+              "structured_product_sales_certified",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:foreign_exchange_derivative_business_permit",
+    "desc": "銀行辦理外匯衍生性商品業務依規定申請許可或函報備查",
+    "expr": [
+      "EQ",
+      "bank:foreign_exchange_derivative_business_permit",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "foreign_exchange_derivative_business_type_pre_approval_required",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_exchange_derivative_business_pre_approval_obtained",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "foreign_exchange_derivative_business_type_pre_report_required",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_exchange_derivative_business_pre_report_filed",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "foreign_exchange_derivative_business_type_post_report_required",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_exchange_derivative_business_post_report_filed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:law_compliance_unit_duties",
+    "desc": "法令遵循單位應執行法令規章傳達、更新、評估及訓練等職責",
+    "expr": [
+      "EQ",
+      "bank:law_compliance_unit_duties",
+      [
+        "AND",
+        [
+          "EQ",
+          "law_regulation_communication_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "operation_regulations_updated",
+          true
+        ],
+        [
+          "EQ",
+          "law_compliance_evaluation_defined",
+          true
+        ],
+        [
+          "EQ",
+          "law_compliance_evaluation_executed",
+          true
+        ],
+        [
+          "EQ",
+          "law_compliance_training_provided",
+          true
+        ],
+        [
+          "EQ",
+          "law_compliance_supervision_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:law_compliance_foreign_unit_supervision",
+    "desc": "法令遵循單位督導國外營業單位執行法令遵循相關事項",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "has_foreign_operating_unit",
+        true
+      ],
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_unit_financial_regulations_collected",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_law_compliance_self_assessment_executed",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_law_compliance_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_law_compliance_resources_adequate",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_law_compliance_risk_monitoring_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_unit_law_compliance_external_verification_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:law_compliance_self_assessment_frequency",
+    "desc": "法令遵循自行評估每半年至少辦理一次並保存五年",
+    "expr": [
+      "AND",
+      [
+        "GE",
+        "law_compliance_self_assessment_frequency_per_year",
+        2
+      ],
+      [
+        "GE",
+        "law_compliance_self_assessment_record_retention_years",
+        5
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_mechanism_principles",
+    "desc": "銀行風險控管機制應包含資本適足性監控、流動性風險管理、資產配置及資訊安全等原則",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "capital_adequacy_monitoring_established",
+        true
+      ],
+      [
+        "EQ",
+        "liquidity_risk_management_mechanism_established",
+        true
+      ],
+      [
+        "EQ",
+        "asset_allocation_risk_management_established",
+        true
+      ],
+      [
+        "EQ",
+        "asset_quality_and_loss_provisioning_established",
+        true
+      ],
+      [
+        "EQ",
+        "information_security_and_emergency_plan_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_composition_elements",
+    "desc": "內部控制制度應包含控制環境、風險評估、控制作業、資訊與溝通及監督作業五大要素",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "control_environment_established",
+        true
+      ],
+      [
+        "EQ",
+        "risk_assessment_established",
+        true
+      ],
+      [
+        "EQ",
+        "control_activities_established",
+        true
+      ],
+      [
+        "EQ",
+        "information_and_communication_established",
+        true
+      ],
+      [
+        "EQ",
+        "monitoring_activities_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_policies_and_procedures",
+    "desc": "內部控制制度應訂定組織規程、業務規範及處理手冊並適時檢討修訂",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "organization_rules_established",
+        true
+      ],
+      [
+        "EQ",
+        "business_regulations_and_manuals_established",
+        true
+      ],
+      [
+        "EQ",
+        "internal_control_policies_reviewed_and_updated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_policies_content",
+    "desc": "業務規範及處理手冊應包含投資準則、客戶資料保密、利害關係人交易規範等項目",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "investment_guidelines_defined",
+        true
+      ],
+      [
+        "EQ",
+        "customer_data_confidentiality_defined",
+        true
+      ],
+      [
+        "EQ",
+        "related_party_transaction_rules_defined",
+        true
+      ],
+      [
+        "EQ",
+        "equity_management_defined",
+        true
+      ],
+      [
+        "EQ",
+        "financial_statement_preparation_control_defined",
+        true
+      ],
+      [
+        "EQ",
+        "general_affairs_information_hr_management_defined",
+        true
+      ],
+      [
+        "EQ",
+        "external_information_disclosure_management_defined",
+        true
+      ],
+      [
+        "EQ",
+        "financial_inspection_report_management_defined",
+        true
+      ],
+      [
+        "EQ",
+        "financial_consumer_protection_management_defined",
+        true
+      ],
+      [
+        "EQ",
+        "major_incident_handling_mechanism_defined",
+        true
+      ],
+      [
+        "EQ",
+        "anti_money_laundering_and_counter_terrorism_financing_defined",
+        true
+      ],
+      [
+        "EQ",
+        "other_business_regulations_and_procedures_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_subsidiary_management",
+    "desc": "金融控股公司及銀行業應訂定子公司控制作業並考量國外子公司法令及營運性質",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "subsidiary_control_activities_defined",
+        true
+      ],
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "subsidiary_is_foreign",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_subsidiary_local_law_and_operation_considered",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:group_anti_money_laundering_plan",
+    "desc": "應建立集團整體性防制洗錢及打擊資恐計畫及資訊分享政策",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "group_anti_money_laundering_plan_established",
+        true
+      ],
+      [
+        "EQ",
+        "group_information_sharing_policy_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:board_and_committee_internal_control_management",
+    "desc": "金融控股公司及銀行業應將董監事會、審計委員會治理監督及薪資報酬委員會管理納入內部控制制度",
+    "expr": [
+      "AND",
+      [
+        "EQ",
+        "board_of_directors_governance_established",
+        true
+      ],
+      [
+        "EQ",
+        "audit_committee_management_established",
+        true
+      ],
+      [
+        "EQ",
+        "compensation_committee_management_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:regulatory_penalty_conditions",
+    "desc": "違反銀行法相關規定，包含未建立或未確實執行內部控制與稽核制度等，應處罰鍰",
+    "expr": [
+      "EQ",
+      "bank:regulatory_penalty_conditions",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_21_22_57_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_25_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_28_1_to_3_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_regulatory_restrictions_33_3_36_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_adjustment_order_43_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_measures_44_1_or_44_2_1",
+          true
+        ],
+        [
+          "NOT",
+          "bank:internal_control_and_audit_mandatory"
+        ],
+        [
+          "EQ",
+          "violate_reporting_108_2_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_special_reserve_110_4_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_trust_fund_115_1_or_123_applied",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_48",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:regulatory_penalty_enforcement",
+    "desc": "主管機關得依違規情節輕重，採取撤銷決議、停止業務、限制投資等處分",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "bank:regulatory_penalty_conditions",
+        true
+      ],
+      [
+        "OR",
+        [
+          "EQ",
+          "enforce_revoke_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_suspend_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_investment_restriction",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_asset_disposal_restriction",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_branch_closure_order",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_manager_staff_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_director_supervisor_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_reserve_fund_allocation_order",
+          true
+        ],
+        [
+          "EQ",
+          "enforce_other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:director_supervisor_dismissal_registration",
+    "desc": "解除董事、監察人職務時，主管機關應通知公司登記主管機關撤銷或廢止其登記",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "enforce_director_supervisor_dismissal_or_suspension",
+        true
+      ],
+      [
+        "EQ",
+        "notify_company_registration_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_for_operational_deficiencies",
+    "desc": "主管機關得指定機構辦理業務輔導以改善銀行營運缺失",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "bank_operational_deficiency_identified",
+        true
+      ],
+      [
+        "EQ",
+        "regulator_designate_guidance_institution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:no_penalty_if_all_pass",
+    "desc": "若所有 constraint 成立則 penalty 為 false",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_and_audit_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:risk_control_unit_mandatory",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:derivative_business_staff_qualification",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:foreign_exchange_derivative_business_permit",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:law_compliance_unit_duties",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:law_compliance_foreign_unit_supervision",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:law_compliance_self_assessment_frequency",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:risk_control_mechanism_principles",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_composition_elements",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_policies_and_procedures",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_policies_content",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_subsidiary_management",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:group_anti_money_laundering_plan",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:board_and_committee_internal_control_management",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:regulatory_penalty_conditions",
+              false
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "IMPLIES",
+              [
+                "EQ",
+                "bank:regulatory_penalty_conditions",
+                true
+              ],
+              [
+                "OR",
+                [
+                  "EQ",
+                  "enforce_revoke_meeting_resolution",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_suspend_partial_business",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_investment_restriction",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_asset_disposal_restriction",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_branch_closure_order",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_manager_staff_dismissal_or_suspension",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_director_supervisor_dismissal_or_suspension",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_reserve_fund_allocation_order",
+                  true
+                ],
+                [
+                  "EQ",
+                  "enforce_other_necessary_measures",
+                  true
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]
