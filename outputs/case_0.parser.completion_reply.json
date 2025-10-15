@@ -58,24 +58,24 @@
             150.0
           ],
           [
-            "LT",
-            "NWR",
-            2.0
-          ],
-          [
             "GE",
             "NWR",
             0.0
           ],
           [
             "LT",
-            "NWR_prev",
+            "NWR",
             2.0
           ],
           [
             "GE",
             "NWR_prev",
             0.0
+          ],
+          [
+            "LT",
+            "NWR_prev",
+            2.0
           ]
         ],
         3,
@@ -164,8 +164,8 @@
             ]
           ]
         ],
-        true,
-        false
+        1,
+        0
       ]
     ],
     "weight": 1,
@@ -384,6 +384,93 @@
             "apply_article_149_3_1",
             true
           ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_plan_required",
+    "desc": "資本不足者須限期提出增資或改善計畫，未提出或未執行得採取次一資本等級監理措施",
+    "expr": [
+      "EQ",
+      "insurance:capital_insufficient_plan_required",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance:capital_level",
+          2
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "plan_submitted",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "plan_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_compensation_limit",
+    "desc": "資本顯著不足者負責人報酬降低後不得超過前12個月平均報酬70%",
+    "expr": [
+      "EQ",
+      "insurance:capital_significantly_insufficient_compensation_limit",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance:capital_level",
+          3
+        ],
+        [
+          "LE",
+          "reduced_compensation",
+          [
+            "MUL",
+            "average_compensation_last_12_months",
+            0.7
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_measures_includes_insufficient_measures",
+    "desc": "資本顯著不足者應採取資本不足者之措施",
+    "expr": [
+      "EQ",
+      "insurance:capital_significantly_insufficient_measures_includes_insufficient_measures",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance:capital_level",
+          3
+        ],
+        [
+          "EQ",
+          "capital_insufficient_measures",
+          true
         ]
       ]
     ],

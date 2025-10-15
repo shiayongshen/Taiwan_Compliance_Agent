@@ -2,313 +2,251 @@ import json
 import pandas as pd
 from pathlib import Path
 import time
+
 from config import llm_config
 from agents.orchestrator import build_team
-from core.schema import VarSpec, ConstraintSpec
-from core.renderer import render_z3_snippet
 from agents.prompt import COMPLETION_PROMPT_TEMPLATE
-from agents.json_fixer import make_json_fixer
-from core.repair_pipeline import repair_loop   # ✅ 新增
-from marco.json2z3 import declare_vars, build_expr   # ✅ 引進給 repair_loop 用
-import tiktoken
+from core.repair_pipeline import repair_loop
+from marco.json2z3 import declare_vars, build_expr
 
-TOKEN_PRICES = {
-    "input": 0.4 / 1000000, # $0.4 per 1M tokens 
-    "output": 1.6 / 1000000, # $1.6per 1M tokens
-}
+from utils import (
+    get_reply_with_tokens,
+    ensure_json_valid,
+    check_constraints_parseable,
+    check_constraints_consistency,
+    check_case_law_hard,
+    z3_optimize_case,
+    calculate_cost,
+    extract_all_vars,
+    check_constraints_parseable,
+    repair_loop_with_rounds,
+    auto_fix_constraints,
+    consistency_check_with_repair,
+    add_penalty_meta,
+    diagnose_constraints
+)
+
+
 DATA = Path("data/dataset.csv")
 OUT = Path("outputs"); OUT.mkdir(parents=True, exist_ok=True)
 
 
-def count_tokens(text, model="gpt-4"):
-    """計算文本的token數量"""
+# 新增：儲存每個 agent 輸出的輔助函式
+def save_agent_output(case_id, name, content):
+    path = OUT / f"{case_id}.{name}.json"
     try:
-        encoding = tiktoken.encoding_for_model(model)
-        return len(encoding.encode(text))
-    except:
-        # 如果無法取得encoding，使用粗略估算 (4字符≈1token)
-        return len(text) // 4
+        # 若是字串，嘗試 parse 成 JSON，失敗時包成 raw 字串存
+        if isinstance(content, str):
+            try:
+                parsed = json.loads(content)
+                path.write_text(json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8")
+            except Exception:
+                path.write_text(json.dumps({"raw": content}, ensure_ascii=False, indent=2), encoding="utf-8")
+        else:
+            path.write_text(json.dumps(content, ensure_ascii=False, indent=2), encoding="utf-8")
+    except Exception as e:
+        print(f"⚠️ Failed to save {name} output: {e}")
 
-def calculate_cost(input_tokens, output_tokens):
-    """計算成本"""
-    input_cost = input_tokens * TOKEN_PRICES["input"]
-    output_cost = output_tokens * TOKEN_PRICES["output"]
-    return input_cost + output_cost
-
-def get_reply_with_tokens(agent, messages):
-    """獲取回覆並計算token數量"""
-    # 計算輸入tokens
-    input_text = "\n".join([msg["content"] for msg in messages])
-    input_tokens = count_tokens(input_text)
-    
-    # 獲取回覆
-    reply = agent.generate_reply(messages=messages)
-    reply_content = reply["content"] if isinstance(reply, dict) else str(reply)
-    
-    # 計算輸出tokens
-    output_tokens = count_tokens(reply_content)
-    
-    return reply_content, input_tokens, output_tokens
-
-
-def extract_all_vars(constraints):
+def run_pipeline(team, case_id, case_text, statute_text):
     """
-    提取所有在 constraints 中用到的變數名稱
-    （包含原始變數 + 衍生 VAR 變數 + 帶 domain 的 id）
+    執行完整流程圖的 pipeline
     """
-    used = set()
-    ops = {
-        "AND", "OR", "NOT", "EQ", "GE", "LE", "GT", "LT",
-        "ADD", "SUB", "MUL", "DIV",
-        "SUM", "AVG", "MIN", "MAX",
-        "ABS", "POW", "ROUND", "FLOOR", "CEIL", "IFNULL",
-        "PERCENT", "CASE", "IMPLIES"
+    logs = {}
+    
+    # === Step 1: Law Parser ===
+    print("Step 1: Law Parser")
+    parser_prompt = f"【相關法條】\n{statute_text}\n——請輸出 ConstraintSpec[]（JSON 陣列）。"
+    parser_messages = [{"role": "user", "content": parser_prompt}]
+    parser_reply, _, _ = get_reply_with_tokens(team["parser"], parser_messages)
+    # 儲存 parser 初步回覆
+    save_agent_output(case_id, "parser.initial_reply", parser_reply)
+
+    # === Step 2: Completion (補完) ===
+    print("Step 2: Law Completion")
+    completion_prompt = COMPLETION_PROMPT_TEMPLATE.format(
+        statute_text=statute_text,
+        existing_constraints=parser_reply
+    )
+    parser_messages.append({"role": "user", "content": completion_prompt})
+    completion_reply, _, _ = get_reply_with_tokens(team["parser"], parser_messages)
+    # 儲存 parser 補完回覆
+    save_agent_output(case_id, "parser.completion_reply", completion_reply)
+
+    # === Step 3: JSON Valid? ===
+    print("Step 3: Ensure JSON Valid")
+    # constraints = ensure_json_valid(team, completion_reply)
+    constraints = ensure_json_valid(team, parser_reply)
+    
+    # 儲存解析後的 constraints（JSON 物件）
+    save_agent_output(case_id, "parser.constraints_parsed", constraints)
+    
+    # === Step 3.5: Add Penalty Meta ===
+    # print("Step 3.5: Add penalty meta rules")
+    # constraints = add_penalty_meta(team, constraints)
+    # save_agent_output(case_id, "parser.constraints_with_penalty", constraints)
+
+    # === Step 4: VarSpec ===
+    print("Step 4: VarSpec Extraction")
+    used_vars = extract_all_vars(constraints)
+    varspec_prompt = f"【需用到的變數】\n{', '.join(used_vars)}\n——請輸出 varspecs（JSON 陣列）。"
+    varspec_messages = [{"role": "user", "content": varspec_prompt}]
+    varspec_reply, _, _ = get_reply_with_tokens(team["varspec"], varspec_messages)
+    # 儲存 varspec agent 的原始回覆
+    save_agent_output(case_id, "varspec.raw_reply", varspec_reply)
+    varspecs = json.loads(varspec_reply)
+    # 儲存解析後的 varspecs
+    save_agent_output(case_id, "varspec.parsed", varspecs)
+
+    # 宣告 Z3 變數
+    z3_vars = declare_vars(varspecs)
+    constraints, varspecs = auto_fix_constraints(constraints, varspecs)
+
+    # === Step 5: Constraints 可 parse? ===
+    print("Step 5: Check Constraints Parseable")
+
+    ok, err = check_constraints_parseable(constraints, z3_vars, build_expr)
+    rounds = 0
+    if not ok:
+    # 先診斷
+        problems = diagnose_constraints(constraints, z3_vars, build_expr)
+        print(f"⚠️ Found {len(problems)} problematic constraints:")
+        for p in problems:
+            print(f"  - [{p['id']}] {p['error']}")
+            
+    while not ok and rounds < 3:   # 最多嘗試 3 輪
+        print(f"⚠️ Constraints parse failed: {err}")
+        # 在 repair 過程中，repair_loop_with_rounds 可能會呼叫多個 agent
+        # 我們在外層儲存修復 attempt 前後的狀態（若該函式回傳可儲存的內容）
+        constraints, varspecs, ok, rounds, last_err = repair_loop_with_rounds(
+        team, constraints, varspecs, build_expr, z3_vars, max_rounds=3
+    )
+        # 儲存每次修復後的中間結果（若有變化）
+        save_agent_output(case_id, f"repair.rounds_{rounds}.constraints", constraints)
+        save_agent_output(case_id, f"repair.rounds_{rounds}.varspecs", varspecs)
+        if ok:
+            print(f"✅ Repair success after {rounds} round(s)")
+            break
+        err = last_err
+
+    if not ok:
+        raise RuntimeError(f"❌ 修復失敗，最後錯誤: {err}")
+    else:
+        print("✅ Constraints successfully parsed into Z3 expressions")
+    # === Step 6: Constraints Consistency ===
+    print("Step 6: Constraints Consistency")
+    constraints, ok, result, info = consistency_check_with_repair(team, constraints, z3_vars, build_expr)
+    # 儲存一致性檢查回傳資訊
+    save_agent_output(case_id, "consistency.result", {"ok": ok, "result": result, "info": info})
+
+    if not ok:
+        print(f"⚠️ Still inconsistent after repair: {info}")
+    else:
+        print("✅ Constraints passed consistency check")
+
+        # 🔑 修復後重新生成 VarSpec 和 Z3 Vars
+        used_vars = extract_all_vars(constraints)
+        varspec_prompt = f"【需用到的變數】\n{', '.join(used_vars)}\n——請輸出 varspecs（JSON 陣列）。"
+        varspec_messages = [{"role": "user", "content": varspec_prompt}]
+        varspec_reply, _, _ = get_reply_with_tokens(team["varspec"], varspec_messages)
+        save_agent_output(case_id, "varspec.post_repair_raw", varspec_reply)
+        varspecs = json.loads(varspec_reply)
+        save_agent_output(case_id, "varspec.post_repair_parsed", varspecs)
+
+        z3_vars = declare_vars(varspecs)
+    # === Step 7: Case Mapper ===
+    print("Step 7: Case Mapper")
+    mapper_prompt = (
+        f"【法律案例】\n{case_text}\n"
+        f"【需用到的變數與型別】\n{json.dumps(varspecs, ensure_ascii=False, indent=2)}\n"
+        "——請輸出 facts（JSON 物件）。"
+    )
+    mapper_messages = [{"role": "user", "content": mapper_prompt}]
+    mapper_reply, _, _ = get_reply_with_tokens(team["mapper"], mapper_messages)
+    # 儲存 mapper 原始回覆
+    save_agent_output(case_id, "mapper.raw_reply", mapper_reply)
+    facts = json.loads(mapper_reply)
+    if "facts" in facts:
+        facts = facts["facts"]
+    # 儲存解析後的 facts
+    save_agent_output(case_id, "mapper.parsed_facts", facts)
+
+
+    # === Step 8: Case+Law Hard Check ===  
+    print("Step 8: Case+Law Hard Check")
+    sat_result, info = check_case_law_hard(constraints, facts, z3_vars, build_expr)
+
+    if sat_result == "UNSAT":
+        print(f"❌ Case+Law UNSAT → 違規案例 (Unsat core: {info})")
+        # 這裡你可以選擇：直接標註為違規，不呼叫 repair
+        violation = True
+    elif sat_result == "SAT":
+        print("✅ Case+Law SAT → 合規案例")
+        violation = False
+    else:
+        print(f"⚠️ Case+Law check returned {sat_result}: {info}")
+        violation = None  # 表示不確定
+
+    # === Step 9: Z3 Optimize ===
+    print("Step 9: Z3 Optimize")
+    ok, model = z3_optimize_case(constraints, facts, z3_vars, build_expr)
+    if ok:
+        print(f"✅ Optimization success for {case_id}: {model}")
+    else:
+        print(f"⚠️ Optimization failed for {case_id}: {model}")
+
+    # === return 結果 ===
+    return {
+        "constraints": constraints,
+        "varspecs": varspecs,
+        "facts": facts,
+       # "model": model if ok else None
     }
-
-    def walk(expr):
-        if isinstance(expr, list):
-            if expr and expr[0] == "VAR":
-                # ["VAR", "xxx"] → 把 xxx 收進來
-                if len(expr) > 1:
-                    used.add(expr[1])
-            else:
-                for e in expr:
-                    walk(e)
-        elif isinstance(expr, str):
-            if expr not in ops:
-                used.add(expr)
-
-    for c in constraints:
-        walk(c["expr"])
-
-    return sorted(used)
-
-def print_dialog_log(title, messages):
-    print(f"\n[{title}]")
-    for msg in messages:
-        role = msg['role'].upper()
-        content = msg['content']
-        #print(f"{role}: {content}\n{'-'*40}")
 
 def main():
     team = build_team(llm_config)
     df = pd.read_csv(DATA)
-    
-    # ✅ 新增：時間統計列表
-    timing_records = []
+
+    all_records = []
 
     for idx, row in df.iterrows():
         case_id = f"case_{idx}"
         case_text = str(row["法律案例"])
         statute_text = str(row["相關法條"])
-        
-        # ✅ 新增：單個案例的時間記錄 + Token記錄
-        case_timing = {
-            "case_id": case_id,
-            "parser_time": 0,
-            "completion_time": 0,
-            "json_fixer_time": 0,
-            "varspec_time": 0,
-            "mapper_time": 0,
-            "repair_time": 0,
-            "repair_rounds": 0,
-            "total_time": 0,
-            # Token統計
-            "parser_input_tokens": 0,
-            "parser_output_tokens": 0,
-            "completion_input_tokens": 0,
-            "completion_output_tokens": 0,
-            "json_fixer_input_tokens": 0,
-            "json_fixer_output_tokens": 0,
-            "varspec_input_tokens": 0,
-            "varspec_output_tokens": 0,
-            "mapper_input_tokens": 0,
-            "mapper_output_tokens": 0,
-            "repair_input_tokens": 0,
-            "repair_output_tokens": 0,
-            "total_input_tokens": 0,
-            "total_output_tokens": 0,
-            "total_tokens": 0,
-            "estimated_cost": 0.0
-        }
-        
-        case_start_time = time.time()
 
-        # === 1) 法條解析 ===
-        print("Law parser 解析中...")
-        parser_start = time.time()
-        parser_prompt = f"【相關法條】\n{statute_text}\n——請輸出 ConstraintSpec[]（JSON 陣列）。"
-        parser_messages = [{"role": "user", "content": parser_prompt}]
-        parser_reply_content, input_tokens, output_tokens = get_reply_with_tokens(team["parser"], parser_messages)
-        parser_messages.append({"role": "assistant", "content": parser_reply_content})
-        case_timing["parser_time"] = time.time() - parser_start
-        case_timing["parser_input_tokens"] = input_tokens
-        case_timing["parser_output_tokens"] = output_tokens
+        print(f"\n=== Running {case_id} ===")
+        start = time.time()
 
-        print("Law parser 補完中...")
-        completion_start = time.time()
-        completion_prompt = COMPLETION_PROMPT_TEMPLATE.format(
-            statute_text=statute_text,
-            existing_constraints=parser_reply_content
-        )
-        parser_messages.append({"role": "user", "content": completion_prompt})
-        completion_reply_content, input_tokens, output_tokens = get_reply_with_tokens(team["parser"], parser_messages)
-        parser_messages.append({"role": "assistant", "content": completion_reply_content})
-        case_timing["completion_time"] = time.time() - completion_start
-        case_timing["completion_input_tokens"] = input_tokens
-        case_timing["completion_output_tokens"] = output_tokens
+        # 執行 pipeline
+        result = run_pipeline(team, case_id, case_text, statute_text)
 
-        try:
-            constraints = json.loads(completion_reply_content)
-        except json.JSONDecodeError:
-            print("⚠️ JSON parse failed, trying to fix with JsonFixer...")
-            fixer_start = time.time()
-            fixer_messages = [{"role": "user", "content": completion_reply_content}]
-            fixed_content, input_tokens, output_tokens = get_reply_with_tokens(team["json_fixer"], fixer_messages)
-            constraints = json.loads(fixed_content)
-            case_timing["json_fixer_time"] = time.time() - fixer_start
-            case_timing["json_fixer_input_tokens"] = input_tokens
-            case_timing["json_fixer_output_tokens"] = output_tokens
-
-        used_vars = extract_all_vars(constraints)
-        print(f"Extracted {len(used_vars)} used vars:", used_vars)
-
-        # === 2) VarSpec 生成 ===
-        print("VarSpecAgent 解析中...")
-        varspec_start = time.time()
-        varspec_prompt = (
-            f"【需用到的變數】\n{', '.join(used_vars)}\n"
-            "——請輸出 varspecs（JSON 陣列）。"
-        )
-        varspec_messages = [{"role": "user", "content": varspec_prompt}]
-        varspec_reply_content, input_tokens, output_tokens = get_reply_with_tokens(team["varspec"], varspec_messages)
-        varspecs = json.loads(varspec_reply_content)
-        case_timing["varspec_time"] = time.time() - varspec_start
-        case_timing["varspec_input_tokens"] = input_tokens
-        case_timing["varspec_output_tokens"] = output_tokens
-
-        # === 3) Case facts 解析 ===
-        print("Case mapper 解析中...")
-        mapper_start = time.time()
-        mapper_prompt = (
-            f"【法律案例】\n{case_text}\n"
-            f"【需用到的變數與型別】\n{json.dumps(varspecs, ensure_ascii=False, indent=2)}\n"
-            "——請輸出 facts（JSON 物件），必須符合上述 varspecs 的型別與格式。"
-        )
-        mapper_messages = [{"role": "user", "content": mapper_prompt}]
-        mapper_reply_content, input_tokens, output_tokens = get_reply_with_tokens(team["mapper"], mapper_messages)
-        mapper_messages.append({"role": "assistant", "content": mapper_reply_content})
-        facts = json.loads(mapper_reply_content)
-        mapping = {"varspecs": varspecs, "facts": facts}
-        case_timing["mapper_time"] = time.time() - mapper_start
-        case_timing["mapper_input_tokens"] = input_tokens
-        case_timing["mapper_output_tokens"] = output_tokens
-
-        # === 4) Constraint Repair ===
-        print("Constraint repair 中...")
-        repair_start = time.time()
-        z3_vars = declare_vars(varspecs)
-        
-        # ✅ 修改：使用包裝函數來獲取修復輪數和token統計
-        constraints, repair_rounds, repair_input_tokens, repair_output_tokens = repair_loop_with_rounds(team, constraints, build_expr, z3_vars)
-        
-        case_timing["repair_time"] = time.time() - repair_start
-        case_timing["repair_rounds"] = repair_rounds
-        case_timing["repair_input_tokens"] = repair_input_tokens
-        case_timing["repair_output_tokens"] = repair_output_tokens
-
-        # === 計算總Token和成本 ===
-        case_timing["total_input_tokens"] = (
-            case_timing["parser_input_tokens"] + 
-            case_timing["completion_input_tokens"] +
-            case_timing["json_fixer_input_tokens"] +
-            case_timing["varspec_input_tokens"] +
-            case_timing["mapper_input_tokens"] +
-            case_timing["repair_input_tokens"]
-        )
-        case_timing["total_output_tokens"] = (
-            case_timing["parser_output_tokens"] + 
-            case_timing["completion_output_tokens"] +
-            case_timing["json_fixer_output_tokens"] +
-            case_timing["varspec_output_tokens"] +
-            case_timing["mapper_output_tokens"] +
-            case_timing["repair_output_tokens"]
-        )
-        case_timing["total_tokens"] = case_timing["total_input_tokens"] + case_timing["total_output_tokens"]
-        case_timing["estimated_cost"] = calculate_cost(case_timing["total_input_tokens"], case_timing["total_output_tokens"])
-
-        # === 5) 寫檔 ===
+        # === 寫檔 (三份 json) ===
         (OUT / f"{case_id}.constraint_spec.json").write_text(
-            json.dumps(constraints, ensure_ascii=False, indent=2), encoding="utf-8"
+            json.dumps(result["constraints"], ensure_ascii=False, indent=2),
+            encoding="utf-8"
         )
-        (OUT / f"{case_id}.varspec_facts.json").write_text(
-            json.dumps(mapping, ensure_ascii=False, indent=2), encoding="utf-8"
+        (OUT / f"{case_id}.varspecs.json").write_text(
+            json.dumps(result["varspecs"], ensure_ascii=False, indent=2),
+            encoding="utf-8"
         )
-
-        # log
-        (OUT / f"{case_id}.parser_log.txt").write_text(
-            "\n\n".join([f"{m['role'].upper()}: {m['content']}" for m in parser_messages]), encoding="utf-8"
-        )
-        (OUT / f"{case_id}.mapper_log.txt").write_text(
-            "\n\n".join([f"{m['role'].upper()}: {m['content']}" for m in mapper_messages]), encoding="utf-8"
+        (OUT / f"{case_id}.facts.json").write_text(
+            json.dumps(result["facts"], ensure_ascii=False, indent=2),
+            encoding="utf-8"
         )
 
-        # ✅ 計算總時間並添加到記錄
-        case_timing["total_time"] = time.time() - case_start_time
-        timing_records.append(case_timing)
+        elapsed = time.time() - start
+        print(f"[OK] {case_id} finished in {elapsed:.2f}s")
 
-        print(f"[OK] {case_id} → outputs/{case_id}.* (總耗時: {case_timing['total_time']:.2f}秒, 修復{repair_rounds}輪, 總Token: {case_timing['total_tokens']:,}, 成本: ${case_timing['estimated_cost']:.4f})")
+        all_records.append({"case_id": case_id, "elapsed": elapsed})
 
-    # ✅ 新增：保存時間統計到CSV
-    timing_df = pd.DataFrame(timing_records)
-    timing_csv_path = OUT / "timing_statistics.csv"
-    timing_df.to_csv(timing_csv_path, index=False, encoding="utf-8")
-    
-    # ✅ 新增：顯示統計摘要
-    print(f"\n=== 時間與成本統計摘要 ===")
-    print(f"總案例數: {len(timing_records)}")
-    print(f"平均每案例耗時: {timing_df['total_time'].mean():.2f}秒")
-    print(f"Parser 平均耗時: {timing_df['parser_time'].mean():.2f}秒")
-    print(f"Completion 平均耗時: {timing_df['completion_time'].mean():.2f}秒")
-    print(f"VarSpec 平均耗時: {timing_df['varspec_time'].mean():.2f}秒")
-    print(f"Mapper 平均耗時: {timing_df['mapper_time'].mean():.2f}秒")
-    print(f"Repair 平均耗時: {timing_df['repair_time'].mean():.2f}秒")
-    print(f"平均修復輪數: {timing_df['repair_rounds'].mean():.1f}")
-    print(f"\n=== Token & 成本統計 ===")
-    print(f"平均每案例 Input Tokens: {timing_df['total_input_tokens'].mean():,.0f}")
-    print(f"平均每案例 Output Tokens: {timing_df['total_output_tokens'].mean():,.0f}")
-    print(f"平均每案例總 Tokens: {timing_df['total_tokens'].mean():,.0f}")
-    print(f"平均每案例成本: ${timing_df['estimated_cost'].mean():.4f}")
-    print(f"總 Input Tokens: {timing_df['total_input_tokens'].sum():,}")
-    print(f"總 Output Tokens: {timing_df['total_output_tokens'].sum():,}")
-    print(f"總 Tokens: {timing_df['total_tokens'].sum():,}")
-    print(f"總成本: ${timing_df['estimated_cost'].sum():.4f}")
-    print(f"時間統計已保存至: {timing_csv_path}")
-def repair_loop_with_rounds(team, constraints, build_expr, z3_vars):
-    """
-    包裝原始的 repair_loop，追蹤修復輪數和token使用量
-    """
-    total_input_tokens = 0
-    total_output_tokens = 0
-    
-    # 先嘗試呼叫原始函數
-    try:
-        # 如果repair_loop需要token追蹤，可能需要修改實現
-        # 這裡假設我們需要手動實現token追蹤
-        result = repair_loop(team, constraints, build_expr, z3_vars)
-        
-        # 檢查返回值是否為元組 (constraints, rounds)
-        if isinstance(result, tuple) and len(result) == 2:
-            return result[0], result[1], total_input_tokens, total_output_tokens
-        else:
-            # 如果只返回 constraints，估算為 1 輪
-            return result, 1, total_input_tokens, total_output_tokens
-            
-    except Exception as e:
-        print(f"Repair failed: {e}")
-        # 返回原始 constraints 和 0 輪
-        return constraints, 0, total_input_tokens, total_output_tokens
+    # === 保存時間統計 ===
+    timing_df = pd.DataFrame(all_records)
+    timing_csv = OUT / "timing_statistics.csv"
+    timing_df.to_csv(timing_csv, index=False, encoding="utf-8")
+    print(f"\n=== 總結 ===")
+    print(f"總案例數: {len(all_records)}")
+    print(f"平均耗時: {timing_df['elapsed'].mean():.2f} 秒")
+    print(f"結果已保存至 {timing_csv}")
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     main()

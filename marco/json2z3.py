@@ -16,8 +16,6 @@ def declare_vars(varspecs):
         else:
             raise ValueError(f"Unknown type: {typ}")
     return z3_vars
-
-
 def build_expr(expr, z3_vars):
     """把 JSON expr 轉成 Z3 formula"""
     if isinstance(expr, list):
@@ -55,34 +53,54 @@ def build_expr(expr, z3_vars):
             parts = expr[1:]
             default = parts[-1]
             cases = list(zip(parts[0::2], parts[1::2]))
-            res = build_expr(default, z3_vars)
+            
+            # 🔧 處理 default（可能是純數字）
+            res = _to_z3_value(build_expr(default, z3_vars))
+            
             for cond, val in reversed(cases):
                 cond_expr = build_expr(cond, z3_vars)
+                
+                # 確保條件是 Bool
                 if isinstance(cond_expr, ArithRef):
-                    # 🔧 將 Int/Real 自動轉 Bool (非零即真)
                     cond_expr = cond_expr != 0
                 elif not isinstance(cond_expr, BoolRef):
                     raise TypeError(f"CASE 條件必須是 Bool，但得到 {cond_expr} ({type(cond_expr)})")
-                res = If(cond_expr, build_expr(val, z3_vars), res)
+                
+                # 🔧 處理 val（可能是純數字）
+                val_expr = _to_z3_value(build_expr(val, z3_vars))
+                res = If(cond_expr, val_expr, res)
+            
             return res
         elif op == "IMPLIES":
             return Implies(build_expr(expr[1], z3_vars), build_expr(expr[2], z3_vars))
         else:
             raise ValueError(f"Unsupported operator {op}")
     elif isinstance(expr, str):
-        # 如果是已宣告的變數，轉成 Z3 變數
         if expr in z3_vars:
             return z3_vars[expr]
-        # 如果是 "true"/"false"，轉成 Bool
         if expr.lower() == "true":
             return True
         if expr.lower() == "false":
             return False
-        # 否則就是單純字串 → raise 錯誤提醒
         raise ValueError(f"Unknown variable or invalid string in expr: {expr}")
     else:
         return expr  # 數字或布林
 
+
+def _to_z3_value(val):
+    """將 Python 值轉換為對應的 Z3 常數"""
+    if isinstance(val, (BoolRef, ArithRef)):
+        # 已經是 Z3 表達式，直接返回
+        return val
+    elif isinstance(val, bool):
+        return BoolVal(val)
+    elif isinstance(val, int):
+        return IntVal(val)
+    elif isinstance(val, float):
+        return RealVal(val)
+    else:
+        # 其他情況（例如已經是 Z3 常數）
+        return val
 
 def build_constraints(hard_json, soft_json):
     """建立硬/軟約束"""

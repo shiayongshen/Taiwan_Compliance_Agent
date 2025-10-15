@@ -84,40 +84,42 @@
         ],
         3,
         [
-          "AND",
+          "OR",
           [
-            "GE",
-            "insurance:capital_adequacy_ratio",
-            150.0
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              200.0
+            ]
           ],
           [
-            "LT",
-            "insurance:capital_adequacy_ratio",
-            200.0
-          ]
-        ],
-        2,
-        [
-          "AND",
-          [
-            "LT",
-            "insurance:net_worth_ratio",
-            3.0
-          ],
-          [
-            "LT",
-            "insurance:net_worth_ratio_prev",
-            3.0
-          ],
-          [
-            "GE",
-            "insurance:net_worth_ratio",
-            2.0
-          ],
-          [
-            "GE",
-            "insurance:net_worth_ratio_prev",
-            2.0
+            "AND",
+            [
+              "LT",
+              "insurance:net_worth_ratio",
+              3.0
+            ],
+            [
+              "LT",
+              "insurance:net_worth_ratio_prev",
+              3.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio",
+              2.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio_prev",
+              2.0
+            ]
           ]
         ],
         2,
@@ -142,8 +144,8 @@
             ]
           ]
         ],
-        true,
-        false
+        1,
+        0
       ]
     ],
     "weight": 1,
@@ -219,8 +221,45 @@
     "domain": "insurance"
   },
   {
+    "id": "insurance:capital_insufficient_measures_required",
+    "desc": "資本不足者應限期提出增資或改善計畫，未提出或未執行得採取次一資本等級監理措施",
+    "expr": [
+      "EQ",
+      "insurance:capital_insufficient_measures_required",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance:capital_level",
+          2
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_increase_plan_submitted",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_increase_plan_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
     "id": "insurance:capital_insufficient_measures",
-    "desc": "資本不足者應採取增資或改善計畫等措施",
+    "desc": "資本不足者應採取增資、停售商品、限制資金運用、限制負責人給付等措施",
     "expr": [
       "EQ",
       "insurance:capital_insufficient_measures",
@@ -242,6 +281,21 @@
             "EQ",
             "capital_increase_plan_executed",
             true
+          ],
+          [
+            "EQ",
+            "insurance_product_sale_stopped_or_limited",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_restricted",
+            true
+          ],
+          [
+            "EQ",
+            "compensation_to_responsible_person_restricted",
+            true
           ]
         ]
       ]
@@ -251,7 +305,7 @@
   },
   {
     "id": "insurance:capital_significantly_insufficient_measures",
-    "desc": "資本顯著不足者應採取停止負責人職務、限制授信等措施",
+    "desc": "資本顯著不足者應採取資本不足措施及解除負責人職務、停止職務、資產處分限制、授信限制、報酬降低、分支機構限制等措施",
     "expr": [
       "EQ",
       "insurance:capital_significantly_insufficient_measures",
@@ -266,7 +320,7 @@
           "AND",
           [
             "EQ",
-            "capital_insufficient_measures",
+            "insurance:capital_insufficient_measures",
             true
           ],
           [

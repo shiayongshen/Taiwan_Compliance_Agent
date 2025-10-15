@@ -106,8 +106,8 @@
             ]
           ]
         ],
-        true,
-        false
+        1,
+        0
       ]
     ],
     "weight": 1,
@@ -142,6 +142,21 @@
     "expr": [
       "EQ",
       "fhc:board_meeting_required",
+      [
+        "EQ",
+        "fhc:accumulated_loss_exceeds_one_third",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:report_to_authority_required",
+    "desc": "累積虧損逾三分之一時須將董事會決議事項等函報主管機關",
+    "expr": [
+      "EQ",
+      "fhc:report_to_authority_required",
       [
         "EQ",
         "fhc:accumulated_loss_exceeds_one_third",
@@ -666,12 +681,31 @@
             ]
           ]
         ],
-        true,
-        false
+        1,
+        0
       ]
     ],
     "weight": 1,
     "domain": "insurance"
+  },
+  {
+    "id": "fhc:fundraising_within_shareholding_ratio",
+    "desc": "金融控股公司應於持股比例範圍內為子公司籌募資金",
+    "expr": [
+      "EQ",
+      "fhc:fundraising_within_shareholding_ratio",
+      [
+        "LE",
+        "funds_raised_for_subsidiary",
+        [
+          "MUL",
+          "shareholding_ratio",
+          "subsidiary_capital_requirement"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
   },
   {
     "id": "meta:penalty_default_false",
