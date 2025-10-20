@@ -1,0 +1,139 @@
+[
+  {
+    "id": "bank:investment_restriction_exemption",
+    "desc": "投資於負責人擔任董事、監察人或經理人公司之有價證券之例外情形",
+    "expr": [
+      "EQ",
+      "investment_restriction_exemption",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_financial_bond",
+          true
+        ],
+        [
+          "EQ",
+          "is_other_bank_guaranteed_corporate_bond",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_other_bank_guaranteed_or_accepted_short_term_note",
+            true
+          ],
+          [
+            "EQ",
+            "is_other_broker_underwritten_or_traded",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "is_bank_issued_transferable_time_deposit_certificate",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "is_beneficiary_certificate_within_one_year",
+            true
+          ],
+          [
+            "EQ",
+            "is_asset_backed_security",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "investment_relationship_approved_by_authority",
+            true
+          ],
+          [
+            "EQ",
+            "bank_responsible_person_director_or_supervisor_or_manager_company_security",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_restriction_compliance",
+    "desc": "投資符合負責人擔任董事、監察人或經理人公司有價證券限制規定",
+    "expr": [
+      "EQ",
+      "investment_restriction_compliance",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_in_responsible_person_company_security",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "investment_restriction_exemption",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_of_investment_restriction",
+    "desc": "違反投資限制規定",
+    "expr": [
+      "EQ",
+      "violation_of_investment_restriction",
+      [
+        "NOT",
+        [
+          "EQ",
+          "investment_restriction_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反投資限制規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_of_investment_restriction",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

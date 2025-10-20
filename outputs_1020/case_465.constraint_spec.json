@@ -1,0 +1,550 @@
+[
+  {
+    "id": "insurance:related_party_definition",
+    "desc": "同一人、同一關係人及同一關係企業定義",
+    "expr": [
+      "EQ",
+      "related_party_definition",
+      [
+        "AND",
+        [
+          "EQ",
+          "same_person",
+          true
+        ],
+        [
+          "EQ",
+          "same_related_person",
+          true
+        ],
+        [
+          "EQ",
+          "same_related_corporate",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_same_person",
+    "desc": "同一人定義為同一自然人或同一法人",
+    "expr": [
+      "EQ",
+      "same_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_same_natural_person",
+          true
+        ],
+        [
+          "EQ",
+          "is_same_legal_person",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_same_related_person",
+    "desc": "同一關係人包含本人、配偶、二親等以內血親及本人或配偶為負責人之事業",
+    "expr": [
+      "EQ",
+      "same_related_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_self",
+          true
+        ],
+        [
+          "EQ",
+          "is_spouse",
+          true
+        ],
+        [
+          "LE",
+          "degree_of_kinship",
+          2
+        ],
+        [
+          "EQ",
+          "is_business_responsible_by_self_or_spouse",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_same_related_corporate",
+    "desc": "同一關係企業範圍依公司法相關條文規定",
+    "expr": [
+      "EQ",
+      "same_related_corporate",
+      [
+        "EQ",
+        "complies_with_corporate_law_369_369_3_369_9_369_11",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:restriction_on_loans_and_other_transactions",
+    "desc": "主管機關得限制保險業對同一人、同一關係人或同一關係企業之放款及其他交易",
+    "expr": [
+      "EQ",
+      "restriction_on_loans_and_other_transactions",
+      [
+        "EQ",
+        "regulatory_restriction_enforced",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:restriction_on_other_transactions_with_interested_parties",
+    "desc": "主管機關得限制保險業與利害關係人從事放款以外其他交易",
+    "expr": [
+      "EQ",
+      "restriction_on_other_transactions_with_interested_parties",
+      [
+        "EQ",
+        "regulatory_restriction_other_transactions_enforced",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_classification",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_required",
+    "desc": "資本嚴重不足且未依規定完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "capital_increase_completed",
+              true
+            ],
+            [
+              "EQ",
+              "financial_or_business_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "merger_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_significant_deterioration",
+    "desc": "財務或業務狀況顯著惡化且未改善",
+    "expr": [
+      "EQ",
+      "significant_deterioration_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_status_significantly_deteriorated",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_pay_debts_or_fulfill_contracts",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_accelerated_deterioration",
+    "desc": "損益、淨值加速惡化且輔導未改善",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "profit_loss_and_net_worth_accelerated_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "counseling_not_improved",
+          true
+        ],
+        [
+          "EQ",
+          "risk_of_financial_or_business_deterioration",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_enforcement",
+    "desc": "主管機關得依情節輕重為監管、接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "supervisory_measures_enforced",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "EQ",
+          "accelerated_deterioration_noncompliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_acts_without_supervisor_consent",
+    "desc": "監管處分期間未經監管人同意不得為特定行為",
+    "expr": [
+      "EQ",
+      "prohibited_acts_without_supervisor_consent",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisor_consent_payment_exceed_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisor_consent_contract_commitment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisor_consent_other_major_financial_matters",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_business_scope_penalty",
+    "desc": "違反業務範圍規定罰鍰",
+    "expr": [
+      "EQ",
+      "violation_business_scope",
+      [
+        "EQ",
+        "violated_business_scope_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_reserve_penalty",
+    "desc": "違反賠償準備金提存額度及方式規定罰鍰",
+    "expr": [
+      "EQ",
+      "violation_reserve",
+      [
+        "EQ",
+        "violated_reserve_provision_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_article_143_penalty",
+    "desc": "違反第一百四十三條規定罰鍰",
+    "expr": [
+      "EQ",
+      "violation_article_143",
+      [
+        "EQ",
+        "violated_article_143",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_article_143_5_and_143_6_penalty",
+    "desc": "違反第一百四十三條之五或主管機關依第一百四十三條之六措施罰鍰",
+    "expr": [
+      "EQ",
+      "violation_article_143_5_6",
+      [
+        "EQ",
+        "violated_article_143_5_or_143_6_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_fund_usage_penalty",
+    "desc": "資金運用違規罰鍰或解除負責人職務",
+    "expr": [
+      "EQ",
+      "violation_fund_usage",
+      [
+        "EQ",
+        "violated_fund_usage_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:criminal_penalty_for_unsecured_loans",
+    "desc": "無十足擔保或條件優於其他同類放款刑責",
+    "expr": [
+      "EQ",
+      "criminal_penalty_unsecured_loans",
+      [
+        "EQ",
+        "unsecured_or_preferential_loans_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_for_unauthorized_guaranteed_loans",
+    "desc": "擔保放款未經董事會三分之二出席及四分之三同意或違限額罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_unauthorized_guaranteed_loans",
+      [
+        "EQ",
+        "unauthorized_guaranteed_loans_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_for_violation_loan_and_transaction_limits",
+    "desc": "違反放款或其他交易限額及決議程序罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_violation_loan_transaction_limits",
+      [
+        "EQ",
+        "violated_loan_or_transaction_limits_or_procedures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一法令規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_business_scope",
+          true
+        ],
+        [
+          "EQ",
+          "violation_reserve",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_143",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_143_5_6",
+          true
+        ],
+        [
+          "EQ",
+          "violation_fund_usage",
+          true
+        ],
+        [
+          "EQ",
+          "criminal_penalty_unsecured_loans",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_unauthorized_guaranteed_loans",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_violation_loan_transaction_limits",
+          true
+        ],
+        [
+          "EQ",
+          "supervisory_measures_enforced",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

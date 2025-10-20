@@ -1,0 +1,417 @@
+[
+  {
+    "id": "bank:shareholding_declaration_5_percent",
+    "desc": "同一人或同一關係人持有股份超過5%應於10日內申報",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_5_percent",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "shareholding_ratio_5_percent",
+          5.0
+        ],
+        [
+          "EQ",
+          "declaration_submitted_10_days",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_declaration_1_percent",
+    "desc": "同一人或本人與配偶、未成年子女合計持股超過1%應通知銀行",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_1_percent",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "shareholding_ratio_1_percent_family",
+          1.0
+        ],
+        [
+          "EQ",
+          "notification_to_bank",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_change_declaration",
+    "desc": "持股超過5%後累積增減逾1%應申報",
+    "expr": [
+      "EQ",
+      "shareholding_change_declaration",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          [
+            "ABS",
+            "shareholding_change_percent"
+          ],
+          1.0
+        ],
+        [
+          "EQ",
+          "change_declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_approval_10_percent",
+    "desc": "持股超過10%應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_10_percent",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "shareholding_ratio_10_percent",
+          10.0
+        ],
+        [
+          "EQ",
+          "approval_10_percent_granted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_approval_25_percent",
+    "desc": "持股超過25%應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_25_percent",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "shareholding_ratio_25_percent",
+          25.0
+        ],
+        [
+          "EQ",
+          "approval_25_percent_granted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_approval_50_percent",
+    "desc": "持股超過50%應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_50_percent",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "shareholding_ratio_50_percent",
+          50.0
+        ],
+        [
+          "EQ",
+          "approval_50_percent_granted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_pre_2008_declaration",
+    "desc": "修正施行前持股超過5%未超過15%者，應於6個月內申報",
+    "expr": [
+      "EQ",
+      "shareholding_pre_2008_declaration",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "GT",
+            "shareholding_ratio_pre_2008",
+            5.0
+          ],
+          [
+            "LE",
+            "shareholding_ratio_pre_2008",
+            15.0
+          ],
+          [
+            "LE",
+            "date",
+            20081209
+          ]
+        ],
+        [
+          "EQ",
+          "declaration_submitted_6_months",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_pre_2008_approval",
+    "desc": "修正施行前持股超過10%第一次擬增加持股應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_pre_2008_approval",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "GT",
+            "shareholding_ratio_pre_2008",
+            10.0
+          ],
+          [
+            "EQ",
+            "first_increase_request",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "approval_pre_2008_granted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_exclusion_conditions",
+    "desc": "計算持股時排除證券商承銷期間股份、金融機構承受擔保品未滿4年股份、繼承或遺贈未滿2年股份",
+    "expr": [
+      "EQ",
+      "shareholding_exclusion_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "exclude_underwriting_shares",
+          true
+        ],
+        [
+          "EQ",
+          "exclude_collateral_shares",
+          true
+        ],
+        [
+          "EQ",
+          "exclude_inheritance_shares",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_excess_penalty",
+    "desc": "未依規定申報或核准持有股份超過部分無表決權且須限期處分",
+    "expr": [
+      "EQ",
+      "shareholding_excess_penalty",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "shareholding_declaration_5_percent",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "shareholding_approval_10_percent",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "shareholding_approval_25_percent",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "shareholding_pre_2008_declaration",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "excess_shares_no_voting_right",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_excess_disposal_order",
+    "desc": "主管機關命限期處分超過部分股份",
+    "expr": [
+      "EQ",
+      "excess_shares_disposal_ordered",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "excess_shares_no_voting_right",
+          true
+        ],
+        [
+          "EQ",
+          "disposal_order_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:stock_must_be_registered",
+    "desc": "銀行股票應為記名式",
+    "expr": [
+      "EQ",
+      "stock_must_be_registered",
+      [
+        "EQ",
+        "stock_is_registered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "bank:penalty_conditions",
+    "desc": "處罰條件：違反持股申報、核准或記名股票規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_declaration_5_percent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_change_declaration",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_approval_10_percent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_approval_25_percent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_approval_50_percent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_pre_2008_declaration",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_pre_2008_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "stock_must_be_registered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,475 @@
+[
+  {
+    "id": "insurance:agent_broker_notary_license_and_insurance_ok",
+    "desc": "保險代理人、經紀人、公證人經主管機關許可，繳存保證金並投保相關保險，且領有執業證照",
+    "expr": [
+      "EQ",
+      "agent_broker_notary_license_and_insurance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "licensed_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "guarantee_deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_purchased",
+          true
+        ],
+        [
+          "EQ",
+          "practice_certificate_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_insurance_type_ok",
+    "desc": "相關保險類型符合代理人、公證人責任保險，經紀人責任保險及保證保險規定",
+    "expr": [
+      "EQ",
+      "related_insurance_type_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "is_agent",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_notary",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_broker",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              1
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              2
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_capital_requirement_ok",
+    "desc": "經紀人公司最低實收資本額符合規定",
+    "expr": [
+      "EQ",
+      "broker_capital_requirement_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "LT",
+            "capital_adjustment_date",
+            20210303
+          ],
+          [
+            "CASE",
+            [
+              "EQ",
+              "business_type",
+              1
+            ],
+            [
+              "GE",
+              "paid_in_capital",
+              20000000
+            ],
+            [
+              "EQ",
+              "business_type",
+              2
+            ],
+            [
+              "GE",
+              "paid_in_capital",
+              20000000
+            ],
+            [
+              "EQ",
+              "business_type",
+              3
+            ],
+            [
+              "GE",
+              "paid_in_capital",
+              30000000
+            ],
+            false
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adjustment_date",
+            20210303
+          ],
+          [
+            "CASE",
+            [
+              "EQ",
+              "business_type",
+              1
+            ],
+            [
+              "GE",
+              "paid_in_capital",
+              20000000
+            ],
+            [
+              "EQ",
+              "business_type",
+              2
+            ],
+            [
+              "GE",
+              "paid_in_capital",
+              20000000
+            ],
+            [
+              "EQ",
+              "business_type",
+              3
+            ],
+            [
+              "GE",
+              "paid_in_capital",
+              30000000
+            ],
+            false
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adjustment_required",
+    "desc": "已領有執業證照之經紀人公司於規定期限內完成資本額調整",
+    "expr": [
+      "EQ",
+      "capital_adjustment_required",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "has_practice_certificate",
+            true
+          ],
+          [
+            "LT",
+            "current_date",
+            20190624
+          ]
+        ],
+        [
+          "LE",
+          "capital_adjustment_completed_date",
+          20190624
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adjustment_required_on_share_transfer",
+    "desc": "股權或資本總額移轉達50%以上時，於六個月內完成資本額調整（繼承除外）",
+    "expr": [
+      "EQ",
+      "capital_adjustment_required_on_share_transfer",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "GE",
+            "share_or_capital_transfer_ratio",
+            50
+          ],
+          [
+            "NOT",
+            "transfer_due_to_inheritance"
+          ]
+        ],
+        "capital_adjustment_completed_within_6_months"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adjustment_cash_only",
+    "desc": "經紀人公司發起人及股東出資以現金為限",
+    "expr": [
+      "EQ",
+      "capital_adjustment_cash_only",
+      [
+        "EQ",
+        "capital_contributed_in_cash_only",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rule_compliance",
+    "desc": "遵守主管機關定之管理規則，包括資格取得、申請許可條件、程序、文件、董事監察人資格、解任事由、分支機構條件、財務與業務管理、教育訓練、廢止許可及其他事項",
+    "expr": [
+      "EQ",
+      "management_rule_compliance",
+      [
+        "EQ",
+        "management_rules_followed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人以善良管理人注意義務洽訂保險契約並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_due_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_report_and_disclose_fee",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂契約前，主動提供書面分析報告，收取報酬者明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_provide_written_report_and_disclose_fee",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "within_authority_designated_scope",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "written_analysis_report_provided",
+            true
+          ],
+          [
+            "IMPLIES",
+            [
+              "EQ",
+              "fee_charged",
+              true
+            ],
+            [
+              "EQ",
+              "fee_standard_disclosed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_management_or_duty_rules",
+    "desc": "違反管理規則中財務或業務管理規定、經紀人善良管理人義務或相關準用規定",
+    "expr": [
+      "EQ",
+      "violate_management_or_duty_rules",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_broker_duty",
+          true
+        ],
+        [
+          "EQ",
+          "violate_related_provisions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反管理規則或義務時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_management_or_duty_rules",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_broker_notary_license_and_insurance_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_insurance_type_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_capital_requirement_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_adjustment_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_adjustment_required_on_share_transfer",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_adjustment_cash_only",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "management_rule_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_duty_of_care_and_fidelity",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_provide_written_report_and_disclose_fee",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

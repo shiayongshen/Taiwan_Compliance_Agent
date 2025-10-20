@@ -1,0 +1,403 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              150.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ]
+          ]
+        ],
+        3,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              2.0
+            ]
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_1_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_148_1_2",
+      [
+        "EQ",
+        "violate_148_1_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定（未提供說明文件、文件未依規定記載或記載不實）",
+    "expr": [
+      "EQ",
+      "violate_148_2_1",
+      [
+        "EQ",
+        "violate_148_2_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定（未依限報告或公開說明，或內容不實）",
+    "expr": [
+      "EQ",
+      "violate_148_2_2",
+      [
+        "EQ",
+        "violate_148_2_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定（未建立或未執行內部控制或稽核制度）",
+    "expr": [
+      "EQ",
+      "violate_148_3_1",
+      [
+        "EQ",
+        "violate_148_3_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定（未建立或未執行內部處理制度或程序）",
+    "expr": [
+      "EQ",
+      "violate_148_3_2",
+      [
+        "EQ",
+        "violate_148_3_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_171_1",
+    "desc": "違反第148-1條規定處罰（罰鍰60萬以上600萬）",
+    "expr": [
+      "EQ",
+      "penalty_171_1",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_1_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_171_2",
+    "desc": "違反第148-2條第一項規定處罰（罰鍰60萬以上600萬）",
+    "expr": [
+      "EQ",
+      "penalty_171_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_2_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_171_3",
+    "desc": "違反第148-2條第二項規定處罰（罰鍰30萬以上300萬）",
+    "expr": [
+      "EQ",
+      "penalty_171_3",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_2_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_171_4",
+    "desc": "違反第148-3條第一項規定處罰（罰鍰60萬以上1200萬）",
+    "expr": [
+      "EQ",
+      "penalty_171_4",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_3_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_171_5",
+    "desc": "違反第148-3條第二項規定處罰（罰鍰60萬以上1200萬）",
+    "expr": [
+      "EQ",
+      "penalty_171_5",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_3_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_measures_executed",
+    "desc": "資本不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_insufficient_measures_executed",
+      [
+        "EQ",
+        "capital_insufficient_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_measures_executed",
+    "desc": "資本顯著不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_measures_executed",
+      [
+        "EQ",
+        "capital_significantly_insufficient_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_measures_executed",
+    "desc": "資本嚴重不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_measures_executed",
+      [
+        "EQ",
+        "capital_severely_insufficient_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第171-1條規定或違反第148-1、148-2、148-3條規定，或資本不足等級未執行對應措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_171_1",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_171_2",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_171_3",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_171_4",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_171_5",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_severely_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_significantly_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

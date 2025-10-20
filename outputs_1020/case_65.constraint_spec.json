@@ -1,0 +1,444 @@
+[
+  {
+    "id": "insurance_agent:license_and_guarantee_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "license_and_guarantee_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "GE",
+          "guarantee_deposit_amount",
+          "minimum_guarantee_deposit"
+        ],
+        [
+          "EQ",
+          "relevant_insurance_purchased",
+          true
+        ],
+        [
+          "EQ",
+          "license_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:relevant_insurance_type",
+    "desc": "相關保險種類依身份區分：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "relevant_insurance_type_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            1
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            2
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              1
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              2
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            3
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:minimum_guarantee_deposit_and_insurance",
+    "desc": "主管機關定最低保證金及保險金額，依經營業務範圍及規模等因素決定",
+    "expr": [
+      "EQ",
+      "minimum_guarantee_deposit",
+      "authority_defined_minimum_guarantee_deposit"
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:management_rules_defined",
+    "desc": "主管機關定保險代理人、經紀人、公證人資格取得、申請許可條件、程序、文件、董事監察人經理人資格條件、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則",
+    "expr": [
+      "EQ",
+      "management_rules_defined",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "bank:insurance_agent_or_broker_approval",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_insurance_agent_or_broker_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_approved_by_authority",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_operate_as_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_operate_as_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "insurance_broker:duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務洽訂保險契約並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:provide_written_analysis_and_disclose_fee",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_written_analysis_and_fee_disclosed",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_standard_disclosed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_agent:violation_penalties",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營時，主管機關得糾正、限期改善或處分",
+    "expr": [
+      "EQ",
+      "violation_penalties_applicable",
+      [
+        "OR",
+        [
+          "EQ",
+          "corrective_order_issued",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_deadline_given",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "business_scope_restricted",
+            true
+          ],
+          [
+            "EQ",
+            "manager_or_staff_dismissed",
+            true
+          ],
+          [
+            "EQ",
+            "director_or_supervisor_dismissed_or_suspended",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures_taken",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:director_supervisor_dismissal_registration",
+    "desc": "依規定解除董事或監察人職務時，主管機關通知公司登記主管機關註銷其登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_dismissal_registered",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "director_or_supervisor_dismissed",
+          true
+        ],
+        [
+          "EQ",
+          "registration_canceled",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:violation_fine_or_license_revocation",
+    "desc": "違反管理規則財務或業務管理規定，或相關規定者，應限期改正或處罰鍰，情節重大者廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "violation_fine_or_revocation",
+      [
+        "OR",
+        [
+          "EQ",
+          "correction_deadline_given",
+          true
+        ],
+        [
+          "EQ",
+          "fine_imposed",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "serious_violation",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "license_revoked",
+              true
+            ],
+            [
+              "EQ",
+              "certificate_canceled",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:insurance_fee_payment_method",
+    "desc": "個人執業代理人、代理人公司及銀行代收保險費應直接總額解繳保險業，不得以自己名義開立票據解繳",
+    "expr": [
+      "EQ",
+      "insurance_fee_payment_method_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "total_amount_paid_directly",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "self_named_note_issued",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:note_issued_non_policyholder_declaration",
+    "desc": "以票據解繳保險費非要保人、被保險人及受益人名義開立者，應出具要保人聲明書",
+    "expr": [
+      "EQ",
+      "note_issued_non_policyholder_declaration_ok",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "note_issued_non_policyholder",
+          true
+        ],
+        [
+          "EQ",
+          "policyholder_declaration_provided",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反許可、保證金、保險、執業證照規定，或違反管理規則財務業務管理規定，或未依主管機關處分改善時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_guarantee_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "relevant_insurance_type_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "management_rules_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_penalties_applicable",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_fine_or_revocation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_fee_payment_method_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "note_issued_non_policyholder_declaration_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

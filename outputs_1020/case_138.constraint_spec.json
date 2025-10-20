@@ -1,0 +1,675 @@
+[
+  {
+    "id": "brokerage:internal_control_segregation",
+    "desc": "經紀人公司內部控制制度及處理程序應區隔且無利益衝突",
+    "expr": [
+      "EQ",
+      "internal_control_segregation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_segregation_established",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "conflict_of_interest",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_written_delegation",
+    "desc": "經紀人公司經營再保險經紀業務應取得原保險人書面委任",
+    "expr": [
+      "EQ",
+      "reinsurance_written_delegation_ok",
+      [
+        "EQ",
+        "reinsurance_written_delegation_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_credit_rating_ok",
+    "desc": "再保險人信用評等等級符合規定且原保險人同意",
+    "expr": [
+      "EQ",
+      "reinsurance_credit_rating_ok",
+      [
+        "AND",
+        [
+          "GE",
+          "reinsurance_credit_rating_level",
+          3
+        ],
+        [
+          "EQ",
+          "reinsurance_accepted_by_original_insurer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_dual_business_disclosure",
+    "desc": "同時受託辦理保險經紀及再保險經紀業務事項已載明於委任契約或文件",
+    "expr": [
+      "EQ",
+      "reinsurance_dual_business_disclosure_ok",
+      [
+        "EQ",
+        "reinsurance_dual_business_disclosure_made",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_pre_contract_documents_obtained",
+    "desc": "原保險契約生效前取得再保險人確認認受文件",
+    "expr": [
+      "EQ",
+      "reinsurance_pre_contract_documents_obtained",
+      [
+        "EQ",
+        "reinsurance_confirmation_document_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_information_delivery",
+    "desc": "原保險契約生效前交付再保險相關重大資訊予原保險人",
+    "expr": [
+      "EQ",
+      "reinsurance_information_delivery_ok",
+      [
+        "EQ",
+        "reinsurance_information_delivered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_contract_documents_delivery",
+    "desc": "再保險契約生效日起60日內交付再保險人簽署契約文件予原保險人",
+    "expr": [
+      "EQ",
+      "reinsurance_contract_documents_delivery_ok",
+      [
+        "EQ",
+        "reinsurance_contract_documents_delivered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_complete_contract_delivery",
+    "desc": "合約再保險於生效日起6個月內交付完整再保險契約書面文件予原保險人",
+    "expr": [
+      "EQ",
+      "reinsurance_complete_contract_delivery_ok",
+      [
+        "EQ",
+        "reinsurance_complete_contract_delivered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_document_preservation",
+    "desc": "完整保存再保險相關證明文件供主管機關查核",
+    "expr": [
+      "EQ",
+      "reinsurance_document_preservation_ok",
+      [
+        "EQ",
+        "reinsurance_documents_preserved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:foreign_broker_qualification",
+    "desc": "委任國外經紀人符合資格條件",
+    "expr": [
+      "EQ",
+      "foreign_broker_qualification_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_broker_approved_by_home_authority",
+          true
+        ],
+        [
+          "GE",
+          "foreign_broker_professional_liability_insurance_amount_usd",
+          5000000.0
+        ],
+        [
+          "LE",
+          "foreign_broker_professional_liability_deductible_rate",
+          5.0
+        ],
+        [
+          "EQ",
+          "foreign_broker_insurance_period_continuous",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_market_info_notification",
+    "desc": "再保險合約生效後通知原保險人影響再保險人財務業務之重大資訊",
+    "expr": [
+      "EQ",
+      "reinsurance_market_info_notification_ok",
+      [
+        "EQ",
+        "reinsurance_market_info_notified",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "brokerage:reinsurance_conditions_compliance",
+    "desc": "再保險條件及各再保費率符合保險業辦理再保險分出分入及其他危險分散機制管理辦法第10及11條規定",
+    "expr": [
+      "EQ",
+      "reinsurance_conditions_compliance_ok",
+      [
+        "EQ",
+        "reinsurance_conditions_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "brokerage"
+  },
+  {
+    "id": "credit_rating:minimum_acceptable_level",
+    "desc": "再保險人信用評等等級符合最低標準（1=BBB/B++/Baa2/twA+等級）",
+    "expr": [
+      "EQ",
+      "credit_rating_minimum_acceptable_level",
+      [
+        "CASE",
+        [
+          "EQ",
+          "credit_rating_agency",
+          1
+        ],
+        3,
+        [
+          "EQ",
+          "credit_rating_agency",
+          2
+        ],
+        3,
+        [
+          "EQ",
+          "credit_rating_agency",
+          3
+        ],
+        3,
+        [
+          "EQ",
+          "credit_rating_agency",
+          4
+        ],
+        3,
+        [
+          "EQ",
+          "credit_rating_agency",
+          5
+        ],
+        3,
+        [
+          "EQ",
+          "credit_rating_agency",
+          6
+        ],
+        3,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_rating"
+  },
+  {
+    "id": "credit_rating:minimum_investment_level",
+    "desc": "投資項目信用評等等級符合最低投資標準（1=A/A/A2/twAA+等級）",
+    "expr": [
+      "EQ",
+      "credit_rating_minimum_investment_level",
+      [
+        "CASE",
+        [
+          "EQ",
+          "credit_rating_agency",
+          1
+        ],
+        5,
+        [
+          "EQ",
+          "credit_rating_agency",
+          2
+        ],
+        5,
+        [
+          "EQ",
+          "credit_rating_agency",
+          3
+        ],
+        5,
+        [
+          "EQ",
+          "credit_rating_agency",
+          4
+        ],
+        5,
+        [
+          "EQ",
+          "credit_rating_agency",
+          5
+        ],
+        5,
+        [
+          "EQ",
+          "credit_rating_agency",
+          6
+        ],
+        5,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_rating"
+  },
+  {
+    "id": "investment:bond_rating_compliance",
+    "desc": "債券發行評等等級符合規定",
+    "expr": [
+      "EQ",
+      "bond_rating_compliance_ok",
+      [
+        "OR",
+        [
+          "GE",
+          "bond_rating_level",
+          4
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "bond_rating_level",
+            3
+          ],
+          [
+            "EQ",
+            "bond_rating_substitute_used",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "investment"
+  },
+  {
+    "id": "investment:bond_investment_limit_1",
+    "desc": "投資於BB+級債券總額不超過核定國外投資額度2%",
+    "expr": [
+      "EQ",
+      "bond_investment_limit_1_ok",
+      [
+        "LE",
+        "investment_amount_bb_plus",
+        [
+          "MUL",
+          "approved_foreign_investment_quota",
+          0.02
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "investment"
+  },
+  {
+    "id": "investment:bond_investment_limit_2",
+    "desc": "投資於BB+及BBB-級債券總額不超過核定國外投資額度7.5%或業主權益30%較高者",
+    "expr": [
+      "EQ",
+      "bond_investment_limit_2_ok",
+      [
+        "LE",
+        [
+          "ADD",
+          "investment_amount_bb_plus",
+          "investment_amount_bbb_minus"
+        ],
+        [
+          "CASE",
+          [
+            "GE",
+            [
+              "MUL",
+              "approved_foreign_investment_quota",
+              0.075
+            ],
+            [
+              "MUL",
+              "owner_equity",
+              0.3
+            ]
+          ],
+          [
+            "MUL",
+            "approved_foreign_investment_quota",
+            0.075
+          ],
+          [
+            "MUL",
+            "owner_equity",
+            0.3
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "investment"
+  },
+  {
+    "id": "investment:bond_investment_limit_3",
+    "desc": "投資於債券發行評等為BBB、BBB-、BB+級之每一公司發行或保證債券總額不超過業主權益10%",
+    "expr": [
+      "EQ",
+      "bond_investment_limit_3_ok",
+      [
+        "LE",
+        "investment_amount_per_company",
+        [
+          "MUL",
+          "owner_equity",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "investment"
+  },
+  {
+    "id": "investment:bond_investment_limit_4",
+    "desc": "投資於第一項第一款、第二款、第四款有價證券總額不超過核定國外投資總額40%",
+    "expr": [
+      "EQ",
+      "bond_investment_limit_4_ok",
+      [
+        "LE",
+        "investment_amount_specified_securities",
+        [
+          "MUL",
+          "approved_foreign_investment_quota",
+          0.4
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "investment"
+  },
+  {
+    "id": "investment:bond_investment_limit_5",
+    "desc": "符合主管機關條件者，投資BBB、BBB-級公司債額度不超過核定國外投資額度3%或業主權益18%較高者",
+    "expr": [
+      "EQ",
+      "bond_investment_limit_5_ok",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "LE",
+          "investment_amount_bbb_level",
+          [
+            "CASE",
+            [
+              "GE",
+              [
+                "MUL",
+                "approved_foreign_investment_quota",
+                0.03
+              ],
+              [
+                "MUL",
+                "owner_equity",
+                0.18
+              ]
+            ],
+            [
+              "MUL",
+              "approved_foreign_investment_quota",
+              0.03
+            ],
+            [
+              "MUL",
+              "owner_equity",
+              0.18
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "investment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一經紀人公司管理規定或再保險經紀業務規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_segregation_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_written_delegation_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_credit_rating_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_dual_business_disclosure_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_pre_contract_documents_obtained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_information_delivery_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_contract_documents_delivery_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_complete_contract_delivery_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_document_preservation_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_broker_qualification_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_market_info_notification_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reinsurance_conditions_compliance_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bond_rating_compliance_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bond_investment_limit_1_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bond_investment_limit_2_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bond_investment_limit_3_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bond_investment_limit_4_ok",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "approved_by_authority",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bond_investment_limit_5_ok",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

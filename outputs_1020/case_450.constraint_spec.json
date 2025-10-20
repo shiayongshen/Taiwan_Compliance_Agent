@@ -1,0 +1,353 @@
+[
+  {
+    "id": "fhc:violation_occurred",
+    "desc": "金融控股公司有違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:correction_ordered",
+    "desc": "主管機關已予以糾正並限期令其改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "AND",
+        [
+          "EQ",
+          "correction_given",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_deadline_set",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_measures",
+    "desc": "主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation_occurred",
+          false
+        ],
+        0,
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:measure_revoke_meeting_resolution",
+    "desc": "撤銷法定會議之決議",
+    "expr": [
+      "EQ",
+      "revoke_meeting_resolution",
+      [
+        "EQ",
+        "measure_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:measure_suspend_subsidiary_business",
+    "desc": "停止子公司一部或全部業務",
+    "expr": [
+      "EQ",
+      "suspend_subsidiary_business",
+      [
+        "EQ",
+        "measure_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:measure_remove_manager_staff",
+    "desc": "解除經理人或職員之職務",
+    "expr": [
+      "EQ",
+      "remove_manager_staff",
+      [
+        "EQ",
+        "measure_3",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:measure_remove_director_supervisor",
+    "desc": "解除董事、監察人職務或停止其於一定期間內執行職務",
+    "expr": [
+      "EQ",
+      "remove_director_supervisor",
+      [
+        "EQ",
+        "measure_4",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:notify_moe_for_removal",
+    "desc": "依第四款解除董事、監察人職務時通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "notify_moe_for_removal",
+      [
+        "AND",
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "moe_notified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:measure_dispose_subsidiary_shares",
+    "desc": "令其處分持有子公司之股份",
+    "expr": [
+      "EQ",
+      "dispose_subsidiary_shares",
+      [
+        "EQ",
+        "measure_5",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:measure_revoke_license",
+    "desc": "廢止許可",
+    "expr": [
+      "EQ",
+      "revoke_license",
+      [
+        "EQ",
+        "measure_6",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:dispose_shares_and_directors_after_license_revocation",
+    "desc": "廢止許可後一定期限內處分股份及董事人數不符規定",
+    "expr": [
+      "EQ",
+      "dispose_shares_and_directors_not_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "OR",
+          [
+            "LT",
+            "disposed_shares_ratio",
+            "required_shares_ratio"
+          ],
+          [
+            "LT",
+            "remaining_directors_count",
+            "required_directors_count"
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disposed_within_deadline",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:prohibited_use_of_name_and_registration",
+    "desc": "廢止許可後不得再使用金融控股公司名稱及辦理公司變更登記",
+    "expr": [
+      "EQ",
+      "prohibited_use_name_and_registration",
+      [
+        "AND",
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_use_name",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_company_registration",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:mandatory_dissolution_and_liquidation",
+    "desc": "未於期限內處分完成者，應令其進行解散及清算",
+    "expr": [
+      "EQ",
+      "mandatory_dissolution_and_liquidation",
+      [
+        "AND",
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disposed_within_deadline",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法令或未依主管機關處分措施執行時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_ordered",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "revoke_meeting_resolution",
+              true
+            ],
+            [
+              "EQ",
+              "suspend_subsidiary_business",
+              true
+            ],
+            [
+              "EQ",
+              "remove_manager_staff",
+              true
+            ],
+            [
+              "EQ",
+              "remove_director_supervisor",
+              true
+            ],
+            [
+              "EQ",
+              "dispose_subsidiary_shares",
+              true
+            ],
+            [
+              "EQ",
+              "revoke_license",
+              true
+            ],
+            [
+              "EQ",
+              "mandatory_dissolution_and_liquidation",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

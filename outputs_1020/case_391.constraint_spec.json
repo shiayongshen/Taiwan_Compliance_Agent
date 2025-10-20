@@ -1,0 +1,481 @@
+[
+  {
+    "id": "insurance:violate_148_1_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_148_1_2",
+      [
+        "EQ",
+        "violate_148_1_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定：未提供說明文件供查閱、或說明文件未依規定記載、或說明文件記載不實",
+    "expr": [
+      "EQ",
+      "violate_148_2_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_provided",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_truthful",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定：未依限向主管機關報告或主動公開說明，或報告或公開說明內容不實",
+    "expr": [
+      "EQ",
+      "violate_148_2_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "report_to_authority_on_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "public_explanation_provided",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "report_content_truthful",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定：未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "violate_148_3_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定：未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violate_148_3_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_ok",
+    "desc": "建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_recruitment_compliance",
+    "desc": "保險業招攬及核保理賠辦法第6條規定之招攬制度及程序符合要求",
+    "expr": [
+      "EQ",
+      "business_recruitment_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_recruitment_defined",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_training_65plus",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_qualification",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_compensation_linked",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_fee_management",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_channel_rules_defined",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_customer_info_collected",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_customer_eligibility_checked",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_customer_needs_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_premium_source_checked",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_65plus_risk_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_product_suitability_policy",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_honest_report",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_prohibited_acts_avoided",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_agent_management_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_contract_defined",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_recording_65plus_sales",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_recording_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "business_recruitment_recording_saved_5years",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_compliance",
+    "desc": "保險業招攬及核保理賠辦法第7條規定之核保制度及程序符合要求",
+    "expr": [
+      "EQ",
+      "underwriting_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_training_65plus",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_process_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_customer_needs_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_product_suitability_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_financial_underwriting_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_identity_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_beneficiary_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_contract_change_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_personal_data_protected",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_no_unqualified_staff",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_appropriate_approval",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_no_unfair_treatment",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_financial_source_checked",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_no_harm_to_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_execution_compliance",
+    "desc": "保險業確實執行依第六條、第七條、第八條及前條所訂定之招攬、核保及理賠處理制度及程序",
+    "expr": [
+      "EQ",
+      "business_execution_compliance",
+      [
+        "EQ",
+        "business_execution_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_execution_penalty_needed",
+    "desc": "招攬、核保及理賠人員未依規定執行業務",
+    "expr": [
+      "EQ",
+      "business_execution_penalty_needed",
+      [
+        "NOT",
+        [
+          "EQ",
+          "business_execution_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關條文或未依規定執行業務時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_3_2",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_execution_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

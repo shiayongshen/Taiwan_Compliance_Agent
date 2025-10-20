@@ -1,0 +1,99 @@
+{
+  "case_id": "case_206",
+  "success": false,
+  "error_message": "❌ 修復失敗，最後錯誤: Expression spec cannot be None",
+  "total_time_sec": 93.57,
+  "repair_attempts": 4,
+  "total_agent_calls": 3,
+  "total_input_tokens": 14311,
+  "total_output_tokens": 3629,
+  "total_tokens": 17940,
+  "total_cost_usd": 0.011531,
+  "timestamp": "2025-10-19T10:28:27.351843",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "FAIL",
+  "step6_consistency_check": "NOT_RUN",
+  "step7_case_mapper": "NOT_RUN",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "NOT_RUN",
+  "step8_case_law_check": "NOT_RUN",
+  "step8_violation_detected": "NOT_RUN",
+  "step9_z3_optimize": "NOT_RUN",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4291,
+      "output_tokens": 1117,
+      "elapsed_time": 11.236282110214233,
+      "cost": 0.0035036
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9909,
+      "output_tokens": 2109,
+      "elapsed_time": 24.988614082336426,
+      "cost": 0.007338000000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 111,
+      "output_tokens": 403,
+      "elapsed_time": 8.444252967834473,
+      "cost": 0.0006892000000000001
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3295 chars",
+      "timestamp": 11.236313819885254
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "6287 chars",
+      "timestamp": 36.22504186630249
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "7 constraints",
+      "timestamp": 36.22521185874939
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "13 varspecs",
+      "timestamp": 44.669617891311646
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "Expression spec cannot be None",
+      "timestamp": 44.67211174964905
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": false,
+      "details": "Expression spec cannot be None",
+      "timestamp": 93.5697500705719
+    },
+    "step6_consistency_check": null,
+    "step7_case_mapper": null,
+    "step7_facts_validation": null,
+    "step7_z3_validation": null,
+    "step8_case_law_check": null,
+    "step8_violation_detected": null,
+    "step9_z3_optimize": null
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 44.67
+    }
+  ]
+}

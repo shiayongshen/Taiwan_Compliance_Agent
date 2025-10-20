@@ -1,0 +1,618 @@
+[
+  {
+    "id": "insurance:related_party_definition",
+    "desc": "同一人、同一關係人及同一關係企業定義",
+    "expr": [
+      "EQ",
+      "related_party_definition",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_limit_related_party_transactions",
+    "desc": "主管機關得限制保險業對同一人、同一關係人或同一關係企業之放款或其他交易",
+    "expr": [
+      "EQ",
+      "supervisor_limit_related_party_transactions",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_limit_other_transactions",
+    "desc": "主管機關得限制保險業與利害關係人從事放款以外之其他交易",
+    "expr": [
+      "EQ",
+      "supervisor_limit_other_transactions",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_measures_executed",
+    "desc": "資本嚴重不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_measures_executed",
+      [
+        "EQ",
+        "capital_severely_insufficient_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_measures_executed",
+    "desc": "資本顯著不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_measures_executed",
+      [
+        "EQ",
+        "capital_significantly_insufficient_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_measures_executed",
+    "desc": "資本不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_insufficient_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_impose_restriction",
+    "desc": "主管機關對保險業違反法令或有礙健全經營時得予以限制營業或資金運用範圍等處分",
+    "expr": [
+      "EQ",
+      "supervisor_impose_restriction",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_order_stop_sale_or_limit_product",
+    "desc": "主管機關得令保險業停售保險商品或限制其開辦",
+    "expr": [
+      "EQ",
+      "supervisor_order_stop_sale_or_limit_product",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_order_capital_increase",
+    "desc": "主管機關得令保險業增資",
+    "expr": [
+      "EQ",
+      "supervisor_order_capital_increase",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_order_remove_manager_or_staff",
+    "desc": "主管機關得令保險業解除經理人或職員職務",
+    "expr": [
+      "EQ",
+      "supervisor_order_remove_manager_or_staff",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_revoke_meeting_resolution",
+    "desc": "主管機關得撤銷法定會議決議",
+    "expr": [
+      "EQ",
+      "supervisor_revoke_meeting_resolution",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_remove_directors_or_supervisors",
+    "desc": "主管機關得解除董（理）事、監察人（監事）職務或停止其執行職務",
+    "expr": [
+      "EQ",
+      "supervisor_remove_directors_or_supervisors",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_other_necessary_measures",
+    "desc": "主管機關得為其他必要之處置",
+    "expr": [
+      "EQ",
+      "supervisor_other_necessary_measures",
+      [
+        "EQ",
+        "violate_law_or_harmful_to_stability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_notify_authority_to_cancel_registration",
+    "desc": "主管機關通知公司登記主管機關廢止董（理）事、監察人登記",
+    "expr": [
+      "EQ",
+      "supervisor_notify_authority_to_cancel_registration",
+      [
+        "EQ",
+        "supervisor_remove_directors_or_supervisors",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_take_over_or_order_liquidation",
+    "desc": "主管機關對資本嚴重不足且未依規定完成增資或改善計畫者，九十日內為接管、勒令停業清理或解散處分",
+    "expr": [
+      "EQ",
+      "supervisor_take_over_or_order_liquidation",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_severely_insufficient_measures_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_order_improvement_plan",
+    "desc": "主管機關對財務或業務狀況顯著惡化且不能支付債務或履行契約者，先令提出改善計畫並核定",
+    "expr": [
+      "EQ",
+      "supervisor_order_improvement_plan",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ]
+        ],
+        [
+          "EQ",
+          "financial_or_business_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "cannot_pay_debt_or_fulfill_contract",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_take_over_for_deterioration",
+    "desc": "主管機關對損益淨值加速惡化且輔導未改善者，得為監管、接管、勒令停業清理或解散處分",
+    "expr": [
+      "EQ",
+      "supervisor_take_over_for_deterioration",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "profit_and_net_worth_accelerated_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_delegate_monitor_or_liquidator",
+    "desc": "主管機關得委託其他保險業或專業人員擔任監管人、接管人、清理人或清算人",
+    "expr": [
+      "EQ",
+      "supervisor_delegate_monitor_or_liquidator",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_delegate_exempt_gov_procurement",
+    "desc": "主管機關委託相關機構或個人辦理受委託事項時，不適用政府採購法",
+    "expr": [
+      "EQ",
+      "supervisor_delegate_exempt_gov_procurement",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_takeover_not_apply_company_law_temp_manager",
+    "desc": "保險業受接管或停業清理時，不適用公司法有關臨時管理人或檢查人規定",
+    "expr": [
+      "EQ",
+      "supervisor_takeover_not_apply_company_law_temp_manager",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_reorganization_petition",
+    "desc": "接管人依本法規定聲請重整，法院得合併審理或裁定",
+    "expr": [
+      "EQ",
+      "supervisor_reorganization_petition",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_company_restricted_actions_without_monitor_consent",
+    "desc": "保險業監管處分時，非經監管人同意不得超限額支付款項、締結契約或重大義務承諾等",
+    "expr": [
+      "EQ",
+      "insurance_company_restricted_actions_without_monitor_consent",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:monitor_execute_supervision_apply_inspection_rules",
+    "desc": "監管人執行監管職務時，準用檢查規定",
+    "expr": [
+      "EQ",
+      "monitor_execute_supervision_apply_inspection_rules",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_business_scope_regulations",
+    "desc": "違反業務範圍規定",
+    "expr": [
+      "EQ",
+      "violate_business_scope_regulations",
+      [
+        "EQ",
+        "violate_article_138_related_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_reserve_requirements",
+    "desc": "違反賠償準備金提存額度及方式規定",
+    "expr": [
+      "EQ",
+      "violate_reserve_requirements",
+      [
+        "EQ",
+        "violate_article_138_2_related_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_article_143",
+    "desc": "違反第一百四十三條規定",
+    "expr": [
+      "EQ",
+      "violate_article_143",
+      [
+        "EQ",
+        "violate_article_143_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_article_143_5_or_143_6_measures",
+    "desc": "違反第一百四十三條之五或主管機關依第一百四十三條之六措施",
+    "expr": [
+      "EQ",
+      "violate_article_143_5_or_143_6_measures",
+      [
+        "EQ",
+        "violate_article_143_5_or_143_6_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_fund_management_regulations",
+    "desc": "違反資金運用相關規定",
+    "expr": [
+      "EQ",
+      "violate_fund_management_regulations",
+      [
+        "EQ",
+        "violate_fund_management_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_without_sufficient_collateral_or_better_terms",
+    "desc": "放款無十足擔保或條件優於其他同類放款對象",
+    "expr": [
+      "EQ",
+      "loan_without_sufficient_collateral_or_better_terms",
+      [
+        "EQ",
+        "loan_without_sufficient_collateral_or_better_terms_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_exceed_board_approval",
+    "desc": "擔保放款達主管機關規定金額以上，未經董事會三分之二以上出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "loan_guarantee_exceed_board_approval",
+      [
+        "EQ",
+        "loan_guarantee_exceed_board_approval_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_loan_or_transaction_limits_or_resolution",
+    "desc": "違反放款或其他交易限額及決議程序規定",
+    "expr": [
+      "EQ",
+      "violate_loan_or_transaction_limits_or_resolution",
+      [
+        "EQ",
+        "violate_loan_or_transaction_limits_or_resolution_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關法令、章程或規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_business_scope_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "violate_reserve_requirements",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_143",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_143_5_or_143_6_measures",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_management_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "loan_without_sufficient_collateral_or_better_terms",
+          true
+        ],
+        [
+          "EQ",
+          "loan_guarantee_exceed_board_approval",
+          true
+        ],
+        [
+          "EQ",
+          "violate_loan_or_transaction_limits_or_resolution",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

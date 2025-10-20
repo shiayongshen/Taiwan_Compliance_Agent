@@ -1,0 +1,243 @@
+[
+  {
+    "id": "insurance:foreign_investment_allowed_types",
+    "desc": "保險業國外投資限於外匯存款、國外有價證券、國外保險相關事業及主管機關核准之其他投資",
+    "expr": [
+      "EQ",
+      "foreign_investment_allowed_types",
+      [
+        "OR",
+        [
+          "GE",
+          "investment_type_foreign_exchange_deposit",
+          1
+        ],
+        [
+          "GE",
+          "investment_type_foreign_securities",
+          1
+        ],
+        [
+          "GE",
+          "investment_type_foreign_insurance_related",
+          1
+        ],
+        [
+          "GE",
+          "investment_type_other_approved_foreign_investment",
+          1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_limit",
+    "desc": "國外投資總額不得超過核定比例之45%，且排除特定項目金額",
+    "expr": [
+      "EQ",
+      "foreign_investment_limit",
+      [
+        "LE",
+        "foreign_investment_total_amount",
+        [
+          "MUL",
+          "total_capital",
+          0.45
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_exclusion_amount",
+    "desc": "不計入國外投資限額之金額計算",
+    "expr": [
+      "EQ",
+      "foreign_investment_exclusion_amount",
+      [
+        "SUB",
+        [
+          "SUB",
+          [
+            "CASE",
+            [
+              "LE",
+              [
+                "MUL",
+                "non_investment_life_insurance_reserves_40_percent",
+                1.0
+              ],
+              "non_investment_life_insurance_reserves_foreign_currency"
+            ],
+            [
+              "MUL",
+              "non_investment_life_insurance_reserves_40_percent",
+              1.0
+            ],
+            "non_investment_life_insurance_reserves_foreign_currency"
+          ],
+          "foreign_currency_investment_in_domestic_foreign_currency_securities"
+        ],
+        0.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_total_amount",
+    "desc": "國外投資總額扣除不計入金額後不得超過核定比例之45%",
+    "expr": [
+      "EQ",
+      "foreign_investment_total_amount",
+      [
+        "SUB",
+        "foreign_investment_gross_amount",
+        "foreign_investment_exclusion_amount"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_approved_exclusion",
+    "desc": "不計入國外投資額度須經主管機關核准",
+    "expr": [
+      "EQ",
+      "foreign_investment_approved_exclusion",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_foreign_currency_non_investment_life_insurance",
+          1
+        ],
+        [
+          "EQ",
+          "approved_domestic_foreign_currency_securities_investment",
+          1
+        ],
+        [
+          "EQ",
+          "approved_foreign_insurance_related_investment",
+          1
+        ],
+        [
+          "EQ",
+          "approved_other_foreign_investment",
+          1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_compliance",
+    "desc": "保險業國外投資符合規定",
+    "expr": [
+      "EQ",
+      "foreign_investment_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_investment_allowed_types",
+          1.0
+        ],
+        [
+          "EQ",
+          "foreign_investment_approved_exclusion",
+          1.0
+        ],
+        [
+          "LE",
+          "foreign_investment_total_amount",
+          [
+            "MUL",
+            "total_capital",
+            0.45
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_investment_management",
+    "desc": "違反保險業資金運用相關規定",
+    "expr": [
+      "EQ",
+      "insurance:violation_investment_management",
+      [
+        "OR",
+        [
+          "violate_138_1_3_5_7_6"
+        ],
+        [
+          "violate_146_1_2_3_5"
+        ],
+        [
+          "violate_146_2_4"
+        ],
+        [
+          "violate_146_3_1_2_4"
+        ],
+        [
+          "violate_146_4_1_2_3"
+        ],
+        [
+          "violate_146_5_1"
+        ],
+        [
+          "violate_146_6_1_2_3"
+        ],
+        [
+          "violate_146_9_1_2_3"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_violation_investment_management",
+    "desc": "保險業資金運用違規處罰條件",
+    "expr": [
+      "IMPLIES",
+      [
+        "EQ",
+        "violation_investment_management",
+        true
+      ],
+      [
+        "EQ",
+        "penalty",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "VAR",
+          "violation_investment_management"
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

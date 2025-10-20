@@ -1,0 +1,333 @@
+[
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "建立並執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_compliance",
+    "desc": "建立並執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_claims_recording_compliance",
+    "desc": "正確記載承保資料及辦理理賠，並依規定通知",
+    "expr": [
+      "EQ",
+      "underwriting_claims_recording_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_data_recorded_correctly",
+          true
+        ],
+        [
+          "EQ",
+          "claims_handled_correctly",
+          true
+        ],
+        [
+          "EQ",
+          "notification_provided_as_required",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_8_1_compliance",
+    "desc": "遵守保險法第8條第一項規定",
+    "expr": [
+      "EQ",
+      "violation_8_1_compliance",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_18_1_20_compliance",
+    "desc": "遵守保險法第18條第一項及第二十條規定",
+    "expr": [
+      "EQ",
+      "violation_18_1_20_compliance",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accounting_reporting_compliance",
+    "desc": "遵守會計處理與業務財務資料陳報、準備金提存、保管、運用、收回及移轉規定",
+    "expr": [
+      "EQ",
+      "accounting_reporting_compliance",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_15_19_46_compliance",
+    "desc": "遵守第十五條、第十九條第一項、第二項及第四十六條所定辦法中正確記載承保資料、辦理理賠及通知方式規定",
+    "expr": [
+      "EQ",
+      "violation_15_19_46_compliance",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_8_1_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_18_1_20_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "accounting_reporting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_15_19_46_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:internal_control_violation_penalty",
+    "desc": "違反保險法第148-3條內部控制及稽核制度規定",
+    "expr": [
+      "EQ",
+      "internal_control_violation_penalty",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_violation_penalty",
+    "desc": "違反保險法第148-3條內部處理制度及程序規定",
+    "expr": [
+      "EQ",
+      "internal_handling_violation_penalty",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_conditions_internal_control_handling",
+    "desc": "處罰條件：未建立或未執行內部控制、稽核或內部處理制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "taiwan_china:business_direct_interaction_permitted",
+    "desc": "經財政部許可，得與大陸地區人民及相關機構有業務直接往來",
+    "expr": [
+      "EQ",
+      "business_direct_interaction_permitted",
+      true
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:branch_establishment_permitted",
+    "desc": "臺灣地區金融保險證券期貨機構在大陸地區設立分支機構經財政部許可",
+    "expr": [
+      "EQ",
+      "branch_establishment_permitted",
+      true
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:business_restriction_compliance",
+    "desc": "遵守財政部及行政院核定之限制或禁止業務直接往來命令",
+    "expr": [
+      "EQ",
+      "business_restriction_compliance",
+      true
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "meta:penalty_conditions_taiwan_china",
+    "desc": "處罰條件：違反臺灣地區與大陸地區人民關係條例第36條及相關限制命令時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_direct_interaction_permitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "branch_establishment_permitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_restriction_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

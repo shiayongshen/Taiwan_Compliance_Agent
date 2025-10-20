@@ -1,0 +1,697 @@
+[
+  {
+    "id": "securities:violation_affecting_business",
+    "desc": "董事、監察人及受僱人有違法行為足以影響證券業務正常執行",
+    "expr": [
+      "EQ",
+      "violation_affecting_business",
+      [
+        "EQ",
+        "board_or_supervisor_or_employee_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_imposeable",
+    "desc": "主管機關得視情節輕重對證券商處以第六十六條所定處分",
+    "expr": [
+      "EQ",
+      "penalty_imposeable",
+      [
+        "EQ",
+        "violation_affecting_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_of_law_or_order",
+    "desc": "證券商違反本法或依本法所發布之命令",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_order",
+      [
+        "EQ",
+        "violation_law_or_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_disposition",
+    "desc": "主管機關得視情節輕重為處分並命限期改善",
+    "expr": [
+      "EQ",
+      "penalty_disposition",
+      [
+        "EQ",
+        "violation_of_law_or_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_violation",
+    "desc": "證券商或相關事業未確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_of_finance_business_management",
+    "desc": "違反財務、業務或管理規定",
+    "expr": [
+      "EQ",
+      "violation_of_finance_business_management",
+      [
+        "EQ",
+        "violation_finance_business_management",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_fine_applicable",
+    "desc": "違反第178-1條規定應處罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_applicable",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_of_law_or_order",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "books_reports_submitted",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "inspection_cooperated",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "documents_produced_reported",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "violation_of_finance_business_management",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_fine_exemption",
+    "desc": "情節輕微者免予處罰或限期改善後免罰",
+    "expr": [
+      "EQ",
+      "penalty_fine_exemption",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_minor",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_completed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated",
+    "desc": "內部控制制度變更於限期內完成",
+    "expr": [
+      "EQ",
+      "internal_control_updated",
+      [
+        "EQ",
+        "internal_control_system_updated_within_deadline",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliance",
+    "desc": "證券商業務依內部控制制度及法令章程經營",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law_and_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_violation_conditions",
+    "desc": "主管機關得令限期改善及委託會計師專案審查內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_violation_conditions",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_written",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_audit_staff_adequate",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_audit_plan_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_audit_plan_executed_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_findings_improvements_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_self_assessed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_statement_made",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_deficiencies_corrected",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_financial_reporting_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "major_fraud_occurred",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_special_review_needed",
+            false
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:asset_disposal_procedure_compliance",
+    "desc": "公開發行公司訂定並依規定執行取得或處分資產處理程序",
+    "expr": [
+      "EQ",
+      "asset_disposal_procedure_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_scope_defined",
+          true
+        ],
+        [
+          "EQ",
+          "evaluation_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "operation_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "announcement_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "asset_limit_defined",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_asset_control_defined",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_for_violation_defined",
+          true
+        ],
+        [
+          "EQ",
+          "other_important_matters_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:derivative_transaction_procedure_exemption",
+    "desc": "不擬從事衍生性商品交易者經董事會通過免訂定處理程序",
+    "expr": [
+      "EQ",
+      "derivative_transaction_procedure_exemption",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_engage_derivative_transaction",
+          false
+        ],
+        [
+          "EQ",
+          "board_approved_exemption",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:subsidiary_asset_procedure_supervision",
+    "desc": "公開發行公司督促子公司訂定並執行取得或處分資產處理程序",
+    "expr": [
+      "EQ",
+      "subsidiary_asset_procedure_supervision",
+      [
+        "EQ",
+        "subsidiary_asset_procedure_supervised",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:securities_acquisition_evaluation",
+    "desc": "取得有價證券前取得最近期經會計師查核簽證或核閱之財務報表",
+    "expr": [
+      "EQ",
+      "securities_acquisition_evaluation",
+      [
+        "EQ",
+        "latest_audited_financial_report_obtained_before_transaction",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:securities_acquisition_accountant_opinion",
+    "desc": "交易金額達實收資本額20%或新臺幣3億元以上者，事前洽請會計師表示意見",
+    "expr": [
+      "EQ",
+      "securities_acquisition_accountant_opinion",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GE",
+            "transaction_amount",
+            [
+              "MUL",
+              "paid_in_capital",
+              0.2
+            ]
+          ],
+          [
+            "GE",
+            "transaction_amount",
+            300000000.0
+          ]
+        ],
+        [
+          "EQ",
+          "accountant_opinion_obtained_before_transaction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:honesty_and_credit_principle",
+    "desc": "證券商負責人及業務人員執行業務應本誠實及信用原則",
+    "expr": [
+      "EQ",
+      "honesty_and_credit_principle",
+      [
+        "EQ",
+        "honesty_and_credit_observed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors",
+    "desc": "證券商負責人及業務人員不得有違反證券管理法令之行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "speculation_using_insider_info",
+            true
+          ],
+          [
+            "EQ",
+            "illegal_disclosure_of_client_info",
+            true
+          ],
+          [
+            "EQ",
+            "full_power_delegation_to_client",
+            true
+          ],
+          [
+            "EQ",
+            "profit_guarantee_or_sharing",
+            true
+          ],
+          [
+            "EQ",
+            "joint_risk_sharing_with_client",
+            true
+          ],
+          [
+            "EQ",
+            "self_dealing_with_client_orders",
+            true
+          ],
+          [
+            "EQ",
+            "use_client_account_for_trading",
+            true
+          ],
+          [
+            "EQ",
+            "use_others_or_relatives_name_for_client",
+            true
+          ],
+          [
+            "EQ",
+            "loan_or_mediation_with_client",
+            true
+          ],
+          [
+            "EQ",
+            "fraud_or_misleading_in_underwriting_or_trading",
+            true
+          ],
+          [
+            "EQ",
+            "misappropriation_of_client_assets",
+            true
+          ],
+          [
+            "EQ",
+            "accept_trades_without_contract",
+            true
+          ],
+          [
+            "EQ",
+            "not_follow_client_order_conditions",
+            true
+          ],
+          [
+            "EQ",
+            "induce_trading_by_price_prediction",
+            true
+          ],
+          [
+            "EQ",
+            "promote_unapproved_securities",
+            true
+          ],
+          [
+            "EQ",
+            "offset_same_security_buy_sell_orders",
+            true
+          ],
+          [
+            "EQ",
+            "agent_open_account_or_trade_for_others",
+            true
+          ],
+          [
+            "EQ",
+            "accept_trades_for_board_or_supervisor_or_employee",
+            true
+          ],
+          [
+            "EQ",
+            "accept_non_self_account",
+            true
+          ],
+          [
+            "EQ",
+            "accept_trades_without_client_authorization",
+            true
+          ],
+          [
+            "EQ",
+            "accept_auto_rebalance_trades",
+            false
+          ],
+          [
+            "EQ",
+            "accept_trades_know_market_manipulation",
+            true
+          ],
+          [
+            "EQ",
+            "underwriting_personnel_get_illegal_benefits",
+            true
+          ],
+          [
+            "EQ",
+            "solicit_unapproved_securities",
+            true
+          ],
+          [
+            "EQ",
+            "other_violations_of_securities_laws",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors_apply_to_employees",
+    "desc": "證券商其他受僱人準用負責人及業務人員不得為之行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors_apply_to_employees",
+      [
+        "EQ",
+        "prohibited_behaviors",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法第178-1條規定且未免罰或未改善完成時處罰，或違反其他法令或命令時處罰，或有違法行為影響業務正常執行時處罰，或負責人及業務人員有禁止行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_fine_applicable",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalty_fine_exemption",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "violation_of_law_or_order",
+          true
+        ],
+        [
+          "EQ",
+          "violation_affecting_business",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behaviors",
+          false
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

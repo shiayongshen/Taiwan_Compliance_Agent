@@ -1,0 +1,431 @@
+[
+  {
+    "id": "insurance:agent_license_and_guarantee",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "agent_license_and_guarantee",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "GE",
+          "guarantee_deposit_amount",
+          "guarantee_minimum_amount"
+        ],
+        [
+          "EQ",
+          "relevant_insurance_subscribed",
+          true
+        ],
+        [
+          "EQ",
+          "holding_practice_certificate",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:relevant_insurance_type",
+    "desc": "相關保險類型：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "relevant_insurance_type_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            1
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            2
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              1
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              2
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            3
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:minimum_guarantee_amount_set",
+    "desc": "主管機關依經營及執行業務範圍及規模定最低保證金及實施方式",
+    "expr": [
+      "EQ",
+      "minimum_guarantee_amount_set",
+      [
+        "EQ",
+        "guarantee_minimum_amount_defined_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rules_defined",
+    "desc": "主管機關定保險代理人、經紀人、公證人資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則",
+    "expr": [
+      "EQ",
+      "management_rules_defined",
+      [
+        "EQ",
+        "management_rules_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permitted_to_engage_agent_or_broker",
+    "desc": "銀行經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permitted_agent_or_broker",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_permitted",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_engage_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_engage_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂保險契約或提供服務，並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_report_and_disclose_fee",
+    "desc": "保險經紀人洽訂保險契約前，於主管機關指定範圍內，主動提供書面分析報告，收取報酬者明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_report_and_fee_disclosed",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_provide_written_report",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "broker_charge_fee",
+            true
+          ],
+          [
+            "EQ",
+            "broker_disclose_fee_standard",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_violation",
+    "desc": "違反代理人管理規則第49條各款行為之一",
+    "expr": [
+      "EQ",
+      "agent_rule_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_false_report_on_license_application",
+          true
+        ],
+        [
+          "EQ",
+          "violation_unapproved_agent_business",
+          true
+        ],
+        [
+          "EQ",
+          "violation_unapproved_insurance_business",
+          true
+        ],
+        [
+          "EQ",
+          "violation_conceal_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "violation_coerce_or_induce_contract",
+          true
+        ],
+        [
+          "EQ",
+          "violation_false_or_misleading_promotion",
+          true
+        ],
+        [
+          "EQ",
+          "violation_induce_policy_surrender_or_loan",
+          true
+        ],
+        [
+          "EQ",
+          "violation_misappropriate_or_embezzle_premium_or_claim",
+          true
+        ],
+        [
+          "EQ",
+          "violation_unauthorized_use_of_certificate",
+          true
+        ],
+        [
+          "EQ",
+          "violation_convicted_of_fraud_or_forgery",
+          true
+        ],
+        [
+          "EQ",
+          "violation_operate_outside_certificate_scope",
+          true
+        ],
+        [
+          "EQ",
+          "violation_illegal_collection_of_funds_or_benefits",
+          true
+        ],
+        [
+          "EQ",
+          "violation_illegal_claim_payment",
+          true
+        ],
+        [
+          "EQ",
+          "violation_spread_false_information_disturb_financial_order",
+          true
+        ],
+        [
+          "EQ",
+          "violation_authorize_others_to_operate",
+          true
+        ],
+        [
+          "EQ",
+          "violation_submit_application_documents_of_unauthorized_agents",
+          true
+        ],
+        [
+          "EQ",
+          "violation_employ_unqualified_sales_agents",
+          true
+        ],
+        [
+          "EQ",
+          "violation_fail_to_cancel_certificate_within_deadline",
+          true
+        ],
+        [
+          "EQ",
+          "violation_unauthorized_suspend_or_terminate_business",
+          true
+        ],
+        [
+          "EQ",
+          "violation_fail_to_appoint_agent_after_resignation",
+          true
+        ],
+        [
+          "EQ",
+          "violation_fail_to_report_to_agent_association",
+          true
+        ],
+        [
+          "EQ",
+          "violation_use_unapproved_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "violation_pay_commission_to_non_actual_sales_agents",
+          true
+        ],
+        [
+          "EQ",
+          "violation_fail_to_confirm_suitability_for_seniors",
+          true
+        ],
+        [
+          "EQ",
+          "violation_sell_unapproved_foreign_policy_discount_benefits",
+          true
+        ],
+        [
+          "EQ",
+          "violation_false_or_incomplete_financial_or_business_reports",
+          true
+        ],
+        [
+          "EQ",
+          "violation_conflict_of_interest_or_registration_violation",
+          true
+        ],
+        [
+          "EQ",
+          "violation_induce_contract_termination_or_loan_payment",
+          true
+        ],
+        [
+          "EQ",
+          "violation_fail_to_fill_sales_report_truthfully",
+          true
+        ],
+        [
+          "EQ",
+          "violation_other_rule_or_law_violations",
+          true
+        ],
+        [
+          "EQ",
+          "violation_damage_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反代理人管理規則第49條任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "agent_rule_violation",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_license_and_guarantee",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "relevant_insurance_type_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "management_rules_defined",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

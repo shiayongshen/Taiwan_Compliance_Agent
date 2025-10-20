@@ -1,0 +1,230 @@
+[
+  {
+    "id": "financial_consumer:understand_consumer_data",
+    "desc": "金融服務業應充分瞭解金融消費者相關資料",
+    "expr": [
+      "EQ",
+      "understand_consumer_data",
+      [
+        "EQ",
+        "consumer_data_fully_understood",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:ensure_suitability",
+    "desc": "金融服務業應確保商品或服務對金融消費者之適合度",
+    "expr": [
+      "EQ",
+      "ensure_suitability",
+      [
+        "EQ",
+        "product_service_suitability_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:insurance_understand_basic_data",
+    "desc": "保險業應充分瞭解金融消費者基本資料",
+    "expr": [
+      "EQ",
+      "insurance_understand_basic_data",
+      [
+        "AND",
+        [
+          "EQ",
+          "insured_person_basic_data_included",
+          true
+        ],
+        [
+          "EQ",
+          "insured_person_relationship_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "other_regulatory_basic_data_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:insurance_acceptance_principle",
+    "desc": "保險業應訂定金融消費者投保條件",
+    "expr": [
+      "EQ",
+      "insurance_acceptance_principle",
+      [
+        "EQ",
+        "insurance_acceptance_conditions_set",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:insurance_understand_review_principle",
+    "desc": "保險業應瞭解金融消費者投保目的及需求並進行核保程序",
+    "expr": [
+      "EQ",
+      "insurance_understand_review_principle",
+      [
+        "AND",
+        [
+          "EQ",
+          "insurance_purpose_understood",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_procedure_performed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:insurance_investment_suitability",
+    "desc": "保險業提供投資型保險商品前應考量適合度事項",
+    "expr": [
+      "EQ",
+      "insurance_investment_suitability",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_type_amount_premium_match_needs",
+          true
+        ],
+        [
+          "EQ",
+          "investment_attribute_risk_tolerance_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_control_mechanism_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:insurance_non_investment_suitability",
+    "desc": "保險業提供非投資型保險商品前應考量適合度事項",
+    "expr": [
+      "EQ",
+      "insurance_non_investment_suitability",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_type_amount_premium_match_needs",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "insurance_product_foreign_currency",
+            true
+          ],
+          [
+            "EQ",
+            "consumer_understands_exchange_rate_risk",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:compliance_suitability",
+    "desc": "金融服務業符合充分瞭解及適合度規定",
+    "expr": [
+      "EQ",
+      "compliance_suitability",
+      [
+        "AND",
+        [
+          "EQ",
+          "understand_consumer_data",
+          true
+        ],
+        [
+          "EQ",
+          "ensure_suitability",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反未充分瞭解金融消費者資料或未確保適合度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "understand_consumer_data",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "ensure_suitability",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

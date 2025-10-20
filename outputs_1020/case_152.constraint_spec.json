@@ -1,0 +1,478 @@
+[
+  {
+    "id": "insurance:violation_163_4_7_165_1_163_5",
+    "desc": "違反保險法第163條第4項、第7項、第165條第1項及第163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_163_4_7_165_1_163_5",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violate_163_4_financial_or_business_management",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_7",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_165_1",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_5_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_4_financial_or_business_management",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "violate_163_7",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_165_1",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_5_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_4_financial_or_business_management",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_7",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "violate_165_1",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_5_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_4_financial_or_business_management",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_163_7",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "violate_165_1",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "violate_163_5_applied",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:correction_ordered",
+    "desc": "已限期改正違規事項",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "EQ",
+        "correction_made",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_fine_imposed",
+    "desc": "處以新臺幣十萬元以上三百萬元以下罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_imposed",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_163_4_7_165_1_163_5",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_ordered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_revoked",
+    "desc": "情節重大者，廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "license_revoked",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_163_4_7_165_1_163_5",
+          true
+        ],
+        [
+          "EQ",
+          "serious_circumstances",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_valid",
+    "desc": "執業證照有效",
+    "expr": [
+      "EQ",
+      "license_valid",
+      [
+        "NOT",
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_permitted",
+    "desc": "依法取得執業證照且符合保險法第163條規定",
+    "expr": [
+      "EQ",
+      "license_permitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_valid",
+          true
+        ],
+        [
+          "EQ",
+          "permit_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_guarantee",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_policy_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rules_compliant",
+    "desc": "符合主管機關定之管理規則中財務與業務管理規定",
+    "expr": [
+      "EQ",
+      "management_rules_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_management_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "business_management_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct",
+    "desc": "違反保險經紀人管理規則第49條各款行為",
+    "expr": [
+      "EQ",
+      "broker_misconduct",
+      [
+        "OR",
+        [
+          "EQ",
+          "false_report_on_license_application",
+          true
+        ],
+        [
+          "EQ",
+          "contract_with_unapproved_insurer",
+          true
+        ],
+        [
+          "EQ",
+          "conceal_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "coerce_or_induce_contract",
+          true
+        ],
+        [
+          "EQ",
+          "misleading_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "improper_inducement_to_cancel_or_transfer",
+          true
+        ],
+        [
+          "EQ",
+          "misappropriate_insurance_funds",
+          true
+        ],
+        [
+          "EQ",
+          "license_used_by_others",
+          true
+        ],
+        [
+          "EQ",
+          "convicted_of_fraud_or_forgery",
+          true
+        ],
+        [
+          "EQ",
+          "operate_outside_license_scope",
+          true
+        ],
+        [
+          "EQ",
+          "charge_unapproved_fees_or_commissions",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_insurance_claims",
+          true
+        ],
+        [
+          "EQ",
+          "spread_false_information",
+          true
+        ],
+        [
+          "EQ",
+          "authorize_others_to_operate",
+          true
+        ],
+        [
+          "EQ",
+          "transfer_application_documents_improperly",
+          true
+        ],
+        [
+          "EQ",
+          "employ_unqualified_recruiters",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_cancel_license_in_time",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_suspension_or_termination_of_business",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_reappoint_broker_after_resignation",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_report_to_broker_association",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_use_of_insurance_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "pay_commission_to_non_recruiters",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_confirm_suitability_for_elderly_clients",
+          true
+        ],
+        [
+          "EQ",
+          "sell_unapproved_foreign_policy_discount_products",
+          true
+        ],
+        [
+          "EQ",
+          "submit_false_or_incomplete_reports",
+          true
+        ],
+        [
+          "EQ",
+          "hold_positions_in_insurance_or_association",
+          true
+        ],
+        [
+          "EQ",
+          "induce_clients_to_terminate_contracts",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_fill_recruitment_report_truthfully",
+          true
+        ],
+        [
+          "EQ",
+          "other_violations_of_rules_or_laws",
+          true
+        ],
+        [
+          "EQ",
+          "damage_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反管理規則或保險法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_163_4_7_165_1_163_5",
+          true
+        ],
+        [
+          "EQ",
+          "broker_misconduct",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

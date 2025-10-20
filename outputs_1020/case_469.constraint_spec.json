@@ -1,0 +1,205 @@
+[
+  {
+    "id": "bank:investment_self_use_real_estate_limit",
+    "desc": "自用不動產投資不得超過投資時淨值，營業用倉庫投資不得超過存款總餘額5%",
+    "expr": [
+      "EQ",
+      "investment_self_use_real_estate_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "investment_self_use_real_estate_amount",
+          "net_worth_at_investment_time"
+        ],
+        [
+          "LE",
+          "investment_operating_warehouse_amount",
+          [
+            "MUL",
+            "total_deposits",
+            0.05
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_non_self_use_real_estate_allowed",
+    "desc": "非自用不動產投資例外條件",
+    "expr": [
+      "EQ",
+      "investment_non_self_use_real_estate_allowed",
+      [
+        "OR",
+        [
+          "EQ",
+          "main_part_of_business_location_self_use",
+          true
+        ],
+        [
+          "EQ",
+          "short_term_prepurchase_for_self_use",
+          true
+        ],
+        [
+          "EQ",
+          "rebuild_existing_real_estate_self_use",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "approved_cultural_or_public_use",
+            true
+          ],
+          [
+            "EQ",
+            "approved_by_authority",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_non_self_use_real_estate_limit",
+    "desc": "非自用不動產投資總額不得超過銀行淨值20%，且與自用不動產投資合計不得超過投資時淨值",
+    "expr": [
+      "EQ",
+      "investment_non_self_use_real_estate_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "total_non_self_use_real_estate_investment",
+          [
+            "MUL",
+            "net_worth",
+            0.2
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "total_non_self_use_real_estate_investment",
+            "total_self_use_real_estate_investment"
+          ],
+          "net_worth_at_investment_time"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:real_estate_transaction_compliance",
+    "desc": "與持有實收資本3%以上企業或利害關係人不動產交易須合於營業常規並經董事會三分之二出席及四分之三同意",
+    "expr": [
+      "EQ",
+      "real_estate_transaction_compliance",
+      [
+        "IMPLIES",
+        "real_estate_transaction_with_related_party",
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_conforms_to_business_practice",
+            true
+          ],
+          [
+            "GE",
+            "board_meeting_attendance_ratio",
+            0.6666666667
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            0.75
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法第75條及相關投資限制規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_self_use_real_estate_limit",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_non_self_use_real_estate_allowed",
+              true
+            ]
+          ],
+          [
+            "GT",
+            "total_non_self_use_real_estate_investment",
+            0.0
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_non_self_use_real_estate_limit",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "real_estate_transaction_with_related_party",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "real_estate_transaction_compliance",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

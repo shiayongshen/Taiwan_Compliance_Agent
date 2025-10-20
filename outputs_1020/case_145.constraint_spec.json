@@ -1,0 +1,578 @@
+[
+  {
+    "id": "insurance:agent_violation",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營",
+    "expr": [
+      "EQ",
+      "agent_violation",
+      [
+        "EQ",
+        "agent_violates_law_or_hinders_sound_operation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_measures",
+    "desc": "主管機關可依情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "restrict_business_scope",
+          true
+        ],
+        [
+          "EQ",
+          "order_dismiss_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "dismiss_director_or_supervisor_or_suspend_duties",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:director_dismissal_notification",
+    "desc": "解除董事或監察人職務時通知主管機關註銷登記",
+    "expr": [
+      "EQ",
+      "director_dismissal_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "dismiss_director_or_supervisor_or_suspend_duties",
+          true
+        ],
+        [
+          "EQ",
+          "notify_registration_authority_to_cancel_director_or_supervisor_registration",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_management_rule",
+    "desc": "違反財務或業務管理規定或相關規定",
+    "expr": [
+      "EQ",
+      "violation_management_rule",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_or_business_management_rule_163_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_rule_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_rule_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_rule_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_penalty",
+    "desc": "違反管理規則應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "corrected_within_deadline",
+          true
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "corrected_within_deadline",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "fine_amount",
+              100000.0
+            ],
+            [
+              "LE",
+              "fine_amount",
+              3000000.0
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "license_revoked_and_certificate_cancelled",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_prohibited_behaviors",
+    "desc": "代理人不得有違規行為",
+    "expr": [
+      "EQ",
+      "agent_prohibited_behaviors",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "false_report_on_license_application",
+            true
+          ],
+          [
+            "EQ",
+            "operate_without_approved_registration",
+            true
+          ],
+          [
+            "EQ",
+            "execute_unapproved_insurance_business",
+            true
+          ],
+          [
+            "EQ",
+            "intentionally_hide_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "use_improper_means_to_force_or_induce_contract",
+            true
+          ],
+          [
+            "EQ",
+            "exaggerate_or_mislead_in_promotion_or_recruitment",
+            true
+          ],
+          [
+            "EQ",
+            "induce_policyholder_to_cancel_or_transfer_or_loan",
+            true
+          ],
+          [
+            "EQ",
+            "embezzle_or_misappropriate_premiums_or_claims",
+            true
+          ],
+          [
+            "EQ",
+            "use_license_for_others_without_executing_business",
+            true
+          ],
+          [
+            "EQ",
+            "convicted_of_embezzlement_fraud_breach_of_trust_or_forgery",
+            true
+          ],
+          [
+            "EQ",
+            "operate_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "collect_money_or_other_benefits_improperly",
+            true
+          ],
+          [
+            "EQ",
+            "use_illegal_methods_for_improper_insurance_payments",
+            true
+          ],
+          [
+            "EQ",
+            "spread_false_statements_or_disrupt_financial_order",
+            true
+          ],
+          [
+            "EQ",
+            "authorize_others_to_operate_or_use_others_name",
+            true
+          ],
+          [
+            "EQ",
+            "transfer_policy_documents_to_unauthorized_agents",
+            true
+          ],
+          [
+            "EQ",
+            "employ_unqualified_personnel_for_insurance_sales",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_cancel_license_within_specified_period",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_suspension_or_resumption_of_business",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_reappoint_agent_after_resignation",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_report_to_agent_trade_association",
+            true
+          ],
+          [
+            "EQ",
+            "use_unapproved_advertising_or_promotion",
+            true
+          ],
+          [
+            "EQ",
+            "pay_commission_to_non_actual_salesperson",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_confirm_suitability_for_financial_consumers",
+            true
+          ],
+          [
+            "EQ",
+            "sell_unapproved_foreign_policy_discount_benefit_certificates",
+            true
+          ],
+          [
+            "EQ",
+            "submit_false_or_incomplete_business_or_financial_reports",
+            true
+          ],
+          [
+            "EQ",
+            "hold_positions_in_insurance_or_association_conflicts",
+            true
+          ],
+          [
+            "EQ",
+            "induce_clients_to_cancel_or_terminate_contracts_or_pay_by_loan",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_fill_out_sales_report_truthfully",
+            true
+          ],
+          [
+            "EQ",
+            "other_violations_of_rules_or_laws",
+            true
+          ],
+          [
+            "EQ",
+            "other_behaviors_damaging_insurance_image",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_license_requirements",
+    "desc": "代理人應經主管機關許可、繳存保證金、投保相關保險並領有執業證照",
+    "expr": [
+      "EQ",
+      "agent_license_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "GE",
+          "deposit_guarantee_amount",
+          "minimum_guarantee_amount"
+        ],
+        [
+          "EQ",
+          "insured_relevant_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "license_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:relevant_insurance_types",
+    "desc": "保險代理人、公證人投保責任保險，經紀人投保責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "relevant_insurance_types",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_or_notary_responsibility_insurance",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "is_broker",
+            true
+          ],
+          [
+            "EQ",
+            "broker_responsibility_and_guarantee_insurance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_fixed_office_and_accounting",
+    "desc": "代理人應有固定業務處所並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "agent_fixed_office_and_accounting",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_accounting_books",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_for_multiple_qualifications",
+    "desc": "兼有代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_for_multiple_qualifications",
+      [
+        "LE",
+        [
+          "ADD",
+          "has_agent_license",
+          "has_broker_license",
+          "has_notary_license"
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_requirement",
+    "desc": "公開發行或具一定規模代理人公司應建立內部控制、稽核及招攬處理制度",
+    "expr": [
+      "EQ",
+      "internal_control_requirement",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_public_company",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_violation",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_management_rule",
+          false
+        ],
+        [
+          "EQ",
+          "agent_prohibited_behaviors",
+          false
+        ],
+        [
+          "EQ",
+          "agent_license_requirements",
+          false
+        ],
+        [
+          "EQ",
+          "agent_fixed_office_and_accounting",
+          false
+        ],
+        [
+          "EQ",
+          "single_license_for_multiple_qualifications",
+          false
+        ],
+        [
+          "EQ",
+          "internal_control_requirement",
+          false
+        ]
+      ],
+      [
+        "EQ",
+        "penalty",
+        false
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反代理人管理規則或保險法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "agent_violation",
+          true
+        ],
+        [
+          "EQ",
+          "violation_management_rule",
+          true
+        ],
+        [
+          "EQ",
+          "agent_prohibited_behaviors",
+          true
+        ],
+        [
+          "EQ",
+          "agent_license_requirements",
+          false
+        ],
+        [
+          "EQ",
+          "agent_fixed_office_and_accounting",
+          false
+        ],
+        [
+          "EQ",
+          "single_license_for_multiple_qualifications",
+          false
+        ],
+        [
+          "EQ",
+          "internal_control_requirement",
+          false
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

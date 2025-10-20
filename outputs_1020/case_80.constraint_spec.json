@@ -1,0 +1,398 @@
+[
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "建立且確實執行內部控制、稽核制度、招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rule_compliance",
+    "desc": "遵守財務或業務管理相關管理規則及內部控制相關規定",
+    "expr": [
+      "EQ",
+      "management_rule_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_management_rule_complied",
+          true
+        ],
+        [
+          "EQ",
+          "business_management_rule_complied",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_related_rule_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "finance_consumer:advertising_compliance",
+    "desc": "遵守廣告、業務招攬、營業促銷活動方式及內容規定",
+    "expr": [
+      "EQ",
+      "advertising_compliance",
+      [
+        "EQ",
+        "advertising_rule_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:consumer_info_compliance",
+    "desc": "充分瞭解金融消費者資料並確保適合度",
+    "expr": [
+      "EQ",
+      "consumer_info_compliance",
+      [
+        "EQ",
+        "consumer_info_rule_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:disclosure_compliance",
+    "desc": "充分說明金融商品、服務、契約重要內容及風險揭露",
+    "expr": [
+      "EQ",
+      "disclosure_compliance",
+      [
+        "EQ",
+        "disclosure_rule_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:remuneration_compliance",
+    "desc": "訂定酬金制度並確實執行",
+    "expr": [
+      "EQ",
+      "remuneration_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "remuneration_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "remuneration_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:formal_condition_violation",
+    "desc": "未符合第四條第二項條件，協助創造形式上外觀條件",
+    "expr": [
+      "EQ",
+      "formal_condition_violation",
+      [
+        "EQ",
+        "formal_condition_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:serious_violation",
+    "desc": "違反前二項情形且情節重大",
+    "expr": [
+      "EQ",
+      "serious_violation",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "advertising_compliance",
+            false
+          ],
+          [
+            "EQ",
+            "consumer_info_compliance",
+            false
+          ],
+          [
+            "EQ",
+            "disclosure_compliance",
+            false
+          ],
+          [
+            "EQ",
+            "remuneration_compliance",
+            false
+          ],
+          [
+            "EQ",
+            "formal_condition_violation",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_severity_major",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "insurance:advertising_ethics_compliance",
+    "desc": "金融服務業廣告業務招攬及營業促銷活動遵守社會道德誠信及保護消費者原則",
+    "expr": [
+      "EQ",
+      "advertising_ethics_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_consumer_info_true",
+          true
+        ],
+        [
+          "EQ",
+          "disclosure_fair_and_clear",
+          true
+        ],
+        [
+          "EQ",
+          "chinese_language_used",
+          true
+        ],
+        [
+          "EQ",
+          "financial_service_named",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "insurance:advertising_prohibition_compliance",
+    "desc": "金融服務業廣告業務招攬及營業促銷活動無禁止情事",
+    "expr": [
+      "EQ",
+      "advertising_prohibition_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_law_violation",
+          true
+        ],
+        [
+          "EQ",
+          "no_false_or_fraud",
+          true
+        ],
+        [
+          "EQ",
+          "no_reputation_damage",
+          true
+        ],
+        [
+          "EQ",
+          "no_trademark_confusion",
+          true
+        ],
+        [
+          "EQ",
+          "no_false_report_ad",
+          true
+        ],
+        [
+          "EQ",
+          "no_exaggerated_performance",
+          true
+        ],
+        [
+          "EQ",
+          "no_misleading_government_approval",
+          true
+        ],
+        [
+          "EQ",
+          "no_promotion_without_approval",
+          true
+        ],
+        [
+          "EQ",
+          "no_guaranteed_principal_or_profit",
+          true
+        ],
+        [
+          "EQ",
+          "no_illegible_footnotes",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一內部控制、管理規則或金融消費者保護相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "management_rule_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "consumer_info_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "remuneration_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "formal_condition_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions_serious",
+    "desc": "處罰條件：情節重大者加重處罰",
+    "expr": [
+      "EQ",
+      "penalty_serious",
+      [
+        "AND",
+        [
+          "EQ",
+          "serious_violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

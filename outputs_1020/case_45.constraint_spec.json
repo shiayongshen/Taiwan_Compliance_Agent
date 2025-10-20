@@ -1,0 +1,575 @@
+[
+  {
+    "id": "securities:violation_of_law",
+    "desc": "證券商董事、監察人及受僱人違反證券交易法或相關法令，影響業務正常執行",
+    "expr": [
+      "EQ",
+      "violation_of_law",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:authority_order_stop_or_dismiss",
+    "desc": "主管機關命令停止一年以下業務或解除職務",
+    "expr": [
+      "EQ",
+      "authority_order_stop_or_dismiss",
+      [
+        "OR",
+        [
+          "EQ",
+          "order_stop_business_within_1_year",
+          true
+        ],
+        [
+          "EQ",
+          "order_dismiss_officer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:authority_impose_penalty_66",
+    "desc": "主管機關依第66條視情節輕重對證券商處分",
+    "expr": [
+      "EQ",
+      "authority_impose_penalty_66",
+      [
+        "EQ",
+        "penalty_66_imposed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:non_compliance_found",
+    "desc": "主管機關調查發現證券商有不符合規定事項",
+    "expr": [
+      "EQ",
+      "non_compliance_found",
+      [
+        "EQ",
+        "non_compliance_detected",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:authority_order_correction_or_improvement",
+    "desc": "主管機關命令糾正或限期改善",
+    "expr": [
+      "EQ",
+      "authority_order_correction_or_improvement",
+      [
+        "OR",
+        [
+          "EQ",
+          "order_correction",
+          true
+        ],
+        [
+          "EQ",
+          "order_improvement_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_and_penalty_measures",
+    "desc": "證券商違反法令或命令，主管機關得處分並命限期改善",
+    "expr": [
+      "EQ",
+      "violation_and_penalty_measures",
+      [
+        "EQ",
+        "violation_and_penalty_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_178_1_violation",
+    "desc": "違反證券交易法第178-1條規定之行為",
+    "expr": [
+      "EQ",
+      "penalty_178_1_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_14_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_14_1_1_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_21_1_5",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_58",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_61",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_69_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_79",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_141",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_144",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_145_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_147",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_152",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_159",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_165_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_141_apply",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_144_apply",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_145_2_apply",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_147_apply",
+          true
+        ],
+        [
+          "EQ",
+          "not_submit_documents",
+          true
+        ],
+        [
+          "EQ",
+          "obstruct_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "not_prepare_or_report_documents",
+          true
+        ],
+        [
+          "EQ",
+          "not_execute_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violate_finance_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_other_finance_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_sec_center_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_sec_trade_association_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_sec_exchange_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_178_1_mild_exemption",
+    "desc": "違反178-1條情節輕微且已改善免罰",
+    "expr": [
+      "EQ",
+      "penalty_178_1_mild_exemption",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_178_1_violation",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_mild",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_executed",
+    "desc": "證券商確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliance",
+    "desc": "證券商內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated",
+    "desc": "內部控制制度變更已於限期內完成",
+    "expr": [
+      "EQ",
+      "internal_control_updated",
+      [
+        "EQ",
+        "internal_control_updated_within_deadline",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:honesty_and_credit_principle",
+    "desc": "證券商負責人及業務人員執行業務應本誠實及信用原則",
+    "expr": [
+      "EQ",
+      "honesty_and_credit_principle",
+      [
+        "EQ",
+        "honesty_and_credit_followed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors",
+    "desc": "證券商負責人及業務人員不得有違反證券交易法及相關規定之行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "behavior_1_speculation",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_2_leak_secret",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_3_full_delegation",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_4_profit_guarantee",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_5_share_loss",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_6_self_trade",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_7_use_client_account",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_8_use_others_name",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_9_loan_or_mediation",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_10_fraud_or_mislead",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_11_misuse_client_assets",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_12_unauthorized_client",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_13_not_follow_client_order",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_14_induce_buy_sell",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_15_recommend_stock",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_16_offset_trades",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_17_agent_open_account",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_18_employee_agent_open_account",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_19_non_self_account",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_20_non_authorized_agent",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_21_insider_trading",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_22_undue_benefit",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_23_illegal_promotion",
+            true
+          ],
+          [
+            "EQ",
+            "behavior_24_other_illegal",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法相關規定或內部控制制度未建立或未執行，或負責人及業務人員有禁止行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_of_law",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_behaviors",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_178_1_violation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalty_178_1_mild_exemption",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

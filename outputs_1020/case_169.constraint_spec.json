@@ -1,0 +1,286 @@
+[
+  {
+    "id": "e_payment:contract_terms_compliance",
+    "desc": "電子支付機構業務定型化契約條款內容不得低於主管機關範本",
+    "expr": [
+      "EQ",
+      "contract_terms_compliance",
+      [
+        "GE",
+        "contract_terms_level",
+        "regulator_minimum_level"
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:internal_control_compliant",
+    "desc": "內部控制制度符合主管機關定之辦法",
+    "expr": [
+      "EQ",
+      "internal_control_compliant",
+      [
+        "EQ",
+        "internal_control_system_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:annual_report_submitted",
+    "desc": "會計年度終了四個月內編製營業報告書及財務報告",
+    "expr": [
+      "EQ",
+      "annual_report_submitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_report_prepared",
+          true
+        ],
+        [
+          "EQ",
+          "financial_report_audited",
+          true
+        ],
+        [
+          "LE",
+          "report_submission_days_after_board_approval",
+          15
+        ],
+        [
+          "LE",
+          "report_preparation_days_after_fiscal_year_end",
+          120
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:annual_report_reported",
+    "desc": "董事會通過翌日起十五日內向主管機關申報並公告",
+    "expr": [
+      "EQ",
+      "annual_report_reported",
+      [
+        "AND",
+        [
+          "EQ",
+          "report_submitted_to_regulator",
+          true
+        ],
+        [
+          "EQ",
+          "report_announced_publicly",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:cooperation_approval",
+    "desc": "與境外機構合作須經主管機關核准",
+    "expr": [
+      "EQ",
+      "cooperation_approval",
+      [
+        "EQ",
+        "regulator_approval_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:trust_or_guarantee_compliance",
+    "desc": "儲值款項扣除準備金餘額及代理收付款項全部交付信託或取得銀行十足履約保證",
+    "expr": [
+      "EQ",
+      "trust_or_guarantee_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "funds_fully_trusted",
+          true
+        ],
+        [
+          "EQ",
+          "full_bank_performance_guarantee_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:trust_contract_compliant",
+    "desc": "信託契約符合主管機關公告之應記載及不得記載事項",
+    "expr": [
+      "EQ",
+      "trust_contract_compliant",
+      [
+        "EQ",
+        "trust_contract_meets_regulator_requirements",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:guarantee_contract_compliant",
+    "desc": "履約保證契約符合主管機關公告之應記載及不得記載事項",
+    "expr": [
+      "EQ",
+      "guarantee_contract_compliant",
+      [
+        "EQ",
+        "guarantee_contract_meets_regulator_requirements",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:trust_or_guarantee_renewed",
+    "desc": "信託契約或履約保證契約到期日二個月前完成續約或訂定新契約並函報主管機關備查",
+    "expr": [
+      "EQ",
+      "trust_or_guarantee_renewed",
+      [
+        "AND",
+        [
+          "EQ",
+          "renewal_or_new_contract_completed",
+          true
+        ],
+        [
+          "EQ",
+          "renewal_reported_to_regulator",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:registration_and_payment_restriction",
+    "desc": "未依規定辦理者不得受理新使用者註冊、簽訂特約機構及收受新增支付款項",
+    "expr": [
+      "EQ",
+      "registration_and_payment_restriction",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "trust_or_guarantee_compliance",
+            true
+          ],
+          [
+            "EQ",
+            "trust_contract_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_contract_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "trust_or_guarantee_renewed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反合作核准、信託或履約保證規定或未依規定辦理者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "cooperation_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "trust_contract_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "guarantee_contract_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "registration_and_payment_restriction",
+            false
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

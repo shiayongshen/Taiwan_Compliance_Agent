@@ -1,0 +1,195 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            0.25
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            0.25
+          ],
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.0
+          ]
+        ],
+        3,
+        [
+          "GE",
+          [
+            "DIV",
+            "own_capital",
+            "risk_capital"
+          ],
+          1.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_ratio_minimum",
+    "desc": "自有資本與風險資本比率不得低於一定比率（假設為1.0）",
+    "expr": [
+      "EQ",
+      "capital_ratio_minimum",
+      [
+        "GE",
+        [
+          "DIV",
+          "own_capital",
+          "risk_capital"
+        ],
+        1.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_ratio_minimum",
+    "desc": "淨值比率不得低於一定比率（假設為0.0）",
+    "expr": [
+      "EQ",
+      "net_worth_ratio_minimum",
+      [
+        "GE",
+        "net_worth",
+        0.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reporting_compliance",
+    "desc": "保險業依規定申報資本等級相關資訊",
+    "expr": [
+      "EQ",
+      "reporting_compliance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "annual_report_submitted",
+            true
+          ],
+          [
+            "LE",
+            "annual_report_submission_days",
+            90
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "semiannual_report_submitted",
+            true
+          ],
+          [
+            "LE",
+            "semiannual_report_submission_days",
+            60
+          ]
+        ],
+        [
+          "EQ",
+          "under_supervision",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本比率或淨值比率低於最低標準且未依規定申報時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_ratio_minimum",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "net_worth_ratio_minimum",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reporting_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

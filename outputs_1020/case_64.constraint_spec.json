@@ -1,0 +1,222 @@
+[
+  {
+    "id": "insurance:fixed_office_and_account_book",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_account_book_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_account_book",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_only",
+    "desc": "兼有保險代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_only",
+      [
+        "LE",
+        [
+          "SUM",
+          [
+            "IF",
+            [
+              "EQ",
+              "has_agent_license",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_broker_license",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_notary_license",
+              true
+            ],
+            1,
+            0
+          ]
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
+    "desc": "公開發行或具一定規模之保險代理人公司、經紀人公司應建立內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_required_ok",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_procedure_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "公開發行或具一定規模之保險代理人公司、經紀人公司應確實執行內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_executed_ok",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_executed",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_procedure_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "符合內部控制建立及執行規定",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_required_ok",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制建立或執行規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

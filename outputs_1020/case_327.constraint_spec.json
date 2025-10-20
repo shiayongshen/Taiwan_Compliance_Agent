@@ -1,0 +1,1030 @@
+[
+  {
+    "id": "insurance:act_144_actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員",
+    "expr": [
+      "EQ",
+      "insurance:act_144_actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuarial_staff_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_review_actuarial_hired",
+    "desc": "保險業聘請外部複核精算人員",
+    "expr": [
+      "EQ",
+      "insurance:act_144_external_review_actuarial_hired",
+      [
+        "EQ",
+        "external_review_actuarial_hired",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_board_approval_obtained",
+    "desc": "簽證精算人員指派及外部複核精算人員聘請經董(理)事會同意",
+    "expr": [
+      "EQ",
+      "insurance:act_144_board_approval_obtained",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuarial_staff_board_approved",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_actuarial_board_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_reports_fair_and_true",
+    "desc": "簽證報告及複核報告內容公正且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "insurance:act_144_reports_fair_and_true",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuarial_report_fair_and_true",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_report_fair_and_true",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_7_related_persons_defined",
+    "desc": "同一人、同一關係人及同一關係企業定義符合規定",
+    "expr": [
+      "EQ",
+      "insurance:act_146_7_related_persons_defined",
+      [
+        "AND",
+        [
+          "EQ",
+          "same_person_defined",
+          true
+        ],
+        [
+          "EQ",
+          "same_related_person_defined",
+          true
+        ],
+        [
+          "EQ",
+          "same_related_enterprise_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_7_limitations_set",
+    "desc": "主管機關已定放款及其他交易限制及範圍",
+    "expr": [
+      "EQ",
+      "insurance:act_146_7_limitations_set",
+      [
+        "AND",
+        [
+          "EQ",
+          "loan_limitations_set",
+          true
+        ],
+        [
+          "EQ",
+          "other_transaction_limitations_set",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_fund_usage_limited",
+    "desc": "保險業資金運用限於法定項目",
+    "expr": [
+      "EQ",
+      "insurance:act_146_fund_usage_limited",
+      [
+        "OR",
+        [
+          "EQ",
+          "fund_used_in_securities",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_real_estate",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_loans",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_approved_projects",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_foreign_investment",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_insurance_related_business",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_derivative_transactions",
+          true
+        ],
+        [
+          "EQ",
+          "fund_used_in_other_approved_uses",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_deposit_limit_respected",
+    "desc": "存款於每一金融機構金額不超過資金百分之十，或經主管機關核准",
+    "expr": [
+      "EQ",
+      "insurance:act_146_deposit_limit_respected",
+      [
+        "OR",
+        [
+          "LE",
+          "deposit_per_financial_institution",
+          [
+            "MUL",
+            "total_funds",
+            0.1
+          ]
+        ],
+        [
+          "EQ",
+          "deposit_limit_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_insurance_related_business_defined",
+    "desc": "保險相關事業範圍符合主管機關定義",
+    "expr": [
+      "EQ",
+      "insurance:act_146_insurance_related_business_defined",
+      [
+        "EQ",
+        "insurance_related_business_defined_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_investment_accounting_compliance",
+    "desc": "投資型保險業務專設帳簿並依主管機關辦法管理",
+    "expr": [
+      "EQ",
+      "insurance:act_146_investment_accounting_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_insurance_special_account_book",
+          true
+        ],
+        [
+          "EQ",
+          "investment_account_book_management_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_full_discretion_investment_compliance",
+    "desc": "全權委託投資業務申請符合證券投資信託及顧問法規定",
+    "expr": [
+      "EQ",
+      "insurance:act_146_full_discretion_investment_compliance",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "policyholder_delegates_full_discretion",
+            true
+          ],
+          [
+            "EQ",
+            "investment_in_securities",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "full_discretion_investment_business_registered",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_derivative_trading_compliance",
+    "desc": "衍生性商品交易符合主管機關規定條件及程序",
+    "expr": [
+      "EQ",
+      "insurance:act_146_derivative_trading_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "derivative_trading_conditions_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_scope_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_limit_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_internal_procedures_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_control_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "insurance:act_148_3_internal_control_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_handling_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "insurance:act_148_3_internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_149_regulatory_measures_authorized",
+    "desc": "主管機關得對違反法令或有礙健全經營保險業採取處分措施",
+    "expr": [
+      "EQ",
+      "insurance:act_149_regulatory_measures_authorized",
+      [
+        "EQ",
+        "regulatory_measures_taken",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_149_severe_capital_insufficiency_conditions",
+    "desc": "資本嚴重不足且未依主管機關規定完成增資或改善計畫",
+    "expr": [
+      "EQ",
+      "insurance:act_149_severe_capital_insufficiency_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_149_financial_deterioration_conditions",
+    "desc": "財務或業務狀況顯著惡化且未改善",
+    "expr": [
+      "EQ",
+      "insurance:act_149_financial_deterioration_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_condition_deteriorated",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_or_business_improvement_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_violation_business_scope_penalty",
+    "desc": "違反業務範圍規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_violation_business_scope_penalty",
+      [
+        "EQ",
+        "violate_business_scope_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_violation_reserve_penalty",
+    "desc": "違反賠償準備金提存額度及方式規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_violation_reserve_penalty",
+      [
+        "EQ",
+        "violate_reserve_provision_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_violation_act_143_penalty",
+    "desc": "違反第一百四十三條規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_violation_act_143_penalty",
+      [
+        "EQ",
+        "violate_act_143",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_violation_act_143_5_and_6_penalty",
+    "desc": "違反第一百四十三條之五或主管機關依第一百四十三條之六措施處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_violation_act_143_5_and_6_penalty",
+      [
+        "EQ",
+        "violate_act_143_5_or_6_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_fund_usage_violation_penalty",
+    "desc": "資金運用違反相關規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_fund_usage_violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_fund_usage_146_1_3_5_7_or_6",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_1_2_5",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_2_1_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_3_1_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_4_1_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_5_unauthorized_investment_or_missing_docs",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_6_investment_reporting",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_146_9",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_illegal_loan_penalty",
+    "desc": "無十足擔保或條件優於其他同類放款行為負責人刑責",
+    "expr": [
+      "EQ",
+      "insurance:act_168_illegal_loan_penalty",
+      [
+        "EQ",
+        "illegal_loan_without_sufficient_collateral",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_loan_approval_violation_penalty",
+    "desc": "擔保放款未經董事會三分之二出席及四分之三同意或違反放款限額規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_loan_approval_violation_penalty",
+      [
+        "EQ",
+        "loan_approval_or_limit_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_168_loan_limit_violation_penalty",
+    "desc": "違反放款或其他交易限額及決議程序規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_168_loan_limit_violation_penalty",
+      [
+        "EQ",
+        "loan_or_other_transaction_limit_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation_act_144_penalty",
+    "desc": "違反第一百四十四條第一項至第四項及第一百四十五條規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_171_violation_act_144_penalty",
+      [
+        "EQ",
+        "violate_act_144_1_to_4_and_145",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation_act_144_5_penalty",
+    "desc": "簽證精算人員或外部複核精算人員違反第一百四十四條第五項規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_171_violation_act_144_5_penalty",
+      [
+        "EQ",
+        "violate_act_144_5",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_internal_control_penalty",
+    "desc": "違反第一百四十八條之一及之二規定處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_171_1_violation_internal_control_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_act_148_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_act_148_2_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_internal_control_or_handling_penalty",
+    "desc": "違反第一百四十八條之三第一項或第二項規定未建立或執行內部控制或處理制度處罰",
+    "expr": [
+      "EQ",
+      "insurance:act_171_1_violation_internal_control_or_handling_penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:sales_qualification_personnel_compliance",
+    "desc": "保險商品簽署人員符合資格規定",
+    "expr": [
+      "EQ",
+      "insurance:sales_qualification_personnel_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "claims_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "actuarial_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "legal_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "investment_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "policy_service_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_personnel_qualified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:sales_qualification_manager_experience_compliance",
+    "desc": "總經理授權部門主管具備保險精算及金融證券風險管理經驗",
+    "expr": [
+      "EQ",
+      "insurance:sales_qualification_manager_experience_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "manager_authorized_by_general_manager",
+          true
+        ],
+        [
+          "EQ",
+          "manager_has_actuarial_and_financial_experience",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reserve_calculation_compliance",
+    "desc": "保險業依規定計算各種準備金並記載於特設帳簿",
+    "expr": [
+      "EQ",
+      "insurance:reserve_calculation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "reserve_calculated_by_insurance_type",
+          true
+        ],
+        [
+          "EQ",
+          "reserve_recorded_in_special_account_book",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一法定規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_144_actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_144_external_review_actuarial_hired",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_144_board_approval_obtained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_144_reports_fair_and_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_7_related_persons_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_7_limitations_set",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_fund_usage_limited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_deposit_limit_respected",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_insurance_related_business_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_investment_accounting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_full_discretion_investment_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_146_derivative_trading_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_148_3_internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_148_3_internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_149_regulatory_measures_authorized",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_149_severe_capital_insufficiency_conditions",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_149_financial_deterioration_conditions",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_violation_business_scope_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_violation_reserve_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_violation_act_143_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_violation_act_143_5_and_6_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_fund_usage_violation_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_illegal_loan_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_loan_approval_violation_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_168_loan_limit_violation_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_171_violation_act_144_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_171_violation_act_144_5_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_171_1_violation_internal_control_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:act_171_1_violation_internal_control_or_handling_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:sales_qualification_personnel_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:sales_qualification_manager_experience_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance:reserve_calculation_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

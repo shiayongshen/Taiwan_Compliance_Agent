@@ -1,0 +1,581 @@
+[
+  {
+    "id": "insurance:fixed_office_and_bookkeeping",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_bookkeeping",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_bookkeeping",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_only",
+    "desc": "兼有代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_only",
+      [
+        "EQ",
+        [
+          "ADD",
+          [
+            "CASE",
+            [
+              "EQ",
+              "is_agent",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "CASE",
+            [
+              "EQ",
+              "is_broker",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "CASE",
+            [
+              "EQ",
+              "is_notary",
+              true
+            ],
+            1,
+            0
+          ]
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
+    "desc": "公開發行或一定規模代理人公司、經紀人公司應建立內部控制、稽核及招攬處理制度與程序",
+    "expr": [
+      "EQ",
+      "internal_control_required",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "EQ",
+            "meets_scale_threshold",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "內部控制、稽核制度及招攬處理制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_scale_requirement",
+    "desc": "年度營業收入達5億元者內部控制制度應包括五大組成要素",
+    "expr": [
+      "EQ",
+      "internal_control_scale_requirement_met",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "annual_revenue",
+          500000000.0
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "control_environment_established",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_established",
+            true
+          ],
+          [
+            "EQ",
+            "control_activities_established",
+            true
+          ],
+          [
+            "EQ",
+            "information_communication_established",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_activities_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_below_scale_principles",
+    "desc": "年度營業收入未達5億元者內部控制制度應符合五項原則",
+    "expr": [
+      "EQ",
+      "internal_control_below_scale_principles_met",
+      [
+        "IMPLIES",
+        [
+          "LT",
+          "annual_revenue",
+          500000000.0
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "management_supervision_and_control_culture",
+            true
+          ],
+          [
+            "EQ",
+            "risk_identification_and_assessment",
+            true
+          ],
+          [
+            "EQ",
+            "control_activities_and_segregation_of_duties",
+            true
+          ],
+          [
+            "EQ",
+            "information_and_communication",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_and_correction_of_deficiencies",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_must_be_reviewed",
+    "desc": "內部控制制度應依業務性質及規模訂定招攬處理制度及程序並適時檢討修訂",
+    "expr": [
+      "EQ",
+      "internal_control_reviewed",
+      [
+        "AND",
+        [
+          "EQ",
+          "solicitation_system_defined_by_business_and_scale",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_procedures_reviewed_and_updated",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_included",
+    "desc": "設置審計委員會者內部控制制度應包括審計委員會議事運作管理",
+    "expr": [
+      "EQ",
+      "audit_committee_included",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_committee_meeting_management_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_operational_procedures",
+    "desc": "內部控制作業程序至少包括會計、資訊、個資保護、防制洗錢及打擊資恐、金融檢查報告管理、重大偶發事件處理及主管機關指定事項",
+    "expr": [
+      "EQ",
+      "internal_control_operational_procedures_complete",
+      [
+        "AND",
+        [
+          "EQ",
+          "accounting_control_operations_established",
+          true
+        ],
+        [
+          "EQ",
+          "information_control_operations_established",
+          true
+        ],
+        [
+          "EQ",
+          "personal_data_protection_established",
+          true
+        ],
+        [
+          "EQ",
+          "anti_money_laundering_and_counter_terrorism_established",
+          true
+        ],
+        [
+          "EQ",
+          "financial_inspection_report_management_established",
+          true
+        ],
+        [
+          "EQ",
+          "major_incident_handling_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_regulator_specified_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_service_operational_procedures",
+    "desc": "保險經紀人公司提供風險規劃、再保險規劃及保險理賠申請服務者須依服務建立適當作業程序",
+    "expr": [
+      "EQ",
+      "broker_service_operational_procedures_met",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "provides_risk_planning_or_reinsurance_or_claim_services",
+          true
+        ],
+        [
+          "EQ",
+          "appropriate_operational_procedures_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_broker_service_operational_procedures",
+    "desc": "經主管機關許可兼營保險經紀人業務之銀行提供風險規劃及保險理賠申請服務者須依服務建立適當作業程序",
+    "expr": [
+      "EQ",
+      "bank_broker_service_operational_procedures_met",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "bank_permitted_to_operate_brokerage",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "provides_risk_planning_or_claim_services",
+            true
+          ],
+          [
+            "EQ",
+            "appropriate_operational_procedures_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:annual_reporting_and_bookkeeping",
+    "desc": "個人執業代理人、代理人公司及銀行應專設帳簿並於指定期間彙報主管機關",
+    "expr": [
+      "EQ",
+      "annual_reporting_and_bookkeeping_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "dedicated_bookkeeping",
+          true
+        ],
+        [
+          "GE",
+          "reporting_start_date",
+          401
+        ],
+        [
+          "LE",
+          "reporting_end_date",
+          531
+        ],
+        [
+          "EQ",
+          "annual_reports_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:regulator_inspection_and_reporting",
+    "desc": "主管機關得隨時派員檢查或令限期報告營業狀況",
+    "expr": [
+      "EQ",
+      "regulator_inspection_and_reporting",
+      [
+        "OR",
+        [
+          "EQ",
+          "regulator_inspection_conducted",
+          true
+        ],
+        [
+          "EQ",
+          "regulator_ordered_report_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_and_followup",
+    "desc": "對主管機關檢查意見或缺失應確實改善並持續追蹤覆查，並於期限內函送主管機關",
+    "expr": [
+      "EQ",
+      "improvement_and_followup_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_measures_taken",
+          true
+        ],
+        [
+          "EQ",
+          "followup_and_review_done",
+          true
+        ],
+        [
+          "EQ",
+          "reports_submitted_to_regulator_on_time",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、稽核、招攬制度建立或執行，未專設帳簿或未依規定彙報，未改善缺失時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ],
+            [
+              "EQ",
+              "audit_system_established",
+              true
+            ],
+            [
+              "EQ",
+              "solicitation_system_established",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ],
+            [
+              "EQ",
+              "audit_system_executed",
+              true
+            ],
+            [
+              "EQ",
+              "solicitation_system_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fixed_office_and_bookkeeping",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "single_license_only",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_reporting_and_bookkeeping_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_and_followup_compliant",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

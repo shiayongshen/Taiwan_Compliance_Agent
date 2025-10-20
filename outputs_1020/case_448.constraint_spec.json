@@ -1,0 +1,735 @@
+[
+  {
+    "id": "insurance:other_transaction_limit_government_exclusion",
+    "desc": "交易對象為政府機關、公立學校、公營事業者時，交易總餘額不計入限額",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_government_exclusion",
+      [
+        "EQ",
+        "transaction_counterparty_is_government",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_transaction_limit_percentage",
+    "desc": "單一交易金額不得超過業主權益之35%",
+    "expr": [
+      "EQ",
+      "single_transaction_limit_percentage",
+      [
+        "LE",
+        "single_transaction_amount",
+        [
+          "MUL",
+          "policyholder_equity",
+          0.35
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:total_transaction_limit_percentage",
+    "desc": "交易總餘額不得超過業主權益之70%",
+    "expr": [
+      "EQ",
+      "total_transaction_limit_percentage",
+      [
+        "LE",
+        "total_transaction_amount",
+        [
+          "MUL",
+          "policyholder_equity",
+          0.7
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_transaction_limit_fixed_limit",
+    "desc": "單一交易金額未達新臺幣1億元者，得以新臺幣1億元為最高限額",
+    "expr": [
+      "EQ",
+      "single_transaction_limit_fixed_limit",
+      [
+        "OR",
+        [
+          "LE",
+          "single_transaction_amount",
+          100000000.0
+        ],
+        [
+          "GE",
+          "single_transaction_amount",
+          100000000.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:total_transaction_limit_fixed_limit",
+    "desc": "交易總餘額不得逾新臺幣2億元",
+    "expr": [
+      "EQ",
+      "total_transaction_limit_fixed_limit",
+      [
+        "LE",
+        "total_transaction_amount",
+        200000000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_transaction_limit_government",
+    "desc": "政府機關、公立學校、公營事業者單一交易金額不得超過業主權益",
+    "expr": [
+      "EQ",
+      "single_transaction_limit_government",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "transaction_counterparty_is_government",
+          true
+        ],
+        [
+          "LE",
+          "single_transaction_amount",
+          "policyholder_equity"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_transaction_limit_2billion",
+    "desc": "依前款計算之單一交易金額未達新臺幣2億元者，得以新臺幣2億元為最高限額",
+    "expr": [
+      "EQ",
+      "single_transaction_limit_2billion",
+      [
+        "OR",
+        [
+          "LE",
+          "single_transaction_amount",
+          200000000.0
+        ],
+        [
+          "GE",
+          "single_transaction_amount",
+          200000000.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_transaction_limit_pre_announcement",
+    "desc": "本辦法發布前之其他交易案件，交易總餘額逾限額者不得再增加交易",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_pre_announcement",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "transaction_before_announcement",
+          true
+        ],
+        [
+          "LE",
+          "total_transaction_amount",
+          "previous_limit_amount"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_single_limit_capital_ratio_met",
+    "desc": "自有資本與風險資本比率達法定標準，單一交易金額不得超過資金1.5%",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_single_limit_capital_ratio_met",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "LE",
+          "single_transaction_amount",
+          [
+            "MUL",
+            "funds",
+            0.015
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_total_limit_capital_ratio_met",
+    "desc": "自有資本與風險資本比率達法定標準，交易總餘額不得超過資金3%",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_total_limit_capital_ratio_met",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "LE",
+          "total_transaction_amount",
+          [
+            "MUL",
+            "funds",
+            0.03
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_positive",
+    "desc": "自有資本與風險資本比率未達法定標準且業主權益正數，經核准後單一交易金額不得超過資金1%",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_positive",
+      [
+        "AND",
+        [
+          "LT",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "GT",
+          "policyholder_equity",
+          0.0
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_approved",
+          true
+        ],
+        [
+          "LE",
+          "single_transaction_amount",
+          [
+            "MUL",
+            "funds",
+            0.01
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_positive",
+    "desc": "自有資本與風險資本比率未達法定標準且業主權益正數，經核准後交易總餘額不得超過資金2%",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_positive",
+      [
+        "AND",
+        [
+          "LT",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "GT",
+          "policyholder_equity",
+          0.0
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_approved",
+          true
+        ],
+        [
+          "LE",
+          "total_transaction_amount",
+          [
+            "MUL",
+            "funds",
+            0.02
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+    "desc": "自有資本與風險資本比率未達法定標準且業主權益負數，經核准後單一交易金額不得超過資金1%與5億元孰低",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+      [
+        "AND",
+        [
+          "LT",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "LE",
+          "policyholder_equity",
+          0.0
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_approved",
+          true
+        ],
+        [
+          "LE",
+          "single_transaction_amount",
+          [
+            "CASE",
+            [
+              "LE",
+              [
+                "MUL",
+                "funds",
+                0.01
+              ],
+              5000000000.0
+            ],
+            [
+              "MUL",
+              "funds",
+              0.01
+            ],
+            5000000000.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+    "desc": "自有資本與風險資本比率未達法定標準且業主權益負數，經核准後交易總餘額不得超過資金2%與10億元孰低",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+      [
+        "AND",
+        [
+          "LT",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "LE",
+          "policyholder_equity",
+          0.0
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_approved",
+          true
+        ],
+        [
+          "LE",
+          "total_transaction_amount",
+          [
+            "CASE",
+            [
+              "LE",
+              [
+                "MUL",
+                "funds",
+                0.02
+              ],
+              10000000000.0
+            ],
+            [
+              "MUL",
+              "funds",
+              0.02
+            ],
+            10000000000.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_conditions_met",
+    "desc": "不動產交易符合公開招標、程序及資訊揭露等條件",
+    "expr": [
+      "EQ",
+      "non_related_party_real_estate_conditions_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "obtained_by_public_tender",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_immediately_income_generating",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_transaction_procedure_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "information_disclosed_on_website",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_quorum_met",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_majority_met",
+          true
+        ],
+        [
+          "EQ",
+          "complete_evaluation_report_provided",
+          true
+        ],
+        [
+          "EQ",
+          "written_opinions_from_directors_and_supervisors",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_increase_plan_implementation",
+    "desc": "核准增資改善計畫已確實辦理",
+    "expr": [
+      "EQ",
+      "capital_increase_plan_implementation",
+      [
+        "EQ",
+        "capital_increase_plan_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_increase_plan_violation",
+    "desc": "未依計畫確實辦理增資",
+    "expr": [
+      "EQ",
+      "capital_increase_plan_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "capital_increase_plan_implementation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_increase_plan_violation_penalty",
+    "desc": "未依計畫確實辦理增資者，主管機關得廢止核准或為其他處置",
+    "expr": [
+      "EQ",
+      "capital_increase_plan_violation_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_increase_plan_approved",
+          true
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_positive",
+          false
+        ],
+        [
+          "EQ",
+          "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+          false
+        ],
+        [
+          "EQ",
+          "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_positive",
+          false
+        ],
+        [
+          "EQ",
+          "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+          false
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_violation_penalty",
+          false
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "other_transaction_limit_government_exclusion",
+            true
+          ],
+          [
+            "EQ",
+            "single_transaction_limit_percentage",
+            true
+          ],
+          [
+            "EQ",
+            "total_transaction_limit_percentage",
+            true
+          ],
+          [
+            "EQ",
+            "single_transaction_limit_fixed_limit",
+            true
+          ],
+          [
+            "EQ",
+            "total_transaction_limit_fixed_limit",
+            true
+          ],
+          [
+            "EQ",
+            "single_transaction_limit_government",
+            true
+          ],
+          [
+            "EQ",
+            "single_transaction_limit_2billion",
+            true
+          ],
+          [
+            "EQ",
+            "other_transaction_limit_pre_announcement",
+            true
+          ]
+        ]
+      ],
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反交易限額規定或未依核准增資計畫辦理者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "other_transaction_limit_government_exclusion",
+              true
+            ],
+            [
+              "EQ",
+              "single_transaction_limit_percentage",
+              true
+            ],
+            [
+              "EQ",
+              "total_transaction_limit_percentage",
+              true
+            ],
+            [
+              "EQ",
+              "single_transaction_limit_fixed_limit",
+              true
+            ],
+            [
+              "EQ",
+              "total_transaction_limit_fixed_limit",
+              true
+            ],
+            [
+              "EQ",
+              "single_transaction_limit_government",
+              true
+            ],
+            [
+              "EQ",
+              "single_transaction_limit_2billion",
+              true
+            ],
+            [
+              "EQ",
+              "other_transaction_limit_pre_announcement",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "IMPLIES",
+              [
+                "AND",
+                [
+                  "LT",
+                  "capital_to_risk_capital_ratio",
+                  "statutory_standard"
+                ],
+                [
+                  "GT",
+                  "policyholder_equity",
+                  0.0
+                ],
+                [
+                  "EQ",
+                  "capital_increase_plan_approved",
+                  true
+                ]
+              ],
+              [
+                "EQ",
+                "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_positive",
+                true
+              ]
+            ],
+            [
+              "IMPLIES",
+              [
+                "AND",
+                [
+                  "LT",
+                  "capital_to_risk_capital_ratio",
+                  "statutory_standard"
+                ],
+                [
+                  "LE",
+                  "policyholder_equity",
+                  0.0
+                ],
+                [
+                  "EQ",
+                  "capital_increase_plan_approved",
+                  true
+                ]
+              ],
+              [
+                "EQ",
+                "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+                true
+              ]
+            ],
+            [
+              "EQ",
+              "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_positive",
+              false
+            ],
+            [
+              "EQ",
+              "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+              false
+            ],
+            [
+              "EQ",
+              "non_related_party_real_estate_total_limit_capital_ratio_met",
+              true
+            ],
+            [
+              "OR",
+              [
+                "EQ",
+                "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_positive",
+                true
+              ],
+              [
+                "EQ",
+                "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+                true
+              ]
+            ],
+            [
+              "EQ",
+              "non_related_party_real_estate_conditions_met",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_violation_penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

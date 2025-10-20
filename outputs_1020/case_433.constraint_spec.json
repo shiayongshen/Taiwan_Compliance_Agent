@@ -1,0 +1,478 @@
+[
+  {
+    "id": "insurance:capital_level_severe_insufficient",
+    "desc": "資本等級為嚴重不足",
+    "expr": [
+      "EQ",
+      "capital_level_severe_insufficient",
+      [
+        "LT",
+        "capital_adequacy_ratio",
+        50.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significant_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "capital_level_significant_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "financial_or_business_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe_insufficient_and_no_compliance",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_severe_insufficient_and_no_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_severe_insufficient",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "capital_increase_completed",
+              true
+            ],
+            [
+              "EQ",
+              "financial_or_business_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "merger_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_trigger_severe",
+    "desc": "資本嚴重不足且未完成增資、改善計畫或合併，應於期限屆滿次日起九十日內為接管、勒令停業清理或命令解散處分",
+    "expr": [
+      "EQ",
+      "penalty_trigger_severe",
+      [
+        "EQ",
+        "capital_level_severe_insufficient_and_no_compliance",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_trigger_significant_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞，且未提出核定改善計畫或改善未果",
+    "expr": [
+      "EQ",
+      "penalty_trigger_significant_deterioration",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_significant_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "improvement_plan_submitted_and_approved",
+              true
+            ],
+            [
+              "EQ",
+              "improvement_plan_executed_and_effective",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反資本嚴重不足未完成增資或改善計畫，或財務顯著惡化未提出或未改善計畫時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_trigger_severe",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_trigger_significant_deterioration",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:investment_limit_financial_bonds",
+    "desc": "金融債券等投資總額不得超過資金35%",
+    "expr": [
+      "EQ",
+      "investment_limit_financial_bonds",
+      [
+        "LE",
+        "financial_bonds_investment_amount",
+        [
+          "MUL",
+          "total_funds",
+          0.35
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_stock_per_company",
+    "desc": "每一公司股票投資總額不得超過資金5%",
+    "expr": [
+      "EQ",
+      "investment_limit_stock_per_company",
+      [
+        "LE",
+        "stock_investment_per_company",
+        [
+          "MUL",
+          "total_funds",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_stock_per_company_shares",
+    "desc": "每一公司股票投資總額不得超過該公司已發行股份總數10%",
+    "expr": [
+      "EQ",
+      "investment_limit_stock_per_company_shares",
+      [
+        "LE",
+        "stock_investment_per_company",
+        [
+          "MUL",
+          "company_issued_shares_total",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_bonds_per_company",
+    "desc": "每一公司公司債及免保證商業本票投資總額不得超過資金5%",
+    "expr": [
+      "EQ",
+      "investment_limit_bonds_per_company",
+      [
+        "LE",
+        "bonds_and_commercial_paper_investment_per_company",
+        [
+          "MUL",
+          "total_funds",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_bonds_per_company_equity",
+    "desc": "每一公司公司債及免保證商業本票投資總額不得超過公司業主權益10%",
+    "expr": [
+      "EQ",
+      "investment_limit_bonds_per_company_equity",
+      [
+        "LE",
+        "bonds_and_commercial_paper_investment_per_company",
+        [
+          "MUL",
+          "company_equity",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_fund_total",
+    "desc": "證券投資信託基金及共同信託基金投資總額不得超過資金10%",
+    "expr": [
+      "EQ",
+      "investment_limit_fund_total",
+      [
+        "LE",
+        "fund_investment_total",
+        [
+          "MUL",
+          "total_funds",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_fund_per_issued",
+    "desc": "每一基金受益憑證投資總額不得超過該基金已發行受益憑證總額10%",
+    "expr": [
+      "EQ",
+      "investment_limit_fund_per_issued",
+      [
+        "LE",
+        "fund_investment_per_fund",
+        [
+          "MUL",
+          "fund_issued_beneficiary_certificates",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_securitized_and_others",
+    "desc": "證券化商品及其他經主管機關核准有價證券投資總額不得超過資金10%",
+    "expr": [
+      "EQ",
+      "investment_limit_securitized_and_others",
+      [
+        "LE",
+        "securitized_and_other_investment_total",
+        [
+          "MUL",
+          "total_funds",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_stock_and_bonds_combined",
+    "desc": "第三款及第四款投資總額合計不得超過資金35%",
+    "expr": [
+      "EQ",
+      "investment_limit_stock_and_bonds_combined",
+      [
+        "LE",
+        [
+          "ADD",
+          "stock_investment_total",
+          "bonds_and_commercial_paper_investment_total"
+        ],
+        [
+          "MUL",
+          "total_funds",
+          0.35
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_prohibited_conditions",
+    "desc": "不得以保險業或代表人擔任被投資公司董事、監察人、行使表決權、指派經理人、擔任信託監察人或參與經營",
+    "expr": [
+      "EQ",
+      "investment_prohibited_conditions",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_or_representative_is_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "exercise_voting_rights_for_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "appoint_person_as_manager",
+            true
+          ],
+          [
+            "EQ",
+            "serve_as_trust_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "participate_in_management_agreement_or_authorization",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_prohibited_conditions_invalidity",
+    "desc": "有禁止情事者，該行為無效",
+    "expr": [
+      "EQ",
+      "investment_prohibited_conditions_invalidity",
+      [
+        "OR",
+        [
+          "EQ",
+          "insurance_or_representative_is_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "exercise_voting_rights_for_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "appoint_person_as_manager",
+          true
+        ],
+        [
+          "EQ",
+          "serve_as_trust_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "participate_in_management_agreement_or_authorization",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_limit",
+    "desc": "國外投資總額不得超過資金45%",
+    "expr": [
+      "EQ",
+      "foreign_investment_limit",
+      [
+        "LE",
+        "foreign_investment_total",
+        [
+          "MUL",
+          "total_funds",
+          0.45
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_exclusions",
+    "desc": "國外投資限額不計入特定核准項目金額",
+    "expr": [
+      "EQ",
+      "foreign_investment_exclusions",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_investment_exclusion_approved_non_investment_life_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_exclusion_foreign_currency_securities",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_exclusion_approved_foreign_insurance_related_investment",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_exclusion_other_approved_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

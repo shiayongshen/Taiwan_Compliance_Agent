@@ -1,0 +1,227 @@
+[
+  {
+    "id": "insurance:violation_163_4_7_165_1_163_5",
+    "desc": "違反保險法第163條第4項財務或業務管理規定、第7項規定，或違反第165條第1項及第163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_163_4_7_165_1_163_5",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1_or_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_rule_49_violation",
+    "desc": "違反保險經紀人管理規則第49條任一款規定",
+    "expr": [
+      "EQ",
+      "broker_rule_49_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "rule_49_1_false_report",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_2_contract_without_approval",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_3_hide_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_4_force_or_induce_unfair_contract",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_5_false_or_misleading_promotion",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_6_improper_induce_policyholder",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_7_misappropriate_insurance_funds",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_8_unauthorized_use_license",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_9_convicted_fraud_or_forgery",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_10_operate_outside_license_scope",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_11_illegal_fee_or_commission",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_12_illegal_insurance_payment",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_13_spread_false_info_disturb_financial_order",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_14_authorize_others_to_operate",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_15_illegal_transfer_of_application_documents",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_16_employ_unqualified_recruiter",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_17_fail_to_cancel_license_in_time",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_18_unauthorized_suspend_or_terminate_business",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_19_fail_to_appoint_broker_after_resignation",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_20_fail_to_report_to_broker_association",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_21_use_unapproved_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_22_pay_commission_to_non_actual_recruiter",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_23_fail_to_confirm_suitability_for_seniors",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_24_sell_unapproved_foreign_policy_discount_certificates",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_25_false_or_incomplete_business_or_financial_reports",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_26_conflict_of_interest_positions",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_27_induce_contract_termination_or_loan_payment",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_28_fail_to_fill_recruitment_report_truthfully",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_29_other_violations_of_rules_or_laws",
+          true
+        ],
+        [
+          "EQ",
+          "rule_49_30_other_actions_damaging_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反保險法第163條相關規定或保險經紀人管理規則第49條任一款規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_163_4_7_165_1_163_5",
+          true
+        ],
+        [
+          "EQ",
+          "broker_rule_49_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

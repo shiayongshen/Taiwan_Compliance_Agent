@@ -1,0 +1,281 @@
+[
+  {
+    "id": "fhc:has_violation",
+    "desc": "金融控股公司有違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "has_violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:correction_ordered",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "EQ",
+        "correction_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_action_case",
+    "desc": "主管機關依情節輕重可採取之處分類型",
+    "expr": [
+      "EQ",
+      "penalty_action",
+      [
+        "CASE",
+        [
+          "EQ",
+          "penalty_action_1",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "penalty_action_2",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "penalty_action_3",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "penalty_action_4",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "penalty_action_5",
+          true
+        ],
+        5,
+        [
+          "EQ",
+          "penalty_action_6",
+          true
+        ],
+        6,
+        [
+          "EQ",
+          "penalty_action_7",
+          true
+        ],
+        7,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:notify_moe_on_dismissal",
+    "desc": "依第四款解除董事、監察人職務時，主管機關通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "notify_moe_on_dismissal",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_action_4",
+          true
+        ],
+        [
+          "EQ",
+          "notify_moe_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:disposal_requirement_after_license_revocation",
+    "desc": "廢止許可後，金融控股公司須於期限內處分子公司股份及董事人數至不符規定",
+    "expr": [
+      "EQ",
+      "disposal_requirement_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_action_6",
+          true
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "held_voting_shares",
+              "total_issued_voting_shares"
+            ],
+            100.0
+          ],
+          25.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "held_capital_amount",
+              "total_capital_amount"
+            ],
+            100.0
+          ],
+          25.0
+        ],
+        [
+          "LE",
+          "appointed_directors_count",
+          0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:prohibition_of_fhc_name_use_after_revocation",
+    "desc": "廢止許可後，禁止使用金融控股公司名稱及辦理公司變更登記",
+    "expr": [
+      "EQ",
+      "fhc_name_use_prohibited",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_action_6",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_name_use_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:mandatory_dissolution_if_disposal_not_completed",
+    "desc": "未於期限內完成處分者，應進行解散及清算",
+    "expr": [
+      "EQ",
+      "mandatory_dissolution",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_action_6",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disposal_requirement_met",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：有違反且未依規定完成處分或未停止使用名稱等情況時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "has_violation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "correction_ordered",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_action_6",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "disposal_requirement_met",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_action_6",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "fhc_name_use_prohibited",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

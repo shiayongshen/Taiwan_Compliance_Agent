@@ -1,0 +1,464 @@
+[
+  {
+    "id": "trust:violation_penalty",
+    "desc": "違反信託業法或授權命令中強制或禁止規定者處罰",
+    "expr": [
+      "EQ",
+      "trust:violation_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "trust:compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:contract_disclosure_ok",
+    "desc": "信託契約載明營運範圍、受益權轉讓限制及風險揭露並告知委託人",
+    "expr": [
+      "EQ",
+      "trust:contract_disclosure_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "operation_scope_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_transfer_limit_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "risk_disclosure_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "client_informed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "aml:internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:anti_money_laundering_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml:regular_training_held",
+          true
+        ],
+        [
+          "EQ",
+          "aml:dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "aml:risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "aml:audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml:other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "aml:internal_control_executed",
+      [
+        "EQ",
+        "aml:internal_control_implementation_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "aml:internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml:internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:improvement_ordered",
+    "desc": "主管機關限期令其改善",
+    "expr": [
+      "EQ",
+      "aml:improvement_ordered",
+      [
+        "EQ",
+        "aml:improvement_order_issued",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:improvement_completed",
+    "desc": "限期改善已完成",
+    "expr": [
+      "EQ",
+      "aml:improvement_completed",
+      [
+        "EQ",
+        "aml:improvement_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_condition_violation",
+    "desc": "違反洗錢防制法第7條規定未建立或未依規定執行制度",
+    "expr": [
+      "EQ",
+      "aml:penalty_condition_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml:internal_control_established",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:improvement_ordered",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_condition_obstruction",
+    "desc": "規避、拒絕或妨礙查核",
+    "expr": [
+      "EQ",
+      "aml:penalty_condition_obstruction",
+      [
+        "EQ",
+        "aml:inspection_obstructed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "financial_consumer:advertising_violation",
+    "desc": "違反廣告、業務招攬、營業促銷活動方式或內容規定",
+    "expr": [
+      "EQ",
+      "financial_consumer:advertising_violation",
+      [
+        "EQ",
+        "advertising_rule_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:consumer_info_violation",
+    "desc": "未充分瞭解金融消費者資料或違反適合度考量事項規定",
+    "expr": [
+      "EQ",
+      "financial_consumer:consumer_info_violation",
+      [
+        "EQ",
+        "consumer_info_rule_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:disclosure_violation",
+    "desc": "未充分說明金融商品重要內容或違反說明揭露方式規定",
+    "expr": [
+      "EQ",
+      "financial_consumer:disclosure_violation",
+      [
+        "EQ",
+        "disclosure_rule_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:remuneration_violation",
+    "desc": "未訂定或未依主管機關核定原則訂定酬金制度或未確實執行",
+    "expr": [
+      "EQ",
+      "financial_consumer:remuneration_violation",
+      [
+        "EQ",
+        "remuneration_rule_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:formal_condition_violation",
+    "desc": "協助自然人或法人創造形式上外觀條件不符規定",
+    "expr": [
+      "EQ",
+      "financial_consumer:formal_condition_violation",
+      [
+        "EQ",
+        "formal_condition_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:serious_violation",
+    "desc": "違反前二項情形且情節重大",
+    "expr": [
+      "EQ",
+      "financial_consumer:serious_violation",
+      [
+        "EQ",
+        "serious_violation_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:penalty_condition",
+    "desc": "金融服務業違反相關規定處罰條件",
+    "expr": [
+      "EQ",
+      "financial_consumer:penalty_condition",
+      [
+        "OR",
+        [
+          "EQ",
+          "financial_consumer:advertising_violation",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer:consumer_info_violation",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer:disclosure_violation",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer:remuneration_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:penalty_condition_with_serious",
+    "desc": "金融服務業違反規定且情節重大加重處罰",
+    "expr": [
+      "EQ",
+      "financial_consumer:penalty_condition_with_serious",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_consumer:penalty_condition",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer:serious_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:consumer_info_understood",
+    "desc": "充分瞭解金融消費者相關資料以確保適合度",
+    "expr": [
+      "EQ",
+      "financial_consumer:consumer_info_understood",
+      [
+        "EQ",
+        "consumer_info_understood",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "trust:violation_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "aml:penalty_condition_violation",
+            true
+          ],
+          [
+            "EQ",
+            "aml:penalty_condition_obstruction",
+            true
+          ],
+          [
+            "EQ",
+            "financial_consumer:penalty_condition",
+            true
+          ],
+          [
+            "EQ",
+            "financial_consumer:formal_condition_violation",
+            true
+          ]
+        ]
+      ],
+      [
+        "EQ",
+        "penalty",
+        false
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反信託業法、洗錢防制法或金融消費者保護法相關規定時處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "OR",
+        [
+          "EQ",
+          "trust:violation_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "aml:penalty_condition_violation",
+          true
+        ],
+        [
+          "EQ",
+          "aml:penalty_condition_obstruction",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer:penalty_condition",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer:formal_condition_violation",
+          true
+        ]
+      ],
+      [
+        "EQ",
+        "penalty",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

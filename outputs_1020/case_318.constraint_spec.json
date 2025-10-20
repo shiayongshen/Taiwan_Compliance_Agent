@@ -1,0 +1,273 @@
+[
+  {
+    "id": "bank:violation_of_law_or_regulation",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_regulation",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:corrective_action_ordered",
+    "desc": "主管機關已予以糾正並命其限期改善",
+    "expr": [
+      "EQ",
+      "corrective_action_ordered",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measures",
+    "desc": "主管機關依情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "revocation_of_statutory_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspension_of_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "investment_restriction",
+          true
+        ],
+        [
+          "EQ",
+          "order_or_prohibition_of_asset_disposition",
+          true
+        ],
+        [
+          "EQ",
+          "order_to_close_branches_or_departments",
+          true
+        ],
+        [
+          "EQ",
+          "order_to_remove_or_suspend_managers_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "removal_or_suspension_of_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "order_to_provision_reserve_funds",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:removal_notification_done",
+    "desc": "解除董事、監察人職務時已通知公司登記主管機關撤銷或廢止其登記",
+    "expr": [
+      "EQ",
+      "removal_notification_done",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_needed",
+    "desc": "為改善營運缺失有業務輔導之必要",
+    "expr": [
+      "EQ",
+      "business_guidance_needed",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_assigned",
+    "desc": "主管機關已指定機構辦理業務輔導",
+    "expr": [
+      "EQ",
+      "business_guidance_assigned",
+      true
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "ticket_finance:violation_of_law_or_regulation",
+    "desc": "票券金融公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "ticket_finance_violation_of_law_or_regulation",
+      true
+    ],
+    "weight": 1,
+    "domain": "ticket_finance"
+  },
+  {
+    "id": "ticket_finance:penalty_measures",
+    "desc": "主管機關依銀行法第61-1條規定採取處分措施",
+    "expr": [
+      "EQ",
+      "ticket_finance_penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "ticket_finance_revocation_of_statutory_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_suspension_of_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_investment_restriction",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_order_or_prohibition_of_asset_disposition",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_order_to_close_branches_or_departments",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_order_to_remove_or_suspend_managers_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_removal_or_suspension_of_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_order_to_provision_reserve_funds",
+          true
+        ],
+        [
+          "EQ",
+          "ticket_finance_other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "ticket_finance"
+  },
+  {
+    "id": "ticket_finance:removal_notification_done",
+    "desc": "解除董事、監察人職務時已通知公司登記主管機關撤銷或廢止其登記",
+    "expr": [
+      "EQ",
+      "ticket_finance_removal_notification_done",
+      true
+    ],
+    "weight": 1,
+    "domain": "ticket_finance"
+  },
+  {
+    "id": "ticket_finance:business_guidance_needed",
+    "desc": "為改善營運缺失有業務輔導之必要",
+    "expr": [
+      "EQ",
+      "ticket_finance_business_guidance_needed",
+      true
+    ],
+    "weight": 1,
+    "domain": "ticket_finance"
+  },
+  {
+    "id": "ticket_finance:business_guidance_assigned",
+    "desc": "主管機關已指定機構辦理業務輔導",
+    "expr": [
+      "EQ",
+      "ticket_finance_business_guidance_assigned",
+      true
+    ],
+    "weight": 1,
+    "domain": "ticket_finance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：銀行或票券金融公司違反法令章程且未採取主管機關處分措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_of_law_or_regulation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalty_measures",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "ticket_finance_violation_of_law_or_regulation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "ticket_finance_penalty_measures",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

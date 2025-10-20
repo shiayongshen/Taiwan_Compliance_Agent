@@ -1,0 +1,367 @@
+[
+  {
+    "id": "bank:industrial_bank_definition",
+    "desc": "工業銀行定義及主要業務",
+    "expr": [
+      "EQ",
+      "industrial_bank_definition",
+      [
+        "AND",
+        [
+          "EQ",
+          "is_industrial_bank",
+          true
+        ],
+        [
+          "EQ",
+          "main_business_is_mid_long_term_credit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_investment_scope",
+    "desc": "工業銀行得投資生產事業，範圍由主管機關定之",
+    "expr": [
+      "EQ",
+      "industrial_bank_investment_scope",
+      [
+        "EQ",
+        "investment_in_production_business_allowed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_deposit_limit",
+    "desc": "工業銀行收受存款限於投資、授信之公司組織客戶、依法設立之保險業、財團法人及政府機關",
+    "expr": [
+      "EQ",
+      "industrial_bank_deposit_limit",
+      [
+        "AND",
+        [
+          "EQ",
+          "deposit_from_invested_or_credited_companies",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_legal_insurance_industries",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_foundations",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_government_agencies",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_regulation_compliance",
+    "desc": "工業銀行設立標準及授信、投資、收受存款、發行金融債券範圍限制由主管機關定之",
+    "expr": [
+      "EQ",
+      "industrial_bank_regulation_compliance",
+      [
+        "EQ",
+        "compliance_with_regulations_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_penalty_130",
+    "desc": "違反銀行法第130條規定之處罰條件",
+    "expr": [
+      "EQ",
+      "violation_penalty_130",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_central_bank_loan_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_72_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_74_or_related_investment",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_74_1_75_or_related_investment",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_76_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_91_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_109_or_related_fund_usage",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_111_or_related",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_securities_types",
+    "desc": "工業銀行得投資境內及境外有價證券種類",
+    "expr": [
+      "EQ",
+      "investment_securities_types",
+      [
+        "AND",
+        [
+          "EQ",
+          "can_invest_government_bonds",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_short_term_notes",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_financial_and_corporate_bonds",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_stocks_in_centralized_or_otc_markets",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_fund_certificates_and_warrants",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_central_bank_cds_and_savings_bonds",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_beneficiary_and_asset_backed_securities",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_international_or_regional_financial_org_bonds",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_trust_funds_under_trust_law",
+          true
+        ],
+        [
+          "EQ",
+          "can_invest_other_approved_securities",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:excluded_stocks_in_investment",
+    "desc": "第四款股票不包括變更交易方法有價證券及櫃檯買賣管理股票",
+    "expr": [
+      "EQ",
+      "excluded_stocks_in_investment",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "stocks_with_changed_trading_method",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "stocks_under_otc_management",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_central_bank_loan_regulations",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_72_or_related",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_74_or_related_investment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_74_1_75_or_related_investment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_76_or_related",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_91_or_related",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_109_or_related_fund_usage",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violate_article_111_or_related",
+            true
+          ]
+        ]
+      ],
+      [
+        "EQ",
+        "penalty",
+        false
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法第130條任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_central_bank_loan_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_72_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_74_or_related_investment",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_74_1_75_or_related_investment",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_76_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_91_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_109_or_related_fund_usage",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_111_or_related",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

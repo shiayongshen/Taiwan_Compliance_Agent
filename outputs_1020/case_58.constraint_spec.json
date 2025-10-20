@@ -1,0 +1,831 @@
+[
+  {
+    "id": "securities_investment_advisory:business_types_approved",
+    "desc": "證券投資顧問事業經營之業務種類應報請主管機關核准",
+    "expr": [
+      "EQ",
+      "business_types_approved",
+      [
+        "EQ",
+        "business_types_reported_to_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:stop_business_application_limit",
+    "desc": "停業申請以一次為限，停業期間自核准日起不得超過一年",
+    "expr": [
+      "EQ",
+      "stop_business_application_limit_ok",
+      [
+        "AND",
+        [
+          "LE",
+          "stop_business_application_count",
+          1
+        ],
+        [
+          "LE",
+          "stop_business_period_months",
+          12
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:business_license_expiry_due_to_no_recovery",
+    "desc": "停業屆期未申請復業或申請復業未獲核准，廢止營業許可",
+    "expr": [
+      "EQ",
+      "business_license_expiry_due_to_no_recovery",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "stop_business_period_expired",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "recovery_application_submitted",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "recovery_application_submitted",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "recovery_application_approved",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:unauthorized_stop_business_over_3_months",
+    "desc": "未依規定申請停業而自行停業連續三個月以上，廢止營業許可",
+    "expr": [
+      "EQ",
+      "unauthorized_stop_business_over_3_months",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "stop_business_application_submitted",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "unauthorized_stop_business_months",
+          3
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:fund_usage_limit",
+    "desc": "資金運用限於法定用途",
+    "expr": [
+      "EQ",
+      "fund_usage_limit_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "fund_usage_domestic_bank_deposit",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_government_bonds",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_treasury_bills_or_commercial_papers",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_approved_securities_investment_trust_funds",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_other_approved_uses",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:prohibited_fund_usage",
+    "desc": "資金不得貸與他人、購置非營業用不動產或移作他項用途，且不得為保證、背書或提供擔保，除非經核准",
+    "expr": [
+      "EQ",
+      "prohibited_fund_usage_ok",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_loan_to_others",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_purchase_non_operating_real_estate",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_used_for_other_purposes",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "guarantee_or_endorsement_or_collateral_provided",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "guarantee_or_endorsement_or_collateral_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:personnel_registration_and_exclusivity",
+    "desc": "總經理、部門主管、分支機構經理人及業務人員應專任且執行前須登錄，非登錄不得執行業務",
+    "expr": [
+      "EQ",
+      "personnel_registration_and_exclusivity_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "personnel_exclusive",
+          true
+        ],
+        [
+          "EQ",
+          "personnel_registered_before_execution",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:personnel_registration_prohibition",
+    "desc": "有法定禁止情事者不得登錄，已登錄者應撤銷",
+    "expr": [
+      "EQ",
+      "personnel_registration_prohibition_ok",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "personnel_has_prohibited_condition_68",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "personnel_meets_qualification",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "personnel_violated_rule_7",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:company_establishment_registration_within_6_months",
+    "desc": "證券投資顧問事業應於許可日起六個月內完成公司設立登記",
+    "expr": [
+      "EQ",
+      "company_establishment_registration_within_6_months",
+      [
+        "LE",
+        "months_since_license_issued",
+        6
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:business_license_application_documents_complete",
+    "desc": "申請核發營業執照應檢具法定文件",
+    "expr": [
+      "EQ",
+      "business_license_application_documents_complete",
+      [
+        "AND",
+        [
+          "EQ",
+          "company_registration_certificate_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "company_articles_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "business_rules_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "shareholders_list_and_minutes_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "directors_list_and_minutes_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "supervisors_list_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "qualified_personnel_list_and_certificates_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "exclusive_employment_declaration_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "no_prohibited_personnel_declaration_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "business_premises_documents_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "business_premises_independent_declaration_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "business_deposit_certificate_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "association_membership_certificate_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "application_and_attachments_truthful_declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:business_rules_content",
+    "desc": "業務章則應載明經營原則、作業手續、權責劃分、紛爭處理、人員教育訓練及管理事項",
+    "expr": [
+      "EQ",
+      "business_rules_content_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_rules_include_principles",
+          true
+        ],
+        [
+          "EQ",
+          "business_rules_include_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "business_rules_include_responsibilities",
+          true
+        ],
+        [
+          "EQ",
+          "business_rules_include_dispute_handling",
+          true
+        ],
+        [
+          "EQ",
+          "business_rules_include_training_and_management",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:membership_requirement",
+    "desc": "非加入同業公會不得開業",
+    "expr": [
+      "EQ",
+      "membership_requirement_ok",
+      [
+        "EQ",
+        "joined_trade_association",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:client_investment_knowledge_assessment",
+    "desc": "接受客戶委任應充分知悉並評估客戶投資知識、經驗、財務狀況及風險承受度",
+    "expr": [
+      "EQ",
+      "client_investment_knowledge_assessed",
+      [
+        "EQ",
+        "client_investment_knowledge_evaluated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:written_contract_required",
+    "desc": "提供分析意見或推介建議時應訂定書面證券投資顧問契約",
+    "expr": [
+      "EQ",
+      "written_contract_required",
+      [
+        "EQ",
+        "written_contract_signed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:contract_mandatory_contents",
+    "desc": "證券投資顧問契約應載明法定事項",
+    "expr": [
+      "EQ",
+      "contract_mandatory_contents_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_party_names_and_addresses_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_rights_obligations_and_liabilities_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_scope_of_advice_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_service_methods_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_fees_and_payment_methods_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_confidentiality_clause_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_prohibition_of_disclosure_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_prohibition_of_fund_receipt_and_profit_sharing_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_modification_and_termination_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_effective_date_and_duration_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_client_7_day_termination_right_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_refund_ratio_and_method_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_dispute_resolution_and_jurisdiction_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_other_mandatory_items_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:contract_termination_compensation_limit",
+    "desc": "契約終止時得請求終止前所提供服務之相當報酬，但不得請求損害賠償或違約金",
+    "expr": [
+      "EQ",
+      "contract_termination_compensation_limit_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "compensation_for_services_before_termination_allowed",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compensation_for_termination_damage_or_penalty_allowed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:investment_asset_diversification_compliance",
+    "desc": "委託投資資產分散投資及投資標的分散比率符合規定",
+    "expr": [
+      "EQ",
+      "investment_asset_diversification_compliant",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "investment_in_any_company_stock_bonds_warrants",
+              "net_asset_value_of_fiduciary_account"
+            ],
+            100.0
+          ],
+          20.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "investment_in_any_company_bonds_or_financial_bonds",
+              "net_asset_value_of_fiduciary_account"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "investment_in_trust_beneficiary_certificates_and_asset_backed_securities",
+              "net_asset_value_of_fiduciary_account"
+            ],
+            100.0
+          ],
+          20.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:investment_asset_exceptions",
+    "desc": "特定投資標的除外於分散比率限制",
+    "expr": [
+      "EQ",
+      "investment_asset_exceptions_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_asset_exceptions_agreed_in_contract",
+          true
+        ],
+        [
+          "EQ",
+          "investment_asset_exceptions_specified_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_investment_advisory"
+  },
+  {
+    "id": "securities_investment_advisory:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "securities_investment_advisory:penalty_conditions",
+    "desc": "處罰條件：違反業務種類核准、停業申請限制、停業復業規定、資金運用限制、人員登錄及專任、公司設立登記期限、營業執照申請文件、業務章則內容、同業公會加入、書面契約及契約內容、委託投資資產分散投資等規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_types_approved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "stop_business_application_limit_ok",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "business_license_expiry_due_to_no_recovery",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_stop_business_over_3_months",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_usage_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_fund_usage_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_registration_and_exclusivity_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_registration_prohibition_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "company_establishment_registration_within_6_months",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_license_application_documents_complete",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_rules_content_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "membership_requirement_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "client_investment_knowledge_assessed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "written_contract_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_mandatory_contents_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_termination_compensation_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_asset_diversification_compliant",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_asset_exceptions_ok",
+              true
+            ]
+          ],
+          [
+            "OR",
+            [
+              "GT",
+              [
+                "MUL",
+                [
+                  "DIV",
+                  "investment_in_any_company_stock_bonds_warrants",
+                  "net_asset_value_of_fiduciary_account"
+                ],
+                100.0
+              ],
+              20.0
+            ],
+            [
+              "GT",
+              [
+                "MUL",
+                [
+                  "DIV",
+                  "investment_in_any_company_bonds_or_financial_bonds",
+                  "net_asset_value_of_fiduciary_account"
+                ],
+                100.0
+              ],
+              10.0
+            ],
+            [
+              "GT",
+              [
+                "MUL",
+                [
+                  "DIV",
+                  "investment_in_trust_beneficiary_certificates_and_asset_backed_securities",
+                  "net_asset_value_of_fiduciary_account"
+                ],
+                100.0
+              ],
+              20.0
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,521 @@
+[
+  {
+    "id": "insurance:agent_broker_officer_violation",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營",
+    "expr": [
+      "EQ",
+      "agent_broker_officer_violation",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_measures",
+    "desc": "主管機關可採取限制經營、解除職務、停止職務或其他處置",
+    "expr": [
+      "EQ",
+      "penalty_measures_allowed",
+      [
+        "EQ",
+        "agent_broker_officer_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rule_violation",
+    "desc": "違反財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "management_rule_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rule_penalty",
+    "desc": "違反管理規則應限期改正或處罰，情節重大者廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "management_rule_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "management_rule_violation",
+          true
+        ],
+        [
+          "EQ",
+          "serious_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_violation",
+    "desc": "未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序",
+    "expr": [
+      "EQ",
+      "internal_control_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_penalty",
+    "desc": "未建立或未確實執行內部控制等制度應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "internal_control_penalty",
+      [
+        "EQ",
+        "internal_control_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "privacy:personal_data_collection_notice_required",
+    "desc": "蒐集個人資料時應明確告知當事人事項",
+    "expr": [
+      "EQ",
+      "personal_data_collection_notice_required",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "exempt_by_law",
+            true
+          ],
+          [
+            "EQ",
+            "collection_for_statutory_duty",
+            true
+          ],
+          [
+            "EQ",
+            "notice_hinders_statutory_duty",
+            true
+          ],
+          [
+            "EQ",
+            "notice_hinders_public_interest",
+            true
+          ],
+          [
+            "EQ",
+            "subject_already_knows_notice",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "collection_not_for_profit",
+              true
+            ],
+            [
+              "EQ",
+              "no_adverse_effect",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:personal_data_collection_notice_provided",
+    "desc": "已明確告知當事人蒐集個人資料相關事項",
+    "expr": [
+      "EQ",
+      "personal_data_collection_notice_provided",
+      [
+        "AND",
+        [
+          "EQ",
+          "agency_name_notified",
+          true
+        ],
+        [
+          "EQ",
+          "collection_purpose_notified",
+          true
+        ],
+        [
+          "EQ",
+          "data_category_notified",
+          true
+        ],
+        [
+          "EQ",
+          "usage_period_region_object_method_notified",
+          true
+        ],
+        [
+          "EQ",
+          "rights_and_methods_notified",
+          true
+        ],
+        [
+          "EQ",
+          "voluntary_provision_notice_notified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:personal_data_collection_notice_compliance",
+    "desc": "蒐集個人資料時符合告知義務",
+    "expr": [
+      "EQ",
+      "personal_data_collection_notice_compliance",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_data_collection_notice_required",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "personal_data_collection_notice_provided",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:non_public_agency_security_measures",
+    "desc": "非公務機關採行適當安全措施防止個資被竊取、竄改、毀損、滅失或洩漏",
+    "expr": [
+      "EQ",
+      "non_public_agency_security_measures",
+      [
+        "EQ",
+        "security_measures_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:non_public_agency_security_plan_established",
+    "desc": "非公務機關訂定個人資料檔案安全維護計畫及業務終止後資料處理方法",
+    "expr": [
+      "EQ",
+      "non_public_agency_security_plan_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "security_plan_established",
+          true
+        ],
+        [
+          "EQ",
+          "post_termination_data_handling_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:non_public_agency_security_compliance",
+    "desc": "非公務機關符合安全措施及計畫要求",
+    "expr": [
+      "EQ",
+      "non_public_agency_security_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_public_agency_security_measures",
+          true
+        ],
+        [
+          "EQ",
+          "non_public_agency_security_plan_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:non_public_agency_violation_8_9_10_11_12_13_20",
+    "desc": "非公務機關違反個資法第8、9、10、11、12、13、20條規定",
+    "expr": [
+      "EQ",
+      "non_public_agency_violation_8_9_10_11_12_13_20",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_8",
+          true
+        ],
+        [
+          "EQ",
+          "violate_9",
+          true
+        ],
+        [
+          "EQ",
+          "violate_10",
+          true
+        ],
+        [
+          "EQ",
+          "violate_11",
+          true
+        ],
+        [
+          "EQ",
+          "violate_12",
+          true
+        ],
+        [
+          "EQ",
+          "violate_13",
+          true
+        ],
+        [
+          "EQ",
+          "violate_20_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_20_3",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:non_public_agency_violation_27",
+    "desc": "非公務機關違反第27條第一項或未依第二項訂定安全維護計畫或處理方法",
+    "expr": [
+      "EQ",
+      "non_public_agency_violation_27",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "security_measures_implemented",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "security_plan_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "post_termination_data_handling_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:non_public_agency_violation_penalty",
+    "desc": "非公務機關違反規定應限期改正，未改正者處罰",
+    "expr": [
+      "EQ",
+      "non_public_agency_violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "non_public_agency_violation_8_9_10_11_12_13_20",
+          true
+        ],
+        [
+          "EQ",
+          "non_public_agency_violation_27",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法或個資法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "agent_broker_officer_violation",
+          true
+        ],
+        [
+          "EQ",
+          "management_rule_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_penalty",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_data_collection_notice_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_public_agency_security_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "non_public_agency_violation_penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

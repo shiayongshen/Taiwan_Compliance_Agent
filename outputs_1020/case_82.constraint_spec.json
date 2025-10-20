@@ -1,0 +1,620 @@
+[
+  {
+    "id": "insurance:fixed_business_location",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所",
+    "expr": [
+      "EQ",
+      "fixed_business_location",
+      [
+        "EQ",
+        "has_fixed_business_location",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:dedicated_account_book",
+    "desc": "保險代理人、經紀人、公證人應專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "dedicated_account_book",
+      [
+        "EQ",
+        "has_dedicated_account_book",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_only",
+    "desc": "兼有保險代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_only",
+      [
+        "EQ",
+        "has_single_license_only",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
+    "desc": "公開發行或具一定規模之保險代理人公司、經紀人公司應建立內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_required",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "GE",
+            "annual_revenue",
+            200000000.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "公開發行或具一定規模之保險代理人公司、經紀人公司應確實執行內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "GE",
+            "annual_revenue",
+            200000000.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_executed_flag",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_executed_flag",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_executed_flag",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "符合內部控制、稽核制度與招攬處理制度及程序建立與執行要求",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_required",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed_flag",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed_flag",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_executed_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_violation",
+    "desc": "違反內部控制、稽核制度或招攬處理制度建立或執行規定",
+    "expr": [
+      "EQ",
+      "internal_control_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed_flag",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed_flag",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_executed_flag",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_approval_internal_control",
+    "desc": "內部控制、稽核制度與招攬處理制度及程序應經董（理）事會通過",
+    "expr": [
+      "EQ",
+      "board_approval_internal_control",
+      [
+        "EQ",
+        "board_approved_internal_control",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_opposition_recorded",
+    "desc": "董（理）事會有保留或反對意見應記錄並送監察人或審計委員會",
+    "expr": [
+      "EQ",
+      "board_opposition_recorded",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "board_opposition_exists",
+          true
+        ],
+        [
+          "EQ",
+          "opposition_recorded_and_sent",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_approval",
+    "desc": "設置審計委員會者，內部控制、稽核制度與招攬處理制度及程序應經審計委員會半數以上同意並提董（理）事會決議",
+    "expr": [
+      "EQ",
+      "audit_committee_approval",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_exists",
+          true
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "audit_committee_approval_count",
+            [
+              "MUL",
+              [
+                "DIV",
+                "audit_committee_member_count",
+                2.0
+              ],
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "board_resolution_passed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_override",
+    "desc": "未經審計委員會同意者，得由全體董（理）事三分之二以上同意行之，並記錄決議",
+    "expr": [
+      "EQ",
+      "audit_committee_override",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "audit_committee_exists",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "audit_committee_approval",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_approval_count",
+            [
+              "MUL",
+              [
+                "DIV",
+                "board_member_count",
+                3.0
+              ],
+              2.0
+            ]
+          ],
+          [
+            "EQ",
+            "board_resolution_recorded",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_design_and_review",
+    "desc": "內部控制制度應依業務性質及規模訂定並適時檢討修訂",
+    "expr": [
+      "EQ",
+      "internal_control_design_and_review",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_defined_by_business_nature_and_scale",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_reviewed_and_revised",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_management_included",
+    "desc": "設置審計委員會者，內部控制制度應包括審計委員會議事運作管理",
+    "expr": [
+      "EQ",
+      "audit_committee_management_included",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_exists",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_includes_audit_committee_management",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_elements_compliance",
+    "desc": "年度營業收入達5億元者，內部控制制度應包括五大組成要素",
+    "expr": [
+      "EQ",
+      "internal_control_elements_compliance",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "annual_revenue",
+          500000000.0
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "control_environment_established",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_established",
+            true
+          ],
+          [
+            "EQ",
+            "control_activities_established",
+            true
+          ],
+          [
+            "EQ",
+            "information_and_communication_established",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_activities_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_principles_compliance",
+    "desc": "年度營業收入未達5億元者，內部控制制度應符合五項原則",
+    "expr": [
+      "EQ",
+      "internal_control_principles_compliance",
+      [
+        "IMPLIES",
+        [
+          "LT",
+          "annual_revenue",
+          500000000.0
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "management_supervision_and_control_culture",
+            true
+          ],
+          [
+            "EQ",
+            "risk_identification_and_assessment",
+            true
+          ],
+          [
+            "EQ",
+            "control_activities_and_segregation_of_duties",
+            true
+          ],
+          [
+            "EQ",
+            "information_and_communication",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_and_correction_of_deficiencies",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance_overall",
+    "desc": "已依規定辦理內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliance_overall",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "GE",
+            "annual_revenue",
+            500000000.0
+          ],
+          [
+            "EQ",
+            "internal_control_elements_compliance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "annual_revenue",
+            500000000.0
+          ],
+          [
+            "EQ",
+            "internal_control_principles_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、稽核制度或招攬處理制度建立或執行規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed_flag",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed_flag",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_executed_flag",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

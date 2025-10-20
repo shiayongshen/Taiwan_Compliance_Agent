@@ -1,0 +1,788 @@
+[
+  {
+    "id": "insurance:real_estate_investment_limit",
+    "desc": "不動產投資總額限制及自用不動產限制",
+    "expr": [
+      "EQ",
+      "real_estate_investment_limit",
+      [
+        "AND",
+        [
+          "EQ",
+          "real_estate_investment_in_use_and_income",
+          true
+        ],
+        [
+          "LE",
+          "real_estate_investment_total_excluding_self_use",
+          [
+            "MUL",
+            "capital_fund",
+            30.0
+          ]
+        ],
+        [
+          "LE",
+          "self_use_real_estate_total",
+          "owner_equity_total"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_valuation_required",
+    "desc": "不動產取得及處分須經合法鑑價機構評價",
+    "expr": [
+      "EQ",
+      "real_estate_valuation_required",
+      [
+        "EQ",
+        "real_estate_valuation_by_legal_institution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:social_housing_exemption",
+    "desc": "依住宅法興辦社會住宅且僅供租賃者，不受即時利用並有收益限制",
+    "expr": [
+      "EQ",
+      "social_housing_exemption",
+      [
+        "EQ",
+        "social_housing_only_for_rent",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_conditions",
+    "desc": "國外及大陸地區不動產投資條件限制",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_real_estate_legal_use_and_benefit",
+          true
+        ],
+        [
+          "GE",
+          "latest_capital_to_risk_capital_ratio",
+          "legal_standard"
+        ],
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "NOT",
+              [
+                "EQ",
+                "major_penalty_in_last_two_years",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "major_internal_control_violation_in_last_two_years",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_corrected_and_approved",
+              true
+            ]
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "board_has_risk_management_committee",
+            true
+          ],
+          [
+            "EQ",
+            "company_has_risk_management_department_and_officer",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_limit",
+    "desc": "國外及大陸地區不動產投資總額限制依資本比率分級",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_limit_level",
+      [
+        "CASE",
+        [
+          "GE",
+          "latest_capital_to_risk_capital_ratio",
+          1.5
+        ],
+        3,
+        [
+          "GE",
+          "latest_capital_to_risk_capital_ratio",
+          1.25
+        ],
+        2,
+        true,
+        1,
+        0.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_limit_amount",
+    "desc": "國外及大陸地區不動產投資總額限制數值",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_limit_amount",
+      [
+        "CASE",
+        [
+          "EQ",
+          "foreign_real_estate_investment_limit_level",
+          3
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "foreign_real_estate_investment_total",
+            [
+              "MUL",
+              "capital_fund",
+              3.0
+            ]
+          ],
+          [
+            "LE",
+            "foreign_real_estate_investment_total",
+            [
+              "MUL",
+              "owner_equity_total",
+              40.0
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "foreign_real_estate_investment_limit_level",
+          2
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "foreign_real_estate_investment_total",
+            [
+              "MUL",
+              "capital_fund",
+              2.5
+            ]
+          ],
+          [
+            "LE",
+            "foreign_real_estate_investment_total",
+            [
+              "MUL",
+              "owner_equity_total",
+              40.0
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "foreign_real_estate_investment_limit_level",
+          1
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "foreign_real_estate_investment_total",
+            [
+              "MUL",
+              "capital_fund",
+              1.0
+            ]
+          ],
+          [
+            "LE",
+            "foreign_real_estate_investment_total",
+            [
+              "MUL",
+              "owner_equity_total",
+              10.0
+            ]
+          ]
+        ],
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_legal_use_criteria",
+    "desc": "國外不動產合法利用認定標準（出租率≥60%且符合當地經濟環境投資報酬率）",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_legal_use_criteria",
+      [
+        "AND",
+        [
+          "GE",
+          "foreign_real_estate_rental_rate",
+          60.0
+        ],
+        [
+          "EQ",
+          "foreign_real_estate_meets_local_economic_return",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_approval_conditions",
+    "desc": "投資特定目的不動產投資事業或信託方式取得國外不動產董事會同意及備查條件",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_approval_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_rules_established_and_approved",
+          true
+        ],
+        [
+          "GE",
+          "latest_two_periods_capital_to_risk_capital_ratio",
+          1.25
+        ],
+        [
+          "EQ",
+          "board_has_risk_management_committee",
+          true
+        ],
+        [
+          "EQ",
+          "company_has_risk_management_department_and_officer",
+          true
+        ],
+        [
+          "GE",
+          "average_rental_rate_of_invested_properties",
+          80.0
+        ],
+        [
+          "EQ",
+          "investment_meets_local_economic_return",
+          true
+        ],
+        [
+          "EQ",
+          "has_other_properties_in_same_country_or_region",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_report_penalty",
+    "desc": "未依規定提報董事會或提報資料虛偽不實視為違反投資規範",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_report_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "foreign_real_estate_investment_approval_conditions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_to_special_purpose_real_estate_investment_company_conditions",
+    "desc": "貸款方式取得國外不動產貸款條件及董事會同意",
+    "expr": [
+      "EQ",
+      "loan_to_special_purpose_real_estate_investment_company_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "board_approval_2_3_attendance",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_3_4_votes",
+          true
+        ],
+        [
+          "LE",
+          "loan_interest_rate",
+          "local_similar_loan_interest_rate"
+        ],
+        [
+          "EQ",
+          "loan_conditions_meet_local_law",
+          true
+        ],
+        [
+          "EQ",
+          "loan_funds_used_for_real_estate_investment",
+          true
+        ],
+        [
+          "LE",
+          "loan_balance_to_special_purpose_company",
+          [
+            "MUL",
+            "owner_equity_total",
+            10.0
+          ]
+        ],
+        [
+          "LE",
+          "total_loan_balance_including_related_parties",
+          [
+            "MUL",
+            "owner_equity_total",
+            150.0
+          ]
+        ],
+        [
+          "LE",
+          "total_loan_balance_to_related_enterprises",
+          [
+            "MUL",
+            "owner_equity_total",
+            40.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_business_scope",
+    "desc": "特定目的不動產投資事業業務範圍及借貸限制",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_business_scope",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_scope_limited_to_real_estate_and_related_rights",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "borrowing_outside_loan_in_item_1",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "acting_as_guarantor_or_providing_collateral",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "funds_used_for_business_costs_or_deposits",
+          true
+        ],
+        [
+          "EQ",
+          "income_repatriated_after_audit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_reporting_and_approval",
+    "desc": "投資特定目的不動產投資事業應檢送書件及申請核准",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_reporting_and_approval",
+      [
+        "AND",
+        [
+          "EQ",
+          "operation_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_registration_info_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "capital_or_investment_stage_analysis_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_list_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "existing_investments_and_operation_status_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "legal_use_and_benefit_proof_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "loan_approval_and_decision_documents_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "other_documents_required_by_authority_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_permit",
+    "desc": "投資大陸地區特定目的不動產投資事業應申請經濟部許可",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_permit",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "investment_in_mainland_china",
+          true
+        ],
+        [
+          "EQ",
+          "permit_applied_to_ministry_of_economy",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_exemption",
+    "desc": "特定目的不動產投資事業不適用分支機構設立遷移及香港澳門分支機構子公司許可規定",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_exemption",
+      [
+        "EQ",
+        "exempt_from_branch_establishment_and_hk_mo_permit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_reporting_to_authority",
+    "desc": "年度終了後三個月內應檢具資料報主管機關備查",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_reporting_to_authority",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_audit_report_summary_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "audited_financial_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "operation_status_summary_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "other_documents_required_by_authority_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_audit_and_supervision",
+    "desc": "主管機關得對特定目的不動產投資事業進行查核並要求文件及說明",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_audit_and_supervision",
+      [
+        "EQ",
+        "authority_or_delegate_has_audit_and_document_request_right",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:special_purpose_real_estate_investment_company_internal_control",
+    "desc": "保險業對特定目的不動產投資事業應訂定控制作業及督促建立內部控制制度",
+    "expr": [
+      "EQ",
+      "special_purpose_real_estate_investment_company_internal_control",
+      [
+        "AND",
+        [
+          "EQ",
+          "organization_control_structure_established",
+          true
+        ],
+        [
+          "EQ",
+          "business_strategy_and_risk_management_policy_defined",
+          true
+        ],
+        [
+          "EQ",
+          "business_and_accounting_policy_and_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "supervision_and_management_of_major_financial_and_business_matters",
+          true
+        ],
+        [
+          "EQ",
+          "independent_financial_and_business_information_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "effective_communication_system_between_insurer_and_company",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_management_report_received_and_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "timely_provision_of_financial_and_business_information",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_unit_guidance_and_supervision",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_implementation_and_follow_up",
+          true
+        ],
+        [
+          "EQ",
+          "audit_plan_and_findings_reported_to_insurer",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_unit_review_and_follow_up",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_violation_penalty",
+    "desc": "違反不動產投資條件限制規定處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_investment_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_valuation_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_limit_amount",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_legal_use_criteria",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_approval_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_to_special_purpose_real_estate_investment_company_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_purpose_real_estate_investment_company_business_scope",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_purpose_real_estate_investment_company_reporting_and_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_purpose_real_estate_investment_company_permit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_purpose_real_estate_investment_company_reporting_to_authority",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_purpose_real_estate_investment_company_audit_and_supervision",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_purpose_real_estate_investment_company_internal_control",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

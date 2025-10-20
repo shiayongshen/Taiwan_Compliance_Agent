@@ -1,0 +1,163 @@
+[
+  {
+    "id": "cross_strait:business_direct_contact_permitted",
+    "desc": "經財政部許可，臺灣地區金融保險證券期貨機構及其境外分支機構得與大陸地區人民等有業務直接往來",
+    "expr": [
+      "EQ",
+      "business_direct_contact_permitted",
+      [
+        "EQ",
+        "financial_institution_permit_granted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "cross_strait:branch_establishment_permitted",
+    "desc": "臺灣地區金融保險證券期貨機構在大陸地區設立分支機構，應報經財政部許可",
+    "expr": [
+      "EQ",
+      "branch_establishment_permitted",
+      [
+        "EQ",
+        "branch_establishment_permit_granted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "cross_strait:investment_compliance",
+    "desc": "相關投資事項依規定辦理",
+    "expr": [
+      "EQ",
+      "investment_compliance",
+      [
+        "EQ",
+        "investment_handled_according_to_previous_article",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "cross_strait:restriction_order_approved",
+    "desc": "財政部報請行政院核定後，限制或禁止業務直接往來",
+    "expr": [
+      "EQ",
+      "restriction_order_approved",
+      [
+        "EQ",
+        "restriction_or_prohibition_order_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "cross_strait:business_direct_contact_allowed",
+    "desc": "是否允許業務直接往來（考慮限制或禁止命令）",
+    "expr": [
+      "EQ",
+      "business_direct_contact_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_direct_contact_permitted",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "restriction_order_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "cross_strait:violate_article_36_1_or_2",
+    "desc": "違反第三十六條第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_1_or_2",
+      [
+        "NOT",
+        [
+          "EQ",
+          "business_direct_contact_allowed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "cross_strait:violate_restriction_order",
+    "desc": "違反財政部依第三十六條第四項規定報請行政院核定之限制或禁止命令",
+    "expr": [
+      "EQ",
+      "violate_restriction_order",
+      [
+        "AND",
+        [
+          "EQ",
+          "restriction_order_approved",
+          true
+        ],
+        [
+          "EQ",
+          "violate_restriction_order_actual",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "cross_strait"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第三十六條第一項或第二項規定，或違反限制或禁止命令時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_36_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_restriction_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

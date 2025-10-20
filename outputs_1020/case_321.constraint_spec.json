@@ -1,0 +1,312 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            0.5
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            0.5
+          ],
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.5
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev1",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev1",
+            2.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev2",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev2",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.5
+          ],
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            2.0
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            2.0
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "net_worth_ratio_prev1",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio_prev2",
+              3.0
+            ]
+          ]
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate",
+    "desc": "資本適足條件",
+    "expr": [
+      "EQ",
+      "capital_adequate",
+      [
+        "AND",
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            100.0
+          ],
+          200.0
+        ],
+        [
+          "OR",
+          [
+            "GE",
+            "net_worth_ratio_prev1",
+            3.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev2",
+            3.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient",
+    "desc": "資本不足條件",
+    "expr": [
+      "EQ",
+      "capital_insufficient",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            150.0
+          ],
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            200.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "net_worth_ratio_prev1",
+            3.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev2",
+            3.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev1",
+            2.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient",
+    "desc": "資本顯著不足條件",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            50.0
+          ],
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            150.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "net_worth_ratio_prev1",
+            2.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev2",
+            2.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev1",
+            0.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

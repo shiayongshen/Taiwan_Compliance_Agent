@@ -1,0 +1,274 @@
+[
+  {
+    "id": "securities:violation",
+    "desc": "證券商違反證券交易法或依本法發布之命令",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "securities_law_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_warning",
+    "desc": "主管機關得警告違反者",
+    "expr": [
+      "EQ",
+      "penalty_warning",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "authority_imposes_warning",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_dismiss_officer",
+    "desc": "主管機關得命證券商解除董事、監察人或經理人職務",
+    "expr": [
+      "EQ",
+      "penalty_dismiss_officer",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "authority_orders_dismiss_officer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_suspension",
+    "desc": "主管機關得對公司或分支機構就其所營業務全部或一部停業六個月以內",
+    "expr": [
+      "EQ",
+      "penalty_suspension",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "authority_orders_suspension",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_revoke_license",
+    "desc": "主管機關得撤銷或廢止公司或分支機構營業許可",
+    "expr": [
+      "EQ",
+      "penalty_revoke_license",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "authority_orders_revoke_license",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_other_measures",
+    "desc": "主管機關得為其他必要之處置",
+    "expr": [
+      "EQ",
+      "penalty_other_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "authority_orders_other_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:underwriting_fair_and_reasonable",
+    "desc": "證券商承銷有價證券應以公平合理方式進行",
+    "expr": [
+      "EQ",
+      "underwriting_fair_and_reasonable",
+      [
+        "EQ",
+        "underwriting_method_fair_and_reasonable",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:underwriting_fee_no_other_compensation",
+    "desc": "承銷手續費不得以其他方式或名目補償或退還予發行人或其關係人或指定人",
+    "expr": [
+      "EQ",
+      "underwriting_fee_no_other_compensation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "underwriting_fee_compensated_by_other_means",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:underwriting_and_resale_follow_association_rules",
+    "desc": "承銷或再行銷售應依證券商同業公會訂定之處理辦法",
+    "expr": [
+      "EQ",
+      "underwriting_and_resale_follow_association_rules",
+      [
+        "EQ",
+        "follow_association_handling_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:association_rules_reported_to_authority",
+    "desc": "證券商同業公會訂定之處理辦法應函報本會核定",
+    "expr": [
+      "EQ",
+      "association_rules_reported_to_authority",
+      [
+        "EQ",
+        "association_rules_reported_and_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:stabilizing_operations_allowed",
+    "desc": "證券商辦理上市有價證券承銷或再行銷售得視必要進行安定操作交易",
+    "expr": [
+      "EQ",
+      "stabilizing_operations_allowed",
+      [
+        "EQ",
+        "stabilizing_operations_permitted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:stabilizing_operations_management_reported",
+    "desc": "安定操作交易管理辦法由證券交易所訂定並應函報本會核定",
+    "expr": [
+      "EQ",
+      "stabilizing_operations_management_reported",
+      [
+        "EQ",
+        "stabilizing_operations_management_reported_and_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：證券商違反證券交易法或命令時，主管機關得依情節輕重處分",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_warning",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_dismiss_officer",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_revoke_license",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_other_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

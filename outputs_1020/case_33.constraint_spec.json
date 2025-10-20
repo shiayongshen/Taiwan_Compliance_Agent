@@ -1,0 +1,744 @@
+[
+  {
+    "id": "securities_advisory:stop_business_application_limit",
+    "desc": "停業申請以一次為限，停業期間自核准日起不得超過一年",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty",
+          true
+        ],
+        [
+          "LE",
+          0,
+          12
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:stop_business_approval_required",
+    "desc": "停業須依規定向本會申請核准",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "penalty",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:stop_business_illegal_duration",
+    "desc": "未依規定申請停業且自行停業連續三個月以上",
+    "expr": [
+      "EQ",
+      "stop_business_illegal_duration",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "stop_business_applied",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "stop_business_continuous_months",
+          3
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:capital_guarantee_amount",
+    "desc": "營業保證金提存金額依實收資本額分級",
+    "expr": [
+      "EQ",
+      "capital_guarantee_amount",
+      [
+        "CASE",
+        [
+          "LT",
+          "paid_in_capital",
+          100000000.0
+        ],
+        10000000.0,
+        [
+          "AND",
+          [
+            "GE",
+            "paid_in_capital",
+            100000000.0
+          ],
+          [
+            "LT",
+            "paid_in_capital",
+            200000000.0
+          ]
+        ],
+        15000000.0,
+        [
+          "AND",
+          [
+            "GE",
+            "paid_in_capital",
+            200000000.0
+          ],
+          [
+            "LT",
+            "paid_in_capital",
+            300000000.0
+          ]
+        ],
+        20000000.0,
+        [
+          "GE",
+          "paid_in_capital",
+          300000000.0
+        ],
+        25000000.0,
+        0.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:capital_guarantee_deposit_valid",
+    "desc": "營業保證金以現金、銀行存款、政府債券或金融債券提存，不得設定質權或提供擔保，不得分散提存",
+    "expr": [
+      "EQ",
+      "capital_guarantee_deposit_valid",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_guarantee_deposit_type_valid",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_guarantee_pledged",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_guarantee_collateral_provided",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "capital_guarantee_not_diversified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:capital_guarantee_change_approval",
+    "desc": "提存金融機構更換或營業保證金提取須函報本會核准",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "penalty",
+            true
+          ],
+          [
+            "EQ",
+            "penalty",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:financial_report_annual_report_submitted",
+    "desc": "每會計年度終了後三個月內公告並申報經會計師查核簽證、董事會通過及監察人承認之年度財務報告",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:net_asset_value_below_par_improvement_required",
+    "desc": "每股淨值低於面額者，應於一年內改善",
+    "expr": [
+      "EQ",
+      "net_asset_value_below_par_improvement_required",
+      [
+        "AND",
+        [
+          "LT",
+          "net_asset_value_per_share",
+          "par_value_per_share"
+        ],
+        [
+          "LE",
+          "improvement_period_months",
+          12
+        ],
+        [
+          "GT",
+          "business_operation_months",
+          12
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:net_asset_value_below_par_exemption",
+    "desc": "取得營業執照未滿一個完整會計年度者，不適用淨值低於面額改善規定",
+    "expr": [
+      "EQ",
+      "net_asset_value_below_par_exemption",
+      [
+        "LE",
+        "business_operation_months",
+        12
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:net_asset_value_below_par_not_improved_penalty",
+    "desc": "淨值低於面額且屆期未改善者，限制於傳播媒體從事證券投資分析活動",
+    "expr": [
+      "EQ",
+      "net_asset_value_below_par_not_improved_penalty",
+      [
+        "AND",
+        [
+          "LT",
+          "net_asset_value_per_share",
+          "par_value_per_share"
+        ],
+        [
+          "GT",
+          "improvement_period_months",
+          12
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "net_asset_value_below_par_exemption",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:asset_insufficient_liability_penalty",
+    "desc": "資產不足抵償負債且屆期未改善者，廢止營業許可",
+    "expr": [
+      "EQ",
+      "asset_insufficient_liability_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_insufficient_to_liability",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_ordered",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:general_manager_qualification",
+    "desc": "總經理具備資格條件",
+    "expr": [
+      "EQ",
+      "general_manager_qualification",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "general_manager_meets_article4_qualification",
+            true
+          ],
+          [
+            "GE",
+            "general_manager_investment_experience_years",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "general_manager_education_approved",
+            true
+          ],
+          [
+            "GE",
+            "general_manager_investment_experience_years",
+            4
+          ],
+          [
+            "EQ",
+            "general_manager_grades_good",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "general_manager_other_qualification_proven",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:general_manager_exemption",
+    "desc": "本規則訂定發布前已擔任總經理者得續任，不受資格限制",
+    "expr": [
+      "EQ",
+      "penalty",
+      true
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:department_and_staffing_compliance",
+    "desc": "設置投資研究、財務會計部門，配置適足適任經理人、主管及業務人員，符合負責人與業務人員管理規則資格",
+    "expr": [
+      "EQ",
+      "department_and_staffing_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_research_department_established",
+          true
+        ],
+        [
+          "EQ",
+          "financial_accounting_department_established",
+          true
+        ],
+        [
+          "EQ",
+          "manager_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "department_head_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_and_staff_qualification_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:full_discretionary_investment_definition",
+    "desc": "全權委託投資業務定義符合規定",
+    "expr": [
+      "EQ",
+      "full_discretionary_investment_definition",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_trust_or_advisory_business",
+          true
+        ],
+        [
+          "EQ",
+          "client_delegated_assets",
+          true
+        ],
+        [
+          "EQ",
+          "investment_or_trading_approved_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "investment_analysis_and_execution",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:full_discretionary_investment_applicability",
+    "desc": "兼營全權委託投資業務者適用相關規定",
+    "expr": [
+      "EQ",
+      "full_discretionary_investment_applicability",
+      [
+        "OR",
+        [
+          "EQ",
+          "securities_brokerage_with_full_discretionary",
+          true
+        ],
+        [
+          "EQ",
+          "futures_brokerage_with_full_discretionary",
+          true
+        ],
+        [
+          "EQ",
+          "futures_manager_with_full_discretionary",
+          true
+        ],
+        [
+          "EQ",
+          "futures_trust_with_full_discretionary",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:trust_business_full_discretionary_application",
+    "desc": "信託業以委任方式兼營全權委託投資業務者適用相關規定",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "penalty",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:trust_business_full_discretionary_condition",
+    "desc": "信託業單獨或集合管理運用信託財產達新臺幣一千五百萬元以上",
+    "expr": [
+      "EQ",
+      "trust_business_full_discretionary_condition",
+      [
+        "GE",
+        "trust_assets_invested_in_securities",
+        15000000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:insurance_investment_full_discretionary_application",
+    "desc": "保險業經營投資型保險業務專設帳簿之資產運用於證券交易法第六條有價證券者，應申請兼營全權委託投資業務",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty",
+          true
+        ],
+        [
+          "EQ",
+          "penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:advertisement_prohibited_behaviors",
+    "desc": "非證券投資信託及顧問事業不得有不當推介行為",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "penalty",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:internet_media_advertisement_disclosure",
+    "desc": "網路媒體刊登非證券投資信託及顧問事業廣告應載明委託刊播者等資訊",
+    "expr": [
+      "EQ",
+      "penalty",
+      true
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:internet_media_advertisement_prohibition",
+    "desc": "網路媒體不得刊登違反規定之廣告，違反後應為必要處置",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "penalty",
+          true
+        ],
+        [
+          "EQ",
+          "penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:joint_liability_for_damages",
+    "desc": "刊登違反規定廣告者與委託刊播者負連帶損害賠償責任，已為必要處置者除外",
+    "expr": [
+      "EQ",
+      "joint_liability_for_damages",
+      [
+        "AND",
+        [
+          "EQ",
+          "posted_prohibited_advertisement",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "necessary_disposal_done",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:liability_reduction_or_exemption",
+    "desc": "有特定情形得減輕或免除連帶責任",
+    "expr": [
+      "EQ",
+      "liability_reduction_or_exemption",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "obtained_financial_benefit_from_advertisement",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertisement_was_intentional_or_gross_negligence",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:broker_advisor_qualification",
+    "desc": "證券經紀商或期貨經紀商申請兼營證券投資顧問業務應符合規定",
+    "expr": [
+      "EQ",
+      "broker_advisor_qualification",
+      [
+        "AND",
+        [
+          "GE",
+          "latest_audited_net_asset_value_per_share",
+          "par_value_per_share"
+        ],
+        [
+          "EQ",
+          "no_three_or_more_corrections_in_last_three_months",
+          true
+        ],
+        [
+          "EQ",
+          "no_dispositions_in_last_six_months",
+          true
+        ],
+        [
+          "EQ",
+          "no_dispositions_in_last_year",
+          true
+        ],
+        [
+          "EQ",
+          "no_dispositions_in_last_two_years",
+          true
+        ],
+        [
+          "EQ",
+          "improvements_made_after_dispositions",
+          true
+        ],
+        [
+          "EQ",
+          "no_trading_suspensions_in_last_year",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty",
+          false
+        ]
+      ],
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反停業申請規定、營業保證金規定、財務報告申報及改善規定、總經理資格、設置標準、廣告不當行為、兼營資格等任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      true
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

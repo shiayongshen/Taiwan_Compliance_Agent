@@ -1,0 +1,360 @@
+[
+  {
+    "id": "fhc:non_credit_transaction_condition_met",
+    "desc": "授信以外之交易條件符合",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_condition_met",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_invest_securities",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_purchase_real_estate_or_assets",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_sell_securities_real_estate_or_assets",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_contract_payment_or_service",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_agent_broker_commission_service",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_third_party_related",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:related_party_transaction_subject",
+    "desc": "交易對象為金融控股公司或子公司之負責人、大股東、關係企業、銀行子公司、保險子公司、證券子公司及其負責人",
+    "expr": [
+      "EQ",
+      "related_party_transaction_subject",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_fhc_and_responsible_person_or_major_shareholder",
+          true
+        ],
+        [
+          "EQ",
+          "is_fhc_responsible_person_major_shareholder_sole_proprietor_or_partner_or_enterprise_representative",
+          true
+        ],
+        [
+          "EQ",
+          "is_fhc_related_enterprise_and_responsible_person_or_major_shareholder",
+          true
+        ],
+        [
+          "EQ",
+          "is_fhc_bank_insurance_securities_subsidiary_or_responsible_person",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:transaction_condition_not_better_than_others",
+    "desc": "授信以外交易條件不得優於其他同類對象",
+    "expr": [
+      "EQ",
+      "transaction_condition_not_better_than_others",
+      [
+        "EQ",
+        "transaction_condition_better_than_others",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:board_meeting_quorum_met",
+    "desc": "董事出席人數達三分之二以上",
+    "expr": [
+      "EQ",
+      "board_meeting_quorum_met",
+      [
+        "GE",
+        "board_attendance_ratio",
+        0.6666666667
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:board_resolution_ratio_met",
+    "desc": "出席董事決議比例達四分之三以上",
+    "expr": [
+      "EQ",
+      "board_resolution_ratio_met",
+      [
+        "GE",
+        "board_resolution_ratio",
+        0.75
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_approval_ok",
+    "desc": "授信以外交易經董事會法定出席及決議比例通過",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_approval_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_credit_transaction_condition_met",
+          true
+        ],
+        [
+          "EQ",
+          "related_party_transaction_subject",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_condition_not_better_than_others",
+          true
+        ],
+        [
+          "EQ",
+          "board_meeting_quorum_met",
+          true
+        ],
+        [
+          "EQ",
+          "board_resolution_ratio_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_related_party_limit_ok",
+    "desc": "銀行子公司與單一關係人交易金額不超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_single_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_related_party_limit_ok",
+    "desc": "銀行子公司與所有利害關係人交易總額不超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_all_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_transaction_limit_ok",
+    "desc": "銀行子公司交易金額符合單一及全部利害關係人限制",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_transaction_limit_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_subsidiary_single_related_party_limit_ok",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_all_related_party_limit_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:compliance_fhc_45",
+    "desc": "符合金融控股公司法第45條授信以外交易條件及董事會決議及銀行子公司交易限制",
+    "expr": [
+      "EQ",
+      "compliance_fhc_45",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "non_credit_transaction_condition_met",
+            true
+          ],
+          [
+            "EQ",
+            "related_party_transaction_subject",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_condition_not_better_than_others",
+            true
+          ],
+          [
+            "EQ",
+            "board_meeting_quorum_met",
+            true
+          ],
+          [
+            "EQ",
+            "board_resolution_ratio_met",
+            true
+          ],
+          [
+            "EQ",
+            "bank_subsidiary_transaction_limit_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_14",
+    "desc": "違反金融控股公司法第45條第一項交易條件限制或董事會決議方法",
+    "expr": [
+      "EQ",
+      "violation_60_14",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_condition_not_better_than_others",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "board_meeting_quorum_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "board_resolution_ratio_met",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_14_ratio_limit",
+    "desc": "違反金融控股公司法第45條第四項銀行子公司交易金額比率限制",
+    "expr": [
+      "EQ",
+      "violation_60_14_ratio_limit",
+      [
+        "NOT",
+        [
+          "EQ",
+          "bank_subsidiary_transaction_limit_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第45條交易條件限制、董事會決議方法或銀行子公司交易金額比率限制時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_60_14",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_14_ratio_limit",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

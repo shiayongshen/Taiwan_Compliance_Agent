@@ -60,6 +60,9 @@ PARSER_SYS_PROMPT = r"""
 
 12. **必須生成 penalty 判斷邏輯**：根據法條內容，判斷哪些條件成立時應處罰（penalty = true），哪些條件成立時合法（penalty = false）。
 
+13. 所有 CASE 的分支值（含 default）必須型別一致。
+   - 若 CASE 用於分類（如等級判定），請使用 Int 值（例如 4, 3, 2, 1, 0）。
+   - 禁止將 default 寫成 true/false。
 ---
 
 📌 嚴格規則（必須遵守）
@@ -78,9 +81,39 @@ PARSER_SYS_PROMPT = r"""
    - ❌ `["GE","CAR"]`  
    - ✅ `["GE","CAR",200.0]`
 
-4. **CASE 必須安全使用**  
-   - 只能產生 Int/Real。  
-   - 必須被 EQ 包起來綁定到變數。
+4. **CASE 運算子的嚴格規則**
+   
+   **格式**：`["CASE", 條件1, 值1, 條件2, 值2, ..., default值]`
+   
+   **必須遵守的規則**：
+   
+   a. **條件必須是 Bool 表達式**（不要用 EQ 包裹）
+      - ✅ `["LT", "CAR", 50.0]`
+      - ❌ `["EQ", ["LT", "CAR", 50.0], true]`
+   
+   b. **所有「值」和「default值」必須是相同型別**
+      - ✅ 全部 Int：`[..., 4, ..., 3, ..., 2, ..., 1, 0]`
+      - ✅ 全部 Real：`[..., 4.0, ..., 3.0, ..., 2.0, ..., 1.0, 0.0]`
+   
+   c. **元素數量必須是奇數**（條件-值成對 + 最後的 default）
+   
+   e. **型別判斷規則**：
+      - 條件中若包含 DIV、MUL、ADD、SUB 且操作數為 Real → 結果為 Real
+      - 條件中若包含 Real 字面量（如 0.5, 1.5） → 結果為 Real
+      - CASE 的所有分支值和 default 必須與條件的型別一致
+      - **若條件涉及比率、百分比、除法，請使用 Real 型別的分支值**
+      
+    f. **型別推斷規則（供 varspec 生成器使用）**
+    - 解析器必須根據表達式自動推斷每個變數的型別：
+      - 若變數出現在「AND / OR / NOT / EQ ... true/false」中 → Bool
+      - 若變數出現在算術運算（ADD, SUB, MUL, DIV）或含有小數常數（如 0.5, 1.0, 3.0）中 → Real
+      - 若變數出現在整數比較（如 EQ, GE, LT 等）且所有常數為整數（50, 150, 200） → Int
+    - 若 constraint 的 EQ 左側是分類（如 capital_level, grade, stage），
+      則視為 Int 型別（等級用整數表示）。
+    - 若為比率、比例、百分比，預設為 Real。
+    - 若為邏輯條件（是否執行、是否提交等），預設為 Bool。
+    - **解析器不需查 varspec；請自行推斷型別。**
+
 
 5. **禁止以下情況**  
    - 裸數字或裸 CASE 出現在 expr 最外層。  
@@ -321,24 +354,24 @@ PARSER_SYS_PROMPT = r"""
 【Few-shot #C（分級制度 + 措施要求）】
 <INPUT>
 資本分類：  
-- 資本嚴重不足（等級4）：CAR < 50 或 淨值 < 0，應停止分配盈餘、停止放款
-- 資本顯著不足（等級3）：50 ≤ CAR < 150 且 0 ≤ NWR < 2，應停止分配盈餘、限制增設分支機構
-- 資本不足（等級2）：150 ≤ CAR < 200，應提報改善計畫
-- 資本適足（等級1）：CAR ≥ 200 且 (NWR ≥ 3 或 NWR_prev ≥ 3)
+- 資本嚴重不足（等級4）：CAR < 50 或 淨值 < 0
+- 資本顯著不足（等級3）：50 ≤ CAR < 150 且 0 ≤ NWR < 2
+- 資本不足（等級2）：150 ≤ CAR < 200
+- 資本適足（等級1）：CAR ≥ 200
 
-未依等級採取對應措施者，處以罰鍰。
+各等級應採取對應措施，未採取者處罰。
 </INPUT>
 <OUTPUT>
 [
   {
-    "id": "insurance:capital_level",
-    "desc": "資本等級依低等級原則決定",
-    "expr": ["EQ","insurance:capital_level",
+    "id": "insurance:capital_classification",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": ["EQ", "capital_level",
       ["CASE",
-        ["OR", ["LT","CAR",50.0], ["LT","net_worth",0.0]], 4,
-        ["AND", ["GE","CAR",50.0], ["LT","CAR",150.0], ["GE","NWR",0.0], ["LT","NWR",2.0]], 3,
-        ["AND", ["GE","CAR",150.0], ["LT","CAR",200.0]], 2,
-        ["AND", ["GE","CAR",200.0], ["OR", ["GE","NWR",3.0], ["GE","NWR_prev",3.0]]], 1,
+        ["OR", ["LT","capital_adequacy_ratio",50.0], ["LT","net_worth",0.0]], 4,
+        ["AND", ["GE","capital_adequacy_ratio",50.0], ["LT","capital_adequacy_ratio",150.0], ["GE","net_worth_ratio",0.0], ["LT","net_worth_ratio",2.0]], 3,
+        ["AND", ["GE","capital_adequacy_ratio",150.0], ["LT","capital_adequacy_ratio",200.0]], 2,
+        ["GE","capital_adequacy_ratio",200.0], 1,
         0
       ]
     ],
@@ -346,47 +379,47 @@ PARSER_SYS_PROMPT = r"""
     "domain": "insurance"
   },
   {
-    "id": "insurance:level_4_measures_ok",
+    "id": "insurance:level_4_compliance",
     "desc": "等級4措施執行完成",
-    "expr": ["EQ","insurance:level_4_measures_ok",
-      ["AND", ["EQ","stop_profit_distribution",true], ["EQ","stop_new_loans",true]]
+    "expr": ["EQ", "level_4_measures_ok",
+      ["EQ", "level_4_measures_executed", true]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "insurance:level_3_measures_ok",
+    "id": "insurance:level_3_compliance",
     "desc": "等級3措施執行完成",
-    "expr": ["EQ","insurance:level_3_measures_ok",
-      ["AND", ["EQ","stop_profit_distribution",true], ["EQ","limit_branch_expansion",true]]
+    "expr": ["EQ", "level_3_measures_ok",
+      ["EQ", "level_3_measures_executed", true]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "insurance:level_2_measures_ok",
+    "id": "insurance:level_2_compliance",
     "desc": "等級2措施執行完成",
-    "expr": ["EQ","insurance:level_2_measures_ok",
-      ["EQ","improvement_plan_submitted",true]
+    "expr": ["EQ", "level_2_measures_ok",
+      ["AND", ["EQ", "improvement_plan_submitted", true], ["EQ", "improvement_plan_executed", true]]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "meta:penalty_default_false",
+    "id": "meta:penalty_default",
     "desc": "預設不處罰",
     "expr": ["EQ", "penalty", false],
     "weight": 0,
     "domain": "meta"
   },
   {
-    "id": "meta:penalty_conditions",
+    "id": "meta:penalty_rule",
     "desc": "處罰條件：資本不足且未執行對應等級措施時處罰",
     "expr": ["EQ", "penalty",
       ["OR",
-        ["AND", ["EQ","insurance:capital_level",4], ["NOT",["EQ","insurance:level_4_measures_ok",true]]],
-        ["AND", ["EQ","insurance:capital_level",3], ["NOT",["EQ","insurance:level_3_measures_ok",true]]],
-        ["AND", ["EQ","insurance:capital_level",2], ["NOT",["EQ","insurance:level_2_measures_ok",true]]]
+        ["AND", ["EQ", "capital_level", 4], ["NOT", ["EQ", "level_4_measures_ok", true]]],
+        ["AND", ["EQ", "capital_level", 3], ["NOT", ["EQ", "level_3_measures_ok", true]]],
+        ["AND", ["EQ", "capital_level", 2], ["NOT", ["EQ", "level_2_measures_ok", true]]]
       ]
     ],
     "weight": 0,
@@ -395,7 +428,6 @@ PARSER_SYS_PROMPT = r"""
 ]
 </OUTPUT>
 
----
 
 【Few-shot #D（寬容規定，需全部違反才處罰）】
 <INPUT>
@@ -454,7 +486,23 @@ PARSER_SYS_PROMPT = r"""
 1. `meta:penalty_default_false`（預設不處罰）
 2. `meta:penalty_conditions`（處罰條件）
 
+輸出前請自行檢查 CASE 結構是否滿足：條件-值 成對排列、條件皆為 Bool、值型別一致。
 請注意：不需要多做解釋，只需要生成 JSON 陣列。
+
+
+⚠️ **輸出前自我檢查清單**：
+
+1. [ ] 所有 constraint ID 使用 `domain:rule_name` 格式
+2. [ ] 所有變數名不含冒號（如 `capital_level`，不是 `insurance:capital_level`）
+3. [ ] CASE 的條件是 Bool 表達式（不用 EQ 包裹）
+4. [ ] **CASE 的所有值和 default 型別一致**
+5. [ ] CASE 元素數量是奇數
+6. [ ] CASE 的 default 是數值，不是布林比較
+7. [ ] penalty_rule 引用的是變數名，不是 constraint ID
+8. [ ] 沒有裸 VAR，布林變數用 EQ 綁定
+
+現在開始：請對輸入的「相關法條」輸出 ConstraintSpec[]（只輸出 JSON 陣列）。
+
 """
 
 

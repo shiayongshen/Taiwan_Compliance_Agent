@@ -36,6 +36,18 @@ VARSPEC_SYS_PROMPT = r"""
      - 百分比 → {"min": -100, "max": 1000}
      - 工時 → {"min": 0, "max": 168}
      - 天數 → {"min": 0, "max": 7}
+    - CASE 規則變數：
+     - 若某變數出現在 CASE 的 EQ 左側（如 ["EQ","capital_level",["CASE",...]]），則其型別由 CASE 的分支值決定：
+       - 若 CASE 的值是整數（如 4,3,2,1,0）→ 該變數型別為 Int
+       - 若 CASE 的值是小數（如 4.0,3.0,2.0,1.0,0.0）→ 該變數型別為 Real
+     - 若 CASE 條件中含有除法（DIV）或百分比字面量（如 50.0, 150.0, 200.0），則 CASE 分支值視為 Real。
+     - 若解析過程中出現 CASE 型別衝突（例如部分分支為 Int 而條件中含有 Real 運算），
+       則一律將該變數與所有 CASE 值視為 Real。
+     - 禁止將 CASE 內的分類變數誤判為 Bool。
+     - 若 CASE 條件中包含 Real 運算（例如 DIV、MUL、浮點數比較），
+       即使所有分支值都是整數（如 4, 3, 2, 1, 0），
+       仍必須將該變數及所有分支值視為 Real。
+      （這是為了避免 Z3 報出 CASE type mismatch: default is ArithRef, but branch value is IntNumRef 錯誤。）
 
 4. **禁止事項**
    - 不得編造變數（僅能來自 constraints）。

@@ -1,0 +1,331 @@
+[
+  {
+    "id": "futures:violation_occurred",
+    "desc": "違反期貨交易法第119條所列規定之一",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "OR",
+        "violate_article_5",
+        "violate_article_10_1",
+        "violate_article_18",
+        "violate_article_45_2_pre",
+        "violate_article_56_4",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_67",
+        "violate_article_70_1",
+        "violate_article_72_1",
+        "violate_article_73",
+        "violate_article_74",
+        "violate_article_78_1",
+        "violate_article_80_3",
+        "violate_article_82_2",
+        "violate_article_84_2_pre",
+        "violate_article_85_1",
+        "violate_article_87_1",
+        "violate_article_97_1_1",
+        "violate_article_97_1_3",
+        "violate_article_104_2",
+        "violate_article_105"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_order_issued",
+    "desc": "違反依第8條第2項、第45條第2項後段、第56條第5項、第80條第4項、第82條第3項、第85條第2項或第93條所發布命令",
+    "expr": [
+      "EQ",
+      "violation_order_issued",
+      [
+        "OR",
+        "violate_order_article_8_2",
+        "violate_order_article_45_2_post",
+        "violate_order_article_56_5",
+        "violate_order_article_80_4",
+        "violate_order_article_82_3",
+        "violate_order_article_85_2",
+        "violate_order_article_93"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_clearing_mandate",
+    "desc": "違反第三條第二項但書未依主管機關規定於指定期貨結算機構集中結算或期貨結算機構違反第五十五條準用第十八條",
+    "expr": [
+      "EQ",
+      "violation_clearing_mandate",
+      [
+        "OR",
+        "not_cleared_at_designated_clearinghouse",
+        "clearinghouse_violate_article_55_apply_18"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_futures_broker",
+    "desc": "期貨商違反第七十九條準用第十八條規定",
+    "expr": [
+      "EQ",
+      "violation_futures_broker",
+      "violate_article_79_apply_18"
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_leverage_trader",
+    "desc": "槓桿交易商違反第八十一條準用第十八條、第五十七條第一項、第六十四條、第六十五條第一項、第六十六條第一項、第六十七條、第七十條第一項、第七十二條第一項、第七十三條、第七十四條或第七十八條第一項規定",
+    "expr": [
+      "EQ",
+      "violation_leverage_trader",
+      [
+        "OR",
+        "violate_article_81_apply_18",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_67",
+        "violate_article_70_1",
+        "violate_article_72_1",
+        "violate_article_73",
+        "violate_article_74",
+        "violate_article_78_1"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_futures_service",
+    "desc": "期貨服務事業違反第八十八條準用第十八條、第五十七條第一項、第六十四條、第六十五條第一項、第六十六條第一項或第七十四條規定",
+    "expr": [
+      "EQ",
+      "violation_futures_service",
+      [
+        "OR",
+        "violate_article_88_apply_18",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_74"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_late_or_obstruct_report",
+    "desc": "逾期不提出主管機關命令之帳簿、書類或其他有關物件或報告資料，或規避、妨礙、拒絕主管機關檢查",
+    "expr": [
+      "EQ",
+      "violation_late_or_obstruct_report",
+      [
+        "OR",
+        "late_submit_documents",
+        "obstruct_inspection",
+        "refuse_inspection"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_fail_document_management",
+    "desc": "期貨交易所、期貨結算機構、期貨業、同業公會未依法製作、申報、公告、備置或保存帳簿、文據、財務報告或其他業務文件",
+    "expr": [
+      "EQ",
+      "violation_fail_document_management",
+      [
+        "OR",
+        "fail_create_documents",
+        "fail_report_documents",
+        "fail_announce_documents",
+        "fail_store_documents",
+        "fail_preserve_documents"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_obstruct_investigation",
+    "desc": "規避、妨礙或拒絕主管機關調查，拒不提供資料文件或無正當理由拒不到達備詢處所",
+    "expr": [
+      "EQ",
+      "violation_obstruct_investigation",
+      [
+        "OR",
+        "obstruct_investigation",
+        "refuse_provide_documents",
+        "refuse_arrival_without_reason"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:penalty_applicable",
+    "desc": "違反期貨交易法第119條規定且情節非輕微者應處罰",
+    "expr": [
+      "EQ",
+      "penalty_applicable",
+      [
+        "AND",
+        [
+          "OR",
+          "violation_occurred",
+          "violation_order_issued",
+          "violation_clearing_mandate",
+          "violation_futures_broker",
+          "violation_leverage_trader",
+          "violation_futures_service",
+          "violation_late_or_obstruct_report",
+          "violation_fail_document_management",
+          "violation_obstruct_investigation"
+        ],
+        [
+          "NOT",
+          "violation_minor_exempt"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:internal_control_system_established",
+    "desc": "期貨交易輔助人依規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_system_established",
+      [
+        "AND",
+        "internal_control_system_set_by_rules",
+        "internal_control_system_approved_by_board",
+        "internal_control_system_reported_and_recorded",
+        "internal_control_system_updated_if_notified"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:operation_managed_by_dedicated_department",
+    "desc": "證券商經營期貨交易輔助業務由專責部門辦理並指派專人管理，且由登記合格業務員執行",
+    "expr": [
+      "EQ",
+      "operation_managed_by_dedicated_department",
+      [
+        "AND",
+        "dedicated_department_assigned",
+        "dedicated_person_assigned",
+        "registered_qualified_salesperson_execute"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:salesperson_registration_compliant",
+    "desc": "期貨交易輔助人負責人、經理人及業務員登記異動符合規定",
+    "expr": [
+      "EQ",
+      "salesperson_registration_compliant",
+      [
+        "AND",
+        "registration_done_by_futures_assistant",
+        "no_prohibited_conditions_for_registration",
+        "qualified_training_completed",
+        "no_untrustworthy_activities",
+        "registration_reported_within_5_days",
+        "work_permit_handled_properly"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:legal_futures_transaction_definition_met",
+    "desc": "期貨交易符合期貨交易法第三條定義及集中結算規定",
+    "expr": [
+      "EQ",
+      "legal_futures_transaction_definition_met",
+      [
+        "AND",
+        [
+          "OR",
+          "futures_contract",
+          "option_contract",
+          "futures_option_contract",
+          "leverage_margin_contract",
+          "swap_contract",
+          "other_contract_types"
+        ],
+        [
+          "OR",
+          "transaction_at_futures_exchange",
+          [
+            "AND",
+            "not_at_futures_exchange",
+            "approved_by_authority",
+            "cleared_at_designated_clearinghouse"
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反期貨交易法第119條規定且非輕微情節時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "OR",
+          "violation_occurred",
+          "violation_order_issued",
+          "violation_clearing_mandate",
+          "violation_futures_broker",
+          "violation_leverage_trader",
+          "violation_futures_service",
+          "violation_late_or_obstruct_report",
+          "violation_fail_document_management",
+          "violation_obstruct_investigation"
+        ],
+        [
+          "NOT",
+          "violation_minor_exempt"
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

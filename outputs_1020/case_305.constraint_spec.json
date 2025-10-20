@@ -1,0 +1,431 @@
+[
+  {
+    "id": "insurance:loan_type_valid",
+    "desc": "放款類型符合規定之四款之一",
+    "expr": [
+      "EQ",
+      "loan_type_valid",
+      [
+        "OR",
+        [
+          "EQ",
+          "loan_guaranteed_by_bank_or_approved_credit_institution",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_movable_or_immovable_property",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_qualified_securities",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_life_insurance_policy",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_loan_limit_ok",
+    "desc": "第一款至第三款放款每一單位放款金額不超過資金5%",
+    "expr": [
+      "EQ",
+      "single_loan_limit_ok",
+      [
+        "LE",
+        "loan_amount_per_unit",
+        [
+          "MUL",
+          "insurance_capital",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:total_loan_limit_ok",
+    "desc": "第一款至第三款放款總額不超過資金35%",
+    "expr": [
+      "EQ",
+      "total_loan_limit_ok",
+      [
+        "LE",
+        "total_loan_amount_1_to_3",
+        [
+          "MUL",
+          "insurance_capital",
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_secured",
+    "desc": "利害關係人擔保放款有十足擔保且條件不優於其他同類放款",
+    "expr": [
+      "EQ",
+      "related_party_loan_secured",
+      [
+        "AND",
+        [
+          "EQ",
+          "related_party_loan_has_full_collateral",
+          true
+        ],
+        [
+          "EQ",
+          "related_party_loan_conditions_not_better_than_others",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_board_approval",
+    "desc": "利害關係人擔保放款達主管機關規定金額以上，經董事會三分之二以上出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "related_party_loan_board_approval",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "related_party_loan_amount",
+          "regulator_specified_amount"
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            66.67
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            75.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_and_investment_limit_combined_ok",
+    "desc": "依146-3第四款及146-1第三款合併計算放款及投資限額不超過資金10%及公司業主權益10%",
+    "expr": [
+      "EQ",
+      "loan_and_investment_limit_combined_ok",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_amount_146_1_3",
+            "loan_amount_146_3_4"
+          ],
+          [
+            "MUL",
+            "insurance_capital",
+            10.0
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_amount_146_1_3",
+            "loan_amount_146_3_4"
+          ],
+          [
+            "MUL",
+            "issuer_equity",
+            10.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequacy_ratio",
+    "desc": "資本適足率計算公式",
+    "expr": [
+      "EQ",
+      "capital_adequacy_ratio",
+      [
+        "MUL",
+        [
+          "DIV",
+          "own_capital",
+          "risk_capital"
+        ],
+        100.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_ratio",
+    "desc": "淨值比率計算公式",
+    "expr": [
+      "EQ",
+      "net_worth_ratio",
+      [
+        "MUL",
+        [
+          "DIV",
+          "net_worth",
+          "total_assets_excluding_investment_type_insurance_special_account"
+        ],
+        100.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_full_collateral",
+    "desc": "利害關係人擔保放款有十足擔保",
+    "expr": [
+      "EQ",
+      "loan_related_party_full_collateral",
+      [
+        "EQ",
+        "related_party_loan_has_full_collateral",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_conditions_not_better",
+    "desc": "利害關係人擔保放款條件不得優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_related_party_conditions_not_better",
+      [
+        "EQ",
+        "related_party_loan_conditions_not_better_than_others",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_board_approval",
+    "desc": "利害關係人擔保放款達主管機關規定金額以上，經董事會三分之二以上出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "loan_related_party_board_approval",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "related_party_loan_amount",
+          "regulator_specified_amount"
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            66.67
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            75.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反放款類型、限額、擔保及董事會決議規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_type_valid",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "single_loan_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "total_loan_limit_ok",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_related_party_full_collateral",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_related_party_conditions_not_better",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "related_party_loan_amount",
+            "regulator_specified_amount"
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_related_party_board_approval",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_and_investment_limit_combined_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

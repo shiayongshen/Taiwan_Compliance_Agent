@@ -1,0 +1,689 @@
+[
+  {
+    "id": "aml:customer_identification_procedure",
+    "desc": "金融機構及指定非金融事業應進行風險基礎確認客戶身分程序並審查實質受益人",
+    "expr": [
+      "EQ",
+      "customer_identification_procedure",
+      [
+        "AND",
+        [
+          "EQ",
+          "risk_based_approach_applied",
+          true
+        ],
+        [
+          "EQ",
+          "beneficial_owner_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_data_retention",
+    "desc": "確認客戶身分資料應保存至少五年，依業務關係終止或臨時性交易終止起算",
+    "expr": [
+      "EQ",
+      "customer_identification_data_retention",
+      [
+        "OR",
+        [
+          "GE",
+          "customer_identification_data_retention_years",
+          5.0
+        ],
+        [
+          "GE",
+          "legal_longer_retention_years",
+          "customer_identification_data_retention_years"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_customer_due_diligence_for_politically_exposed_persons",
+    "desc": "對重要政治性職務人士及其家庭成員及密切關係人應執行加強客戶審查程序",
+    "expr": [
+      "EQ",
+      "enhanced_due_diligence_for_pep",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "customer_or_beneficial_owner_is_pep_or_family_or_close_associate",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_due_diligence_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_scope_and_procedures_defined_by_authority",
+    "desc": "確認客戶身分範圍及加強審查範圍程序由主管機關定之",
+    "expr": [
+      "EQ",
+      "customer_identification_scope_defined",
+      [
+        "EQ",
+        "authority_defined_scope_and_procedures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "bank:internal_control_established_and_executed",
+    "desc": "銀行建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established_and_executed",
+    "desc": "銀行建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established_and_executed",
+    "desc": "銀行建立內部作業制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_penalty_conditions",
+    "desc": "銀行違反內部控制、處理或作業制度規定時處罰",
+    "expr": [
+      "EQ",
+      "bank_violation_penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "aml:customer_identification_risk_based_strength",
+    "desc": "確認客戶身分程序應依風險基礎方法決定執行強度",
+    "expr": [
+      "EQ",
+      "risk_based_strength_applied",
+      [
+        "EQ",
+        "risk_based_approach_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_measures_for_high_risk",
+    "desc": "高風險情形應加強確認客戶身分及持續審查措施並採取強化措施",
+    "expr": [
+      "EQ",
+      "enhanced_measures_for_high_risk",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "high_risk_customer",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "enhanced_identification_measures",
+            true
+          ],
+          [
+            "EQ",
+            "enhanced_ongoing_monitoring",
+            true
+          ],
+          [
+            "EQ",
+            "senior_management_approval_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "reasonable_measures_to_understand_wealth_and_funds_source",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_measures_for_high_risk_countries",
+    "desc": "來自洗錢或資恐高風險國家或地區之客戶應採取相當強化措施",
+    "expr": [
+      "EQ",
+      "enhanced_measures_for_high_risk_countries",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "customer_from_high_risk_country",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_measures_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:simplified_measures_for_low_risk",
+    "desc": "較低風險情形得採取簡化措施，但特定情形不得簡化",
+    "expr": [
+      "EQ",
+      "simplified_measures_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "low_risk_customer",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "customer_from_high_risk_country_no_effective_measures",
+              true
+            ],
+            [
+              "EQ",
+              "suspected_money_laundering_or_terrorist_financing",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:exemption_for_stored_value_card_named_registration",
+    "desc": "辦理儲值卡記名作業不適用高風險強化措施第一款第一目及第二目",
+    "expr": [
+      "EQ",
+      "stored_value_card_named_registration_exemption",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "stored_value_card_named_registration",
+          true
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "senior_management_approval_obtained",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reasonable_measures_to_understand_wealth_and_funds_source",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:insurance_high_risk_consideration",
+    "desc": "保險業應將人壽保險契約受益人納入強化確認客戶身分措施考量",
+    "expr": [
+      "EQ",
+      "insurance_high_risk_considered",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance_beneficiary_is_corporate_or_trustee_and_high_risk",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_identification_measures_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:reliance_on_third_party_conditions",
+    "desc": "依賴第三方執行確認客戶身分須符合四項規定",
+    "expr": [
+      "EQ",
+      "third_party_reliance_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "immediate_access_to_customer_info",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_provides_info_without_delay",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_regulated_and_monitored",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_aml_standards_consistent",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:ongoing_customer_due_diligence",
+    "desc": "金融機構應依重要性及風險程度持續審查客戶身分資料及交易",
+    "expr": [
+      "EQ",
+      "ongoing_customer_due_diligence",
+      [
+        "AND",
+        [
+          "EQ",
+          "periodic_customer_data_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_monitoring_and_funds_source_understood",
+          true
+        ],
+        [
+          "EQ",
+          "customer_info_updated_regularly",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:repeat_identification_when_suspicious",
+    "desc": "對客戶資訊真實性有疑慮或發現疑似洗錢資恐交易時應重新確認身分",
+    "expr": [
+      "EQ",
+      "repeat_identification_required",
+      [
+        "OR",
+        [
+          "EQ",
+          "customer_info_suspected_false_or_inadequate",
+          true
+        ],
+        [
+          "EQ",
+          "suspected_money_laundering_or_terrorist_financing_detected",
+          true
+        ],
+        [
+          "EQ",
+          "customer_transaction_or_account_behavior_significant_change",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:politically_exposed_persons_risk_management",
+    "desc": "金融機構應運用風險管理機制確認客戶及其實質受益人、高階管理人員是否為重要政治性職務人士並採取相應措施",
+    "expr": [
+      "EQ",
+      "pep_risk_management_applied",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "customer_or_beneficial_owner_is_foreign_current_pep",
+            true
+          ],
+          [
+            "EQ",
+            "treat_as_high_risk_and_apply_enhanced_measures",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "customer_or_beneficial_owner_is_domestic_or_international_current_pep",
+            true
+          ],
+          [
+            "EQ",
+            "risk_review_at_relationship_establishment_and_annually",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "customer_or_beneficial_owner_is_domestic_or_international_current_pep_and_high_risk",
+            true
+          ],
+          [
+            "EQ",
+            "apply_enhanced_measures",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "senior_management_is_pep",
+            true
+          ],
+          [
+            "EQ",
+            "consider_influence_and_apply_enhanced_measures_if_needed",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "non_current_pep",
+            true
+          ],
+          [
+            "EQ",
+            "risk_based_assessment_for_enhanced_measures",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "family_or_close_associates_of_pep",
+            true
+          ],
+          [
+            "EQ",
+            "apply_pep_measures",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:pep_exemption_for_certain_beneficiaries",
+    "desc": "特定對象之實質受益人或高階管理人員為重要政治性職務人士時不適用加強措施",
+    "expr": [
+      "EQ",
+      "pep_exemption_applied",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "beneficiary_or_senior_management_in_exempted_categories",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "enhanced_due_diligence_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:insurance_pep_verification_and_notification",
+    "desc": "保險公司及郵政機構應於給付前辨識保險受益人及實質受益人是否為重要政治性職務人士並通知高階管理人員",
+    "expr": [
+      "EQ",
+      "insurance_pep_verification_and_notification",
+      [
+        "AND",
+        [
+          "EQ",
+          "pep_verification_before_payment",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "high_risk_detected",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "notify_senior_management_before_payment",
+              true
+            ],
+            [
+              "EQ",
+              "enhanced_review_of_overall_relationship",
+              true
+            ],
+            [
+              "EQ",
+              "consider_suspicious_transaction_reporting",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第8條及銀行法第45-1條及第129條第七款規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "customer_identification_procedure",
+              true
+            ],
+            [
+              "EQ",
+              "customer_identification_data_retention",
+              true
+            ],
+            [
+              "EQ",
+              "enhanced_due_diligence_for_pep",
+              true
+            ],
+            [
+              "EQ",
+              "customer_identification_scope_defined",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

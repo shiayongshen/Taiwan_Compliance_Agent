@@ -1,0 +1,273 @@
+{
+  "case_id": "case_215",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 128.01,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 21687,
+  "total_output_tokens": 8172,
+  "total_tokens": 29859,
+  "total_cost_usd": 0.02175,
+  "timestamp": "2025-10-19T10:41:20.528305",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3854,
+      "output_tokens": 3178,
+      "elapsed_time": 37.541849851608276,
+      "cost": 0.006626400000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 11096,
+      "output_tokens": 2660,
+      "elapsed_time": 30.412155151367188,
+      "cost": 0.008694400000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 290,
+      "output_tokens": 1056,
+      "elapsed_time": 13.21036696434021,
+      "cost": 0.0018056
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 290,
+      "output_tokens": 1056,
+      "elapsed_time": 11.853960037231445,
+      "cost": 0.0018056
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 6157,
+      "output_tokens": 222,
+      "elapsed_time": 3.2745280265808105,
+      "cost": 0.002818
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "8678 chars",
+      "timestamp": 37.541873931884766
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7270 chars",
+      "timestamp": 67.95414113998413
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "24 constraints",
+      "timestamp": 67.95445108413696
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "37 varspecs",
+      "timestamp": 81.16510200500488
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "24 constraints",
+      "timestamp": 81.18084907531738
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 112.8286280632019
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "18 facts",
+      "timestamp": 127.95912504196167
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "19 fixes",
+      "timestamp": 127.9593198299408
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "37 constraints",
+      "timestamp": 127.96099805831909
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 127.98467302322388
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:conceal_or_destroy_documents_penalty', 'c47', 'c24']",
+      "timestamp": 127.98468208312988
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 128.00297498703003
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 81.17
+    },
+    {
+      "id": "insurance:capital_level_net_worth",
+      "rule": "Fix CASE structure/type",
+      "before": [
+        "EQ",
+        "capital_level_net_worth",
+        [
+          "CASE",
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "net_worth_ratio",
+              2.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              3.0
+            ]
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            3.0
+          ],
+          1,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level_net_worth",
+        [
+          "CASE",
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "net_worth_ratio",
+              2.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              3.0
+            ]
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            3.0
+          ],
+          1,
+          0,
+          0.0
+        ]
+      ],
+      "timestamp": 81.17
+    },
+    {
+      "id": "insurance:capital_level_final",
+      "rule": "Fix CASE structure/type",
+      "before": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "GT",
+            "capital_level",
+            "capital_level_net_worth"
+          ],
+          "capital_level_net_worth",
+          0,
+          "capital_level"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "GT",
+            "capital_level",
+            "capital_level_net_worth"
+          ],
+          "capital_level_net_worth",
+          0,
+          "capital_level",
+          0.0
+        ]
+      ],
+      "timestamp": 81.17
+    }
+  ]
+}

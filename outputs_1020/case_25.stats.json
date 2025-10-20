@@ -1,0 +1,166 @@
+{
+  "case_id": "case_25",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 50.15,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 6942,
+  "total_output_tokens": 3071,
+  "total_tokens": 10013,
+  "total_cost_usd": 0.00769,
+  "timestamp": "2025-10-19T05:40:47.725383",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 521,
+      "output_tokens": 1009,
+      "elapsed_time": 12.44799518585205,
+      "cost": 0.0018228000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 2261,
+      "output_tokens": 1144,
+      "elapsed_time": 16.391335010528564,
+      "cost": 0.0027348000000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 114,
+      "output_tokens": 381,
+      "elapsed_time": 6.5479559898376465,
+      "cost": 0.0006552000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 114,
+      "output_tokens": 381,
+      "elapsed_time": 12.171300888061523,
+      "cost": 0.0006552000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3932,
+      "output_tokens": 156,
+      "elapsed_time": 2.5585029125213623,
+      "cost": 0.0018224
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "2681 chars",
+      "timestamp": 12.448017835617065
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "3252 chars",
+      "timestamp": 28.83947491645813
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 28.83963894844055
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "15 varspecs",
+      "timestamp": 35.3877329826355
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 35.392683029174805
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 35.39905095100403
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "15 facts",
+      "timestamp": 50.130013942718506
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "no issues",
+      "timestamp": 50.13013982772827
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 50.13096904754639
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 50.13981580734253
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c23']",
+      "timestamp": 50.13982796669006
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 50.14864373207092
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "fhc:penalty_measures",
+      "rule": "Fix CASE structure/type",
+      "before": [
+        "EQ",
+        "penalty_measures",
+        [
+          "CASE",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          1,
+          true,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "CASE",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          1,
+          true,
+          0,
+          0.0
+        ]
+      ],
+      "timestamp": 35.39
+    }
+  ]
+}

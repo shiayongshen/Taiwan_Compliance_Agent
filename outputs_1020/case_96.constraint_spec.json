@@ -1,0 +1,308 @@
+[
+  {
+    "id": "fhc:shareholding_declaration_conversion",
+    "desc": "金融機構轉換為金融控股公司時，同一人或同一關係人持股超過10%應申報",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_conversion",
+      [
+        "GE",
+        "shareholding_percentage_conversion",
+        10.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_declaration_post_establishment",
+    "desc": "金融控股公司設立後，同一人或同一關係人持股超過5%應10日內申報",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_post_establishment",
+      [
+        "GE",
+        "shareholding_percentage_post_establishment",
+        5.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_declaration_post_establishment_change",
+    "desc": "持股超過5%後累積增減逾1%應申報",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_post_establishment_change",
+      [
+        "GE",
+        "shareholding_change_percentage",
+        1.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_approval_thresholds",
+    "desc": "金融控股公司設立後，同一人或同一關係人持股超過10%、25%、50%應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_thresholds",
+      [
+        "OR",
+        [
+          "GE",
+          "shareholding_percentage_post_establishment",
+          50.0
+        ],
+        [
+          "GE",
+          "shareholding_percentage_post_establishment",
+          25.0
+        ],
+        [
+          "GE",
+          "shareholding_percentage_post_establishment",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_pledge_prohibition",
+    "desc": "同一人或同一關係人持股超過10%不得將股票設定質權予子公司，例外為轉換前質權存續期限內",
+    "expr": [
+      "EQ",
+      "shareholding_pledge_prohibition",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "shareholding_percentage_post_establishment",
+          10.0
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "pledge_to_subsidiary",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "is_conversion_period_pledge",
+              true
+            ],
+            [
+              "LE",
+              "pledge_validity_remaining_days",
+              0
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_no_increase_if_not_qualified",
+    "desc": "同一人或同一關係人不符適格條件得繼續持有但不得增加持股",
+    "expr": [
+      "EQ",
+      "shareholding_no_increase_if_not_qualified",
+      [
+        "IMPLIES",
+        [
+          "NOT",
+          [
+            "EQ",
+            "qualified_condition_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_increased",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_declaration_pre_2008",
+    "desc": "修正施行前持股超過5%未超過10%者，應於六個月內申報",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_pre_2008",
+      [
+        "AND",
+        [
+          "GE",
+          "shareholding_percentage_pre_2008",
+          5.0
+        ],
+        [
+          "LT",
+          "shareholding_percentage_pre_2008",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_declaration_required",
+    "desc": "申報義務成立條件",
+    "expr": [
+      "EQ",
+      "shareholding_declaration_required",
+      [
+        "OR",
+        "shareholding_declaration_conversion",
+        "shareholding_declaration_post_establishment",
+        "shareholding_declaration_post_establishment_change",
+        "shareholding_declaration_pre_2008"
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_approval_required",
+    "desc": "持股超過10%、25%、50%須申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_required",
+      "shareholding_approval_thresholds"
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_pledge_prohibited",
+    "desc": "持股超過10%不得設定質權",
+    "expr": [
+      "EQ",
+      "shareholding_pledge_prohibited",
+      "shareholding_pledge_prohibition"
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_increase_prohibited_if_not_qualified",
+    "desc": "不符適格條件不得增加持股",
+    "expr": [
+      "EQ",
+      "shareholding_increase_prohibited_if_not_qualified",
+      "shareholding_no_increase_if_not_qualified"
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_compliance",
+    "desc": "持股符合申報、核准、質權及不增加持股規定",
+    "expr": [
+      "EQ",
+      "shareholding_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "shareholding_declaration_required",
+          true
+        ],
+        [
+          "EQ",
+          "shareholding_approval_required",
+          true
+        ],
+        [
+          "EQ",
+          "shareholding_pledge_prohibited",
+          true
+        ],
+        [
+          "EQ",
+          "shareholding_increase_prohibited_if_not_qualified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依申報、核准、質權及持股增加規定者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_declaration_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_approval_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_pledge_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_increase_prohibited_if_not_qualified",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

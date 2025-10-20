@@ -1,0 +1,1098 @@
+[
+  {
+    "id": "securities:violation_178_1_1",
+    "desc": "違反證券交易法第14條第3項、第14條之一第1項、第14條之一第3項、第21條之一第5項、第58條、第61條、第69條第1項、第79條、第141條、第144條、第145條第2項、第147條、第152條、第159條、第165條之一或第165條之二準用相關規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_1",
+      [
+        "EQ",
+        "violation_178_1_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_2",
+    "desc": "未依主管機關命令提出帳簿、表冊、文件或其他資料，或規避、妨礙、拒絕檢查",
+    "expr": [
+      "EQ",
+      "violation_178_1_2",
+      [
+        "EQ",
+        "violation_178_1_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_3",
+    "desc": "未依規定製作、申報、公告、備置或保存帳簿、表冊、傳票、財務報告或其他業務文件",
+    "expr": [
+      "EQ",
+      "violation_178_1_3",
+      [
+        "EQ",
+        "violation_178_1_3_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_4",
+    "desc": "證券商或第十八條第一項事業未確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "violation_178_1_4",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_5",
+    "desc": "第十八條第一項事業違反同條第二項規則有關財務、業務或管理規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_5",
+      [
+        "EQ",
+        "violation_178_1_5_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_6",
+    "desc": "證券商違反第22條第4項、第44條第4項、第60條第2項、第62條第2項、第70條有關財務、業務或管理規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_6",
+      [
+        "EQ",
+        "violation_178_1_6_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_7",
+    "desc": "證券櫃檯買賣中心違反第62條第2項規定、證券商同業公會違反第90條規定、證券交易所違反第93條、第95條、第102條規定有關財務、業務或管理規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_7",
+      [
+        "EQ",
+        "violation_178_1_7_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_56",
+    "desc": "證券商董事、監察人及受僱人違反法令影響業務正常執行",
+    "expr": [
+      "EQ",
+      "violation_56",
+      [
+        "EQ",
+        "violation_56_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated",
+    "desc": "內部控制制度於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated",
+      [
+        "EQ",
+        "internal_control_updated_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliant",
+    "desc": "證券商內部控制制度符合經營法令、章程及相關規定",
+    "expr": [
+      "EQ",
+      "internal_control_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_updated",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_1",
+    "desc": "證券商不得提供有價證券漲跌判斷以勸誘客戶買賣",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_1",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_1_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_2",
+    "desc": "證券商不得約定或提供特定利益或負擔損失以勸誘客戶買賣",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_2",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_2_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_3",
+    "desc": "證券商不得提供帳戶供客戶申購、買賣有價證券",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_3",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_3_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_4",
+    "desc": "證券商不得對客戶提供虛偽、詐騙或足致他人誤信之有價證券資訊",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_4",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_4_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_5",
+    "desc": "證券商不得接受客戶對買賣有價證券之種類、數量、價格及買進或賣出之全權委託",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_5",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_5_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_6",
+    "desc": "證券商不得接受客戶以同一帳戶為同種有價證券買進與賣出或賣出與買進相抵之交割（不含37-1規定例外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_6",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_6_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_7",
+    "desc": "證券商不得接受客戶以不同帳戶為同一種有價證券買進與賣出或賣出與買進相抵之交割",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_7",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_7_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_8",
+    "desc": "證券商不得於營業場所外設置固定場所接受有價證券買賣委託",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_8",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_8_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_9",
+    "desc": "證券商不得於營業場所外設置固定場所辦理受託契約或有價證券買賣交割",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_9",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_9_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_10",
+    "desc": "證券商不得受理未辦妥受託契約之客戶買賣有價證券",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_10",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_10_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_11",
+    "desc": "證券商不得受理本公司董事、監察人、受僱人代理他人開戶、申購、買賣或交割有價證券",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_11",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_11_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_12",
+    "desc": "證券商不得受理非本人開戶（本會另有規定除外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_12",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_12_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_13",
+    "desc": "證券商不得受理非本人或未具客戶委任書之代理人申購、買賣或交割有價證券（特定三方契約除外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_13",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_13_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_14",
+    "desc": "證券商知悉客戶利用未公開重大消息或操縱市場意圖仍接受委託買賣",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_14",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_14_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_15",
+    "desc": "證券商利用客戶名義或帳戶申購、買賣有價證券",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_15",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_15_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_16",
+    "desc": "證券商非依法令所為之查詢洩露客戶委託事項及業務秘密",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_16",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_16_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_17",
+    "desc": "證券商挪用客戶有價證券或款項",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_17",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_17_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_18",
+    "desc": "證券商代客戶保管有價證券、款項、印鑑或存摺",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_18",
+      [
+        "EQ",
+        "behavior_37_18_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_19",
+    "desc": "證券商未經本會核准辦理有價證券買賣之融資或融券，提供款項或有價證券供客戶交割",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_19",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_19_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_20",
+    "desc": "證券商違反對證券交易市場之交割義務",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_20",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_20_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_21",
+    "desc": "證券商利用非證券商人員招攬業務或給付不合理佣金",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_21",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_21_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_37_22",
+    "desc": "證券商其他違反證券管理法令或本會規定應為或不得為之行為",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_37_22",
+      [
+        "NOT",
+        [
+          "EQ",
+          "behavior_37_22_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_honest",
+    "desc": "證券商負責人及業務人員執行業務應本誠實及信用原則",
+    "expr": [
+      "EQ",
+      "responsible_person_honest",
+      [
+        "EQ",
+        "honest_and_credit_principle",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_1",
+    "desc": "負責人及業務人員不得以職務消息從事上市或上櫃有價證券買賣交易活動",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_1",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_1_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_2",
+    "desc": "負責人及業務人員不得非依法令查詢洩漏客戶委託事項及其他秘密",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_2",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_2_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_3",
+    "desc": "負責人及業務人員不得受理客戶對買賣有價證券之種類、數量、價格及買進或賣出之全權委託",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_3",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_3_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_4",
+    "desc": "負責人及業務人員不得對客戶作贏利保證或分享利益之證券買賣",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_4",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_4_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_5",
+    "desc": "負責人及業務人員不得約定與客戶共同承擔買賣有價證券之交易損益",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_5",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_5_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_6",
+    "desc": "負責人及業務人員不得同時以自己計算為買入或賣出之相對行為",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_6",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_6_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_7",
+    "desc": "負責人及業務人員不得利用客戶名義或帳戶申購、買賣有價證券",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_7",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_7_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_8",
+    "desc": "負責人及業務人員不得以他人或親屬名義供客戶申購、買賣有價證券",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_8",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_8_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_9",
+    "desc": "負責人及業務人員不得與客戶有借貸款項、有價證券或為借貸媒介",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_9",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_9_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_10",
+    "desc": "負責人及業務人員辦理承銷或買賣有價證券時有隱瞞、詐欺或足以致人誤信行為",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_10",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_10_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_11",
+    "desc": "負責人及業務人員挪用或代客戶保管有價證券、款項、印鑑或存摺",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_11",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_11_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_12",
+    "desc": "負責人及業務人員受理未辦妥受託契約之客戶買賣有價證券",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_12",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_12_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_13",
+    "desc": "負責人及業務人員未依據客戶委託事項及條件執行有價證券買賣",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_13",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_13_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_14",
+    "desc": "負責人及業務人員向客戶或不特定多數人提供有價證券漲跌判斷以勸誘買賣",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_14",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_14_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_15",
+    "desc": "負責人及業務人員向不特定多數人推介買賣特定股票（承銷有價證券除外）",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_15",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_15_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_16",
+    "desc": "負責人及業務人員接受客戶以同一或不同帳戶為同種有價證券買賣相抵交割（信用交易資券相抵及同日現券相抵除外）",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_16",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_16_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_17",
+    "desc": "負責人及業務人員代理他人開戶、申購、買賣或交割有價證券（法定代理人除外）",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_17",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_17_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_18",
+    "desc": "負責人及業務人員受理本公司董事、監察人、受僱人代理他人開戶、申購、買賣或交割有價證券",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_18",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_18_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_19",
+    "desc": "負責人及業務人員受理非本人開戶（本會另有規定除外）",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_19",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_19_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_20",
+    "desc": "負責人及業務人員受理非本人或未具客戶委任書之代理人申購、買賣或交割有價證券（特定三方契約除外）",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_20",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_20_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_21",
+    "desc": "負責人及業務人員知悉客戶利用未公開重大消息或操縱市場行為仍接受委託買賣",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_21",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_21_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_22",
+    "desc": "負責人及業務人員辦理有價證券承銷業務人員與發行公司或相關人員有獲取不當利益約定",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_22",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_22_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_23",
+    "desc": "負責人及業務人員招攬、媒介、促銷未經核准有價證券或衍生性商品",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_23",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_23_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:responsible_person_prohibited_24",
+    "desc": "負責人及業務人員其他違反證券管理法令或本會規定不得為之行為",
+    "expr": [
+      "EQ",
+      "responsible_person_prohibited_24",
+      [
+        "NOT",
+        [
+          "EQ",
+          "responsible_person_behavior_24_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法第178-1條各款規定或第56條規定，且情節非輕微時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_178_1_1",
+            true
+          ],
+          [
+            "EQ",
+            "violation_178_1_2",
+            true
+          ],
+          [
+            "EQ",
+            "violation_178_1_3",
+            true
+          ],
+          [
+            "EQ",
+            "violation_178_1_4",
+            true
+          ],
+          [
+            "EQ",
+            "violation_178_1_5",
+            true
+          ],
+          [
+            "EQ",
+            "violation_178_1_6",
+            true
+          ],
+          [
+            "EQ",
+            "violation_178_1_7",
+            true
+          ],
+          [
+            "EQ",
+            "violation_56",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_mild",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

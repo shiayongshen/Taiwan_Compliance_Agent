@@ -1,0 +1,370 @@
+[
+  {
+    "id": "bank:unsecured_credit_restriction",
+    "desc": "銀行不得對持有實收資本3%以上之企業或相關利害關係人為無擔保授信，消費者貸款及政府貸款除外",
+    "expr": [
+      "EQ",
+      "unsecured_credit_restriction",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "GE",
+              "credit_to_enterprise_pct",
+              3.0
+            ],
+            [
+              "EQ",
+              "credit_to_responsible_person",
+              true
+            ],
+            [
+              "EQ",
+              "credit_to_officer",
+              true
+            ],
+            [
+              "EQ",
+              "credit_to_major_shareholder",
+              true
+            ],
+            [
+              "EQ",
+              "credit_to_related_person",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "credit_unsecured",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "OR",
+              [
+                "EQ",
+                "loan_type_consumer",
+                true
+              ],
+              [
+                "EQ",
+                "loan_type_government",
+                true
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:major_shareholder_definition",
+    "desc": "主要股東定義：持股銀行已發行股份總數1%以上，且自然人主要股東之配偶與未成年子女持股計入本人",
+    "expr": [
+      "EQ",
+      "major_shareholder_defined",
+      [
+        "AND",
+        [
+          "GE",
+          "shareholding_pct",
+          1.0
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "shareholder_is_natural_person",
+            true
+          ],
+          [
+            "EQ",
+            "shareholder_total_including_spouse_children",
+            [
+              "ADD",
+              "shareholder_own_shares",
+              "spouse_shares",
+              "minor_children_shares"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:secured_credit_requirements",
+    "desc": "銀行對持有實收資本5%以上之企業或相關利害關係人為擔保授信，應有十足擔保且條件不得優於同類授信",
+    "expr": [
+      "EQ",
+      "secured_credit_requirements_met",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "GE",
+              "credit_to_enterprise_pct",
+              5.0
+            ],
+            [
+              "EQ",
+              "credit_to_responsible_person",
+              true
+            ],
+            [
+              "EQ",
+              "credit_to_officer",
+              true
+            ],
+            [
+              "EQ",
+              "credit_to_major_shareholder",
+              true
+            ],
+            [
+              "EQ",
+              "credit_to_related_person",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "credit_secured",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "full_collateral_provided",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "AND",
+              "credit_conditions",
+              "other_similar_credit_conditions"
+            ]
+          ],
+          [
+            "IMPLIES",
+            [
+              "GE",
+              "credit_amount",
+              "regulator_threshold_amount"
+            ],
+            [
+              "AND",
+              [
+                "GE",
+                "board_attendance_ratio",
+                0.6667
+              ],
+              [
+                "GE",
+                "board_approval_ratio",
+                0.75
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_established",
+    "desc": "銀行建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "銀行建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "銀行建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "銀行確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "銀行確實執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "銀行確實執行內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_systems_compliance",
+    "desc": "銀行建立並確實執行內部控制、內部處理及內部作業制度",
+    "expr": [
+      "EQ",
+      "internal_systems_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反無擔保授信限制或擔保授信條件或未建立或未確實執行內部制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "unsecured_credit_restriction",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "secured_credit_requirements_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_systems_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

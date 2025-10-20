@@ -1,0 +1,158 @@
+{
+  "case_id": "case_200",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 101.99,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 19619,
+  "total_output_tokens": 7879,
+  "total_tokens": 27498,
+  "total_cost_usd": 0.020454,
+  "timestamp": "2025-10-19T10:18:38.896037",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3360,
+      "output_tokens": 3062,
+      "elapsed_time": 34.194169759750366,
+      "cost": 0.006243200000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9992,
+      "output_tokens": 2521,
+      "elapsed_time": 30.882405996322632,
+      "cost": 0.0080304
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 288,
+      "output_tokens": 1039,
+      "elapsed_time": 16.908663034439087,
+      "cost": 0.0017776
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 288,
+      "output_tokens": 1039,
+      "elapsed_time": 16.24038815498352,
+      "cost": 0.0017776
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5691,
+      "output_tokens": 218,
+      "elapsed_time": 3.68222713470459,
+      "cost": 0.0026252000000000003
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "8310 chars",
+      "timestamp": 34.19419598579407
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "6729 chars",
+      "timestamp": 65.07672786712646
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 65.07701206207275
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "35 varspecs",
+      "timestamp": 81.9859631061554
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 81.99984288215637
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 82.01356077194214
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "16 facts",
+      "timestamp": 101.93871688842773
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "19 fixes",
+      "timestamp": 101.93893885612488
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "35 constraints",
+      "timestamp": 101.94116592407227
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 101.96149682998657
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c53', 'c24', 'insurance:violation_148_3_1']",
+      "timestamp": 101.9615068435669
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 101.97813892364502
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 81.99
+    },
+    {
+      "id": "varspec:capital_level_final",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 81.99
+    },
+    {
+      "id": "varspec:capital_level_lowest",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 81.99
+    },
+    {
+      "id": "varspec:capital_level_net_worth",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 81.99
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severely_insufficient_and_no_improvement",
+    "desc": "資本嚴重不足且未於期限內完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_severely_insufficient_and_no_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed_within_deadline",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或履行契約或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "financial_or_business_status_significantly_deteriorated",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_pay_debts",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_fulfill_contractual_responsibilities",
+          true
+        ],
+        [
+          "EQ",
+          "risk_of_harming_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_approved",
+    "desc": "保險業已提出且主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_accelerated_deterioration_or_no_improvement",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_accelerated_deterioration_or_no_improvement",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_and_net_worth_accelerated_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_effective",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_required",
+    "desc": "應為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "supervisory_measures_required",
+      [
+        "OR",
+        "capital_level_severely_insufficient_and_no_improvement",
+        [
+          "AND",
+          [
+            "NOT",
+            "capital_level_severely_insufficient_and_no_improvement"
+          ],
+          "financial_or_business_deterioration",
+          "improvement_plan_submitted_and_approved",
+          "improvement_plan_accelerated_deterioration_or_no_improvement"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_restrictions",
+    "desc": "監管處分限制保險業行為",
+    "expr": [
+      "EQ",
+      "supervisory_restrictions",
+      [
+        "AND",
+        [
+          "EQ",
+          "supervisory_measures_in_effect",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "LE",
+              "payment_amount",
+              "supervisory_payment_limit"
+            ],
+            [
+              "EQ",
+              "contract_or_major_commitment_made",
+              false
+            ],
+            [
+              "EQ",
+              "other_major_financial_impacting_actions",
+              false
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成增資或改善計畫，或財務業務惡化且未改善，或違反監管限制時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed_within_deadline",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_effective",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisory_restrictions",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

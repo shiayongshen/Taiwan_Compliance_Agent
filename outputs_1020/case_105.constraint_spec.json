@@ -1,0 +1,637 @@
+[
+  {
+    "id": "securities:business_duty_of_care_and_loyalty",
+    "desc": "證券投資信託及顧問事業等應以善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "business_duty_of_care_and_loyalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "comply_with_law",
+          true
+        ],
+        [
+          "EQ",
+          "comply_with_orders_and_contracts",
+          true
+        ],
+        [
+          "EQ",
+          "perform_with_good_faith",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:confidentiality_obligation",
+    "desc": "對受益人或客戶資料應保守秘密",
+    "expr": [
+      "EQ",
+      "confidentiality_obligation",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "no_other_law_or_authority_rule",
+          true
+        ],
+        [
+          "EQ",
+          "keep_confidential",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_decision_record_and_review",
+    "desc": "投資決定應有合理基礎並作成紀錄及按月檢討",
+    "expr": [
+      "EQ",
+      "investment_decision_record_and_review",
+      [
+        "AND",
+        [
+          "EQ",
+          "decision_based_on_analysis",
+          true
+        ],
+        [
+          "EQ",
+          "execution_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "monthly_review_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "analysis_and_decision_reasonable",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_system_established_and_executed",
+    "desc": "內部控制制度訂定並確實執行，控制作業留存紀錄並保存期限",
+    "expr": [
+      "EQ",
+      "internal_control_system_established_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_system_documented",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "control_operations_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "control_records_retained_for_required_period",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:dispersed_investment_required",
+    "desc": "委託投資資產應分散投資，符合主管機關定之分散比率",
+    "expr": [
+      "EQ",
+      "dispersed_investment_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_dispersed",
+          true
+        ],
+        [
+          "GE",
+          "investment_diversification_ratio",
+          "required_diversification_ratio"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors_in_fiduciary_investment",
+    "desc": "全權委託投資業務禁止特定行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors_in_fiduciary_investment",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "use_of_insider_info_for_self_or_others",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transactions_damaging_client_interests",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "profit_loss_sharing_agreement_with_client",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "performance_fee_regulated_exception",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "self_or_other_client_opposite_trades",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "trades_via_central_market_or_broker",
+              true
+            ],
+            [
+              "EQ",
+              "no_intentional_opposite_trade_result",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "use_client_account_for_self_or_others",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "subdelegation_or_transfer_of_fiduciary_contract",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "regulatory_exception_for_subdelegation",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "unjustified_account_transfer_of_completed_trades",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "reasonable_explanation_provided",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "investment_decision_based_on_analysis_report",
+            true
+          ],
+          [
+            "EQ",
+            "reasonable_explanation_provided",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_behaviors_affecting_business_or_client_rights",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors_not_performed",
+    "desc": "未違反全權委託投資業務禁止行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors_not_performed",
+      [
+        "EQ",
+        "prohibited_behaviors_in_fiduciary_investment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_business_acts_not_performed",
+    "desc": "負責人及業務人員不得為第十九條第一項、第五十九條或法令契約禁止行為",
+    "expr": [
+      "EQ",
+      "prohibited_business_acts_not_performed",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_acts_article_19_1",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_acts_article_59",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_acts_law_or_contract",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_system_established",
+    "desc": "依第九十三條規定建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_system_established",
+      [
+        "EQ",
+        "internal_control_system_documented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_system_operated_according_to_law_and_articles",
+    "desc": "業務經營依內部控制制度及法令章程執行",
+    "expr": [
+      "EQ",
+      "internal_control_system_operated_according_to_law_and_articles",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_system_change_approved_and_filed",
+    "desc": "內部控制制度訂定或變更經董事會同意並留存備查，變更應於限期內完成",
+    "expr": [
+      "EQ",
+      "internal_control_system_change_approved_and_filed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_change_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_filed",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "regulator_requests_change",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_change_completed_within_deadline",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_system_requirements",
+    "desc": "內部控制制度應訂定明確組織結構、呈報體系、權限責任及經理人設置等事項，並確實執行及檢討",
+    "expr": [
+      "EQ",
+      "internal_control_system_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_organization_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_reporting_system_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_authority_and_responsibility_defined",
+          true
+        ],
+        [
+          "EQ",
+          "manager_appointment_and_removal_defined",
+          true
+        ],
+        [
+          "EQ",
+          "manager_authority_defined",
+          true
+        ],
+        [
+          "EQ",
+          "manager_compensation_policy_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed_and_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_system_deficiencies_and_violations",
+    "desc": "未訂書面內部控制制度、未配置適任人員、未執行稽核計畫等缺失",
+    "expr": [
+      "EQ",
+      "internal_control_system_deficiencies_and_violations",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_system_documented",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "qualified_internal_audit_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_audit_plan_reported_on_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_audit_plan_executed_on_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_findings_and_corrections_reported_on_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_self_assessment_done",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_statement_made",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_deficiencies_corrected",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_financial_reporting_accurate",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "no_major_fraud_or_suspected_fraud",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "no_other_necessary_special_audit",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反善良管理人義務、保密義務、投資決策紀錄與檢討、內部控制制度、分散投資規定、禁止行為、負責人禁止行為或內部控制缺失時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_duty_of_care_and_loyalty",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "confidentiality_obligation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_decision_record_and_review",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_system_established_and_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "dispersed_investment_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_behaviors_not_performed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_business_acts_not_performed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "internal_control_system_deficiencies_and_violations",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

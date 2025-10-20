@@ -1,0 +1,274 @@
+[
+  {
+    "id": "epayment:company_type_restriction",
+    "desc": "電子支付機構必須為股份有限公司，除經主管機關許可兼營者外，應專營第四條第一項及第二項各款業務",
+    "expr": [
+      "EQ",
+      "company_type_restriction",
+      [
+        "OR",
+        [
+          "EQ",
+          "company_type_corporation",
+          true
+        ],
+        [
+          "EQ",
+          "allowed_to_concurrent_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:contract_terms_compliance",
+    "desc": "專營電子支付機構訂定業務定型化契約條款內容須符合主管機關公告範本及不得低於範本內容",
+    "expr": [
+      "EQ",
+      "contract_terms_compliance",
+      [
+        "EQ",
+        "contract_terms_meet_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:annual_report_submission",
+    "desc": "專營電子支付機構應於會計年度終了四個月內編製營業報告書及財務報告，並於董事會通過翌日起15日內申報公告",
+    "expr": [
+      "EQ",
+      "annual_report_submission",
+      [
+        "AND",
+        [
+          "EQ",
+          "annual_report_prepared",
+          true
+        ],
+        [
+          "EQ",
+          "financial_report_audited",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_passed",
+          true
+        ],
+        [
+          "LE",
+          "days_since_board_approval",
+          15
+        ],
+        [
+          "LE",
+          "months_since_fiscal_year_end",
+          4
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:definitions",
+    "desc": "電子支付機構管理條例及業務管理規則相關定義",
+    "expr": [
+      "EQ",
+      "definitions",
+      [
+        "AND",
+        [
+          "EQ",
+          "definition_epayment_institution",
+          true
+        ],
+        [
+          "EQ",
+          "definition_merchant",
+          true
+        ],
+        [
+          "EQ",
+          "definition_user",
+          true
+        ],
+        [
+          "EQ",
+          "definition_epayment_account",
+          true
+        ],
+        [
+          "EQ",
+          "definition_stored_value_card",
+          true
+        ],
+        [
+          "EQ",
+          "definition_agent_payment",
+          true
+        ],
+        [
+          "EQ",
+          "definition_receipt_of_stored_value",
+          true
+        ],
+        [
+          "EQ",
+          "definition_small_amount_remittance",
+          true
+        ],
+        [
+          "EQ",
+          "definition_payment_funds",
+          true
+        ],
+        [
+          "EQ",
+          "definition_multi_purpose_payment",
+          true
+        ],
+        [
+          "EQ",
+          "definition_epayment_business",
+          true
+        ],
+        [
+          "EQ",
+          "definition_linked_account_payment",
+          true
+        ],
+        [
+          "EQ",
+          "definition_direct_linked_mechanism",
+          true
+        ],
+        [
+          "EQ",
+          "definition_indirect_linked_mechanism",
+          true
+        ],
+        [
+          "EQ",
+          "definition_merchant_payment_message_integration",
+          true
+        ],
+        [
+          "EQ",
+          "definition_user_message_transmission",
+          true
+        ],
+        [
+          "EQ",
+          "definition_gift_voucher_services",
+          true
+        ],
+        [
+          "EQ",
+          "definition_bonus_points",
+          true
+        ],
+        [
+          "EQ",
+          "definition_attached_stored_value_card",
+          true
+        ],
+        [
+          "EQ",
+          "definition_alert_epayment_account",
+          true
+        ],
+        [
+          "EQ",
+          "definition_derived_control_epayment_account",
+          true
+        ],
+        [
+          "EQ",
+          "definition_delivery_platform",
+          true
+        ],
+        [
+          "EQ",
+          "definition_delivery_platform_operator",
+          true
+        ],
+        [
+          "EQ",
+          "definition_taxi_service_platform",
+          true
+        ],
+        [
+          "EQ",
+          "definition_taxi_service_platform_operator",
+          true
+        ],
+        [
+          "EQ",
+          "definition_parking_service_platform",
+          true
+        ],
+        [
+          "EQ",
+          "definition_parking_service_platform_operator",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反公司型態限制、契約條款規定或未依時申報公告營業及財務報告時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "company_type_restriction",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_terms_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_submission",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

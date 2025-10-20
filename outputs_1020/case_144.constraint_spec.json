@@ -1,0 +1,314 @@
+[
+  {
+    "id": "insurance:agent_misconduct",
+    "desc": "代理人違反保險代理人管理規則第49條任一不當行為",
+    "expr": [
+      "EQ",
+      "agent_misconduct",
+      [
+        "OR",
+        [
+          "EQ",
+          "false_report_on_license_application",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_insurance_agent_operation",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_insurance_business_execution",
+          true
+        ],
+        [
+          "EQ",
+          "conceal_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "coerce_or_induce_contract_freedom_violation",
+          true
+        ],
+        [
+          "EQ",
+          "misleading_promotion_or_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "improper_inducement_of_policy_cancellation_or_loan",
+          true
+        ],
+        [
+          "EQ",
+          "misappropriation_or_embezzlement_of_premiums_or_claims",
+          true
+        ],
+        [
+          "EQ",
+          "license_used_by_others",
+          true
+        ],
+        [
+          "EQ",
+          "convicted_of_fraud_or_breach_of_trust_or_forgery",
+          true
+        ],
+        [
+          "EQ",
+          "operate_outside_license_scope",
+          true
+        ],
+        [
+          "EQ",
+          "collect_illegal_fees_or_rewards",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_insurance_claims",
+          true
+        ],
+        [
+          "EQ",
+          "spread_false_information_disturb_financial_order",
+          true
+        ],
+        [
+          "EQ",
+          "authorize_others_to_operate_or_use_others_name",
+          true
+        ],
+        [
+          "EQ",
+          "submit_non_affiliated_agent_documents",
+          true
+        ],
+        [
+          "EQ",
+          "employ_unqualified_insurance_solicitors",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_cancel_license_within_deadline",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_business_suspension_or_resumption",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_reappoint_agent_after_resignation",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_report_to_agent_association",
+          true
+        ],
+        [
+          "EQ",
+          "use_unapproved_advertisement_content",
+          true
+        ],
+        [
+          "EQ",
+          "pay_commission_to_non_actual_solicitor",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_confirm_consumer_suitability",
+          true
+        ],
+        [
+          "EQ",
+          "sell_unapproved_foreign_policy_discount_products",
+          true
+        ],
+        [
+          "EQ",
+          "submit_false_or_incomplete_financial_reports",
+          true
+        ],
+        [
+          "EQ",
+          "hold_conflicting_positions",
+          true
+        ],
+        [
+          "EQ",
+          "induce_contract_termination_or_loan_payment",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_fill_solicitation_report_truthfully",
+          true
+        ],
+        [
+          "EQ",
+          "other_violations_of_rules_or_laws",
+          true
+        ],
+        [
+          "EQ",
+          "other_behaviors_damaging_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_management_rules",
+    "desc": "違反保險法第163條第4項管理規則財務或業務管理規定、163條第7項規定、165條第1項或163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_of_management_rules",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_or_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_163_paragraph_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_165_paragraph_1_or_163_paragraph_5",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:correction_order_issued",
+    "desc": "違反管理規則者已限期改正",
+    "expr": [
+      "EQ",
+      "correction_order_issued",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_imposed",
+    "desc": "違反管理規則者處以罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_imposed",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_management_rules",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_order_issued",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:serious_violation",
+    "desc": "情節重大者",
+    "expr": [
+      "EQ",
+      "serious_violation",
+      true
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_revoked",
+    "desc": "情節重大者廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "license_revoked",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "serious_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反管理規則且未限期改正，或情節重大者廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_of_management_rules",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "correction_order_issued",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

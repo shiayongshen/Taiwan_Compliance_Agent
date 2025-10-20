@@ -1,0 +1,707 @@
+[
+  {
+    "id": "insurance:act_144_actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員",
+    "expr": [
+      "EQ",
+      "act_144_actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuarial_staff_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_review_engaged",
+    "desc": "保險業聘請外部複核精算人員",
+    "expr": [
+      "EQ",
+      "act_144_external_review_engaged",
+      [
+        "EQ",
+        "external_review_actuarial_staff_hired",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_board_approval_obtained",
+    "desc": "簽證精算人員指派及外部複核精算人員聘請經董（理）事會同意",
+    "expr": [
+      "EQ",
+      "act_144_board_approval_obtained",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuarial_staff_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_reports_fair_and_true",
+    "desc": "簽證及複核報告內容公正公平且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "act_144_reports_fair_and_true",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_report_fair_and_true",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_report_fair_and_true",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_control_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_control_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_handling_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation_144_145",
+    "desc": "違反第144條第一項至第四項或第145條規定",
+    "expr": [
+      "EQ",
+      "act_171_violation_144_145",
+      [
+        "EQ",
+        "violate_act_144_1_to_4_or_145",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation_144_5",
+    "desc": "簽證精算人員或外部複核精算人員違反第144條第五項規定",
+    "expr": [
+      "EQ",
+      "act_171_violation_144_5",
+      [
+        "EQ",
+        "violate_act_144_5",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_148_3_1_2",
+    "desc": "違反第148條之三第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_148_3_1_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_act_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_act_148_3_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_sales_approval_or_filing",
+    "desc": "保險商品銷售前完成核准或備查程序",
+    "expr": [
+      "EQ",
+      "insurance_sales_approval_or_filing",
+      [
+        "OR",
+        [
+          "EQ",
+          "insurance_product_approved",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_product_filed",
+            true
+          ],
+          [
+            "LE",
+            "filing_days_after_sales_start",
+            15
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_sales_approval_timing",
+    "desc": "主管機關於收齊申請文件後40工作日內核復，75工作日內准駁決定",
+    "expr": [
+      "EQ",
+      "insurance_sales_approval_timing",
+      [
+        "AND",
+        [
+          "LE",
+          "approval_days_since_complete_application",
+          40
+        ],
+        [
+          "LE",
+          "decision_days_since_complete_application",
+          75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_sales_reapproval_timing",
+    "desc": "駁回後30工作日內再次送審，主管機關25工作日內核復，45工作日內准駁決定",
+    "expr": [
+      "EQ",
+      "insurance_sales_reapproval_timing",
+      [
+        "AND",
+        [
+          "LE",
+          "reapproval_days_since_complete_application",
+          25
+        ],
+        [
+          "LE",
+          "reapproval_decision_days_since_complete_application",
+          45
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_product_modification_review",
+    "desc": "保險商品修改重大變更應依核准程序辦理，非重大變更適用備查程序",
+    "expr": [
+      "EQ",
+      "insurance_product_modification_review",
+      [
+        "OR",
+        [
+          "EQ",
+          "modification_is_major",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "modification_is_major",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:guaranteed_renewal_rate_notification",
+    "desc": "保證續保個人健康保險商品調高續保費率應提前三個月通知要保人並說明",
+    "expr": [
+      "EQ",
+      "guaranteed_renewal_rate_notification",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "guaranteed_renewal_rate_increased",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "guaranteed_renewal_rate_increased",
+            true
+          ],
+          [
+            "EQ",
+            "notification_sent_3_months_before",
+            true
+          ],
+          [
+            "EQ",
+            "explanation_provided",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:guaranteed_renewal_rate_audit",
+    "desc": "稽核單位查核保證續保費率調整規定是否落實並由總稽核出具聲明書",
+    "expr": [
+      "EQ",
+      "guaranteed_renewal_rate_audit",
+      [
+        "AND",
+        [
+          "EQ",
+          "audit_confirmed_fee_adjustment_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "chief_auditor_statement_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_system_compliance",
+    "desc": "保險業建立符合規定之核保處理制度及程序",
+    "expr": [
+      "EQ",
+      "underwriting_system_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_training_completed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_process_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_policies_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_documents_retained",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_prohibited_practices",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:claims_system_compliance",
+    "desc": "保險業建立符合規定之理賠處理制度及程序",
+    "expr": [
+      "EQ",
+      "claims_system_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "claims_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "claims_training_completed",
+          true
+        ],
+        [
+          "EQ",
+          "claims_process_defined",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "claims_prohibited_practices",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_claims_staff_exclusive",
+    "desc": "同時具有核保及理賠人員資格者僅得擇一擔任",
+    "expr": [
+      "EQ",
+      "underwriting_claims_staff_exclusive",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "staff_has_underwriting_qualification",
+            true
+          ],
+          [
+            "EQ",
+            "staff_has_claims_qualification",
+            true
+          ],
+          [
+            "EQ",
+            "staff_performs_both_roles",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:claims_cannot_review_own_underwriting",
+    "desc": "理賠人員不得對三年內核保簽署案件執行理賠審核或簽署",
+    "expr": [
+      "EQ",
+      "claims_cannot_review_own_underwriting",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "claims_staff",
+            true
+          ],
+          [
+            "EQ",
+            "review_own_underwriting_within_3_years",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:staff_cannot_review_own_cases",
+    "desc": "核保或理賠人員不得對其招攬案件執行核保或理賠審核或簽署",
+    "expr": [
+      "EQ",
+      "staff_cannot_review_own_cases",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "staff_is_underwriting_or_claims",
+            true
+          ],
+          [
+            "EQ",
+            "review_own_solicited_cases",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:execute_sales_underwriting_claims_procedures",
+    "desc": "保險業確實執行招攬、核保及理賠處理制度及程序",
+    "expr": [
+      "EQ",
+      "execute_sales_underwriting_claims_procedures",
+      [
+        "AND",
+        [
+          "EQ",
+          "sales_procedures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_procedures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "claims_procedures_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反相關法條規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_external_review_engaged",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_board_approval_obtained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_reports_fair_and_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "act_171_violation_144_145",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_violation_144_5",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_1_violation_148_3_1_2",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_sales_approval_or_filing",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_sales_approval_timing",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_sales_reapproval_timing",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "guaranteed_renewal_rate_notification",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "guaranteed_renewal_rate_audit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_system_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "claims_system_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_claims_staff_exclusive",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "claims_cannot_review_own_underwriting",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "staff_cannot_review_own_cases",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "execute_sales_underwriting_claims_procedures",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

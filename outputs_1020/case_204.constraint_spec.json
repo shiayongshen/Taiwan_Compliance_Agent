@@ -1,0 +1,217 @@
+[
+  {
+    "id": "taiwan_relations:violate_article_36_1_or_2",
+    "desc": "違反第三十六條第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_1_or_2",
+      [
+        "EQ",
+        "violate_article_36_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:violate_article_36_1",
+    "desc": "違反第三十六條第一項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_1",
+      [
+        "EQ",
+        "violate_article_36_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:violate_article_36_2",
+    "desc": "違反第三十六條第二項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_2",
+      [
+        "EQ",
+        "violate_article_36_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_fine_200_to_1000",
+    "desc": "違反第三十六條第一項或第二項規定者，處新臺幣二百萬元以上一千萬元以下罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_200_to_1000",
+      [
+        "EQ",
+        "violate_article_36_1_or_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:order_stop_or_correct",
+    "desc": "得限期命其停止或改正",
+    "expr": [
+      "EQ",
+      "order_stop_or_correct",
+      [
+        "EQ",
+        "violate_article_36_1_or_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:fail_to_stop_or_repeat_violation",
+    "desc": "屆期不停止或改正，或停止後再為相同違反行為",
+    "expr": [
+      "EQ",
+      "fail_to_stop_or_repeat_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "fail_to_stop",
+          true
+        ],
+        [
+          "EQ",
+          "repeat_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_imprisonment_or_fine_1500",
+    "desc": "處行為負責人三年以下有期徒刑、拘役或科或併科新臺幣一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_imprisonment_or_fine_1500",
+      [
+        "EQ",
+        "fail_to_stop_or_repeat_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:violate_ministry_order",
+    "desc": "違反財政部依第三十六條第四項規定報請行政院核定之限制或禁止命令",
+    "expr": [
+      "EQ",
+      "violate_ministry_order",
+      [
+        "EQ",
+        "violate_ministry_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_imprisonment_or_fine_100_to_1500",
+    "desc": "處行為負責人三年以下有期徒刑、拘役或科或併科新臺幣一百萬元以上一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_imprisonment_or_fine_100_to_1500",
+      [
+        "EQ",
+        "violate_ministry_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_fine_for_institution",
+    "desc": "對金融保險證券期貨機構科罰金",
+    "expr": [
+      "EQ",
+      "penalty_fine_for_institution",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_36_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_ministry_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:applicable_outside_roc",
+    "desc": "第一項及第二項規定於中華民國領域外犯罪適用",
+    "expr": [
+      "EQ",
+      "applicable_outside_roc",
+      [
+        "EQ",
+        "crime_outside_roc",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第三十六條第一項或第二項規定，或違反財政部限制命令時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_36_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_ministry_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

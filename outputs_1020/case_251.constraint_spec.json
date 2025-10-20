@@ -1,0 +1,561 @@
+[
+  {
+    "id": "securities_advisory:manager_executive_dedicated",
+    "desc": "證券投資顧問事業總經理、部門主管、分支機構經理人及業務人員應為專任",
+    "expr": [
+      "EQ",
+      "manager_executive_dedicated",
+      [
+        "EQ",
+        "dedicated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:manager_executive_registered",
+    "desc": "證券投資顧問事業總經理、部門主管、分支機構經理人及業務人員應向同業公會登錄",
+    "expr": [
+      "EQ",
+      "manager_executive_registered",
+      [
+        "EQ",
+        "registered_with_association",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:manager_executive_registration_allowed",
+    "desc": "有下列情事之一者，不得登錄或已登錄者應撤銷",
+    "expr": [
+      "EQ",
+      "manager_executive_registration_allowed",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "has_article_68_violation",
+            true
+          ],
+          [
+            "EQ",
+            "qualification_not_met",
+            true
+          ],
+          [
+            "EQ",
+            "violates_article_7",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:client_assessment_done",
+    "desc": "證券投資顧問事業應充分知悉並評估客戶投資知識、經驗、財務狀況及承受風險程度",
+    "expr": [
+      "EQ",
+      "client_assessment_done",
+      [
+        "EQ",
+        "client_assessment_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:written_contract_made",
+    "desc": "證券投資顧問事業提供分析意見或推介建議時，應訂定書面證券投資顧問契約",
+    "expr": [
+      "EQ",
+      "written_contract_made",
+      [
+        "EQ",
+        "contract_written_and_signed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:contract_mandatory_items",
+    "desc": "證券投資顧問契約應載明法定十四項事項",
+    "expr": [
+      "EQ",
+      "contract_mandatory_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_party_name_address",
+          true
+        ],
+        [
+          "EQ",
+          "contract_rights_obligations_liabilities",
+          true
+        ],
+        [
+          "EQ",
+          "contract_scope_of_advice",
+          true
+        ],
+        [
+          "EQ",
+          "contract_service_method",
+          true
+        ],
+        [
+          "EQ",
+          "contract_fee_amount_payment_method",
+          true
+        ],
+        [
+          "EQ",
+          "contract_confidentiality_obligation",
+          true
+        ],
+        [
+          "EQ",
+          "contract_no_leak_without_consent",
+          true
+        ],
+        [
+          "EQ",
+          "contract_no_client_fund_receipt_or_profit_loss_sharing",
+          true
+        ],
+        [
+          "EQ",
+          "contract_modification_termination",
+          true
+        ],
+        [
+          "EQ",
+          "contract_effective_date_duration",
+          true
+        ],
+        [
+          "EQ",
+          "contract_client_7day_termination_right",
+          true
+        ],
+        [
+          "EQ",
+          "contract_fee_refund_ratio_method",
+          true
+        ],
+        [
+          "EQ",
+          "contract_dispute_resolution_jurisdiction",
+          true
+        ],
+        [
+          "EQ",
+          "contract_other_mandatory_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:contract_termination_fee_limit",
+    "desc": "契約終止時得請求終止前所提供服務之相當報酬，但不得請求損害賠償或違約金",
+    "expr": [
+      "EQ",
+      "contract_termination_fee_limit",
+      [
+        "EQ",
+        "no_damage_or_penalty_claimed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:investment_analysis_report_made",
+    "desc": "證券投資顧問事業提供證券投資分析建議時，應作成投資分析報告，載明合理分析基礎及根據",
+    "expr": [
+      "EQ",
+      "investment_analysis_report_made",
+      [
+        "EQ",
+        "analysis_report_created",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:analysis_report_and_records_saved",
+    "desc": "投資分析報告副本及紀錄應保存五年，得以電子媒體形式儲存",
+    "expr": [
+      "EQ",
+      "analysis_report_and_records_saved",
+      [
+        "EQ",
+        "analysis_report_saved_5_years",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:contract_rights_obligations_records_saved",
+    "desc": "證券投資顧問契約權利義務關係消滅日起保存五年",
+    "expr": [
+      "EQ",
+      "contract_rights_obligations_records_saved",
+      [
+        "EQ",
+        "contract_records_saved_5_years",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:media_investment_analysis_record_saved",
+    "desc": "證券投資顧問事業在各種傳播媒體提供投資分析者，應將節目錄影及錄音存查，至少保存一年",
+    "expr": [
+      "EQ",
+      "media_investment_analysis_record_saved",
+      [
+        "EQ",
+        "media_record_saved_1_year",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:business_conduct_good_faith",
+    "desc": "證券投資顧問事業應以善良管理人注意義務及忠實義務、本誠實及信用原則執行業務",
+    "expr": [
+      "EQ",
+      "business_conduct_good_faith",
+      [
+        "EQ",
+        "good_faith_and_loyalty_observed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:prohibited_acts",
+    "desc": "證券投資顧問事業不得有法令禁止之二十一種行為",
+    "expr": [
+      "EQ",
+      "prohibited_acts",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "fraud_coercion_contract",
+            true
+          ],
+          [
+            "EQ",
+            "agency_securities_investment",
+            true
+          ],
+          [
+            "EQ",
+            "profit_loss_sharing_agreement",
+            true
+          ],
+          [
+            "EQ",
+            "buy_sell_same_securities",
+            true
+          ],
+          [
+            "EQ",
+            "false_misleading_behavior",
+            true
+          ],
+          [
+            "EQ",
+            "loan_or_intermediation",
+            true
+          ],
+          [
+            "EQ",
+            "custody_or_misappropriation",
+            true
+          ],
+          [
+            "EQ",
+            "conflict_of_interest",
+            true
+          ],
+          [
+            "EQ",
+            "illegal_disclosure_of_client_info",
+            true
+          ],
+          [
+            "EQ",
+            "allow_others_use_name",
+            true
+          ],
+          [
+            "EQ",
+            "unreasonable_advice",
+            true
+          ],
+          [
+            "EQ",
+            "unapproved_public_prediction",
+            true
+          ],
+          [
+            "EQ",
+            "non_employee_program_host",
+            true
+          ],
+          [
+            "EQ",
+            "superstition_based_advice",
+            true
+          ],
+          [
+            "EQ",
+            "incite_refusal_of_settlement",
+            true
+          ],
+          [
+            "EQ",
+            "unlicensed_commission_payment",
+            true
+          ],
+          [
+            "EQ",
+            "unregistered_name_activity",
+            true
+          ],
+          [
+            "EQ",
+            "advisory_service_as_gift",
+            true
+          ],
+          [
+            "EQ",
+            "unregistered_business_location",
+            true
+          ],
+          [
+            "EQ",
+            "profit_and_expense_sharing_agreement",
+            true
+          ],
+          [
+            "EQ",
+            "other_violations",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:client_data_confidentiality",
+    "desc": "證券投資顧問事業應保守客戶個人資料、往來交易資料及其他相關資料秘密",
+    "expr": [
+      "EQ",
+      "client_data_confidentiality",
+      [
+        "EQ",
+        "client_data_kept_confidential",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "securities_advisory:internal_personnel_management",
+    "desc": "證券投資顧問事業應依同業公會規定訂定內部人員管理規範並執行",
+    "expr": [
+      "EQ",
+      "internal_personnel_management",
+      [
+        "EQ",
+        "internal_management_rules_established_and_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_advisory"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反專任、登錄、評估、契約、報告、善良管理義務、禁止行為、保密及內部管理規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "manager_executive_dedicated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manager_executive_registered",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manager_executive_registration_allowed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "client_assessment_done",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "written_contract_made",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_mandatory_items",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_termination_fee_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_analysis_report_made",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "analysis_report_and_records_saved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_rights_obligations_records_saved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "media_investment_analysis_record_saved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_conduct_good_faith",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_acts",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "client_data_confidentiality",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_personnel_management",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

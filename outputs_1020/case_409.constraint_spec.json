@@ -1,0 +1,190 @@
+[
+  {
+    "id": "insurance:license_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可並領有執業證照",
+    "expr": [
+      "EQ",
+      "license_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "license_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bond_and_insurance_required",
+    "desc": "保險代理人、經紀人、公證人須繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "bond_and_insurance_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "bond_deposited",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_type_required",
+    "desc": "保險代理人、公證人須投保責任保險；保險經紀人須投保責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "insurance_type_required",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_or_notary",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_purchased",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_purchased",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_insurance_purchased",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_allowed",
+    "desc": "領有執業證照且完成繳存保證金及投保相關保險後，始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "business_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_required",
+          true
+        ],
+        [
+          "EQ",
+          "bond_and_insurance_required",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:illegal_operation",
+    "desc": "未領有執業證照而經營或執行保險代理人、經紀人、公證人業務",
+    "expr": [
+      "EQ",
+      "illegal_operation",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_executed",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_held",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:illegal_non_insurance_agent",
+    "desc": "非本法之保險業或外國保險業代理、經紀或招攬保險業務",
+    "expr": [
+      "EQ",
+      "illegal_non_insurance_agent",
+      [
+        "EQ",
+        "non_legal_insurance_agent",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未領有執業證照經營業務或非合法保險代理經紀招攬業務時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "illegal_operation",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_non_insurance_agent",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

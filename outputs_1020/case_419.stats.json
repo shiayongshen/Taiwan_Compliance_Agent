@@ -1,0 +1,178 @@
+{
+  "case_id": "case_419",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 120.04,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 26656,
+  "total_output_tokens": 7644,
+  "total_tokens": 34300,
+  "total_cost_usd": 0.022893,
+  "timestamp": "2025-10-19T15:23:47.934296",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 5323,
+      "output_tokens": 2223,
+      "elapsed_time": 38.07308268547058,
+      "cost": 0.005686
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 13079,
+      "output_tokens": 2454,
+      "elapsed_time": 38.295889139175415,
+      "cost": 0.009158
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 366,
+      "output_tokens": 1264,
+      "elapsed_time": 17.556638956069946,
+      "cost": 0.0021688000000000002
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 366,
+      "output_tokens": 1264,
+      "elapsed_time": 18.566612005233765,
+      "cost": 0.0021688000000000002
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 7522,
+      "output_tokens": 439,
+      "elapsed_time": 7.4704930782318115,
+      "cost": 0.0037112000000000004
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "6796 chars",
+      "timestamp": 38.073115825653076
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7496 chars",
+      "timestamp": 76.36912298202515
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 76.36930513381958
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "46 varspecs",
+      "timestamp": 93.92618799209595
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 93.93805480003357
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 93.95042991638184
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "34 facts",
+      "timestamp": 119.99015498161316
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "12 fixes",
+      "timestamp": 119.99051284790039
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "46 constraints",
+      "timestamp": 119.9932050704956
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 120.00856184959412
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:penalty_default_false', 'c42', 'insurance:penalty_conditions']",
+      "timestamp": 120.00856900215149
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 120.0297122001648
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:foreign_investment_total_limit_ok",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "foreign_investment_total_limit_ok",
+        [
+          "LE",
+          "foreign_investment_total_amount",
+          [
+            "MIN",
+            "regulator_approved_foreign_investment_limit",
+            [
+              "MUL",
+              "capital",
+              0.45
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_total_limit_ok",
+        [
+          "LE",
+          "foreign_investment_total_amount",
+          [
+            "CASE",
+            [
+              "LE",
+              "regulator_approved_foreign_investment_limit",
+              [
+                "MUL",
+                "capital",
+                0.45
+              ]
+            ],
+            "regulator_approved_foreign_investment_limit",
+            [
+              "MUL",
+              "capital",
+              0.45
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 93.93
+    }
+  ]
+}

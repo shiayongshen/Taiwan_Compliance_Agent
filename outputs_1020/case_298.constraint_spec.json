@@ -1,0 +1,777 @@
+[
+  {
+    "id": "insurance:deposit_limit_per_financial_institution",
+    "desc": "存款於每一金融機構之金額不得超過保險業資金10%，除非經主管機關核准",
+    "expr": [
+      "EQ",
+      "deposit_limit_per_financial_institution",
+      [
+        "OR",
+        [
+          "LE",
+          "deposit_amount_per_financial_institution",
+          [
+            "MUL",
+            "insurance_fund_total",
+            0.1
+          ]
+        ],
+        [
+          "EQ",
+          "deposit_limit_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_allowed_categories",
+    "desc": "保險業資金運用限於法定八類項目",
+    "expr": [
+      "EQ",
+      "investment_in_allowed_categories",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_in_securities",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_real_estate",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_loans",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_special_approved_projects",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_foreign_investments",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_insurance_related_business",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_derivative_transactions",
+          true
+        ],
+        [
+          "EQ",
+          "investment_in_other_approved_uses",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_related_business_definition",
+    "desc": "保險相關事業定義符合主管機關認定範圍",
+    "expr": [
+      "EQ",
+      "insurance_related_business_valid",
+      [
+        "OR",
+        [
+          "EQ",
+          "business_is_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_financial_holding",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_bank",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_bills_finance",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_trust",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_credit_card",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_finance_lease",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_securities",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_futures",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_securities_investment_trust",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_securities_investment_advisory",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_other_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_bookkeeping_requirement",
+    "desc": "投資型保險業務應專設帳簿記載投資資產價值",
+    "expr": [
+      "EQ",
+      "investment_bookkeeping_compliant",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "business_is_investment_type_insurance_or_pension",
+          true
+        ],
+        [
+          "EQ",
+          "special_accounting_book_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_bookkeeping_exemption",
+    "desc": "專設帳簿管理不受特定條文限制",
+    "expr": [
+      "EQ",
+      "investment_bookkeeping_exempted",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "special_accounting_book_established",
+          true
+        ],
+        [
+          "EQ",
+          "not_limited_by_specified_articles",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:full_discretionary_investment_requires_license",
+    "desc": "要保人委任全權運用且投資於證券交易法第六條有價證券者，須申請兼營全權委託投資業務",
+    "expr": [
+      "EQ",
+      "full_discretionary_investment_license_compliant",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "policyholder_grants_full_discretionary_investment",
+            true
+          ],
+          [
+            "EQ",
+            "investment_in_securities_under_securities_law_article_6",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "has_full_discretionary_investment_license",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_transaction_regulation_compliance",
+    "desc": "從事衍生性商品交易應符合主管機關定之條件及程序",
+    "expr": [
+      "EQ",
+      "derivative_transaction_compliant",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "engages_in_derivative_transactions",
+          true
+        ],
+        [
+          "EQ",
+          "complies_with_derivative_transaction_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_quality_evaluation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "reserve_provision_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "overdue_loan_management_established",
+          true
+        ],
+        [
+          "EQ",
+          "collection_management_established",
+          true
+        ],
+        [
+          "EQ",
+          "bad_debt_writeoff_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "policy_sales_and_claims_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_classification",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級(4)應執行之措施已完成",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_executed",
+      [
+        "EQ",
+        "capital_level_4_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著不足等級(3)應執行之措施已完成",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_executed",
+      [
+        "EQ",
+        "capital_level_3_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級(2)應執行之措施已完成",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_and_approval_compliance",
+    "desc": "放款無十足擔保或條件優於同類放款者，應依法處罰",
+    "expr": [
+      "EQ",
+      "loan_guarantee_and_approval_compliant",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "loan_without_full_guarantee_or_better_conditions",
+            true
+          ],
+          [
+            "EQ",
+            "loan_approval_not_meeting_board_approval",
+            true
+          ],
+          [
+            "EQ",
+            "loan_exceeding_limits",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_transaction_limit_compliance",
+    "desc": "衍生性金融商品交易限額及沖抵原則符合規定",
+    "expr": [
+      "EQ",
+      "derivative_transaction_limit_compliant",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "LE",
+            "derivative_contract_value_hedged_invested_assets",
+            "hedged_invested_assets_value"
+          ],
+          [
+            "LE",
+            "derivative_contract_value_hedged_expected_investment",
+            "hedged_expected_investment_value"
+          ],
+          [
+            "LE",
+            "derivative_contract_value_hedged_specific_liabilities",
+            "hedged_specific_liabilities_value"
+          ]
+        ],
+        [
+          "LE",
+          "derivative_contract_value_for_investment_purpose",
+          [
+            "MUL",
+            "insurance_fund_total",
+            0.05
+          ]
+        ],
+        [
+          "LE",
+          "foreign_derivative_contract_value_for_investment_purpose",
+          [
+            "MUL",
+            "insurance_fund_total",
+            0.03
+          ]
+        ],
+        [
+          "LE",
+          "single_company_equity_derivative_contract_value",
+          [
+            "MUL",
+            "insurance_fund_total",
+            0.005
+          ]
+        ],
+        [
+          "EQ",
+          "derivative_offsetting_principles_followed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:project_investment_approval_compliance",
+    "desc": "專案運用及公共社會福利事業投資應申請核准或備供查核",
+    "expr": [
+      "EQ",
+      "project_investment_approval_compliant",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "engages_in_project_investment_or_public_welfare_investment",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "project_investment_approved",
+            true
+          ],
+          [
+            "EQ",
+            "project_investment_available_for_post_audit",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:project_investment_governance_compliance",
+    "desc": "公共及社會福利事業投資治理規定符合",
+    "expr": [
+      "EQ",
+      "project_investment_governance_compliant",
+      [
+        "AND",
+        [
+          "LE",
+          "insurance_representative_board_seats",
+          [
+            "MUL",
+            "total_board_seats_of_invested_company",
+            0.6666667
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "GE",
+            "insurance_representative_board_seats",
+            [
+              "MUL",
+              "total_board_seats_of_invested_company",
+              0.5
+            ]
+          ],
+          [
+            "GE",
+            "independent_board_seats",
+            1
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_staff_appointed_as_invested_company_manager",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_compliance",
+    "desc": "內部控制及稽核制度與內部處理制度及程序均已建立",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_and_audit_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反資金運用限制、內部控制、放款規定、專案投資核准或資本不足措施未執行等情形",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "deposit_limit_per_financial_institution",
+              true
+            ],
+            [
+              "EQ",
+              "investment_in_allowed_categories",
+              true
+            ],
+            [
+              "EQ",
+              "insurance_related_business_valid",
+              true
+            ],
+            [
+              "EQ",
+              "investment_bookkeeping_compliant",
+              true
+            ],
+            [
+              "EQ",
+              "full_discretionary_investment_license_compliant",
+              true
+            ],
+            [
+              "EQ",
+              "derivative_transaction_compliant",
+              true
+            ],
+            [
+              "EQ",
+              "internal_control_and_handling_compliant",
+              true
+            ],
+            [
+              "EQ",
+              "loan_guarantee_and_approval_compliance",
+              true
+            ],
+            [
+              "EQ",
+              "project_investment_approval_compliant",
+              true
+            ],
+            [
+              "EQ",
+              "project_investment_governance_compliant",
+              true
+            ],
+            [
+              "GE",
+              "capital_level",
+              1
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_2_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

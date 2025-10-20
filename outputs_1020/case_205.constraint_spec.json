@@ -1,0 +1,311 @@
+[
+  {
+    "id": "aml:high_risk_country_definition",
+    "desc": "洗錢或資恐高風險國家或地區定義",
+    "expr": [
+      "EQ",
+      "high_risk_country",
+      [
+        "OR",
+        "international_aml_org_serious_deficiency",
+        "international_aml_org_non_compliance",
+        "other_concrete_evidence_high_risk"
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_cdd_required",
+    "desc": "對洗錢或資恐高風險國家或地區客戶應採取強化確認客戶身分措施",
+    "expr": [
+      "EQ",
+      "enhanced_cdd_required",
+      [
+        "EQ",
+        "customer_from_high_risk_country",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:strengthen_cdd_for_high_risk",
+    "desc": "高風險情形應加強確認客戶身分及持續審查措施",
+    "expr": [
+      "EQ",
+      "strengthen_cdd_for_high_risk",
+      [
+        "EQ",
+        "high_risk_situation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:strengthen_cdd_measures",
+    "desc": "高風險情形應採取強化措施",
+    "expr": [
+      "EQ",
+      "strengthen_cdd_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "high_risk_situation",
+          true
+        ],
+        [
+          "EQ",
+          "senior_management_approval_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "reasonable_measures_to_understand_wealth_and_funds_source",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_ongoing_monitoring",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:simplified_cdd_allowed",
+    "desc": "較低風險情形得採取簡化措施",
+    "expr": [
+      "EQ",
+      "simplified_cdd_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "lower_risk_situation",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_from_high_risk_country",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "suspected_money_laundering_or_terrorist_financing",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:simplified_cdd_not_allowed",
+    "desc": "不得採取簡化措施之情形",
+    "expr": [
+      "EQ",
+      "simplified_cdd_not_allowed",
+      [
+        "OR",
+        [
+          "EQ",
+          "customer_from_high_risk_country",
+          true
+        ],
+        [
+          "EQ",
+          "suspected_money_laundering_or_terrorist_financing",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:exemption_for_stored_value_card_named_registration",
+    "desc": "辦理儲值卡記名作業時，不適用高風險客戶強化措施規定",
+    "expr": [
+      "EQ",
+      "exemption_for_stored_value_card_named_registration",
+      [
+        "EQ",
+        "stored_value_card_named_registration",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:insurance_beneficiary_risk_considered",
+    "desc": "保險業應將人壽保險契約受益人納入強化確認客戶身分措施考量",
+    "expr": [
+      "EQ",
+      "insurance_beneficiary_risk_considered",
+      [
+        "EQ",
+        "insurance_industry",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_cdd_for_high_risk_beneficiary",
+    "desc": "人壽保險契約受益人為法人或信託且評估為較高風險者，應採取強化確認客戶身分措施",
+    "expr": [
+      "EQ",
+      "enhanced_cdd_for_high_risk_beneficiary",
+      [
+        "AND",
+        [
+          "EQ",
+          "insurance_industry",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_is_legal_person_or_trustee",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_assessed_high_risk",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:reasonable_measures_before_payout",
+    "desc": "給付保險金前採取合理措施辨識及驗證實質受益人身分",
+    "expr": [
+      "EQ",
+      "reasonable_measures_before_payout",
+      [
+        "AND",
+        [
+          "EQ",
+          "insurance_industry",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_is_legal_person_or_trustee",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_assessed_high_risk",
+          true
+        ],
+        [
+          "EQ",
+          "reasonable_measures_taken_before_payout",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定採取強化確認客戶身分措施或持續審查措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_from_high_risk_country",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "enhanced_cdd_required",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "high_risk_situation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "strengthen_cdd_measures",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_industry",
+            true
+          ],
+          [
+            "EQ",
+            "beneficiary_is_legal_person_or_trustee",
+            true
+          ],
+          [
+            "EQ",
+            "beneficiary_assessed_high_risk",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reasonable_measures_taken_before_payout",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

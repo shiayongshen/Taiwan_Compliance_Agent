@@ -1,0 +1,522 @@
+[
+  {
+    "id": "insurance:same_person_definition",
+    "desc": "同一人定義為同一自然人或同一法人",
+    "expr": [
+      "EQ",
+      "same_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "person_type",
+          1
+        ],
+        [
+          "EQ",
+          "person_type",
+          2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:same_related_person_definition",
+    "desc": "同一關係人定義包含本人、配偶、二親等以內血親及以本人或配偶為負責人之事業",
+    "expr": [
+      "EQ",
+      "same_related_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_self",
+          true
+        ],
+        [
+          "EQ",
+          "is_spouse",
+          true
+        ],
+        [
+          "LE",
+          "blood_relation_degree",
+          2
+        ],
+        [
+          "EQ",
+          "is_business_responsible_by_self_or_spouse",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:same_related_enterprise_definition",
+    "desc": "同一關係企業範圍適用公司法相關條文",
+    "expr": [
+      "EQ",
+      "same_related_enterprise",
+      [
+        "OR",
+        [
+          "EQ",
+          "company_law_369_1_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_2_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_3_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_9_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_11_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_control_or_handling",
+    "desc": "違反內部控制或內部處理制度規定",
+    "expr": [
+      "EQ",
+      "violation_internal_control_or_handling",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_executed",
+    "desc": "增資、財務或業務改善計畫已提交且執行",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_violation",
+    "desc": "資本嚴重不足且未依規定完成增資或改善計畫",
+    "expr": [
+      "EQ",
+      "capital_level_4_violation",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_submitted_and_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration",
+    "desc": "財務或業務狀況顯著惡化，不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "cannot_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "cannot_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_approved",
+    "desc": "主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_approved",
+      [
+        "EQ",
+        "improvement_plan_approved_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_accelerated_deterioration",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_accelerated_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_accelerated_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "net_worth_accelerated_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_or_takeover_decision",
+    "desc": "主管機關為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "supervision_or_takeover_decision",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_violation",
+          true
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ]
+          ],
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_actions_without_supervisor_consent",
+    "desc": "監管處分期間未經監管人同意不得為特定行為",
+    "expr": [
+      "EQ",
+      "prohibited_actions_without_supervisor_consent",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisor_consent_for_payment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisor_consent_for_contract",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisor_consent_for_financial_matters",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_control_or_handling_penalty",
+    "desc": "違反內部控制或內部處理制度規定處罰",
+    "expr": [
+      "EQ",
+      "violation_internal_control_or_handling_penalty",
+      [
+        "EQ",
+        "violation_internal_control_or_handling",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制或內部處理制度，或資本嚴重不足且未完成改善計畫，或財務業務惡化且未改善時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_internal_control_or_handling",
+          true
+        ],
+        [
+          "EQ",
+          "capital_level_4_violation",
+          true
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ]
+          ],
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

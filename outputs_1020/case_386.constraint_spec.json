@@ -1,0 +1,451 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_noncompliance",
+    "desc": "資本嚴重不足且未依規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_increase_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_or_business_improvement_plan_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "merger_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_or_worse_financial_deterioration",
+    "desc": "資本等級非嚴重不足但財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "capital_level_3_or_worse_financial_deterioration",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ]
+        ],
+        [
+          "EQ",
+          "financial_or_business_deterioration_significant",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "unable_to_pay_debts",
+            true
+          ],
+          [
+            "EQ",
+            "unable_to_fulfill_contractual_responsibilities",
+            true
+          ],
+          [
+            "EQ",
+            "risk_of_harming_insured_rights",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_approved",
+    "desc": "保險業已提出且主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_accelerated_deterioration_or_no_improvement",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_accelerated_deterioration_or_no_improvement",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_net_worth_accelerated_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_effective",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:authority_may_take_actions",
+    "desc": "主管機關得依情節輕重為監管、接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "authority_may_take_actions",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level_3_or_worse_financial_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration_or_no_improvement",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:authority_may_extend_deadline_or_require_new_plan",
+    "desc": "主管機關得另定期限或要求重新提具增資、改善或合併計畫",
+    "expr": [
+      "EQ",
+      "authority_may_extend_deadline_or_require_new_plan",
+      [
+        "AND",
+        [
+          "EQ",
+          "major_domestic_or_international_event_affecting_financial_market",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_increase_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_or_business_improvement_plan_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "merger_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:authority_may_delegate_supervision",
+    "desc": "主管機關得委託其他保險業、相關機構或專業人員擔任監管人、接管人、清理人或清算人",
+    "expr": [
+      "EQ",
+      "authority_may_delegate_supervision",
+      [
+        "EQ",
+        "authority_delegated_supervision",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:delegated_entities_not_subject_to_gov_procurement_law",
+    "desc": "受委託機構或個人辦理事項不適用政府採購法",
+    "expr": [
+      "EQ",
+      "delegated_entities_not_subject_to_gov_procurement_law",
+      [
+        "EQ",
+        "delegated_entities_exempt_from_gov_procurement_law",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:receivership_exemption_from_company_law",
+    "desc": "保險業受接管或勒令停業清理時不適用公司法臨時管理人或檢查人規定",
+    "expr": [
+      "EQ",
+      "receivership_exemption_from_company_law",
+      [
+        "EQ",
+        "receivership_or_ordered_suspension",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reorganization_petition_handling",
+    "desc": "接管人依本法聲請重整，法院得合併審理或裁定",
+    "expr": [
+      "EQ",
+      "reorganization_petition_handling",
+      [
+        "EQ",
+        "reorganization_petition_by_receiver",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:restricted_actions_without_supervisor_consent",
+    "desc": "監管處分期間非經監管人同意不得超限支付款項、締結契約或重大財務事項",
+    "expr": [
+      "EQ",
+      "restricted_actions_without_supervisor_consent",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "under_supervision",
+          true
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "payment_amount",
+            "supervisor_limit"
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "contract_or_major_obligation_committed_without_supervisor_consent",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "other_major_financial_impact_without_supervisor_consent",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_inspection_applies",
+    "desc": "監管人執行監管職務時準用檢查規定",
+    "expr": [
+      "EQ",
+      "supervisor_inspection_applies",
+      [
+        "EQ",
+        "supervisor_performs_inspection",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成增資、改善計畫或合併，或財務狀況惡化且未改善時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level_3_or_worse_financial_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration_or_no_improvement",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

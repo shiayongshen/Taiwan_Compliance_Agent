@@ -1,0 +1,363 @@
+[
+  {
+    "id": "insurance:agent_broker_officer_violation",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營",
+    "expr": [
+      "EQ",
+      "agent_broker_officer_violation",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_measures",
+    "desc": "主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "CASE",
+        [
+          "EQ",
+          "restriction_of_business_scope",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "dismissal_of_manager_or_staff",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "dismissal_or_suspension_of_director_or_supervisor",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ],
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_167_2",
+    "desc": "違反保險法第163條相關財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "violation_167_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_or_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_167_2",
+    "desc": "違反第167-2條應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "penalty_167_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_made_167_2",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "fine_imposed_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_167_3",
+    "desc": "違反保險法第165條第三項或第163條第五項準用規定，未建立或未確實執行內部控制等制度",
+    "expr": [
+      "EQ",
+      "violation_167_3",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_167_3",
+    "desc": "違反第167-3條應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "penalty_167_3",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_made_167_3",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "fine_imposed_167_3",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "finance_consumer_protection:violation_30_1_1",
+    "desc": "違反金融消費者保護法第30-1條第1款規定（廣告、招攬、促銷方式或內容）",
+    "expr": [
+      "EQ",
+      "violation_30_1_1",
+      [
+        "EQ",
+        "violate_advertising_or_promotion_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer_protection"
+  },
+  {
+    "id": "finance_consumer_protection:violation_30_1_2",
+    "desc": "違反第30-1條第2款規定（未充分瞭解消費者資料及適合度）",
+    "expr": [
+      "EQ",
+      "violation_30_1_2",
+      [
+        "EQ",
+        "violate_consumer_data_or_suitability_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer_protection"
+  },
+  {
+    "id": "finance_consumer_protection:violation_30_1_3",
+    "desc": "違反第30-1條第3款規定（未充分說明金融商品重要內容或揭露風險）",
+    "expr": [
+      "EQ",
+      "violation_30_1_3",
+      [
+        "EQ",
+        "violate_disclosure_or_explanation_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer_protection"
+  },
+  {
+    "id": "finance_consumer_protection:violation_30_1_4",
+    "desc": "違反第30-1條第4款規定（未訂定或未確實執行酬金制度）",
+    "expr": [
+      "EQ",
+      "violation_30_1_4",
+      [
+        "EQ",
+        "violate_compensation_system_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer_protection"
+  },
+  {
+    "id": "finance_consumer_protection:violation_30_1_5",
+    "desc": "協助自然人或法人創造形式上符合條件之外觀",
+    "expr": [
+      "EQ",
+      "violation_30_1_5",
+      [
+        "EQ",
+        "assist_create_formal_appearance",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer_protection"
+  },
+  {
+    "id": "finance_consumer_protection:penalty_30_1",
+    "desc": "違反金融消費者保護法第30-1條規定處罰",
+    "expr": [
+      "EQ",
+      "penalty_30_1",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_30_1_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_30_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_30_1_3",
+          true
+        ],
+        [
+          "EQ",
+          "violation_30_1_4",
+          true
+        ],
+        [
+          "EQ",
+          "violation_30_1_5",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer_protection"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一相關法條規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "agent_broker_officer_violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_167_3",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_30_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,298 @@
+{
+  "case_id": "case_448",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 351.59,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 20928,
+  "total_output_tokens": 9146,
+  "total_tokens": 30074,
+  "total_cost_usd": 0.023005,
+  "timestamp": "2025-10-19T16:16:39.815539",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3562,
+      "output_tokens": 3261,
+      "elapsed_time": 22.57384967803955,
+      "cost": 0.0066424000000000006
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 10595,
+      "output_tokens": 3261,
+      "elapsed_time": 55.06994318962097,
+      "cost": 0.009455600000000002
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 317,
+      "output_tokens": 1084,
+      "elapsed_time": 15.114755153656006,
+      "cost": 0.0018612000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 317,
+      "output_tokens": 1084,
+      "elapsed_time": 16.666156768798828,
+      "cost": 0.0018612000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 6137,
+      "output_tokens": 456,
+      "elapsed_time": 10.031765937805176,
+      "cost": 0.0031844
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "9892 chars",
+      "timestamp": 22.573871850967407
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "9891 chars",
+      "timestamp": 77.64390397071838
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 77.64424586296082
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "38 varspecs",
+      "timestamp": 92.7594428062439
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 92.7692518234253
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 324.81908082962036
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "37 facts",
+      "timestamp": 351.5197219848633
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "1 fixes",
+      "timestamp": 351.51983880996704
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "38 constraints",
+      "timestamp": 351.5221667289734
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 351.54473876953125
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c41', 'insurance:single_transaction_limit_government', 'c20']",
+      "timestamp": 351.54474687576294
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 351.57489371299744
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "statutory_standard"
+          ],
+          [
+            "LE",
+            "policyholder_equity",
+            0.0
+          ],
+          [
+            "EQ",
+            "capital_increase_plan_approved",
+            true
+          ],
+          [
+            "LE",
+            "single_transaction_amount",
+            [
+              "MIN",
+              [
+                "MUL",
+                "funds",
+                0.01
+              ],
+              5000000000.0
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_related_party_real_estate_single_limit_capital_ratio_not_met_equity_negative",
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "statutory_standard"
+          ],
+          [
+            "LE",
+            "policyholder_equity",
+            0.0
+          ],
+          [
+            "EQ",
+            "capital_increase_plan_approved",
+            true
+          ],
+          [
+            "LE",
+            "single_transaction_amount",
+            [
+              "CASE",
+              [
+                "LE",
+                [
+                  "MUL",
+                  "funds",
+                  0.01
+                ],
+                5000000000.0
+              ],
+              [
+                "MUL",
+                "funds",
+                0.01
+              ],
+              5000000000.0
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 92.76
+    },
+    {
+      "id": "insurance:non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "statutory_standard"
+          ],
+          [
+            "LE",
+            "policyholder_equity",
+            0.0
+          ],
+          [
+            "EQ",
+            "capital_increase_plan_approved",
+            true
+          ],
+          [
+            "LE",
+            "total_transaction_amount",
+            [
+              "MIN",
+              [
+                "MUL",
+                "funds",
+                0.02
+              ],
+              10000000000.0
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_related_party_real_estate_total_limit_capital_ratio_not_met_equity_negative",
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "statutory_standard"
+          ],
+          [
+            "LE",
+            "policyholder_equity",
+            0.0
+          ],
+          [
+            "EQ",
+            "capital_increase_plan_approved",
+            true
+          ],
+          [
+            "LE",
+            "total_transaction_amount",
+            [
+              "CASE",
+              [
+                "LE",
+                [
+                  "MUL",
+                  "funds",
+                  0.02
+                ],
+                10000000000.0
+              ],
+              [
+                "MUL",
+                "funds",
+                0.02
+              ],
+              10000000000.0
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 92.76
+    }
+  ]
+}

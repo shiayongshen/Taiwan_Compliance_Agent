@@ -38,15 +38,9 @@ REPAIR_SYS_PROMPT = r"""
    - 禁止裸 VAR（必須用 EQ 包起來）。  
    - 禁止把 Int/Real 當 Bool。  
 
-7. **變數命名規則**
-   - constraint 中的變數名稱必須與 varspecs 對齊。  
-   - 禁止在變數名中使用 domain 前綴（如 `"insurance:capital_adequate"`）。  
-   - ✅ `"capital_adequate"`  
-   - ❌ `"insurance:capital_adequate"`
+7. 保留原本語意和結構，只修正為合法格式。
 
-8. 保留原本語意和結構，只修正為合法格式。
-
-9. 僅輸出合法 JSON 陣列，不能附加任何解釋或自然語言。
+8. 僅輸出合法 JSON 陣列，不能附加任何解釋或自然語言。
 
 ---
 """

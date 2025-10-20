@@ -1,0 +1,192 @@
+[
+  {
+    "id": "bank:fund_transfer_service_permit_required",
+    "desc": "經營金融機構間資金移轉帳務清算之金融資訊服務事業須主管機關許可",
+    "expr": [
+      "EQ",
+      "fund_transfer_service_permit_required",
+      [
+        "EQ",
+        "fund_transfer_service_permit_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:large_fund_transfer_service_permit_required",
+    "desc": "涉及大額資金移轉帳務清算業務須中央銀行許可",
+    "expr": [
+      "EQ",
+      "large_fund_transfer_service_permit_required",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "involves_large_fund_transfer",
+          true
+        ],
+        [
+          "EQ",
+          "large_fund_transfer_permit_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_data_service_permit_required",
+    "desc": "經營金融機構間徵信資料處理交換服務事業須主管機關許可",
+    "expr": [
+      "EQ",
+      "credit_data_service_permit_required",
+      [
+        "EQ",
+        "credit_data_service_permit_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cross_bank_network_system_operational",
+    "desc": "跨行金融資訊網路事業應維持跨行網路系統正常運作",
+    "expr": [
+      "EQ",
+      "cross_bank_network_system_operational",
+      [
+        "EQ",
+        "cross_bank_network_system_normal",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cross_bank_network_system_obstacle_handled",
+    "desc": "系統障礙應儘速排除及維護系統與相關設備，必要時採取備援措施",
+    "expr": [
+      "EQ",
+      "cross_bank_network_system_obstacle_handled",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "cross_bank_network_system_obstacle",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "obstacle_eliminated_or_maintained",
+            true
+          ],
+          [
+            "EQ",
+            "backup_measures_taken_if_necessary",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cross_bank_network_system_stop_notification",
+    "desc": "系統障礙停止作業時，除有正當理由外應事先通知連線用戶及主管機關與中央銀行",
+    "expr": [
+      "EQ",
+      "cross_bank_network_system_stop_notification",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "cross_bank_network_system_obstacle",
+            true
+          ],
+          [
+            "EQ",
+            "stop_transmission_exchange_processing",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "justifiable_reason",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "prior_notification_given",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance",
+    "desc": "遵守銀行法及授權命令中強制、禁止及應為行為規定",
+    "expr": [
+      "EQ",
+      "legal_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_law_complied",
+          true
+        ],
+        [
+          "EQ",
+          "authorized_orders_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法或授權命令中強制、禁止或應為規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "legal_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

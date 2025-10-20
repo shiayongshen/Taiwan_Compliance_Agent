@@ -1,0 +1,536 @@
+[
+  {
+    "id": "fhc:disciplinary_measures",
+    "desc": "金融控股公司違反法令或章程時可採取之處分措施",
+    "expr": [
+      "EQ",
+      "disciplinary_measures",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        1,
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation",
+            true
+          ]
+        ],
+        0,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:notify_economic_ministry_on_director_removal",
+    "desc": "解除董事、監察人職務時通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "notify_economic_ministry_on_director_removal",
+      [
+        "EQ",
+        "director_or_supervisor_removed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:dispose_shares_and_dissolve_if_not_completed",
+    "desc": "廢止許可時限期處分股份，未完成則解散清算",
+    "expr": [
+      "EQ",
+      "dispose_shares_and_dissolve_if_not_completed",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "disposition_deadline",
+            "current_date"
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "shares_disposed",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "compliance_with_article_4_1",
+                true
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_communication_established",
+    "desc": "建立法令規章諮詢溝通管道",
+    "expr": [
+      "EQ",
+      "internal_control_communication_established",
+      [
+        "EQ",
+        "consultation_channel_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_report_includes_analysis",
+    "desc": "法令遵循單位提報董事會報告包含缺失分析及改善建議",
+    "expr": [
+      "EQ",
+      "internal_control_report_includes_analysis",
+      [
+        "AND",
+        [
+          "EQ",
+          "report_includes_deficiency_analysis",
+          true
+        ],
+        [
+          "EQ",
+          "report_includes_improvement_suggestions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:compliance_unit_mandatory_tasks",
+    "desc": "法令遵循單位應辦理事項",
+    "expr": [
+      "EQ",
+      "compliance_unit_mandatory_tasks",
+      [
+        "AND",
+        [
+          "EQ",
+          "clear_communication_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "regulations_updated_timely",
+          true
+        ],
+        [
+          "EQ",
+          "legal_opinion_signed_before_new_business",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_evaluation_and_supervision",
+          true
+        ],
+        [
+          "EQ",
+          "staff_training_provided",
+          true
+        ],
+        [
+          "EQ",
+          "supervision_of_internal_regulations_implementation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_audit_exemption",
+    "desc": "內部稽核單位自行評估法令遵循不適用部分規定",
+    "expr": [
+      "EQ",
+      "internal_audit_exemption",
+      [
+        "EQ",
+        "internal_audit_unit_self_evaluation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:foreign_branch_compliance_supervision",
+    "desc": "國外營業單位法令遵循督導事項",
+    "expr": [
+      "EQ",
+      "foreign_branch_compliance_supervision",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_regulations_collected",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_self_evaluation_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_resources_adequate",
+          true
+        ],
+        [
+          "EQ",
+          "high_risk_business_external_verification",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:semiannual_self_evaluation",
+    "desc": "法令遵循自行評估每半年至少辦理一次",
+    "expr": [
+      "EQ",
+      "semiannual_self_evaluation",
+      [
+        "AND",
+        [
+          "GE",
+          [
+            "SUB",
+            "current_date",
+            "last_self_evaluation_date"
+          ],
+          180
+        ],
+        [
+          "EQ",
+          "self_evaluation_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "unit_supervisor_designated_person",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:self_evaluation_records_retained",
+    "desc": "自行評估工作底稿及資料保存至少五年",
+    "expr": [
+      "EQ",
+      "self_evaluation_records_retained",
+      [
+        "GE",
+        [
+          "SUB",
+          "current_date",
+          "record_creation_date"
+        ],
+        1825
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "bank:disciplinary_measures",
+    "desc": "銀行違反法令或章程時可採取之處分措施",
+    "expr": [
+      "EQ",
+      "disciplinary_measures",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        1,
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation",
+            true
+          ]
+        ],
+        0,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:notify_registration_authority_on_director_removal",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關撤銷或廢止登記",
+    "expr": [
+      "EQ",
+      "notify_registration_authority_on_director_removal",
+      [
+        "EQ",
+        "director_or_supervisor_removed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_needed",
+    "desc": "主管機關得指定機構辦理銀行業務輔導",
+    "expr": [
+      "EQ",
+      "business_guidance_needed",
+      [
+        "EQ",
+        "business_guidance_necessary",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "epayment:disciplinary_measures",
+    "desc": "電子支付機構違反法令或章程時可採取之處分措施",
+    "expr": [
+      "EQ",
+      "disciplinary_measures",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        1,
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation",
+            true
+          ]
+        ],
+        0,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:notify_registration_authority_on_director_removal",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關廢止登記",
+    "expr": [
+      "EQ",
+      "notify_registration_authority_on_director_removal",
+      [
+        "EQ",
+        "director_or_supervisor_removed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:non_epayment_business_apply_rules",
+    "desc": "非電子支付機構經主管機關許可經營特定業務違反法令準用電子支付機構規定",
+    "expr": [
+      "EQ",
+      "non_epayment_business_apply_rules",
+      [
+        "EQ",
+        "non_epayment_business_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "billfinance:apply_bank_law_61_1",
+    "desc": "票券金融公司違反法令準用銀行法第61-1條規定",
+    "expr": [
+      "EQ",
+      "apply_bank_law_61_1",
+      [
+        "EQ",
+        "violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "insurance_agent:disciplinary_measures",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營時可採取之處分措施",
+    "expr": [
+      "EQ",
+      "disciplinary_measures",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        1,
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation",
+            true
+          ]
+        ],
+        0,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:notify_registration_authority_on_director_removal",
+    "desc": "解除公司董事或監察人職務時通知主管機關註銷登記",
+    "expr": [
+      "EQ",
+      "notify_registration_authority_on_director_removal",
+      [
+        "EQ",
+        "director_or_supervisor_removed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "disciplinary_measures",
+            1
+          ],
+          [
+            "EQ",
+            "disciplinary_measures",
+            1
+          ],
+          [
+            "EQ",
+            "disciplinary_measures",
+            1
+          ],
+          [
+            "EQ",
+            "apply_bank_law_61_1",
+            true
+          ],
+          [
+            "EQ",
+            "disciplinary_measures",
+            1
+          ]
+        ]
+      ],
+      [
+        "EQ",
+        "penalty",
+        false
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司、銀行、電子支付機構、票券金融公司及保險代理人相關法令規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "disciplinary_measures",
+          1
+        ],
+        [
+          "EQ",
+          "disciplinary_measures",
+          1
+        ],
+        [
+          "EQ",
+          "disciplinary_measures",
+          1
+        ],
+        [
+          "EQ",
+          "apply_bank_law_61_1",
+          true
+        ],
+        [
+          "EQ",
+          "disciplinary_measures",
+          1
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

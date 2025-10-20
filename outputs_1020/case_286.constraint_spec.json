@@ -1,0 +1,1060 @@
+[
+  {
+    "id": "bank:violation_occurred",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "bank:violation_occurred",
+      [
+        "EQ",
+        "bank_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:corrective_action_taken",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "bank:corrective_action_taken",
+      [
+        "AND",
+        [
+          "EQ",
+          "correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_deadline_given",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalties_applied",
+    "desc": "主管機關視情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "bank:penalties_applied",
+      [
+        "OR",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "restrict_investment",
+          true
+        ],
+        [
+          "EQ",
+          "order_restrict_asset_disposition",
+          true
+        ],
+        [
+          "EQ",
+          "order_close_branches_or_departments",
+          true
+        ],
+        [
+          "EQ",
+          "order_remove_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "order_provision_of_reserve",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:director_removal_notification",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關撤銷或廢止登記",
+    "expr": [
+      "EQ",
+      "bank:director_removal_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_needed",
+    "desc": "為改善營運缺失有業務輔導必要",
+    "expr": [
+      "EQ",
+      "bank:business_guidance_needed",
+      [
+        "EQ",
+        "business_guidance_needed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bill_finance:violation_occurred",
+    "desc": "票券金融公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "bill_finance:violation_occurred",
+      [
+        "EQ",
+        "bill_finance_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "bill_finance:penalties_applied",
+    "desc": "票券金融公司依銀行法第61-1條規定採取處分",
+    "expr": [
+      "EQ",
+      "bill_finance:penalties_applied",
+      [
+        "EQ",
+        "bank:penalties_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "fhc:violation_occurred",
+    "desc": "金融控股公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "fhc:violation_occurred",
+      [
+        "EQ",
+        "fhc_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:corrective_action_taken",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "fhc:corrective_action_taken",
+      [
+        "AND",
+        [
+          "EQ",
+          "fhc_correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_improvement_deadline_given",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalties_applied",
+    "desc": "主管機關視情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "fhc:penalties_applied",
+      [
+        "AND",
+        [
+          "EQ",
+          "fhc_revoke_permit",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "fhc_revoke_statutory_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_suspend_subsidiary_business",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_order_remove_manager_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_order_remove_directors_or_supervisors",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_order_dispose_subsidiary_shares",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_other_necessary_measures",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:director_removal_notification",
+    "desc": "解除董事、監察人職務時通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "fhc:director_removal_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "fhc_order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_notify_economic_ministry",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:revoke_permit_disposal_requirement",
+    "desc": "廢止許可時限期處分股份及變更登記，未完成者應解散清算",
+    "expr": [
+      "EQ",
+      "fhc:revoke_permit_disposal_requirement",
+      [
+        "AND",
+        [
+          "EQ",
+          "fhc_revoke_permit",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "fhc_dispose_shares_within_deadline",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_change_registration_done",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:revoke_permit_not_completed",
+    "desc": "未於期限內完成處分股份及變更登記者應解散清算",
+    "expr": [
+      "EQ",
+      "fhc:revoke_permit_not_completed",
+      [
+        "AND",
+        [
+          "EQ",
+          "fhc_revoke_permit",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "fhc_dispose_shares_within_deadline",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "fhc_change_registration_done",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "epayment:violation_occurred",
+    "desc": "專營電子支付機構違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "epayment:violation_occurred",
+      [
+        "EQ",
+        "epayment_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:corrective_action_taken",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "epayment:corrective_action_taken",
+      [
+        "AND",
+        [
+          "EQ",
+          "epayment_correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_improvement_deadline_given",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:penalties_applied",
+    "desc": "主管機關視情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "epayment:penalties_applied",
+      [
+        "OR",
+        [
+          "EQ",
+          "epayment_revoke_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_revoke_all_or_partial_permit",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_order_remove_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_order_provision_or_capital_increase",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:director_removal_notification",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關廢止登記",
+    "expr": [
+      "EQ",
+      "epayment:director_removal_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "epayment_order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "epayment_notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:non_epayment_foreign_remittance_violation",
+    "desc": "非電子支付機構違反規定準用電子支付機構管理條例處分",
+    "expr": [
+      "EQ",
+      "epayment:non_epayment_foreign_remittance_violation",
+      [
+        "EQ",
+        "non_epayment_foreign_remittance_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "insurance:violation_occurred",
+    "desc": "保險業違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "insurance:violation_occurred",
+      [
+        "EQ",
+        "insurance_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:corrective_action_taken",
+    "desc": "主管機關已予以糾正或令其限期改善",
+    "expr": [
+      "EQ",
+      "insurance:corrective_action_taken",
+      [
+        "OR",
+        [
+          "EQ",
+          "insurance_correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_improvement_deadline_given",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalties_applied",
+    "desc": "主管機關視情況採取處分措施",
+    "expr": [
+      "EQ",
+      "insurance:penalties_applied",
+      [
+        "OR",
+        [
+          "EQ",
+          "insurance_restrict_business_or_fund_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_order_stop_or_limit_products",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_order_capital_increase",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_order_remove_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_revoke_statutory_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:director_removal_notification",
+    "desc": "解除董（理）事、監察人（監事）職務時通知公司（合作社）登記主管機關廢止登記",
+    "expr": [
+      "EQ",
+      "insurance:director_removal_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance_order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_noncompliance",
+    "desc": "資本嚴重不足且未完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "capital_increase_completed",
+              true
+            ],
+            [
+              "EQ",
+              "financial_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "business_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "merger_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_penalty_due_date",
+    "desc": "資本嚴重不足期限屆滿後九十日內未處理",
+    "expr": [
+      "EQ",
+      "capital_level_4_penalty_due_date",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "GE",
+          "days_after_deadline",
+          90
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_deterioration",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_deterioration",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "unable_to_pay_debt",
+            true
+          ],
+          [
+            "EQ",
+            "unable_to_fulfill_contract",
+            true
+          ],
+          [
+            "EQ",
+            "risk_to_insured_rights",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_approved",
+    "desc": "保險業提出且主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accelerated_deterioration_and_no_improvement",
+    "desc": "損益、淨值加速惡化且輔導仍未改善",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_and_no_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "accelerated_loss_and_net_worth_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_after_guidance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalties_for_deterioration",
+    "desc": "主管機關依情節輕重為監管、接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "penalties_for_deterioration",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level_4_penalty_due_date",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_submitted_and_approved",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_4_penalty_due_date",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "financial_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ],
+          [
+            "EQ",
+            "accelerated_deterioration_and_no_improvement",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:director_removal_registration_notification",
+    "desc": "解除董（理）事、監察人（監事）職務時通知公司（合作社）登記主管機關廢止登記",
+    "expr": [
+      "EQ",
+      "insurance:director_removal_registration_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance_order_remove_directors_or_supervisors",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "IMPLIES",
+      [
+        "NOT",
+        [
+          "EQ",
+          "penalty",
+          true
+        ]
+      ],
+      [
+        "EQ",
+        "penalty",
+        false
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：銀行、票券金融公司、金融控股公司、電子支付機構或保險業違反法令章程且未依規定改善或違反相關處分時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:corrective_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:penalties_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "bill_finance:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bill_finance:penalties_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "fhc:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "fhc:corrective_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "fhc:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "fhc:penalties_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "epayment:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "epayment:corrective_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "epayment:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "epayment:penalties_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:corrective_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance:violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:penalties_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "insurance:penalties_for_deterioration",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

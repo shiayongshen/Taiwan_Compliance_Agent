@@ -1,0 +1,126 @@
+{
+  "case_id": "case_89",
+  "success": false,
+  "error_message": "Unsat core: ['insurance:broker_shareholder_contribution_cash_only', 'insurance:broker_existing_license_capital_adjustment_deadline', 'meta:penalty_conditions', 'insurance:broker_capital_adjustment_after_share_transfer', 'insurance:broker_minimum_capital_requirement', 'meta:penalty_default_false', 'insurance:violation_financial_or_business_management_rules']",
+  "total_time_sec": 327.62,
+  "repair_attempts": 2,
+  "total_agent_calls": 4,
+  "total_input_tokens": 16808,
+  "total_output_tokens": 8331,
+  "total_tokens": 25139,
+  "total_cost_usd": 0.020053,
+  "timestamp": "2025-10-19T07:46:34.281405",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "PASS",
+  "step6_consistency_check": "FAIL",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "FAIL",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1867,
+      "output_tokens": 3139,
+      "elapsed_time": 40.2575740814209,
+      "cost": 0.0057692
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 7083,
+      "output_tokens": 3102,
+      "elapsed_time": 44.544060707092285,
+      "cost": 0.0077964
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 418,
+      "output_tokens": 1549,
+      "elapsed_time": 24.891207218170166,
+      "cost": 0.0026456000000000006
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 7440,
+      "output_tokens": 541,
+      "elapsed_time": 8.695034980773926,
+      "cost": 0.0038416000000000006
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "8740 chars",
+      "timestamp": 40.25759816169739
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "8638 chars",
+      "timestamp": 84.80177021026611
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 84.80198907852173
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "60 varspecs",
+      "timestamp": 109.69350004196167
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "'<=' not supported between instances of 'BoolRef' and 'BoolRef'",
+      "timestamp": 109.70599722862244
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": true,
+      "details": "1 rounds",
+      "timestamp": 113.78818416595459
+    },
+    "step6_consistency_check": {
+      "passed": false,
+      "details": "Max repair attempts reached",
+      "timestamp": 318.8922190666199
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "49 facts",
+      "timestamp": 327.5886390209198
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "11 fixes",
+      "timestamp": 327.5889401435852
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "60 constraints",
+      "timestamp": 327.5912799835205
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 327.61083030700684
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c73', 'insurance:capital_requirement_by_business_scope']",
+      "timestamp": 327.61083817481995
+    },
+    "step9_z3_optimize": {
+      "passed": false,
+      "details": "Unsat core: ['insurance:broker_shareholder_contribution_cash_only', 'insurance:broker_existing_license_capital_adjustment_deadline', 'meta:penalty_conditions', 'insurance:broker_capital_adjustment_after_share_transfer', 'insurance:broker_minimum_capital_requirement', 'meta:penalty_default_false', 'insurance:violation_financial_or_business_management_rules']",
+      "timestamp": 327.61976408958435
+    }
+  },
+  "fix_logs": []
+}

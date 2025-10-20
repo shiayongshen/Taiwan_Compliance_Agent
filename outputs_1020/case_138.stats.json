@@ -1,0 +1,274 @@
+{
+  "case_id": "case_138",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 117.85,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 25039,
+  "total_output_tokens": 9419,
+  "total_tokens": 34458,
+  "total_cost_usd": 0.025086,
+  "timestamp": "2025-10-19T09:00:46.534463",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4992,
+      "output_tokens": 3268,
+      "elapsed_time": 38.66318416595459,
+      "cost": 0.0072256
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 13462,
+      "output_tokens": 3275,
+      "elapsed_time": 37.37185835838318,
+      "cost": 0.0106248
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 366,
+      "output_tokens": 1295,
+      "elapsed_time": 18.92448902130127,
+      "cost": 0.0022184
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 366,
+      "output_tokens": 1295,
+      "elapsed_time": 18.50072407722473,
+      "cost": 0.0022184
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5853,
+      "output_tokens": 286,
+      "elapsed_time": 4.296051979064941,
+      "cost": 0.0027988000000000006
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "9089 chars",
+      "timestamp": 38.663207054138184
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "9094 chars",
+      "timestamp": 76.03518009185791
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "22 constraints",
+      "timestamp": 76.0354859828949
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "49 varspecs",
+      "timestamp": 94.9602792263031
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "22 constraints",
+      "timestamp": 94.97785496711731
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 94.99302816390991
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "23 facts",
+      "timestamp": 117.79283404350281
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "27 fixes",
+      "timestamp": 117.79308128356934
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "49 constraints",
+      "timestamp": 117.7961311340332
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 117.82075595855713
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c23', 'c70', 'brokerage:reinsurance_written_delegation']",
+      "timestamp": 117.82076501846313
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 117.84300494194031
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "investment:bond_investment_limit_2",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "bond_investment_limit_2_ok",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_amount_bb_plus",
+            "investment_amount_bbb_minus"
+          ],
+          [
+            "MAX",
+            [
+              "MUL",
+              "approved_foreign_investment_quota",
+              0.075
+            ],
+            [
+              "MUL",
+              "owner_equity",
+              0.3
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bond_investment_limit_2_ok",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_amount_bb_plus",
+            "investment_amount_bbb_minus"
+          ],
+          [
+            "CASE",
+            [
+              "GE",
+              [
+                "MUL",
+                "approved_foreign_investment_quota",
+                0.075
+              ],
+              [
+                "MUL",
+                "owner_equity",
+                0.3
+              ]
+            ],
+            [
+              "MUL",
+              "approved_foreign_investment_quota",
+              0.075
+            ],
+            [
+              "MUL",
+              "owner_equity",
+              0.3
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 94.96
+    },
+    {
+      "id": "investment:bond_investment_limit_5",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "bond_investment_limit_5_ok",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "approved_by_authority",
+            true
+          ],
+          [
+            "LE",
+            "investment_amount_bbb_level",
+            [
+              "MAX",
+              [
+                "MUL",
+                "approved_foreign_investment_quota",
+                0.03
+              ],
+              [
+                "MUL",
+                "owner_equity",
+                0.18
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bond_investment_limit_5_ok",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "approved_by_authority",
+            true
+          ],
+          [
+            "LE",
+            "investment_amount_bbb_level",
+            [
+              "CASE",
+              [
+                "GE",
+                [
+                  "MUL",
+                  "approved_foreign_investment_quota",
+                  0.03
+                ],
+                [
+                  "MUL",
+                  "owner_equity",
+                  0.18
+                ]
+              ],
+              [
+                "MUL",
+                "approved_foreign_investment_quota",
+                0.03
+              ],
+              [
+                "MUL",
+                "owner_equity",
+                0.18
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 94.96
+    }
+  ]
+}

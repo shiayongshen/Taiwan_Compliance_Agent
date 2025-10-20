@@ -1,0 +1,511 @@
+[
+  {
+    "id": "futures_trust:internal_control_established",
+    "desc": "期貨信託事業已依主管機關及相關機構規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_defined_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_complies_with_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_operated_according_law",
+    "desc": "期貨信託事業業務經營依照法令、章程及內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_operated_according_law",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_board_approval",
+    "desc": "內部控制制度訂定或變更經董事會同意並留存備查",
+    "expr": [
+      "EQ",
+      "internal_control_board_approval",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_set_or_changed",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "record_kept_for_reference",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_change_within_deadline",
+    "desc": "主管機關或指定機構通知變更內部控制制度，於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_change_within_deadline",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "authority_or_designated_institution_notified_change",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_changed_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:customer_knowledge_assessed",
+    "desc": "充分知悉並評估客戶投資知識、經驗、財務狀況及承受風險程度",
+    "expr": [
+      "EQ",
+      "customer_knowledge_assessed",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_knowledge_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "investment_experience_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "financial_status_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "risk_tolerance_assessed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:first_time_customer_identity_verified",
+    "desc": "首次申購客戶提出身分證明或法人登記證明並填具基本資料",
+    "expr": [
+      "EQ",
+      "first_time_customer_identity_verified",
+      [
+        "AND",
+        [
+          "EQ",
+          "identity_document_provided",
+          true
+        ],
+        [
+          "EQ",
+          "basic_information_filled",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:subscription_redemption_procedures_followed",
+    "desc": "受理期貨信託基金申購、買回依契約、公開說明書及作業程序辦理",
+    "expr": [
+      "EQ",
+      "subscription_redemption_procedures_followed",
+      [
+        "AND",
+        [
+          "EQ",
+          "subscription_handled_according_contract",
+          true
+        ],
+        [
+          "EQ",
+          "redemption_handled_according_contract",
+          true
+        ],
+        [
+          "EQ",
+          "subscription_handled_according_prospectus",
+          true
+        ],
+        [
+          "EQ",
+          "redemption_handled_according_prospectus",
+          true
+        ],
+        [
+          "EQ",
+          "subscription_handled_according_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "redemption_handled_according_procedures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:large_or_suspicious_transactions_recorded_and_aml_complied",
+    "desc": "一定金額以上或疑似洗錢基金交易留存完整紀錄並依洗錢防制法辦理",
+    "expr": [
+      "EQ",
+      "large_or_suspicious_transactions_recorded_and_aml_complied",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GE",
+            "transaction_amount",
+            "large_amount_threshold"
+          ],
+          [
+            "EQ",
+            "transaction_suspected_money_laundering",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "complete_transaction_records_kept",
+            true
+          ],
+          [
+            "EQ",
+            "aml_regulations_complied",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:short_swing_trading_fee_deducted_and_included_in_assets",
+    "desc": "對符合短線交易標準受益人扣除買回費用，費用歸入基金資產",
+    "expr": [
+      "EQ",
+      "short_swing_trading_fee_deducted_and_included_in_assets",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "beneficiary_meets_short_swing_standard",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "buyback_fee_deducted",
+            true
+          ],
+          [
+            "EQ",
+            "buyback_fee_included_in_fund_assets",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_includes_required_items",
+    "desc": "內部控制制度包括充分瞭解客戶、銷售行為、短線交易防制、洗錢防制及法令遵循作業原則",
+    "expr": [
+      "EQ",
+      "internal_control_includes_required_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_understand_customers",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_sales_behavior",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_short_swing_prevention",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_aml",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_legal_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trading:violation_penalty_applicable",
+    "desc": "期貨交易所、期貨結算機構、期貨業違反本法或命令時應受處分",
+    "expr": [
+      "EQ",
+      "violation_penalty_applicable",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_law",
+          true
+        ],
+        [
+          "EQ",
+          "violate_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trading"
+  },
+  {
+    "id": "futures_trading:penalty_fine_conditions",
+    "desc": "違反期貨交易法第119條規定之罰鍰條件",
+    "expr": [
+      "EQ",
+      "penalty_fine_conditions",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_specified_articles",
+          true
+        ],
+        [
+          "EQ",
+          "violate_specified_orders",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_centralize_clearing",
+          true
+        ],
+        [
+          "EQ",
+          "futures_clearing_violate_55th_article",
+          true
+        ],
+        [
+          "EQ",
+          "futures_broker_violate_79th_article",
+          true
+        ],
+        [
+          "EQ",
+          "leverage_trader_violate_81st_article",
+          true
+        ],
+        [
+          "EQ",
+          "futures_service_violate_88th_article",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_submit_documents_or_reports",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_make_or_keep_documents",
+          true
+        ],
+        [
+          "EQ",
+          "obstruct_investigation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trading"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反期貨交易法或相關命令規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_operated_according_law",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_board_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_change_within_deadline",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_knowledge_assessed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "first_time_customer_identity_verified",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subscription_redemption_procedures_followed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "large_or_suspicious_transactions_recorded_and_aml_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "short_swing_trading_fee_deducted_and_included_in_assets",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_includes_required_items",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_penalty_applicable",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_fine_conditions",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

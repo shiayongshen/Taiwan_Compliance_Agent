@@ -1,0 +1,144 @@
+{
+  "case_id": "case_432",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 86.36,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 19060,
+  "total_output_tokens": 8133,
+  "total_tokens": 27193,
+  "total_cost_usd": 0.020637,
+  "timestamp": "2025-10-19T15:51:10.440434",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "FAIL",
+  "step8_violation_detected": "SKIP",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3293,
+      "output_tokens": 2756,
+      "elapsed_time": 20.39112901687622,
+      "cost": 0.005726800000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9552,
+      "output_tokens": 3217,
+      "elapsed_time": 35.81915616989136,
+      "cost": 0.008968
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 262,
+      "output_tokens": 951,
+      "elapsed_time": 12.796450138092041,
+      "cost": 0.0016264
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 262,
+      "output_tokens": 951,
+      "elapsed_time": 12.374299049377441,
+      "cost": 0.0016264
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5691,
+      "output_tokens": 258,
+      "elapsed_time": 4.914395809173584,
+      "cost": 0.0026892
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7272 chars",
+      "timestamp": 20.39116406440735
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "9430 chars",
+      "timestamp": 56.21044206619263
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 56.2106671333313
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "33 varspecs",
+      "timestamp": 69.00734114646912
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 69.01847100257874
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "ERROR",
+      "timestamp": 69.02161407470703
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "20 facts",
+      "timestamp": 86.3125069141388
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "13 fixes",
+      "timestamp": 86.3127338886261
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "33 constraints",
+      "timestamp": 86.31482195854187
+    },
+    "step8_case_law_check": {
+      "passed": false,
+      "details": "Failed to build constraint {'id': 'insurance:capital_level_severe_insufficient', 'desc': '資本等級為嚴重不足（CAR < 50 或 淨值 < 0）', 'expr': ['EQ', 'capital_level_severe_insufficient', ['OR', ['LT', 'capital_adequacy_ratio', 50.0], ['LT', 'net_worth', 0.0]]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice'",
+      "timestamp": 86.31968212127686
+    },
+    "step8_violation_detected": {
+      "passed": null,
+      "details": "REPAIR_FAILED",
+      "timestamp": 86.32760190963745
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 86.35049605369568
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 69.01
+    },
+    {
+      "id": "varspec:capital_level_classification",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 69.01
+    }
+  ]
+}

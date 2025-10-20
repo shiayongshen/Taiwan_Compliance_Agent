@@ -1,0 +1,664 @@
+[
+  {
+    "id": "trust:internal_control_established",
+    "desc": "信託業已建立內部控制及稽核制度並設置稽核單位",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_unit_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:internal_control_compliance",
+    "desc": "信託業內部控制及稽核制度符合主管機關規定",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "EQ",
+        "internal_control_implementation_according_to_regulation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:violation_of_law_or_order",
+    "desc": "信託業違反本法或依本法發布之命令",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_order",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_law",
+          true
+        ],
+        [
+          "EQ",
+          "violate_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:penalty_applicable",
+    "desc": "信託業違反本法或命令且應處罰",
+    "expr": [
+      "EQ",
+      "penalty_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law_or_order",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "exempted_by_other_penalty_provisions",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "public_acquisition:agent_qualification_ok",
+    "desc": "受委任機構符合資格條件且最近一年內無重大違規或已改善",
+    "expr": [
+      "EQ",
+      "agent_qualification_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_meets_qualification",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "agent_had_major_penalty_last_year",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "agent_violation_improved_and_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_acquisition"
+  },
+  {
+    "id": "public_acquisition:agent_special_account_ok",
+    "desc": "受委任機構設立專戶辦理款券收付且專款專用",
+    "expr": [
+      "EQ",
+      "agent_special_account_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "special_account_established",
+          true
+        ],
+        [
+          "EQ",
+          "funds_used_exclusively",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_acquisition"
+  },
+  {
+    "id": "public_acquisition:agent_duty_of_care",
+    "desc": "受委任機構以善良管理人注意義務忠實履行職責",
+    "expr": [
+      "EQ",
+      "agent_duty_of_care",
+      [
+        "EQ",
+        "duty_of_care_fulfilled",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_acquisition"
+  },
+  {
+    "id": "public_acquisition:agent_issuance_of_certificate",
+    "desc": "受委任機構接受應賣人有價證券交存時開具憑證",
+    "expr": [
+      "EQ",
+      "agent_issuance_of_certificate",
+      [
+        "EQ",
+        "certificate_issued_to_seller",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_acquisition"
+  },
+  {
+    "id": "public_acquisition:agent_book_entry_handling",
+    "desc": "受委任機構接受帳簿劃撥方式交存有價證券依規定辦理",
+    "expr": [
+      "EQ",
+      "agent_book_entry_handling",
+      [
+        "EQ",
+        "book_entry_handling_according_to_regulation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_acquisition"
+  },
+  {
+    "id": "financial_control:internal_control_coverage",
+    "desc": "內部控制制度涵蓋所有營運活動並訂定適當政策及程序",
+    "expr": [
+      "EQ",
+      "internal_control_coverage",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_covers_all_operations",
+          true
+        ],
+        [
+          "EQ",
+          "policies_and_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "policies_and_procedures_reviewed_and_updated",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:internal_control_policies_detail",
+    "desc": "內部控制制度訂定明確組織系統、單位職掌、業務範圍及授權分層負責",
+    "expr": [
+      "EQ",
+      "internal_control_policies_detail",
+      [
+        "AND",
+        [
+          "EQ",
+          "organization_system_defined",
+          true
+        ],
+        [
+          "EQ",
+          "unit_responsibilities_defined",
+          true
+        ],
+        [
+          "EQ",
+          "business_scope_defined",
+          true
+        ],
+        [
+          "EQ",
+          "authorization_and_hierarchical_responsibility_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:business_manuals_and_guidelines",
+    "desc": "訂定相關業務規範及處理手冊涵蓋指定項目",
+    "expr": [
+      "EQ",
+      "business_manuals_and_guidelines",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_guidelines_defined",
+          true
+        ],
+        [
+          "EQ",
+          "customer_data_confidentiality_defined",
+          true
+        ],
+        [
+          "EQ",
+          "related_party_transaction_rules_defined",
+          true
+        ],
+        [
+          "EQ",
+          "equity_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_statement_preparation_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "general_affairs_information_personnel_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "external_information_disclosure_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_inspection_report_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer_protection_management_defined",
+          true
+        ],
+        [
+          "EQ",
+          "major_incident_handling_mechanism_defined",
+          true
+        ],
+        [
+          "EQ",
+          "anti_money_laundering_and_counter_terrorism_financing_defined",
+          true
+        ],
+        [
+          "EQ",
+          "other_business_rules_and_procedures_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:subsidiary_and_joint_marketing_management",
+    "desc": "金融控股公司業務規範及處理手冊包括子公司管理及共同行銷管理",
+    "expr": [
+      "EQ",
+      "subsidiary_and_joint_marketing_management",
+      [
+        "EQ",
+        "subsidiary_management_and_joint_marketing_included",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:bank_business_manuals_additional_items",
+    "desc": "銀行業務規範及處理手冊包括出納、存款、匯兌、授信、外匯、新種金融商品及委外作業管理",
+    "expr": [
+      "EQ",
+      "bank_business_manuals_additional_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "cashier_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "remittance_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "credit_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_exchange_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "new_financial_products_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_management_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:credit_cooperative_business_manuals_additional_items",
+    "desc": "信用合作社業務規範及處理手冊包括出納、存款、授信、匯兌及委外作業管理",
+    "expr": [
+      "EQ",
+      "credit_cooperative_business_manuals_additional_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "cashier_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "credit_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "remittance_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_management_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:bill_broker_business_manuals_additional_items",
+    "desc": "票券商業務規範及處理手冊包括票券、債券及新種金融商品等業務",
+    "expr": [
+      "EQ",
+      "bill_broker_business_manuals_additional_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "bill_business_included",
+          true
+        ],
+        [
+          "EQ",
+          "bond_business_included",
+          true
+        ],
+        [
+          "EQ",
+          "new_financial_products_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:trust_operation_manual_reference",
+    "desc": "信託業參考範本訂定作業手冊並定期修訂",
+    "expr": [
+      "EQ",
+      "trust_operation_manual_reference",
+      [
+        "AND",
+        [
+          "EQ",
+          "operation_manual_based_on_template",
+          true
+        ],
+        [
+          "EQ",
+          "operation_manual_updated_periodically",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:salary_committee_management_included",
+    "desc": "股票上市或於證券商營業處所買賣之金融控股公司及銀行業將薪資報酬委員會運作管理納入內部控制制度",
+    "expr": [
+      "EQ",
+      "salary_committee_management_included",
+      [
+        "EQ",
+        "salary_committee_management_included_in_internal_control",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:audit_committee_management_included",
+    "desc": "金融控股公司及銀行業設置審計委員會者，內部控制制度包括審計委員會議事運作管理",
+    "expr": [
+      "EQ",
+      "audit_committee_management_included",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_committee_management_included_in_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:subsidiary_control_operations_defined",
+    "desc": "金融控股公司及銀行業內部控制制度訂定對子公司必要控制作業",
+    "expr": [
+      "EQ",
+      "subsidiary_control_operations_defined",
+      [
+        "EQ",
+        "control_operations_for_subsidiaries_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:foreign_subsidiary_control_considered",
+    "desc": "國外子公司考量當地法令及實際營運性質督促建立內部控制制度",
+    "expr": [
+      "EQ",
+      "foreign_subsidiary_control_considered",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "subsidiary_is_foreign",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "local_law_considered",
+            true
+          ],
+          [
+            "EQ",
+            "actual_operation_considered",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_subsidiary_internal_control_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:group_aml_ctf_plan_established",
+    "desc": "金融控股公司及銀行業建立集團整體性防制洗錢及打擊資恐計畫",
+    "expr": [
+      "EQ",
+      "group_aml_ctf_plan_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "group_aml_ctf_plan_established",
+          true
+        ],
+        [
+          "EQ",
+          "group_information_sharing_policy_and_procedure_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "financial_control:policy_and_manual_change_participation",
+    "desc": "作業及管理規章訂定、修訂或廢止時法令遵循、內部稽核及風險管理單位參與",
+    "expr": [
+      "EQ",
+      "policy_and_manual_change_participation",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "policy_established",
+            true
+          ],
+          [
+            "EQ",
+            "policy_revised",
+            true
+          ],
+          [
+            "EQ",
+            "policy_abolished",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "legal_compliance_unit_participated",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_unit_participated",
+            true
+          ],
+          [
+            "EQ",
+            "risk_management_unit_participated",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_control"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：信託業違反本法或命令時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "penalty_applicable",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

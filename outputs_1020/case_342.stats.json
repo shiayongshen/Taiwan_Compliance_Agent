@@ -1,0 +1,163 @@
+{
+  "case_id": "case_342",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 75.42,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 14653,
+  "total_output_tokens": 5286,
+  "total_tokens": 19939,
+  "total_cost_usd": 0.014319,
+  "timestamp": "2025-10-19T13:35:47.799202",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2741,
+      "output_tokens": 1866,
+      "elapsed_time": 29.911473989486694,
+      "cost": 0.0040820000000000006
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 7558,
+      "output_tokens": 1739,
+      "elapsed_time": 24.171597957611084,
+      "cost": 0.005805600000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 190,
+      "output_tokens": 720,
+      "elapsed_time": 8.604417085647583,
+      "cost": 0.001228
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 190,
+      "output_tokens": 720,
+      "elapsed_time": 9.300133228302002,
+      "cost": 0.001228
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3974,
+      "output_tokens": 241,
+      "elapsed_time": 3.3777008056640625,
+      "cost": 0.0019752
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "5251 chars",
+      "timestamp": 29.9115149974823
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4834 chars",
+      "timestamp": 54.08323097229004
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "11 constraints",
+      "timestamp": 54.083410024642944
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "24 varspecs",
+      "timestamp": 62.688003063201904
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "11 constraints",
+      "timestamp": 62.69667315483093
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 62.706603050231934
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "20 facts",
+      "timestamp": 75.38642692565918
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "4 fixes",
+      "timestamp": 75.38659000396729
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "24 constraints",
+      "timestamp": 75.38786005973816
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 75.40413808822632
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:penalty_default_false', 'c29']",
+      "timestamp": 75.40415000915527
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 75.41862797737122
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:capital_level_consistency",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "capital_level_consistent",
+        [
+          "EQ",
+          "capital_level",
+          [
+            "MIN",
+            "capital_level"
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level_consistent",
+        [
+          "EQ",
+          "capital_level",
+          "capital_level"
+        ]
+      ],
+      "timestamp": 62.69
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 62.69
+    }
+  ]
+}

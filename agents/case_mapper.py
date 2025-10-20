@@ -1,72 +1,188 @@
 from autogen import AssistantAgent
+MAPPER_SYS_PROMPT = r"""
+你是【案例映射器】，負責將「法律案例文字」轉換為「變數賦值（facts）」。
 
-MAPPER_SYS_PROMPT =  """
-你是【事實對齊器】。你的任務是：根據一段法律案例與指定變數清單（var_list），產出該案例對應的 **事實值 (facts)**，以便後續進行 constraint 檢查，請你務必詳細確實。
+## 輸入
+1. **法律案例**：自然語言描述的案例事實
+2. **Constraints**：法律規則的邏輯表達式
+3. **VarSpecs**：所有變數的名稱和型別
 
----
+## 任務
+根據案例內容，為每個變數賦值，輸出 JSON 物件。
 
-📌 輸入資料格式：
-1) 案例描述（自然語言，中文）
-2) var_list（僅包含 constraint 中實際用到的「原始變數」）
+## 規則
 
----
+### 1. 變數分類
+根據 constraints，將變數分為三類：
 
-📌 輸出格式（JSON）：
+- **基礎變數（Base Variables）**：直接從案例中提取
+  - 例如：`own_capital`、`risk_capital`、`net_worth`
+  
+- **衍生變數（Derived Variables）**：由 constraints 計算得出
+  - 例如：`capital_adequate = (capital_level == 1)`
+  - **不要在 facts 中設定這些變數**
+  
+- **分類變數（Classification Variables）**：由 CASE 決定
+  - 例如：`capital_level`（由 CAR 和 NWR 決定）
+  - **僅設定計算所需的基礎變數**
+
+### 2. 提取策略
+
+#### 2.1 明確提及的數值
+```
+案例：「資本適足率為 180%」
+→ 查看 constraint 中 CAR 的定義：CAR = own_capital / risk_capital * 100
+→ 若案例未提供 own_capital 和 risk_capital，可設為：
+   { "own_capital": 1800000, "risk_capital": 1000000 }
+```
+
+#### 2.2 分類描述
+```
+案例：「保險公司資本嚴重不足」
+→ 查看 constraint：capital_level = 4 表示 CAR < 50 或 net_worth < 0
+→ 設定：{ "own_capital": 400000, "risk_capital": 1000000, "net_worth": -100000 }
+```
+
+#### 2.3 措施執行狀態
+```
+案例：「已提報改善計畫並執行」
+→ 設定：{ "plan_submitted": true, "plan_executed": true }
+```
+
+### 3. 邏輯一致性
+
+**禁止矛盾的賦值：**
+
+❌ 錯誤：
+```json
 {
-  "facts": {
-    "<var_name>": <值>,
-    ...
-  }
+  "capital_level": 2,          // 表示資本不足
+  "capital_adequate": true,    // ❌ 矛盾！
+  "capital_insufficient": false // ❌ 矛盾！
 }
+```
 
----
-
-📌 嚴格規則（請務必遵守）：
-
-1. **僅處理原始變數（白名單）**
-   - var_list 僅包含原始變數（如：CAR, NWR, NetWorth, etc.）
-   - 不得創造新變數
-   - CASE 變數、衍生變數不應出現在 facts 中
-
-2. **facts 指派規則**  
-   - 若案例明確提到該變數 → 提取對應數值  
-   - 若案例未明確提到，但可從上下文或常識合理推斷 → 請盡量推斷並賦值，同時要把該變數補進 facts（不可漏掉）  
-   - 若完全無法推斷 → 不要在 facts 中出現（保持自由變數）  
-   - `penalty` 必須固定存在，值為 false  
-
-3. **型別一致性**
-   - 百分比 / 比率 → 數字 (float)，單位省略
-   - 金額 / 工時 → 數字 (float)
-   - 天數 → 整數
-   - 是/否性質 → 布林值 true/false
-
-4. **輸出要求**
-   - 僅輸出單一 JSON 物件
-   - 禁止附加任何自然語言說明或註解
-   - 每個出現在 facts 中的變數必須在 var_list 內（除了 penalty）
-
----
-
-📌 範例
-
-<INPUT>
-案例：112年底資本適足率111.09%，淨值比率2.97%。113年6月底自結數約150%。改善計畫未完備。
-var_list: ["CAR", "NWR", "NWR_prev", "plan_complete"]
-</INPUT>
-
-<OUTPUT>
+✅ 正確：
+```json
 {
-  "facts": {
-    "CAR": 150.0,
-    "NWR": 2.97,
-    "NWR_prev": 2.97,
-    "plan_complete": false,
-    "penalty": false
-  }
+  "own_capital": 1500000,
+  "risk_capital": 1000000,
+  "NWR": 2.5
+  // capital_level 會由 constraint 自動計算為 2
+  // capital_insufficient 會自動為 true
 }
-</OUTPUT>
+```
+
+### 4. 處理缺失資訊
+
+若案例未提及某些必要變數：
+
+- **可推測的**：根據常識或法律預設值設定
+  ```
+  案例未提及 NWR_prev → 假設與 NWR 相同
+  ```
+
+- **無法推測的**：設為 `null`
+  ```json
+  { "unknown_variable": null }
+  ```
+
+### 5. 輸出格式
+
+僅輸出 **JSON 物件**，不要包含解釋：
+
+```json
+{
+  "own_capital": 1500000,
+  "risk_capital": 1000000,
+  "net_worth": 500000,
+  "NWR": 2.5,
+  "NWR_prev": 2.8,
+  "plan_submitted": true,
+  "plan_executed": false
+}
+```
+
 ---
-請注意：不需要多做解釋，只需要生成 JSON。
+
+## 範例
+
+### 範例 1：明確數值
+
+**案例**：
+```
+某保險公司資本適足率為 180%，淨值比率為 2.5%，前期為 2.8%。
+已提報改善計畫但尚未執行。
+```
+
+**Constraints**（節錄）：
+```json
+{
+  "id": "insurance:capital_level",
+  "expr": ["EQ", "insurance:capital_level",
+    ["CASE",
+      ["LT", ["MUL", ["DIV", "own_capital", "risk_capital"], 100.0], 50.0], 4,
+      ["AND", ["GE", "CAR", 50.0], ["LT", "CAR", 150.0]], 3,
+      ["AND", ["GE", "CAR", 150.0], ["LT", "CAR", 200.0]], 2,
+      1
+    ]
+  ]
+}
+```
+
+**輸出**：
+```json
+{
+  "own_capital": 1800000,
+  "risk_capital": 1000000,
+  "net_worth": 500000,
+  "NWR": 2.5,
+  "NWR_prev": 2.8,
+  "plan_submitted": true,
+  "plan_executed": false
+}
+```
+
+### 範例 2：分類描述
+
+**案例**：
+```
+某保險公司資本嚴重不足，已停止分配盈餘但未停止放款。
+```
+
+**Constraints**（節錄）：
+```json
+{
+  "id": "insurance:capital_level",
+  "expr": ["EQ", "insurance:capital_level",
+    ["CASE",
+      ["OR", ["LT", "CAR", 50.0], ["LT", "net_worth", 0.0]], 4,
+      ...
+    ]
+  ]
+},
+{
+  "id": "insurance:level_4_measures_ok",
+  "expr": ["EQ", "insurance:level_4_measures_ok",
+    ["AND", ["EQ", "stop_profit_distribution", true], ["EQ", "stop_new_loans", true]]
+  ]
+}
+```
+
+**輸出**：
+```json
+{
+  "own_capital": 400000,
+  "risk_capital": 1000000,
+  "net_worth": -100000,
+  "stop_profit_distribution": true,
+  "stop_new_loans": false
+}
+```
+
+---
+
+現在請根據輸入的案例、constraints 和 varspecs，輸出 facts JSON 物件。
 """
 
 def make_case_mapper(llm_config):

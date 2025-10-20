@@ -1,0 +1,254 @@
+[
+  {
+    "id": "forex:declaration_required",
+    "desc": "新臺幣五十萬元以上等值外匯收支或交易應申報",
+    "expr": [
+      "EQ",
+      "declaration_required",
+      [
+        "GE",
+        "forex_amount_ntd",
+        500000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_made",
+    "desc": "依規定申報之事項已申報",
+    "expr": [
+      "EQ",
+      "declaration_made",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "declaration_required",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_truthful",
+    "desc": "申報事項無不實之虞",
+    "expr": [
+      "EQ",
+      "declaration_truthful",
+      [
+        "NOT",
+        [
+          "EQ",
+          "declaration_false_suspected",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:explanation_provided",
+    "desc": "受查詢者有據實說明義務且已據實說明",
+    "expr": [
+      "EQ",
+      "explanation_provided",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "under_inquiry",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "explanation_truthful",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:compliance",
+    "desc": "符合申報及說明義務",
+    "expr": [
+      "EQ",
+      "compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "declaration_made",
+          true
+        ],
+        [
+          "EQ",
+          "declaration_truthful",
+          true
+        ],
+        [
+          "EQ",
+          "explanation_provided",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:violate_article_6_1",
+    "desc": "違反第6-1條規定，故意不申報或申報不實",
+    "expr": [
+      "EQ",
+      "violate_article_6_1",
+      [
+        "AND",
+        [
+          "EQ",
+          "declaration_required",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "declaration_submitted",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "declaration_false_suspected",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:violate_article_6_1_inquiry",
+    "desc": "受查詢未於限期內提出說明或為虛偽說明",
+    "expr": [
+      "EQ",
+      "violate_article_6_1_inquiry",
+      [
+        "AND",
+        [
+          "EQ",
+          "under_inquiry",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "explanation_submitted_in_time",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "explanation_truthful",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:violate_article_7",
+    "desc": "違反第7條規定，不結售或不存入外匯",
+    "expr": [
+      "EQ",
+      "violate_article_7",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_exchange_sold",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_exchange_deposited",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第6-1條故意不申報或申報不實，或受查詢未說明，或違反第7條不結售或不存入外匯",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_6_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_6_1_inquiry",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_7",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

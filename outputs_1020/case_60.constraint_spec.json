@@ -1,0 +1,508 @@
+[
+  {
+    "id": "fhc:has_violation",
+    "desc": "金融控股公司有違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "has_violation",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:correction_ordered",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      true
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_measures",
+    "desc": "主管機關依情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "revoke_statutory_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_subsidiary_business",
+          true
+        ],
+        [
+          "EQ",
+          "remove_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "remove_or_suspend_director_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "dispose_subsidiary_shares",
+          true
+        ],
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:notify_moe_on_removal",
+    "desc": "依第四款解除董事、監察人職務時通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "notify_moe_on_removal",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "remove_or_suspend_director_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "moe_notification_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:dispose_shares_and_dissolve",
+    "desc": "依第六款廢止許可時，限期內處分股份及董事人數並不得再用名稱，逾期解散清算",
+    "expr": [
+      "EQ",
+      "dispose_shares_and_dissolve",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "dispose_shares_within_deadline",
+            true
+          ],
+          [
+            "EQ",
+            "reduce_directors_within_deadline",
+            true
+          ],
+          [
+            "EQ",
+            "stop_using_fhc_name",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "dispose_shares_completed",
+              true
+            ],
+            [
+              "EQ",
+              "dissolution_and_liquidation",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:control_holding_definition",
+    "desc": "控制性持股定義",
+    "expr": [
+      "EQ",
+      "control_holding_definition",
+      [
+        "OR",
+        [
+          "GT",
+          [
+            "MUL",
+            [
+              "DIV",
+              "voting_shares_held",
+              "total_voting_shares"
+            ],
+            100.0
+          ],
+          25.0
+        ],
+        [
+          "GT",
+          [
+            "MUL",
+            [
+              "DIV",
+              "capital_held",
+              "total_capital"
+            ],
+            100.0
+          ],
+          25.0
+        ],
+        [
+          "GT",
+          "directly_or_indirectly_appointed_directors",
+          50
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:is_fhc",
+    "desc": "金融控股公司定義",
+    "expr": [
+      "EQ",
+      "is_fhc",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_holding_definition",
+          true
+        ],
+        [
+          "EQ",
+          "established_under_fhc_law",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:is_financial_institution",
+    "desc": "金融機構定義",
+    "expr": [
+      "EQ",
+      "is_financial_institution",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_bank",
+          true
+        ],
+        [
+          "EQ",
+          "is_insurance_company",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_firm",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:is_subsidiary",
+    "desc": "子公司定義",
+    "expr": [
+      "EQ",
+      "is_subsidiary",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_bank_subsidiary",
+          true
+        ],
+        [
+          "EQ",
+          "is_insurance_subsidiary",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_subsidiary",
+          true
+        ],
+        [
+          "OR",
+          [
+            "GT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "voting_shares_held",
+                "total_voting_shares"
+              ],
+              100.0
+            ],
+            50.0
+          ],
+          [
+            "GT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "capital_held",
+                "total_capital"
+              ],
+              100.0
+            ],
+            50.0
+          ],
+          [
+            "GT",
+            "directly_or_indirectly_appointed_directors",
+            50
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:same_person_definition",
+    "desc": "同一人定義",
+    "expr": [
+      "EQ",
+      "same_person_definition",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_same_natural_person",
+          true
+        ],
+        [
+          "EQ",
+          "is_same_legal_person",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:same_person_relation_definition",
+    "desc": "同一自然人之關係人範圍",
+    "expr": [
+      "EQ",
+      "same_person_relation_definition",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_spouse_or_second_degree_relative",
+            true
+          ],
+          [
+            "GT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "shares_held_by_related_enterprise",
+                "total_voting_shares"
+              ],
+              100.0
+            ],
+            33.0
+          ],
+          [
+            "EQ",
+            "is_chairman_or_general_manager_or_majority_directors",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:same_legal_person_relation_definition",
+    "desc": "同一法人之關係人範圍",
+    "expr": [
+      "EQ",
+      "same_legal_person_relation_definition",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_legal_person_and_executives_and_relatives",
+            true
+          ],
+          [
+            "GT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "shares_held_by_related_enterprise",
+                "total_voting_shares"
+              ],
+              100.0
+            ],
+            33.0
+          ],
+          [
+            "EQ",
+            "is_chairman_or_general_manager_or_majority_directors",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:related_enterprise_definition",
+    "desc": "關係企業定義",
+    "expr": [
+      "EQ",
+      "related_enterprise_definition",
+      [
+        "EQ",
+        "is_related_enterprise",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:major_shareholder_definition",
+    "desc": "大股東定義",
+    "expr": [
+      "EQ",
+      "major_shareholder_definition",
+      [
+        "OR",
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "shares_held",
+              "total_voting_shares"
+            ],
+            100.0
+          ],
+          5.0
+        ],
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "shares_held",
+              "total_capital"
+            ],
+            100.0
+          ],
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：金融控股公司有違反且未限期改善或未執行處分措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_violation",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "correction_ordered",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalty_measures",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

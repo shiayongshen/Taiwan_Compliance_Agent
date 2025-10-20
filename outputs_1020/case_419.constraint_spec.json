@@ -1,0 +1,460 @@
+[
+  {
+    "id": "insurance:loan_type_valid",
+    "desc": "放款類型符合規定之四款之一",
+    "expr": [
+      "EQ",
+      "loan_type_valid",
+      [
+        "OR",
+        [
+          "EQ",
+          "loan_guaranteed_by_bank_or_approved_credit_institution",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_movable_or_immovable_property",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_qualified_securities_146_1",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_life_insurance_policy",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_single_limit_ok",
+    "desc": "第一款至第三款放款每一單位放款金額不超過資金5%",
+    "expr": [
+      "EQ",
+      "loan_single_limit_ok",
+      [
+        "AND",
+        [
+          "LE",
+          "loan_amount_per_unit_first_to_third",
+          [
+            "MUL",
+            "capital",
+            0.05
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_total_limit_ok",
+    "desc": "第一款至第三款放款總額不超過資金35%",
+    "expr": [
+      "EQ",
+      "loan_total_limit_ok",
+      [
+        "LE",
+        "loan_total_amount_first_to_third",
+        [
+          "MUL",
+          "capital",
+          0.35
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_guarantee_ok",
+    "desc": "對負責人、職員或主要股東及其利害關係人擔保放款有十足擔保且條件不優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_related_party_guarantee_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "related_party_loan_full_collateral",
+          true
+        ],
+        [
+          "EQ",
+          "related_party_loan_conditions_not_better_than_others",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_board_approval_ok",
+    "desc": "利害關係人擔保放款達主管機關規定金額以上，經董事會三分之二以上出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "loan_related_party_board_approval_ok",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "related_party_loan_amount",
+          "regulator_specified_amount"
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            0.6666667
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            0.75
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_compliance",
+    "desc": "利害關係人擔保放款符合擔保、條件及董事會決議規定",
+    "expr": [
+      "EQ",
+      "loan_related_party_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "loan_related_party_guarantee_ok",
+          true
+        ],
+        [
+          "EQ",
+          "loan_related_party_board_approval_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:securities_investment_and_pledge_limit_ok",
+    "desc": "依146-3第4款及146-1第3款及第4款合併計算投資及質押限額不超過資金10%及公司業主權益10%",
+    "expr": [
+      "EQ",
+      "securities_investment_and_pledge_limit_ok",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "pledge_loan_by_company_securities"
+          ],
+          [
+            "MUL",
+            "capital",
+            0.1
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "pledge_loan_by_company_securities"
+          ],
+          [
+            "MUL",
+            "company_equity",
+            0.1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_type_valid",
+    "desc": "國外投資類型符合規定之四款之一",
+    "expr": [
+      "EQ",
+      "foreign_investment_type_valid",
+      [
+        "OR",
+        [
+          "EQ",
+          "foreign_investment_foreign_currency_deposit",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_foreign_securities",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_foreign_insurance_related_company",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_other_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_total_limit_ok",
+    "desc": "國外投資總額不超過主管機關核定且最高不超過資金45%",
+    "expr": [
+      "EQ",
+      "foreign_investment_total_limit_ok",
+      [
+        "LE",
+        "foreign_investment_total_amount",
+        [
+          "CASE",
+          [
+            "LE",
+            "regulator_approved_foreign_investment_limit",
+            [
+              "MUL",
+              "capital",
+              0.45
+            ]
+          ],
+          "regulator_approved_foreign_investment_limit",
+          [
+            "MUL",
+            "capital",
+            0.45
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_exclusion_amount_ok",
+    "desc": "不計入國外投資限額之金額符合規定",
+    "expr": [
+      "EQ",
+      "foreign_investment_exclusion_amount_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_non_investment_foreign_currency_insurance_amount_excluded",
+          true
+        ],
+        [
+          "EQ",
+          "approved_foreign_currency_securities_market_investment_excluded",
+          true
+        ],
+        [
+          "EQ",
+          "approved_foreign_insurance_related_investment_excluded",
+          true
+        ],
+        [
+          "EQ",
+          "approved_other_foreign_investment_excluded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_and_transaction_limit_ok",
+    "desc": "同一人、同一關係人或同一關係企業放款及其他交易限額符合主管機關規定",
+    "expr": [
+      "EQ",
+      "related_party_loan_and_transaction_limit_ok",
+      [
+        "AND",
+        [
+          "LE",
+          "loan_and_other_transaction_amount_same_person",
+          "regulator_specified_limit"
+        ],
+        [
+          "LE",
+          "loan_and_other_transaction_amount_related_person",
+          "regulator_specified_limit"
+        ],
+        [
+          "LE",
+          "loan_and_other_transaction_amount_related_enterprise",
+          "regulator_specified_limit"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_system_and_procedure_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反放款類型、限額、擔保、董事會決議、國外投資限額、利害關係人交易限額、內部控制及處理制度規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_type_valid",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_single_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_total_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_related_party_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "securities_investment_and_pledge_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_type_valid",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_total_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_exclusion_amount_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_and_transaction_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

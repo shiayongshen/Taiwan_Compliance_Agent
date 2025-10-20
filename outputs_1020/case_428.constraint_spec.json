@@ -1,0 +1,354 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著惡化, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "LT",
+          "capital_level_value",
+          0
+        ],
+        0,
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe",
+    "desc": "資本等級是否為嚴重不足",
+    "expr": [
+      "EQ",
+      "capital_level_severe",
+      [
+        "EQ",
+        "capital_level",
+        4
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significant",
+    "desc": "資本等級是否為顯著惡化",
+    "expr": [
+      "EQ",
+      "capital_level_significant",
+      [
+        "EQ",
+        "capital_level",
+        3
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_insufficient",
+    "desc": "資本等級是否為不足",
+    "expr": [
+      "EQ",
+      "capital_level_insufficient",
+      [
+        "EQ",
+        "capital_level",
+        2
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_adequate",
+    "desc": "資本等級是否為適足",
+    "expr": [
+      "EQ",
+      "capital_level_adequate",
+      [
+        "EQ",
+        "capital_level",
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_none",
+    "desc": "資本等級是否為未分類",
+    "expr": [
+      "EQ",
+      "capital_level_none",
+      [
+        "EQ",
+        "capital_level",
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe_measures_executed",
+    "desc": "嚴重不足等級增資、財務或業務改善計畫或合併完成",
+    "expr": [
+      "EQ",
+      "capital_level_severe_measures_executed",
+      [
+        "EQ",
+        "capital_level_severe_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significant_measures_executed",
+    "desc": "顯著惡化等級改善計畫完成",
+    "expr": [
+      "EQ",
+      "capital_level_significant_measures_executed",
+      [
+        "EQ",
+        "capital_level_significant_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_insufficient_measures_executed",
+    "desc": "不足等級改善計畫完成",
+    "expr": [
+      "EQ",
+      "capital_level_insufficient_measures_executed",
+      [
+        "EQ",
+        "capital_level_insufficient_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未執行內部控制或內部處理制度，或資本嚴重不足且未完成改善計畫時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_severe_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

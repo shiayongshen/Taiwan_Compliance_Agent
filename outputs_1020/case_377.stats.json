@@ -1,0 +1,213 @@
+{
+  "case_id": "case_377",
+  "success": false,
+  "error_message": "Failed to build constraint {'id': 'insurance:capital_level', 'desc': '資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）', 'expr': ['EQ', 'capital_level', ['CASE', ['OR', ['LT', ['DIV', 'own_capital', 'risk_capital'], 0.25], ['LT', 'net_worth', 0.0]], 4, ['AND', ['GE', ['DIV', 'own_capital', 'risk_capital'], 0.25], ['LT', ['DIV', 'own_capital', 'risk_capital'], 1.0]], 3, ['GE', ['DIV', 'own_capital', 'risk_capital'], 1.0], 1, 0]], 'weight': 1, 'domain': 'insurance'}: Unknown variable name 'capital_level'",
+  "total_time_sec": 62.04,
+  "repair_attempts": 0,
+  "total_agent_calls": 17,
+  "total_input_tokens": 21550,
+  "total_output_tokens": 4526,
+  "total_tokens": 26076,
+  "total_cost_usd": 0.015862,
+  "timestamp": "2025-10-19T14:24:43.911900",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "FAIL",
+  "step8_violation_detected": "SKIP",
+  "step9_z3_optimize": "FAIL",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 634,
+      "output_tokens": 836,
+      "elapsed_time": 11.249206066131592,
+      "cost": 0.0015912000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 2314,
+      "output_tokens": 1025,
+      "elapsed_time": 11.164421081542969,
+      "cost": 0.0025656000000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 86,
+      "output_tokens": 397,
+      "elapsed_time": 5.8309550285339355,
+      "cost": 0.0006696
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 86,
+      "output_tokens": 1,
+      "elapsed_time": 0.3969559669494629,
+      "cost": 3.6e-05
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 1595,
+      "output_tokens": 1,
+      "elapsed_time": 0.715569019317627,
+      "cost": 0.0006396
+    },
+    {
+      "agent": "case_law_repair_insurance:capital_level_1",
+      "input_tokens": 1385,
+      "output_tokens": 345,
+      "elapsed_time": 4.513722896575928,
+      "cost": 0.0011060000000000002
+    },
+    {
+      "agent": "case_law_repair_insurance:capital_level_2",
+      "input_tokens": 1414,
+      "output_tokens": 345,
+      "elapsed_time": 4.8045079708099365,
+      "cost": 0.0011176000000000003
+    },
+    {
+      "agent": "case_law_repair_insurance:capital_ratio_minimum_1",
+      "input_tokens": 1387,
+      "output_tokens": 122,
+      "elapsed_time": 1.7396442890167236,
+      "cost": 0.00075
+    },
+    {
+      "agent": "case_law_repair_insurance:capital_ratio_minimum_2",
+      "input_tokens": 1417,
+      "output_tokens": 122,
+      "elapsed_time": 1.9455409049987793,
+      "cost": 0.0007620000000000001
+    },
+    {
+      "agent": "case_law_repair_insurance:net_worth_ratio_minimum_1",
+      "input_tokens": 1391,
+      "output_tokens": 101,
+      "elapsed_time": 3.6850979328155518,
+      "cost": 0.0007180000000000001
+    },
+    {
+      "agent": "case_law_repair_insurance:net_worth_ratio_minimum_2",
+      "input_tokens": 1423,
+      "output_tokens": 101,
+      "elapsed_time": 1.563946008682251,
+      "cost": 0.0007308000000000001
+    },
+    {
+      "agent": "case_law_repair_insurance:reporting_compliance_1",
+      "input_tokens": 1389,
+      "output_tokens": 196,
+      "elapsed_time": 2.6350929737091064,
+      "cost": 0.0008692000000000001
+    },
+    {
+      "agent": "case_law_repair_insurance:reporting_compliance_2",
+      "input_tokens": 1420,
+      "output_tokens": 196,
+      "elapsed_time": 2.2508370876312256,
+      "cost": 0.0008816000000000001
+    },
+    {
+      "agent": "case_law_repair_meta:penalty_default_false_1",
+      "input_tokens": 1385,
+      "output_tokens": 66,
+      "elapsed_time": 1.332223892211914,
+      "cost": 0.0006596
+    },
+    {
+      "agent": "case_law_repair_meta:penalty_default_false_2",
+      "input_tokens": 1424,
+      "output_tokens": 64,
+      "elapsed_time": 1.4298090934753418,
+      "cost": 0.0006720000000000001
+    },
+    {
+      "agent": "case_law_repair_meta:penalty_conditions_1",
+      "input_tokens": 1385,
+      "output_tokens": 296,
+      "elapsed_time": 3.4274818897247314,
+      "cost": 0.0010276
+    },
+    {
+      "agent": "case_law_repair_meta:penalty_conditions_2",
+      "input_tokens": 1415,
+      "output_tokens": 312,
+      "elapsed_time": 3.3330061435699463,
+      "cost": 0.0010652
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "2177 chars",
+      "timestamp": 11.249234914779663
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "2746 chars",
+      "timestamp": 22.413767099380493
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 22.41393208503723
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "13 varspecs",
+      "timestamp": 28.245040893554688
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 28.25027894973755
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 28.259027004241943
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "0 facts",
+      "timestamp": 29.372153997421265
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "no issues",
+      "timestamp": 29.372291803359985
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "0 constraints",
+      "timestamp": 29.37232804298401
+    },
+    "step8_case_law_check": {
+      "passed": false,
+      "details": "Failed to build constraint {'id': 'insurance:capital_level', 'desc': '資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）', 'expr': ['EQ', 'capital_level', ['CASE', ['OR', ['LT', ['DIV', 'own_capital', 'risk_capital'], 0.25], ['LT', 'net_worth', 0.0]], 4, ['AND', ['GE', ['DIV', 'own_capital', 'risk_capital'], 0.25], ['LT', ['DIV', 'own_capital', 'risk_capital'], 1.0]], 3, ['GE', ['DIV', 'own_capital', 'risk_capital'], 1.0], 1, 0]], 'weight': 1, 'domain': 'insurance'}: Unknown variable name 'capital_level'",
+      "timestamp": 29.372575998306274
+    },
+    "step8_violation_detected": {
+      "passed": null,
+      "details": "REPAIR_FAILED",
+      "timestamp": 62.038716077804565
+    },
+    "step9_z3_optimize": {
+      "passed": false,
+      "details": "Failed to build constraint {'id': 'insurance:capital_level', 'desc': '資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）', 'expr': ['EQ', 'capital_level', ['CASE', ['OR', ['LT', ['DIV', 'own_capital', 'risk_capital'], 0.25], ['LT', 'net_worth', 0.0]], 4, ['AND', ['GE', ['DIV', 'own_capital', 'risk_capital'], 0.25], ['LT', ['DIV', 'own_capital', 'risk_capital'], 1.0]], 3, ['GE', ['DIV', 'own_capital', 'risk_capital'], 1.0], 1, 0]], 'weight': 1, 'domain': 'insurance'}: Unknown variable name 'capital_level'",
+      "timestamp": 62.038959980010986
+    }
+  },
+  "fix_logs": []
+}

@@ -1,0 +1,137 @@
+{
+  "case_id": "case_321",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 58.48,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 11070,
+  "total_output_tokens": 3369,
+  "total_tokens": 14439,
+  "total_cost_usd": 0.009818,
+  "timestamp": "2025-10-19T13:03:22.248679",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "PASS",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2224,
+      "output_tokens": 1102,
+      "elapsed_time": 14.460453033447266,
+      "cost": 0.0026528000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 5760,
+      "output_tokens": 1501,
+      "elapsed_time": 18.074425220489502,
+      "cost": 0.004705600000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 74,
+      "output_tokens": 349,
+      "elapsed_time": 4.704862833023071,
+      "cost": 0.000588
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 74,
+      "output_tokens": 349,
+      "elapsed_time": 4.5909788608551025,
+      "cost": 0.000588
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 2938,
+      "output_tokens": 68,
+      "elapsed_time": 1.4351890087127686,
+      "cost": 0.0012840000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3048 chars",
+      "timestamp": 14.460478067398071
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4257 chars",
+      "timestamp": 32.535013914108276
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 47.69073700904846
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "10 varspecs",
+      "timestamp": 52.395833015441895
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 52.40195894241333
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 52.413228034973145
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "6 facts",
+      "timestamp": 58.44081521034241
+    },
+    "step7_facts_validation": {
+      "passed": true,
+      "details": "4 fixes",
+      "timestamp": 58.440962076187134
+    },
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 58.442058086395264
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 58.45590806007385
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c11', 'meta:penalty_default_false']",
+      "timestamp": 58.45591711997986
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 58.467957973480225
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 52.4
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "securities:violation_found",
+    "desc": "證券商董事、監察人及受僱人違反法令且影響業務正常執行",
+    "expr": [
+      "EQ",
+      "violation_found",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law",
+          true
+        ],
+        [
+          "EQ",
+          "affects_normal_operations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:stop_business_ordered",
+    "desc": "主管機關命令停止一年以下業務執行",
+    "expr": [
+      "EQ",
+      "stop_business_ordered",
+      [
+        "EQ",
+        "stop_business_within_one_year",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:remove_officer_ordered",
+    "desc": "主管機關命令解除職務",
+    "expr": [
+      "EQ",
+      "remove_officer_ordered",
+      [
+        "EQ",
+        "officer_removed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_imposed",
+    "desc": "依第六十六條規定對證券商處分",
+    "expr": [
+      "EQ",
+      "penalty_imposed",
+      [
+        "EQ",
+        "penalty_according_to_article_66",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法令且影響業務正常執行時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_found",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_imposed",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

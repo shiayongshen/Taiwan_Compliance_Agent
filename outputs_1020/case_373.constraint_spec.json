@@ -1,0 +1,231 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_business_operation_established",
+    "desc": "衍生性金融商品業務內部作業制度及程序已訂定",
+    "expr": [
+      "EQ",
+      "derivative_business_operation_established",
+      [
+        "EQ",
+        "derivative_business_internal_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_systems_compliance",
+    "desc": "內部控制、內部處理及內部作業制度均已建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_systems_compliance",
+      [
+        "AND",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_operation_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_operation_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_internal_systems",
+    "desc": "未依規定建立或確實執行內部控制、內部處理或內部作業制度",
+    "expr": [
+      "EQ",
+      "violation_internal_systems",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_systems_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定建立或執行內部控制、內部處理或內部作業制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_internal_systems",
+          true
+        ],
+        [
+          "EQ",
+          "refuse_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "refuse_open_vault",
+          true
+        ],
+        [
+          "EQ",
+          "conceal_or_destroy_documents",
+          true
+        ],
+        [
+          "EQ",
+          "unjustified_nonresponse_or_false_reply",
+          true
+        ],
+        [
+          "EQ",
+          "late_or_false_report",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

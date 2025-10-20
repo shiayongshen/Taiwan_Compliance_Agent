@@ -1,0 +1,526 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_compliance",
+    "desc": "符合保險法第144條聘用及指派精算人員及外部複核精算人員規定",
+    "expr": [
+      "EQ",
+      "act_144_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "act_144_employed_actuary",
+          true
+        ],
+        [
+          "EQ",
+          "act_144_designated_signing_actuary",
+          true
+        ],
+        [
+          "EQ",
+          "act_144_hired_external_review_actuary",
+          true
+        ],
+        [
+          "EQ",
+          "act_144_board_approval",
+          true
+        ],
+        [
+          "EQ",
+          "act_144_fair_and_honest_reports",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_compliance",
+    "desc": "符合保險法第148-3條建立內部控制及內部處理制度規定",
+    "expr": [
+      "EQ",
+      "act_148_3_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation",
+    "desc": "違反保險法第171條第144條第一項至第四項及第145條規定",
+    "expr": [
+      "EQ",
+      "act_171_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_145_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_5_violation",
+    "desc": "違反保險法第171條第144條第五項簽證精算人員及外部複核精算人員規定",
+    "expr": [
+      "EQ",
+      "act_171_5_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "act_144_fair_and_honest_reports",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation",
+    "desc": "違反保險法第171-1條第148-3條內部控制及內部處理制度規定",
+    "expr": [
+      "EQ",
+      "act_171_1_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:sales_preparation_compliance",
+    "desc": "保險商品銷售前程序符合規定",
+    "expr": [
+      "EQ",
+      "sales_preparation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "product_design_completed",
+          true
+        ],
+        [
+          "EQ",
+          "product_review_completed",
+          true
+        ],
+        [
+          "EQ",
+          "product_preparation_completed",
+          true
+        ],
+        [
+          "EQ",
+          "product_management_meeting_held",
+          true
+        ],
+        [
+          "EQ",
+          "product_information_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "actuarial_data_verified",
+          true
+        ],
+        [
+          "EQ",
+          "risk_control_and_reinsurance_arranged",
+          true
+        ],
+        [
+          "EQ",
+          "system_setup_and_testing_done",
+          true
+        ],
+        [
+          "EQ",
+          "documents_printed",
+          true
+        ],
+        [
+          "EQ",
+          "training_conducted",
+          true
+        ],
+        [
+          "EQ",
+          "evaluation_consistent_with_assessment",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:sales_document_integrity",
+    "desc": "保險商品送審資料無重大錯誤、不實或缺漏",
+    "expr": [
+      "EQ",
+      "sales_document_integrity",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_major_errors",
+          true
+        ],
+        [
+          "EQ",
+          "no_false_statements",
+          true
+        ],
+        [
+          "EQ",
+          "no_important_omissions",
+          true
+        ],
+        [
+          "EQ",
+          "signed_by_authorized_personnel",
+          true
+        ],
+        [
+          "EQ",
+          "submission_method_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "documents_complete_or_corrected",
+          true
+        ],
+        [
+          "EQ",
+          "not_rejected_three_times",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:solicitation_and_underwriting_compliance",
+    "desc": "保險業招攬及核保理賠制度符合規定",
+    "expr": [
+      "EQ",
+      "solicitation_and_underwriting_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "solicitation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_training_completed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_policies_followed",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_and_premium_calculation_based_on_actuarial_data",
+          true
+        ],
+        [
+          "EQ",
+          "no_unfair_treatment_of_disabled",
+          true
+        ],
+        [
+          "EQ",
+          "no_unqualified_personnel_performing_underwriting",
+          true
+        ],
+        [
+          "EQ",
+          "proper_documentation_and_signatures",
+          true
+        ],
+        [
+          "EQ",
+          "financial_underwriting_and_reporting_procedures_followed",
+          true
+        ],
+        [
+          "EQ",
+          "source_of_premium_funds_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "no_damaging_behavior_to_clients",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:senior_customer_protection",
+    "desc": "對六十五歲以上客戶提供適當保險商品及相關保護措施",
+    "expr": [
+      "EQ",
+      "senior_customer_protection",
+      [
+        "AND",
+        [
+          "EQ",
+          "senior_customer_education_and_training",
+          true
+        ],
+        [
+          "EQ",
+          "senior_customer_product_suitability_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "senior_customer_recording_and_review_done",
+          true
+        ],
+        [
+          "EQ",
+          "senior_customer_follow_up_and_care_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反保險法第144條聘用及指派精算人員規定或內部控制及處理制度規定，或保險商品銷售前程序不合規，或招攬及核保理賠制度不合規，或未對六十五歲以上客戶提供適當保護時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "sales_preparation_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "sales_document_integrity",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_and_underwriting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "senior_customer_protection",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,441 @@
+[
+  {
+    "id": "insurance:license_and_bond_insurance_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "license_and_bond_insurance_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "GE",
+          "bond_deposit_amount",
+          "bond_minimum_amount"
+        ],
+        [
+          "EQ",
+          "relevant_insurance_covered",
+          true
+        ],
+        [
+          "EQ",
+          "holding_practice_license",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:relevant_insurance_type",
+    "desc": "相關保險類型依身份區分：代理人、公證人為責任保險；經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "relevant_insurance_covered",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_or_notary",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_covered",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_covered",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_insurance_covered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bond_minimum_amount_set_by_authority",
+    "desc": "保證金最低金額及實施方式由主管機關依經營業務範圍及規模定之",
+    "expr": [
+      "EQ",
+      "bond_minimum_amount_set",
+      [
+        "EQ",
+        "bond_minimum_amount_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:qualification_and_management_rules_set",
+    "desc": "資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則由主管機關定之",
+    "expr": [
+      "EQ",
+      "qualification_and_management_rules_set",
+      [
+        "EQ",
+        "qualification_and_management_rules_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permitted_to_engage_agent_or_broker",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permitted_to_engage_agent_or_broker",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_approved_by_authority",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_engage_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_engage_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂契約並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fidelity_duty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_must_provide_written_report_and_disclose_fee",
+    "desc": "保險經紀人洽訂契約前應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_report_and_fee_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_report_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_standard_disclosed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_financial_or_business_management_rules",
+    "desc": "違反財務或業務管理規定、書面分析報告規定或相關準用規定者，應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "violation_financial_or_business_management_rules",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_written_report_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_related_provisions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_contract_must_include_required_items",
+    "desc": "保險代理合約應包括雙方名稱、代理期限、代理權限範圍、佣酬支付標準及方式、法令遵循、禁止行為、防範利益衝突、違約責任、爭議處理、合約終止、往來金融機構帳戶及其他主管機關規定事項",
+    "expr": [
+      "EQ",
+      "agent_contract_content_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_party_names_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_agent_period_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_agent_scope_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_commission_standard_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_commission_method_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_law_compliance_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_prohibited_behavior_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_conflict_of_interest_prevention_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_breach_liability_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_dispute_resolution_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_termination_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_financial_account_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_other_authority_requirements_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:pre_service_training_completed",
+    "desc": "個人執業代理人、受代理人公司或銀行任用代理人應於申請執行業務前一年內參加職前教育訓練達32小時以上並測驗及格",
+    "expr": [
+      "EQ",
+      "pre_service_training_completed",
+      [
+        "AND",
+        [
+          "GE",
+          "pre_service_training_hours",
+          32.0
+        ],
+        [
+          "EQ",
+          "pre_service_training_passed",
+          true
+        ],
+        [
+          "EQ",
+          "pre_service_training_within_one_year",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:law_compliance_personnel_training_completed",
+    "desc": "法令遵循人員應參加職前教育訓練30小時以上",
+    "expr": [
+      "EQ",
+      "law_compliance_personnel_training_completed",
+      [
+        "GE",
+        "law_compliance_training_hours",
+        30.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反許可、保證金、保險、執業證照、財務或業務管理規定，或代理合約內容不符，或未完成職前教育訓練時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_bond_insurance_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "qualification_and_management_rules_set",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_contract_content_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "pre_service_training_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "law_compliance_personnel_training_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_permitted_to_engage_agent_or_broker",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_duty_of_care_and_fidelity",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_report_and_fee_disclosure",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_financial_or_business_management_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

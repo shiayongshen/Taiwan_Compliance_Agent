@@ -1,0 +1,183 @@
+[
+  {
+    "id": "electronic_payment:contract_terms_compliance",
+    "desc": "電子支付機構業務定型化契約條款內容不得低於主管機關範本",
+    "expr": [
+      "EQ",
+      "contract_terms_compliance",
+      [
+        "GE",
+        "contract_terms_level",
+        "standard_contract_terms_level"
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:internal_control_established",
+    "desc": "建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:internal_control_executed",
+    "desc": "內部控制制度持續有效執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:business_strategy_planned",
+    "desc": "規劃整體經營策略、風險管理政策及指導準則",
+    "expr": [
+      "EQ",
+      "business_strategy_planned",
+      [
+        "EQ",
+        "business_strategy_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:business_plan_prepared",
+    "desc": "擬定經營計畫、風險管理程序及執行準則",
+    "expr": [
+      "EQ",
+      "business_plan_prepared",
+      [
+        "EQ",
+        "business_plan_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:internal_control_compliance",
+    "desc": "內部控制制度建立且持續有效執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:illegal_foreign_cooperation",
+    "desc": "未經主管機關核准與境外機構合作或協助境外機構於我國境內從事業務",
+    "expr": [
+      "EQ",
+      "illegal_foreign_cooperation",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_cooperation_approved",
+          false
+        ],
+        [
+          "EQ",
+          "foreign_cooperation_performed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:illegal_foreign_cooperation_penalty",
+    "desc": "違反第十五條第二項規定，未經核准與境外機構合作或協助者",
+    "expr": [
+      "EQ",
+      "illegal_foreign_cooperation_penalty",
+      [
+        "EQ",
+        "illegal_foreign_cooperation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反定型化契約條款內容規定或未建立或執行內部控制制度或未經核准與境外機構合作",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_terms_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "illegal_foreign_cooperation_penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

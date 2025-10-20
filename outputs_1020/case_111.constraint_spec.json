@@ -1,0 +1,243 @@
+[
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依本會及相關機構訂定標準建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_operated_according_to_law_and_internal_control",
+    "desc": "證券商業務依法令、章程及內部控制制度經營",
+    "expr": [
+      "EQ",
+      "business_operated_according_to_law_and_internal_control",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated_after_change_notice",
+    "desc": "內部控制制度經本會或相關機構通知變更後於限期內變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated_after_change_notice",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "internal_control_change_notice_received",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_updated_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_of_law_or_orders",
+    "desc": "證券商違反證券交易法或依該法發布之命令",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_orders",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_applicable",
+    "desc": "證券商違反法令情節輕重及處分適用",
+    "expr": [
+      "EQ",
+      "penalty_applicable",
+      [
+        "EQ",
+        "violation_of_law_or_orders",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_fine_conditions",
+    "desc": "證券商違反特定條文或未確實執行內部控制制度等情事",
+    "expr": [
+      "EQ",
+      "penalty_fine_conditions",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_specified_articles",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_submit_required_documents",
+          true
+        ],
+        [
+          "EQ",
+          "obstruct_or_refuse_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_prepare_or_preserve_documents",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_execute_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violate_financial_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_other_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_fine_improvement_status",
+    "desc": "違反行為屬輕微且已限期改善完成者免罰",
+    "expr": [
+      "EQ",
+      "penalty_fine_improvement_status",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "violation_is_minor",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法令且未屬輕微或未改善者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "EQ",
+                "violation_is_minor",
+                true
+              ],
+              [
+                "EQ",
+                "improvement_ordered",
+                true
+              ],
+              [
+                "EQ",
+                "improvement_completed",
+                true
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

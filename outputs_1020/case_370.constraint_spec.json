@@ -1,0 +1,614 @@
+[
+  {
+    "id": "insurance:reserve_calculation_recorded",
+    "desc": "保險業於營業年度屆滿時，應分別保險種類計算並記載各種準備金",
+    "expr": [
+      "EQ",
+      "reserve_calculation_recorded",
+      [
+        "EQ",
+        "reserve_calculation_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_limit_complied",
+    "desc": "保險業對同一人、同一關係人或同一關係企業放款或其他交易符合主管機關限制",
+    "expr": [
+      "EQ",
+      "related_party_loan_limit_complied",
+      [
+        "EQ",
+        "related_party_loan_limit_respected",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_securities_limit_complied",
+    "desc": "保險業投資有價證券符合各項百分比限制",
+    "expr": [
+      "EQ",
+      "investment_securities_limit_complied",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "government_bonds_amount",
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          100.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "financial_bonds_amount",
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          35.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "stocks_per_company_amount",
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          5.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "stocks_per_company_amount",
+              "company_total_shares"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "corporate_bonds_per_company_amount",
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          5.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "corporate_bonds_per_company_amount",
+              "company_owner_equity"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "fund_investment_total",
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "fund_investment_per_fund",
+              "fund_total_shares"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "securitized_products_total",
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "LE",
+          [
+            "MUL",
+            [
+              "DIV",
+              [
+                "ADD",
+                "stocks_per_company_amount",
+                "corporate_bonds_per_company_amount"
+              ],
+              "insurance_funds"
+            ],
+            100.0
+          ],
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_prohibited_acts_absent",
+    "desc": "保險業依規定投資不得有擔任董事、監察人、行使表決權、指派經理人、擔任信託監察人或與第三人約定參與經營等情事",
+    "expr": [
+      "EQ",
+      "investment_prohibited_acts_absent",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_board_director_appointment",
+          true
+        ],
+        [
+          "EQ",
+          "no_voting_right_exercise",
+          true
+        ],
+        [
+          "EQ",
+          "no_manager_appointment",
+          true
+        ],
+        [
+          "EQ",
+          "no_trust_supervisor_appointment",
+          true
+        ],
+        [
+          "EQ",
+          "no_agreement_to_participate_management",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員",
+    "expr": [
+      "EQ",
+      "actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuary_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:external_review_actuary_hired",
+    "desc": "保險業聘請外部複核精算人員",
+    "expr": [
+      "EQ",
+      "external_review_actuary_hired",
+      [
+        "EQ",
+        "external_review_actuary_hired_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:actuarial_reports_fair_and_true",
+    "desc": "簽證精算人員及外部複核精算人員簽證報告及複核報告內容公正且無虛偽錯誤",
+    "expr": [
+      "EQ",
+      "actuarial_reports_fair_and_true",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuary_report_fair",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_report_fair",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_report_false_or_omitted",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "保險業內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "保險業內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_144_145",
+    "desc": "違反保險法第144條第一項至第四項或第145條規定",
+    "expr": [
+      "EQ",
+      "violation_144_145",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_actuary_hired",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_reports_fair_and_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reserve_calculation_recorded",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_internal_control",
+    "desc": "違反保險法第148-3條第一項規定未建立或未執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "violation_148_3_internal_control",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_internal_handling",
+    "desc": "違反保險法第148-3條第二項規定未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violation_148_3_internal_handling",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_investment_limits",
+    "desc": "違反保險法第146-1條投資資產百分比限制規定",
+    "expr": [
+      "EQ",
+      "violation_investment_limits",
+      [
+        "NOT",
+        [
+          "EQ",
+          "investment_securities_limit_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_investment_prohibited_acts",
+    "desc": "違反保險法第146-1條投資禁止行為規定",
+    "expr": [
+      "EQ",
+      "violation_investment_prohibited_acts",
+      [
+        "NOT",
+        [
+          "EQ",
+          "investment_prohibited_acts_absent",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_related_party_loan_limit",
+    "desc": "違反保險法第146-7條同一人、同一關係人或同一關係企業放款或其他交易限制",
+    "expr": [
+      "EQ",
+      "violation_related_party_loan_limit",
+      [
+        "NOT",
+        [
+          "EQ",
+          "related_party_loan_limit_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_actuarial_staff_assignment",
+    "desc": "違反保險法第144條簽證精算人員指派及外部複核精算人員聘請規定",
+    "expr": [
+      "EQ",
+      "violation_actuarial_staff_assignment",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_actuary_hired",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_actuarial_reports",
+    "desc": "違反保險法第144條簽證報告及複核報告內容有虛偽、隱匿、遺漏或錯誤",
+    "expr": [
+      "EQ",
+      "violation_actuarial_reports",
+      [
+        "NOT",
+        [
+          "EQ",
+          "actuarial_reports_fair_and_true",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關保險法規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_144_145",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_internal_handling",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_limits",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_prohibited_acts",
+          true
+        ],
+        [
+          "EQ",
+          "violation_related_party_loan_limit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_actuarial_staff_assignment",
+          true
+        ],
+        [
+          "EQ",
+          "violation_actuarial_reports",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

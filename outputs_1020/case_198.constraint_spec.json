@@ -1,0 +1,400 @@
+[
+  {
+    "id": "securities:report_submission_and_cooperation",
+    "desc": "證券投資信託及顧問事業等應於期限內提出報告且不得規避妨礙檢查",
+    "expr": [
+      "EQ",
+      "report_submission_and_cooperation",
+      [
+        "AND",
+        [
+          "EQ",
+          "report_submitted_within_deadline",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "obstruction_or_refusal",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:inspection_report_submission",
+    "desc": "指定律師、會計師或專業人員檢查並據實提出報告",
+    "expr": [
+      "EQ",
+      "inspection_report_submission",
+      [
+        "AND",
+        [
+          "EQ",
+          "inspection_assigned_professional",
+          true
+        ],
+        [
+          "EQ",
+          "inspection_report_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:inspection_fee_burden",
+    "desc": "檢查費用由被檢查人負擔",
+    "expr": [
+      "EQ",
+      "inspection_fee_burden",
+      [
+        "EQ",
+        "inspection_fee_paid_by_inspected",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:information_provision_to_authorities",
+    "desc": "主管機關得要求相關機關提供必要資訊或紀錄",
+    "expr": [
+      "EQ",
+      "information_provision_to_authorities",
+      [
+        "EQ",
+        "information_provided_to_authorities",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:information_confidentiality",
+    "desc": "前三項資訊除監理及保護投資人必要外，不得公布或提供他人",
+    "expr": [
+      "EQ",
+      "information_confidentiality",
+      [
+        "OR",
+        [
+          "EQ",
+          "information_used_for_supervision_or_protection",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "information_disclosed_or_provided_to_others",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_violation_list",
+    "desc": "違反證券投資信託及顧問法第113條列舉事項",
+    "expr": [
+      "EQ",
+      "violation_113",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_11_4_or_43_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_17_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "not_provide_inspection_as_per_article_20",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_26_49_74_81_99_100",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_29_43_45_96_announcement",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_47_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_60_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_62_1_4_5",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_69_72_personnel_or_department",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_94_conflict_of_interest",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_96_2_refuse_designated_assignee",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_101_1_report_or_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_imposed",
+    "desc": "違反第113條規定者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_113",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "securities:advisor_contract_compliance",
+    "desc": "證券投資顧問事業應訂定書面契約並載明必要事項",
+    "expr": [
+      "EQ",
+      "advisor_contract_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_signed",
+          true
+        ],
+        [
+          "EQ",
+          "contract_contains_required_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisor_contract_confidentiality",
+    "desc": "證券投資顧問事業應保守客戶財產狀況及個人情況秘密",
+    "expr": [
+      "EQ",
+      "advisor_contract_confidentiality",
+      [
+        "EQ",
+        "confidentiality_observed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisor_contract_no_fund_receipt",
+    "desc": "證券投資顧問事業不得收受客戶資金或代理證券投資行為",
+    "expr": [
+      "EQ",
+      "advisor_contract_no_fund_receipt",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_received_from_client",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_agent",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisor_contract_termination_right",
+    "desc": "客戶得於收受書面契約七日內以書面終止契約",
+    "expr": [
+      "EQ",
+      "advisor_contract_termination_right",
+      [
+        "EQ",
+        "client_termination_within_7_days",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisor_contract_termination_compensation_limit",
+    "desc": "契約終止時不得請求損害賠償或違約金",
+    "expr": [
+      "EQ",
+      "advisor_contract_termination_compensation_limit",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "claim_damages_on_termination",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "claim_penalty_on_termination",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_analysis_report_compliance",
+    "desc": "證券投資顧問事業應作成投資分析報告並載明合理分析基礎及根據",
+    "expr": [
+      "EQ",
+      "investment_analysis_report_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_analysis_report_made",
+          true
+        ],
+        [
+          "EQ",
+          "report_contains_reasonable_basis",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_analysis_report_retention",
+    "desc": "投資分析報告副本及紀錄保存五年，可電子媒體儲存",
+    "expr": [
+      "EQ",
+      "investment_analysis_report_retention",
+      [
+        "EQ",
+        "investment_analysis_report_retained_5_years",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisor_contract_retention",
+    "desc": "證券投資顧問契約權利義務關係消滅日起保存五年",
+    "expr": [
+      "EQ",
+      "advisor_contract_retention",
+      [
+        "EQ",
+        "advisor_contract_retained_5_years",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:media_record_retention",
+    "desc": "證券投資顧問事業提供投資分析節目錄影錄音存查至少保存一年",
+    "expr": [
+      "EQ",
+      "media_record_retention",
+      [
+        "EQ",
+        "media_record_retained_1_year",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第113條列舉事項時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_113",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_complies_with_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_operated_according_to_law_and_internal_control",
+    "desc": "證券商業務依法令、章程及內部控制制度經營",
+    "expr": [
+      "EQ",
+      "business_operated_according_to_law_and_internal_control",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated_on_time",
+    "desc": "內部控制制度於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated_on_time",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_change_notified",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_change_notified",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_changed_within_deadline",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:compliance",
+    "desc": "證券商遵守證券交易法及內部控制相關規定",
+    "expr": [
+      "EQ",
+      "compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_law_and_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_updated_on_time",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法或內部控制相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

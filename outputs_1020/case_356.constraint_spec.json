@@ -1,0 +1,459 @@
+[
+  {
+    "id": "finance:outsourcing_approval_documents_submitted",
+    "desc": "金融機構委外涉及重大性消費金融業務資訊系統境外處理，已檢具申請核准書件",
+    "expr": [
+      "EQ",
+      "outsourcing_approval_documents_submitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "outsourcing_internal_operation_spec_defined",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "board_resolution_submitted",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "is_foreign_branch",
+              true
+            ],
+            [
+              "EQ",
+              "head_office_authorized_consent_submitted",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "outsourcing_necessity_and_legality_analysis_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "consent_letter_or_contract_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "no_incident_statement_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_customer_data_compliance",
+    "desc": "受委託機構對客戶資訊使用處理符合個人資料保護法規定並留存稽核紀錄",
+    "expr": [
+      "EQ",
+      "outsourcing_customer_data_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "outsourcing_customer_data_usage_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_audit_records_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_cost_benefit_evaluated_and_board_approved",
+    "desc": "定期評估成本效益與集團內費用分攤合理性並報董事會通過",
+    "expr": [
+      "EQ",
+      "outsourcing_cost_benefit_evaluated_and_board_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "cost_benefit_evaluated",
+          true
+        ],
+        [
+          "EQ",
+          "cost_sharing_approved_by_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_security_testing_compliant",
+    "desc": "資訊系統安全檢測符合主管機關或銀行公會規範",
+    "expr": [
+      "EQ",
+      "outsourcing_security_testing_compliant",
+      [
+        "EQ",
+        "security_testing_meets_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_annual_audit_completed_and_reported",
+    "desc": "每年至少辦理一次一般性查核及一次專案查核，並於年度終了後四個月內提報董事會",
+    "expr": [
+      "EQ",
+      "outsourcing_annual_audit_completed_and_reported",
+      [
+        "AND",
+        [
+          "EQ",
+          "general_audit_completed",
+          true
+        ],
+        [
+          "EQ",
+          "special_audit_completed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_submitted_to_board_within_4_months",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_audit_may_be_delegated_to_independent_third_party",
+    "desc": "查核執行得委託具資訊專業之獨立第三人辦理",
+    "expr": [
+      "EQ",
+      "outsourcing_audit_may_be_delegated_to_independent_third_party",
+      [
+        "EQ",
+        "audit_delegated_to_independent_third_party",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_service_interruption_backup_plan_established",
+    "desc": "建立受委託機構發生無法提供服務或服務中斷之營運備援計畫",
+    "expr": [
+      "EQ",
+      "outsourcing_service_interruption_backup_plan_established",
+      [
+        "EQ",
+        "service_interruption_backup_plan_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_contract_specifies_transfer_and_compensation_obligations",
+    "desc": "契約載明委外作業移轉義務及服務中斷賠償責任",
+    "expr": [
+      "EQ",
+      "outsourcing_contract_specifies_transfer_and_compensation_obligations",
+      [
+        "EQ",
+        "contract_specifies_transfer_and_compensation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:foreign_branch_outsourcing_handled_by_head_office_or_foreign_branch",
+    "desc": "外國金融機構在臺分支機構內部分工將作業交由總機構或國外分支機構處理，依規定辦理",
+    "expr": [
+      "EQ",
+      "foreign_branch_outsourcing_handled_by_head_office_or_foreign_branch",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "is_foreign_branch",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_handled_by_head_office_or_foreign_branch",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_policy_and_risk_control_defined",
+    "desc": "訂定使用雲端服務政策及原則，採取適當風險管控措施並注意適度分散",
+    "expr": [
+      "EQ",
+      "cloud_service_policy_and_risk_control_defined",
+      [
+        "AND",
+        [
+          "EQ",
+          "cloud_service_policy_defined",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_risk_control_measures_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_diversification_ensured",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_final_supervision_obligation",
+    "desc": "金融機構對雲端服務業者負有最終監督義務，具專業技術及資源，得委託專業第三人輔助監督",
+    "expr": [
+      "EQ",
+      "cloud_service_final_supervision_obligation",
+      [
+        "AND",
+        [
+          "EQ",
+          "cloud_service_final_supervision",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_supervision_technical_resources",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "cloud_service_supervision_done_by_self",
+            true
+          ],
+          [
+            "EQ",
+            "cloud_service_supervision_assisted_by_third_party",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_third_party_audit_compliance",
+    "desc": "委託或聯合委託獨立第三人查核，查核範圍涵蓋重要系統及控制環節，評估適格性及報告妥適性",
+    "expr": [
+      "EQ",
+      "cloud_service_third_party_audit_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "third_party_audit_engaged",
+          true
+        ],
+        [
+          "EQ",
+          "audit_scope_covers_important_systems",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_qualification_evaluated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_meets_international_standards",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_covers_commissioned_scope",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_customer_data_encryption_and_key_management",
+    "desc": "客戶資料傳輸及儲存採加密或代碼化保護，訂定妥適加密金鑰管理機制",
+    "expr": [
+      "EQ",
+      "cloud_service_customer_data_encryption_and_key_management",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_data_encrypted_or_tokenized",
+          true
+        ],
+        [
+          "EQ",
+          "encryption_key_management_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_data_ownership_and_access_restriction",
+    "desc": "保有資料所有權，確保雲端服務業者不得存取客戶資料或委託範圍外利用",
+    "expr": [
+      "EQ",
+      "cloud_service_data_ownership_and_access_restriction",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_ownership_retained",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_no_access_outside_scope",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_data_storage_location_compliance",
+    "desc": "客戶資料及儲存地以我國境內為原則，境外須主管機關核准且重要資料留存備份",
+    "expr": [
+      "EQ",
+      "cloud_service_data_storage_location_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "data_storage_in_domestic",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "data_storage_approved_by_authority",
+            true
+          ],
+          [
+            "EQ",
+            "important_data_backup_in_domestic",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "bank:internal_control_and_audit_system_established_and_executed",
+    "desc": "銀行建立內部控制及稽核制度，內部處理制度及程序，內部作業制度及程序，並確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_system_established_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_and_audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_and_audit_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定建立或執行銀行內部控制及稽核制度、內部處理制度及程序、內部作業制度及程序時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_and_audit_system_established_and_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

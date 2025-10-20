@@ -1,0 +1,346 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "GE",
+                "net_worth_ratio_prev1",
+                0.0
+              ],
+              [
+                "LT",
+                "net_worth_ratio_prev1",
+                2.0
+              ]
+            ],
+            [
+              "AND",
+              [
+                "GE",
+                "net_worth_ratio_prev2",
+                0.0
+              ],
+              [
+                "LT",
+                "net_worth_ratio_prev2",
+                2.0
+              ]
+            ]
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          [
+            "OR",
+            [
+              "LT",
+              "net_worth_ratio_prev1",
+              2.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio_prev2",
+              2.0
+            ]
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_adjusted",
+    "desc": "資本等級調整，若同時符合多等級，取較低等級",
+    "expr": [
+      "EQ",
+      "capital_level_adjusted",
+      [
+        "CASE",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        4,
+        [
+          "EQ",
+          "capital_level",
+          3
+        ],
+        3,
+        [
+          "EQ",
+          "capital_level",
+          2
+        ],
+        2,
+        [
+          "EQ",
+          "capital_level",
+          1
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_measures_executed",
+    "desc": "資本嚴重不足等級措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_measures_executed",
+      [
+        "EQ",
+        "severely_insufficient_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_measures_executed",
+    "desc": "資本顯著不足等級措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_measures_executed",
+      [
+        "EQ",
+        "significantly_insufficient_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_measures_executed",
+    "desc": "資本不足等級措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_insufficient_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:serious_financial_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "serious_financial_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "cannot_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "cannot_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_interest",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_approved",
+    "desc": "財務或業務改善計畫已提出並經主管機關核定",
+    "expr": [
+      "EQ",
+      "improvement_plan_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accelerated_deterioration_and_no_improvement",
+    "desc": "損益、淨值加速惡化且經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_and_no_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "accelerated_loss_and_net_worth_decline",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_after_guidance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成增資或改善計畫，或財務狀況惡化未改善時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_severely_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "serious_financial_deterioration",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_approved",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "accelerated_deterioration_and_no_improvement",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_approved",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "已建立洗錢防制內部控制與稽核制度，包含六項必要內容",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "已確實執行洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implementation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:compliance_rule",
+    "desc": "符合洗錢防制法第7條規定",
+    "expr": [
+      "EQ",
+      "compliance_rule",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:inspection_cooperation",
+    "desc": "未規避、拒絕或妨礙現地或非現地查核",
+    "expr": [
+      "EQ",
+      "inspection_cooperation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "inspection_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立制度或未確實執行，或規避拒絕妨礙查核時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "inspection_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

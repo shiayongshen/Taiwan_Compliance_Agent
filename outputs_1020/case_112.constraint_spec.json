@@ -1,0 +1,394 @@
+[
+  {
+    "id": "securities:violation_penalty",
+    "desc": "證券商違反法令或命令之處分類型",
+    "expr": [
+      "EQ",
+      "violation_penalty",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation_warning",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "violation_dismiss_officer",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "violation_suspension",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "violation_license_revocation",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "violation_other_measures",
+          true
+        ],
+        5,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_executed",
+    "desc": "證券商確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_1",
+    "desc": "違反證券交易法指定條文之一",
+    "expr": [
+      "EQ",
+      "violation_178_1_1",
+      [
+        "EQ",
+        "violation_specified_articles",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_2",
+    "desc": "未依主管機關命令提出帳簿文件或妨礙檢查",
+    "expr": [
+      "EQ",
+      "violation_178_1_2",
+      [
+        "EQ",
+        "failed_to_submit_or_obstruct_inspection",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_3",
+    "desc": "未依規定製作、申報、公告、備置或保存相關文件",
+    "expr": [
+      "EQ",
+      "violation_178_1_3",
+      [
+        "EQ",
+        "failed_to_comply_document_requirements",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_4",
+    "desc": "未確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "violation_178_1_4",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_5",
+    "desc": "違反財務、業務或管理相關規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_5",
+      [
+        "EQ",
+        "violation_financial_business_management_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_6",
+    "desc": "違反有價證券發行及相關規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_6",
+      [
+        "EQ",
+        "violation_securities_issuance_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_7",
+    "desc": "違反證券櫃檯買賣中心、同業公會或證券交易所相關規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_7",
+      [
+        "EQ",
+        "violation_market_organization_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_any",
+    "desc": "違反第178-1條任一規定",
+    "expr": [
+      "EQ",
+      "violation_178_1_any",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_178_1_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_1_3",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_1_4",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_1_5",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_1_6",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_1_7",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_minor",
+    "desc": "違反第178-1條情節輕微",
+    "expr": [
+      "EQ",
+      "violation_178_1_minor",
+      [
+        "EQ",
+        "violation_178_1_minor_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_improved",
+    "desc": "違反第178-1條已限期改善且完成",
+    "expr": [
+      "EQ",
+      "violation_178_1_improved",
+      [
+        "EQ",
+        "violation_178_1_improvement_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_1_penalty_applicable",
+    "desc": "第178-1條違反行為應處罰",
+    "expr": [
+      "EQ",
+      "violation_178_1_penalty_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_178_1_any",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "violation_178_1_minor",
+              true
+            ],
+            [
+              "EQ",
+              "violation_178_1_improved",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliance",
+    "desc": "內部控制制度符合規定",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_operated_according_to_law",
+    "desc": "證券商業務依法令、章程及內部控制制度經營",
+    "expr": [
+      "EQ",
+      "business_operated_according_to_law",
+      [
+        "EQ",
+        "business_operated_according_to_law_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated_on_time",
+    "desc": "內部控制制度於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated_on_time",
+      [
+        "EQ",
+        "internal_control_updated_within_deadline",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法第66條或第178-1條規定且未免罰或未改善完成時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_penalty",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_178_1_penalty_applicable",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

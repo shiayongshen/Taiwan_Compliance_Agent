@@ -1,0 +1,207 @@
+[
+  {
+    "id": "insurance_agent:disclose_and_document",
+    "desc": "個人執業代理人、代理人公司及銀行應善盡說明義務並留存相關文件",
+    "expr": [
+      "EQ",
+      "disclose_and_document",
+      [
+        "AND",
+        [
+          "EQ",
+          "professional_explanation_done",
+          true
+        ],
+        [
+          "EQ",
+          "information_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "procedure_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "documents_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:contact_info_obtained",
+    "desc": "電子保單出單時取得要保人及被保險人聯絡方式並提供保險人",
+    "expr": [
+      "EQ",
+      "contact_info_obtained",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "insured_mobile_phone_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "insured_email_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "insured_other_contact_obtained",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "applicant_mobile_phone_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "applicant_email_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "applicant_other_contact_obtained",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "contact_info_provided_to_insurer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:internal_operation_compliance",
+    "desc": "代理人公司及銀行依法令及主管機關規定訂定並落實內部作業規範",
+    "expr": [
+      "EQ",
+      "internal_operation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_rules_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_rules_executed",
+          true
+        ],
+        [
+          "EQ",
+          "include_protection_for_senior_consumers",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:document_retention_compliance",
+    "desc": "保存招攬、收費、簽單、批改、理賠及契約終止文件副本及收費紀錄，期限至少五年",
+    "expr": [
+      "EQ",
+      "document_retention_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "documents_saved",
+          true
+        ],
+        [
+          "EQ",
+          "fee_records_saved",
+          true
+        ],
+        [
+          "GE",
+          "document_retention_period_years",
+          5
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:compliance_all",
+    "desc": "代理人相關規定均符合",
+    "expr": [
+      "EQ",
+      "compliance_all",
+      [
+        "AND",
+        [
+          "EQ",
+          "disclose_and_document",
+          true
+        ],
+        [
+          "EQ",
+          "contact_info_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "document_retention_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反代理人管理規則相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "compliance_all",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

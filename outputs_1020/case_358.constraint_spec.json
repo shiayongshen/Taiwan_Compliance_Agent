@@ -1,0 +1,345 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "內部作業制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_unit_established",
+    "desc": "設置獨立專責風險控管單位",
+    "expr": [
+      "EQ",
+      "risk_control_unit_established",
+      [
+        "EQ",
+        "independent_risk_control_unit_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_reported",
+    "desc": "定期向董（理）事會提出風險控管報告",
+    "expr": [
+      "EQ",
+      "risk_control_reported",
+      [
+        "EQ",
+        "risk_control_report_submitted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_major_risk_handled",
+    "desc": "發現重大風險時立即採取適當措施並報告董（理）事會",
+    "expr": [
+      "EQ",
+      "risk_control_major_risk_handled",
+      [
+        "AND",
+        [
+          "EQ",
+          "major_risk_found",
+          true
+        ],
+        [
+          "EQ",
+          "major_risk_measures_taken",
+          true
+        ],
+        [
+          "EQ",
+          "major_risk_reported_to_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_control_mechanism_established",
+    "desc": "建立風險控管機制",
+    "expr": [
+      "EQ",
+      "risk_control_mechanism_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_adequacy_monitored",
+          true
+        ],
+        [
+          "EQ",
+          "liquidity_risk_monitored",
+          true
+        ],
+        [
+          "EQ",
+          "asset_allocation_risk_managed",
+          true
+        ],
+        [
+          "EQ",
+          "asset_quality_and_loss_provision_controlled",
+          true
+        ],
+        [
+          "EQ",
+          "information_security_and_emergency_plan_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定建立或執行內部控制、內部處理、內部作業制度及程序，或未設置獨立風險控管單位，或未執行風險控管措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "risk_control_unit_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "risk_control_reported",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "major_risk_found",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "risk_control_major_risk_handled",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "risk_control_mechanism_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,273 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "已建立洗錢防制內部控制與稽核制度，包含六項必要內容",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "已確實執行洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:report_timing_compliance",
+    "desc": "金融機構於交易完成後五個營業日內以媒體申報方式申報達一定金額以上通貨交易",
+    "expr": [
+      "EQ",
+      "report_timing_compliance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_amount_ge_500000",
+            true
+          ],
+          [
+            "LE",
+            "report_days_after_transaction",
+            5
+          ],
+          [
+            "EQ",
+            "report_media_method_used",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_amount_ge_500000",
+            true
+          ],
+          [
+            "EQ",
+            "has_justified_reason",
+            true
+          ],
+          [
+            "EQ",
+            "report_written_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:exemption_conditions_met",
+    "desc": "符合免申報條件且仍確認客戶身分及留存交易紀錄憑證",
+    "expr": [
+      "EQ",
+      "exemption_conditions_met",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "transaction_with_government_agency",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_between_financial_institutions",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_with_public_welfare_lottery_dealer",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_with_collection_payment",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "customer_identity_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_record_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:exemption_conditions_not_violated",
+    "desc": "免申報條件未違反",
+    "expr": [
+      "EQ",
+      "exemption_conditions_not_violated",
+      [
+        "OR",
+        [
+          "EQ",
+          "exemption_conditions_met",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_amount_ge_500000",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未執行洗錢防制內部控制制度，或規避查核，或未依規定申報達一定金額以上通貨交易",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "inspection_evaded",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_amount_ge_500000",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "report_timing_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "exemption_conditions_not_violated",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

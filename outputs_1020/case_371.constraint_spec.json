@@ -1,0 +1,1081 @@
+[
+  {
+    "id": "insurance:capital_level_severe_insufficient",
+    "desc": "資本等級嚴重不足判定",
+    "expr": [
+      "EQ",
+      "capital_level_severe_insufficient",
+      [
+        "OR",
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "net_worth",
+          0.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significant_deterioration",
+    "desc": "資本等級顯著惡化判定",
+    "expr": [
+      "EQ",
+      "capital_level_significant_deterioration",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "GE",
+          "net_worth_ratio",
+          0.0
+        ],
+        [
+          "LT",
+          "net_worth_ratio",
+          2.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_insufficient",
+    "desc": "資本等級不足判定",
+    "expr": [
+      "EQ",
+      "capital_level_insufficient",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          200.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_adequate",
+    "desc": "資本等級適足判定",
+    "expr": [
+      "EQ",
+      "capital_level_adequate",
+      [
+        "GE",
+        "capital_adequacy_ratio",
+        200.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著惡化, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_executed",
+      [
+        "EQ",
+        "level_4_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著惡化等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_executed",
+      [
+        "EQ",
+        "level_3_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improper_capital_measures",
+    "desc": "資本不足等級未執行對應措施",
+    "expr": [
+      "EQ",
+      "improper_capital_measures",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_2_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improper_capital_measures_penalty",
+    "desc": "資本不足且未執行對應措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "improper_capital_measures",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:improper_capital_measures_penalty",
+    "desc": "資本不足且未執行對應措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "improper_capital_measures",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:capital_level_4_penalty",
+    "desc": "資本嚴重不足且未完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_level_4_measures_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_plan_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_penalty_enforced",
+    "desc": "資本嚴重不足且未完成增資、改善計畫或合併，主管機關可接管、勒令停業清理或解散",
+    "expr": [
+      "EQ",
+      "capital_level_4_penalty_enforced",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_plan_completed",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "days_after_deadline",
+          0
+        ],
+        [
+          "LE",
+          "days_after_deadline",
+          90
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "cannot_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "cannot_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_required",
+    "desc": "主管機關要求提出財務或業務改善計畫並核定",
+    "expr": [
+      "EQ",
+      "improvement_plan_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_accelerated_deterioration",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_accelerated_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_accelerated_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_not_effective",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_authorized",
+    "desc": "主管機關得依情節輕重為監管、接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "supervisory_measures_authorized",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_penalty_enforced",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_penalty",
+    "desc": "違反資本嚴重不足且未完成增資改善計畫或財務狀況惡化未改善者，主管機關得為監管處分",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "supervisory_measures_authorized",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_compliance",
+    "desc": "內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_compliance",
+    "desc": "內部控制及稽核制度與內部處理制度均合規",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_penalty",
+    "desc": "未建立或未執行內部控制或內部處理制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:funds_usage_limit_compliance",
+    "desc": "保險業資金運用符合規定限制",
+    "expr": [
+      "EQ",
+      "funds_usage_limit_compliance",
+      [
+        "EQ",
+        "funds_usage_within_limits",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:funds_usage_penalty",
+    "desc": "資金運用違反規定時處罰或解除負責人職務",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "funds_usage_limit_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:loan_guarantee_illegal",
+    "desc": "放款無十足擔保或條件優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_guarantee_illegal",
+      [
+        "EQ",
+        "loan_guarantee_no_full_collateral",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_penalty",
+    "desc": "放款無十足擔保或條件優於其他同類放款者，負責人處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "loan_guarantee_illegal",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:loan_approval_violation",
+    "desc": "擔保放款未經董事會三分之二出席及四分之三同意或違反放款限額規定",
+    "expr": [
+      "EQ",
+      "loan_approval_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_approval_board_passed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "loan_limit_violated",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_approval_penalty",
+    "desc": "違反擔保放款董事會決議或限額規定者，負責人處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "loan_approval_violation",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:loan_or_transaction_limit_violation",
+    "desc": "違反放款或其他交易限額或決議程序規定",
+    "expr": [
+      "EQ",
+      "loan_or_transaction_limit_violation",
+      [
+        "EQ",
+        "loan_or_transaction_limit_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_or_transaction_limit_penalty",
+    "desc": "違反放款或其他交易限額或決議程序規定者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "loan_or_transaction_limit_violation",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:derivative_trading_approval",
+    "desc": "衍生性金融商品交易已申請核准並備查相關文件",
+    "expr": [
+      "EQ",
+      "derivative_trading_approval",
+      [
+        "AND",
+        [
+          "EQ",
+          "derivative_trading_application_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_documents_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_trading_procedure_approved",
+    "desc": "衍生性金融商品交易處理程序經董（理）事會通過",
+    "expr": [
+      "EQ",
+      "derivative_trading_procedure_approved",
+      [
+        "EQ",
+        "derivative_trading_procedure_board_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_trading_compliance",
+    "desc": "衍生性金融商品交易符合申請及程序規定",
+    "expr": [
+      "EQ",
+      "derivative_trading_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "derivative_trading_approval",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_procedure_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_trading_penalty",
+    "desc": "未依規定申請核准或未經董（理）事會通過衍生性金融商品交易處理程序者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "derivative_trading_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:related_party_transaction_limit_compliance",
+    "desc": "對同一人、同一關係人或同一關係企業之放款及其他交易符合限額規定",
+    "expr": [
+      "EQ",
+      "related_party_transaction_limit_compliance",
+      [
+        "EQ",
+        "related_party_transaction_within_limits",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_transaction_penalty",
+    "desc": "違反同一人、同一關係人或同一關係企業交易限額規定者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "related_party_transaction_limit_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:internal_audit_system_established",
+    "desc": "建立自行查核制度",
+    "expr": [
+      "EQ",
+      "internal_audit_system_established",
+      [
+        "EQ",
+        "self_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_audit_system_executed",
+    "desc": "執行自行查核制度",
+    "expr": [
+      "EQ",
+      "internal_audit_system_executed",
+      [
+        "EQ",
+        "self_audit_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_audit_compliance",
+    "desc": "自行查核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_audit_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_audit_penalty",
+    "desc": "未建立或未執行自行查核制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_audit_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:compliance_with_law_adherence_plan",
+    "desc": "依主管機關規定期限完成增資、財務或業務改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_plan_completed",
+      [
+        "EQ",
+        "capital_plan_completed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反資本嚴重不足未完成增資改善計畫或財務狀況惡化未改善，或未建立執行內部控制及稽核制度、內部處理制度者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_plan_completed",
+              true
+            ]
+          ],
+          [
+            "GE",
+            "days_after_deadline",
+            0
+          ],
+          [
+            "LE",
+            "days_after_deadline",
+            90
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

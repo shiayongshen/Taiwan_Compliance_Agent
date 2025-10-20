@@ -1,0 +1,418 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_training_compliance",
+    "desc": "核保人員每年參加公平對待65歲以上客戶相關教育訓練",
+    "expr": [
+      "EQ",
+      "underwriting_training_compliance",
+      [
+        "EQ",
+        "underwriting_training_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_qualification_compliance",
+    "desc": "核保人員具資格執行核保簽署作業",
+    "expr": [
+      "EQ",
+      "underwriting_qualification_compliance",
+      [
+        "EQ",
+        "underwriting_staff_qualified",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_evaluation_compliance",
+    "desc": "依保險商品內容評估適合度並簽署承保",
+    "expr": [
+      "EQ",
+      "underwriting_evaluation_compliance",
+      [
+        "EQ",
+        "underwriting_evaluation_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_retroactive_prohibition",
+    "desc": "未以保單追溯生效方式承保（除法定例外）",
+    "expr": [
+      "EQ",
+      "underwriting_retroactive_prohibition",
+      [
+        "EQ",
+        "no_retroactive_policy",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_signature_compliance",
+    "desc": "審閱要保人、被保險人及招攬人員簽章及相關證據",
+    "expr": [
+      "EQ",
+      "underwriting_signature_compliance",
+      [
+        "EQ",
+        "signatures_and_evidence_verified",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_underwriting_compliance",
+    "desc": "落實財務核保程序、保險通報機制及適合度政策，並保留相關文件",
+    "expr": [
+      "EQ",
+      "financial_underwriting_compliance",
+      [
+        "EQ",
+        "financial_underwriting_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:premium_source_assessment",
+    "desc": "瞭解繳交保險費資金來源並評估適當性",
+    "expr": [
+      "EQ",
+      "premium_source_assessment",
+      [
+        "EQ",
+        "premium_source_assessed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_protection_compliance",
+    "desc": "無損害要保人、被保險人或受益人權益之情事",
+    "expr": [
+      "EQ",
+      "other_protection_compliance",
+      [
+        "EQ",
+        "no_harm_to_insured_rights",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_violation",
+    "desc": "違反內部控制及稽核制度建立或執行規定",
+    "expr": [
+      "EQ",
+      "internal_control_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_violation",
+    "desc": "違反內部處理制度及程序建立或執行規定",
+    "expr": [
+      "EQ",
+      "internal_handling_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_handling_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_violation",
+    "desc": "違反核保相關規定",
+    "expr": [
+      "EQ",
+      "underwriting_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_training_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_qualification_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_evaluation_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_retroactive_prohibition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_signature_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_underwriting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "premium_source_assessment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_protection_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_execution_compliance",
+    "desc": "招攬、核保及理賠制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "business_execution_compliance",
+      [
+        "EQ",
+        "business_execution_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_execution_violation",
+    "desc": "招攬、核保及理賠人員未依規定執行業務",
+    "expr": [
+      "EQ",
+      "business_execution_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "business_execution_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、內部處理制度或核保相關規定，或招攬核保理賠業務未依規定執行時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "internal_control_violation",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_violation",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_violation",
+          true
+        ],
+        [
+          "EQ",
+          "business_execution_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

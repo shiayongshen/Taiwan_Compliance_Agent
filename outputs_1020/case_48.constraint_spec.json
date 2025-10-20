@@ -1,0 +1,992 @@
+[
+  {
+    "id": "insurance:license_and_insurance_compliance",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可、繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "license_and_insurance_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "GE",
+          "guarantee_deposit_amount",
+          "minimum_guarantee_deposit"
+        ],
+        [
+          "EQ",
+          "relevant_insurance_subscribed",
+          true
+        ],
+        [
+          "EQ",
+          "license_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:relevant_insurance_type_compliance",
+    "desc": "相關保險類型依身份區分：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "relevant_insurance_subscribed",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_or_notary",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_subscribed",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_subscribed",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_insurance_subscribed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:minimum_guarantee_deposit_and_insurance_amount",
+    "desc": "繳存保證金及投保相關保險之最低金額及實施方式由主管機關依經營業務範圍及規模定之",
+    "expr": [
+      "EQ",
+      "minimum_guarantee_deposit",
+      "guarantee_deposit_amount"
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:qualification_and_management_rules_compliance",
+    "desc": "資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則由主管機關定之",
+    "expr": [
+      "EQ",
+      "qualification_and_management_rules_compliance",
+      [
+        "EQ",
+        "compliance_with_authority_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行經主管機關許可得擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_and_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_approved",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_operate_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_operate_broker",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "compliance_with_agent_broker_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fiduciary",
+    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fiduciary",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_exercise_fiduciary_duty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_analysis_and_disclose_fee",
+    "desc": "保險經紀人洽訂保險契約前，於主管機關指定範圍內，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_written_analysis_and_fee_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_standard_disclosed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_financial_or_business_management_rules",
+    "desc": "違反保險法第163條第四項管理規則中財務或業務管理規定、163條第七項規定，或違反165條第一項或163條第五項準用規定者，應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "violation_financial_or_business_management_rules",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_company_must_report_for_stop_resume_dissolve",
+    "desc": "經紀人公司停業、復業、解散應報主管機關核准並辦理登記，停業期間一年為限，未依規定復業者廢止許可並註銷執照",
+    "expr": [
+      "EQ",
+      "broker_company_stop_resume_dissolve_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "report_stop_resume_dissolve_to_authority",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "stop_period_exceeded_one_year",
+            true
+          ],
+          [
+            "EQ",
+            "approval_for_extension_obtained",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "EQ",
+              "stop_period_expired",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "resume_applied",
+                true
+              ]
+            ]
+          ],
+          [
+            "EQ",
+            "license_revoked",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_company_must_cancel_licenses_on_stop_or_dissolve",
+    "desc": "經紀人公司停業或解散應繳銷所任用經紀人及公司執業證照，未繳銷者經紀人應於30日內辦理註銷登記",
+    "expr": [
+      "EQ",
+      "broker_company_license_cancellation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "cancel_broker_licenses_on_stop_or_dissolve",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "NOT",
+            [
+              "EQ",
+              "licenses_cancelled",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "brokers_must_cancel_registration_within_30_days",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_company_report_stop_reinsurance_within_one_month",
+    "desc": "同時經營保險經紀及再保險經紀業務之經紀人公司停止其中一業務，應於一個月內報主管機關備查",
+    "expr": [
+      "EQ",
+      "broker_company_report_stop_reinsurance_compliance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "stop_insurance_or_reinsurance_business",
+          true
+        ],
+        [
+          "EQ",
+          "report_to_authority_within_one_month",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:individual_and_company_must_keep_books_and_report_financials",
+    "desc": "個人執業經紀人、經紀人公司及銀行應專設帳簿記載業務收支，並於每年4/1至5/31期間彙報主管機關財務報表及指定事項",
+    "expr": [
+      "EQ",
+      "bookkeeping_and_reporting_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "special_books_kept",
+          true
+        ],
+        [
+          "EQ",
+          "annual_financial_report_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:authority_inspection_and_followup",
+    "desc": "主管機關得隨時檢查並令限期報告，經紀人公司及銀行應確實改善並持續追蹤覆查，並提報董事會及監察人",
+    "expr": [
+      "EQ",
+      "authority_inspection_and_followup_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "authority_inspection_conducted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_followed_up",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_reported_to_board_and_supervisors",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_behaviors",
+    "desc": "個人執業經紀人、經紀人公司、銀行及受任用經紀人不得有申領證照不實、洽訂未核准保險、隱匿重要事項、不當強迫或索取利益等不法行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors_compliance",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "false_license_application",
+            true
+          ],
+          [
+            "EQ",
+            "contract_with_unapproved_insurer",
+            true
+          ],
+          [
+            "EQ",
+            "conceal_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "coerce_or_induce_unfair_contract",
+            true
+          ],
+          [
+            "EQ",
+            "misleading_advertisement",
+            true
+          ],
+          [
+            "EQ",
+            "induce_policy_cancellation_or_loan",
+            true
+          ],
+          [
+            "EQ",
+            "embezzle_insurance_funds",
+            true
+          ],
+          [
+            "EQ",
+            "permit_others_use_license",
+            true
+          ],
+          [
+            "EQ",
+            "criminal_conviction_for_fraud_or_forgery",
+            true
+          ],
+          [
+            "EQ",
+            "operate_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "charge_unapproved_fees_or_commissions",
+            true
+          ],
+          [
+            "EQ",
+            "illegal_insurance_payments",
+            true
+          ],
+          [
+            "EQ",
+            "spread_false_information",
+            true
+          ],
+          [
+            "EQ",
+            "authorize_others_to_operate",
+            true
+          ],
+          [
+            "EQ",
+            "transfer_application_documents_to_unauthorized_person",
+            true
+          ],
+          [
+            "EQ",
+            "employ_unqualified_insurance_solicitor",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_cancel_license_within_deadline",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_stop_resume_dissolve",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_appoint_broker_after_employee_leaves",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_report_to_broker_association",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_advertisement_content",
+            true
+          ],
+          [
+            "EQ",
+            "pay_commission_to_non_actual_solicitor",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_confirm_suitability_for_elderly",
+            true
+          ],
+          [
+            "EQ",
+            "sell_unapproved_foreign_policy_discount_products",
+            true
+          ],
+          [
+            "EQ",
+            "submit_false_or_incomplete_reports",
+            true
+          ],
+          [
+            "EQ",
+            "hold_conflicting_positions",
+            true
+          ],
+          [
+            "EQ",
+            "induce_contract_termination_or_loan_payment",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_fill_solicitation_report_truthfully",
+            true
+          ],
+          [
+            "EQ",
+            "other_violations_of_rules_or_laws",
+            true
+          ],
+          [
+            "EQ",
+            "damage_insurance_image",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_to_provide_information_and_document_retention",
+    "desc": "個人執業經紀人、經紀人公司及銀行應盡善良管理人注意及忠實義務，維護被保險人利益，充分說明並留存文件",
+    "expr": [
+      "EQ",
+      "broker_information_and_document_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care_and_fiduciary",
+          true
+        ],
+        [
+          "EQ",
+          "maintain_and_disclose_insurance_info",
+          true
+        ],
+        [
+          "EQ",
+          "document_retention",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_must_obtain_and_provide_contact_info_for_e_policy",
+    "desc": "保險人以電子保單出單時，經紀人應取得要保人及被保險人聯絡方式並提供予保險人",
+    "expr": [
+      "EQ",
+      "broker_e_policy_contact_info_compliance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance_issued_as_e_policy",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "applicant_phone_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "insured_phone_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "applicant_email_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "insured_email_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "contact_info_provided_to_insurer",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_company_and_bank_must_establish_and_execute_internal_procedures",
+    "desc": "經紀人公司及銀行應依法令及主管機關規定訂定內部作業規範並落實執行，包含保障65歲以上高齡消費者權益",
+    "expr": [
+      "EQ",
+      "internal_procedures_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_procedures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "include_elderly_consumer_protection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_must_understand_client_and_provide_written_analysis_before_contract",
+    "desc": "經紀人洽訂保險契約前應充分了解要保人及被保險人基本資料、需求及風險屬性，並依主管機關規定主動提供書面分析報告",
+    "expr": [
+      "EQ",
+      "broker_client_understanding_and_written_analysis",
+      [
+        "AND",
+        [
+          "EQ",
+          "client_basic_info_understood",
+          true
+        ],
+        [
+          "EQ",
+          "client_needs_and_risk_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "written_analysis_provided",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_must_disclose_shareholding_info_before_contract",
+    "desc": "經紀人公司或銀行持有保險公司表決權股份超過10%或反向持股，經紀人洽訂契約前應揭露該資訊",
+    "expr": [
+      "EQ",
+      "broker_shareholding_disclosure",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GT",
+            "broker_company_shareholding_ratio",
+            10.0
+          ],
+          [
+            "GT",
+            "insurance_company_shareholding_ratio",
+            10.0
+          ]
+        ],
+        [
+          "EQ",
+          "shareholding_info_disclosed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:fixed_business_place_and_special_books",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所，並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_place_and_special_books_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "fixed_business_place",
+          true
+        ],
+        [
+          "EQ",
+          "special_books_kept",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_for_multiple_qualifications",
+    "desc": "兼有保險代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_for_multiple_qualifications",
+      [
+        "LE",
+        [
+          "SUM",
+          [
+            "IF",
+            [
+              "EQ",
+              "has_agent_qualification",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_broker_qualification",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_notary_qualification",
+              true
+            ],
+            1,
+            0
+          ]
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_and_handling_system_required",
+    "desc": "保險代理人公司、經紀人公司為公開發行或具一定規模者，應建立內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_and_handling_system_compliance",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_public_company",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反許可、繳存保證金、投保相關保險、執業證照、管理規則、財務或業務管理規定，或有禁止行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_insurance_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "qualification_and_management_rules_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_financial_or_business_management_rules",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_company_stop_resume_dissolve_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_company_license_cancellation_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_company_report_stop_reinsurance_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bookkeeping_and_reporting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "authority_inspection_and_followup_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_behaviors_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_information_and_document_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_e_policy_contact_info_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_procedures_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_client_understanding_and_written_analysis",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_shareholding_disclosure",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fixed_place_and_special_books_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "single_license_for_multiple_qualifications",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_and_handling_system_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,396 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:inspection_cooperation",
+    "desc": "配合中央目的事業主管機關查核",
+    "expr": [
+      "EQ",
+      "inspection_cooperation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "inspection_obstructed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "fcp:consumer_data_understood",
+    "desc": "充分瞭解金融消費者相關資料",
+    "expr": [
+      "EQ",
+      "consumer_data_understood",
+      [
+        "EQ",
+        "consumer_data_collected",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:product_suitability_ensured",
+    "desc": "確保金融商品或服務對金融消費者之適合度",
+    "expr": [
+      "EQ",
+      "product_suitability_ensured",
+      [
+        "EQ",
+        "suitability_assessed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:consumer_protection_compliance",
+    "desc": "金融消費者保護法第9條規定遵守",
+    "expr": [
+      "EQ",
+      "consumer_protection_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_data_understood",
+          true
+        ],
+        [
+          "EQ",
+          "product_suitability_ensured",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_advertising",
+    "desc": "違反廣告、業務招攬、營業促銷活動方式或內容規定",
+    "expr": [
+      "EQ",
+      "violation_advertising",
+      [
+        "EQ",
+        "violation_advertising_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_consumer_data",
+    "desc": "違反未充分瞭解金融消費者資料及適合度規定",
+    "expr": [
+      "EQ",
+      "violation_consumer_data",
+      [
+        "EQ",
+        "violation_consumer_data_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_disclosure",
+    "desc": "違反未充分說明金融商品、服務、契約重要內容或揭露風險規定",
+    "expr": [
+      "EQ",
+      "violation_disclosure",
+      [
+        "EQ",
+        "violation_disclosure_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_compensation",
+    "desc": "違反酬金制度訂定或執行規定",
+    "expr": [
+      "EQ",
+      "violation_compensation",
+      [
+        "EQ",
+        "violation_compensation_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_formal_appearance",
+    "desc": "協助創造符合形式上之外觀條件違規",
+    "expr": [
+      "EQ",
+      "violation_formal_appearance",
+      [
+        "EQ",
+        "violation_formal_appearance_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_major",
+    "desc": "違規且情節重大",
+    "expr": [
+      "EQ",
+      "violation_major",
+      [
+        "EQ",
+        "violation_major_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "trust:client_understanding_established",
+    "desc": "建立充分瞭解客戶作業準則",
+    "expr": [
+      "EQ",
+      "client_understanding_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "client_acceptance_rules",
+          true
+        ],
+        [
+          "EQ",
+          "client_review_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "client_investment_ability_assessed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:non_professional_investor_compliance",
+    "desc": "非專業投資人遵守商品適合度規章及風險告知",
+    "expr": [
+      "EQ",
+      "non_professional_investor_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "product_suitability_rules_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_level_classification_established",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_disclosure_to_client",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第7條規定或妨礙查核時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "inspection_cooperation",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "inspection_obstructed",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions_fcp",
+    "desc": "處罰條件：違反金融消費者保護法第30-1條規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_advertising",
+          true
+        ],
+        [
+          "EQ",
+          "violation_consumer_data",
+          true
+        ],
+        [
+          "EQ",
+          "violation_disclosure",
+          true
+        ],
+        [
+          "EQ",
+          "violation_compensation",
+          true
+        ],
+        [
+          "EQ",
+          "violation_formal_appearance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

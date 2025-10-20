@@ -1,0 +1,462 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度且包含法定六項內容",
+    "expr": [
+      "EQ",
+      "aml:internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:control_procedure_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml:training_held",
+          true
+        ],
+        [
+          "EQ",
+          "aml:dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "aml:risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "aml:audit_procedure_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml:other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "aml:internal_control_executed",
+      [
+        "EQ",
+        "aml:internal_control_implementation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "aml:internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml:internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:inspection_cooperation",
+    "desc": "配合中央目的事業主管機關查核且未規避、拒絕或妨礙",
+    "expr": [
+      "EQ",
+      "aml:inspection_cooperation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "aml:inspection_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:inspection_obstruction",
+    "desc": "規避、拒絕或妨礙現地或非現地查核",
+    "expr": [
+      "EQ",
+      "aml:inspection_obstruction",
+      [
+        "OR",
+        [
+          "EQ",
+          "aml:inspection_obstruction",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:inspection_cooperation",
+            false
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_violation",
+    "desc": "違反未建立制度或未依規定執行或妨礙查核",
+    "expr": [
+      "EQ",
+      "aml:penalty_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml:internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml:internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "aml:inspection_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:high_risk_country",
+    "desc": "洗錢或資恐高風險國家或地區",
+    "expr": [
+      "EQ",
+      "aml:high_risk_country",
+      [
+        "OR",
+        [
+          "EQ",
+          "aml:international_deficiency_announcement",
+          true
+        ],
+        [
+          "EQ",
+          "aml:international_noncompliance_announcement",
+          true
+        ],
+        [
+          "EQ",
+          "aml:other_concrete_evidence_high_risk",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:high_risk_measures_strengthened",
+    "desc": "對高風險國家或地區強化確認客戶身分措施",
+    "expr": [
+      "EQ",
+      "aml:high_risk_measures_strengthened",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:high_risk_country",
+          true
+        ],
+        [
+          "EQ",
+          "aml:customer_identification_strengthened",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:high_risk_measures_restricted",
+    "desc": "限制或禁止與高風險國家或地區匯款或其他交易",
+    "expr": [
+      "EQ",
+      "aml:high_risk_measures_restricted",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:high_risk_country",
+          true
+        ],
+        [
+          "EQ",
+          "aml:transaction_restricted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:high_risk_measures_other",
+    "desc": "採取其他與風險相當且有效之必要防制措施",
+    "expr": [
+      "EQ",
+      "aml:high_risk_measures_other",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml:high_risk_country",
+          true
+        ],
+        [
+          "EQ",
+          "aml:other_effective_measures_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "bank:internal_control_established",
+    "desc": "銀行建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "bank:internal_control_established",
+      [
+        "EQ",
+        "bank:internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "銀行建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "bank:internal_handling_established",
+      [
+        "EQ",
+        "bank:internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "銀行建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "bank:internal_operation_established",
+      [
+        "EQ",
+        "bank:internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_compliance",
+    "desc": "銀行內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "bank:internal_control_compliance",
+      [
+        "EQ",
+        "bank:internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_compliance",
+    "desc": "銀行內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "bank:internal_handling_compliance",
+      [
+        "EQ",
+        "bank:internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_compliance",
+    "desc": "銀行內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "bank:internal_operation_compliance",
+      [
+        "EQ",
+        "bank:internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_system_compliance",
+    "desc": "銀行建立且確實執行內部控制、處理及作業制度",
+    "expr": [
+      "EQ",
+      "bank:internal_system_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank:internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "bank:internal_control_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "bank:internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "bank:internal_handling_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "bank:internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "bank:internal_operation_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_violation",
+    "desc": "銀行未依規定建立或執行內部制度者違規",
+    "expr": [
+      "EQ",
+      "bank:penalty_violation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "bank:internal_system_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法或銀行法內部制度規定或妨礙查核時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml:internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml:internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "aml:inspection_obstruction",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank:internal_system_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

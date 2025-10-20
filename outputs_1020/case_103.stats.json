@@ -1,0 +1,147 @@
+{
+  "case_id": "case_103",
+  "success": false,
+  "error_message": "Expecting value: line 1 column 1 (char 0)",
+  "total_time_sec": 125.37,
+  "repair_attempts": 0,
+  "total_agent_calls": 4,
+  "total_input_tokens": 32563,
+  "total_output_tokens": 9834,
+  "total_tokens": 42397,
+  "total_cost_usd": 0.02876,
+  "timestamp": "2025-10-19T08:06:14.666564",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step7_case_mapper": "NOT_RUN",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "NOT_RUN",
+  "step8_case_law_check": "NOT_RUN",
+  "step8_violation_detected": "NOT_RUN",
+  "step9_z3_optimize": "NOT_RUN",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 9021,
+      "output_tokens": 3770,
+      "elapsed_time": 44.285269021987915,
+      "cost": 0.0096404
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 22022,
+      "output_tokens": 3672,
+      "elapsed_time": 49.717127084732056,
+      "cost": 0.014684000000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 760,
+      "output_tokens": 2391,
+      "elapsed_time": 31.32889699935913,
+      "cost": 0.004129600000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 760,
+      "output_tokens": 1,
+      "elapsed_time": 0.0007371902465820312,
+      "cost": 0.0003056
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "12464 chars",
+      "timestamp": 44.28530406951904
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "12296 chars",
+      "timestamp": 94.00256991386414
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 94.00288414955139
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "82 varspecs",
+      "timestamp": 125.33215522766113
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 125.35169410705566
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 125.36795997619629
+    },
+    "step7_case_mapper": null,
+    "step7_facts_validation": null,
+    "step7_z3_validation": null,
+    "step8_case_law_check": null,
+    "step8_violation_detected": null,
+    "step9_z3_optimize": null
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:foreign_real_estate_investment_limit",
+      "rule": "Fix CASE structure/type",
+      "before": [
+        "EQ",
+        "foreign_real_estate_investment_limit_level",
+        [
+          "CASE",
+          [
+            "GE",
+            "latest_capital_to_risk_capital_ratio",
+            1.5
+          ],
+          3,
+          [
+            "GE",
+            "latest_capital_to_risk_capital_ratio",
+            1.25
+          ],
+          2,
+          true,
+          1
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_real_estate_investment_limit_level",
+        [
+          "CASE",
+          [
+            "GE",
+            "latest_capital_to_risk_capital_ratio",
+            1.5
+          ],
+          3,
+          [
+            "GE",
+            "latest_capital_to_risk_capital_ratio",
+            1.25
+          ],
+          2,
+          true,
+          1,
+          0.0
+        ]
+      ],
+      "timestamp": 125.34
+    }
+  ]
+}

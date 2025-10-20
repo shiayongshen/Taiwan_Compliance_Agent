@@ -1,0 +1,622 @@
+[
+  {
+    "id": "fhc:non_credit_transaction_subject",
+    "desc": "授信以外交易對象分類",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_subject",
+      [
+        "CASE",
+        "is_fhc_and_responsible_or_major_shareholder",
+        1,
+        "is_fhc_responsible_or_major_shareholder_sole_proprietor_or_partner_or_enterprise_or_representative",
+        2,
+        "is_fhc_affiliated_and_responsible_or_major_shareholder",
+        3,
+        "is_fhc_bank_insurance_securities_subsidiary_or_subsidiary_responsible",
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_condition_met",
+    "desc": "授信以外交易條件不得優於其他同類對象且董事會決議通過",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_condition_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "transaction_condition_not_better_than_others",
+          true
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_related_party_limit_ok",
+    "desc": "銀行子公司與單一關係人交易金額不超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_single_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_related_parties_limit_ok",
+    "desc": "銀行子公司與所有利害關係人交易總額不超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_related_parties_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_all_related_parties_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_compliance",
+    "desc": "授信以外交易符合條件及限額規定",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_credit_transaction_condition_met",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_single_related_party_limit_ok",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_all_related_parties_limit_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_45",
+    "desc": "違反金融控股公司法第45條規定",
+    "expr": [
+      "EQ",
+      "violation_article_45",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_credit_transaction_condition_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_single_related_party_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_all_related_parties_limit_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_14",
+    "desc": "違反金融控股公司法第60條第14款（第45條違反）",
+    "expr": [
+      "EQ",
+      "violation_article_60_14",
+      [
+        "EQ",
+        "violation_article_45",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "insurance:non_loan_transaction_condition_met",
+    "desc": "保險業與利害關係人放款以外交易條件不得優於其他同類對象且董事會決議通過",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_condition_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "transaction_condition_not_better_than_others",
+          true
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_member_recusal_compliance",
+    "desc": "出席董事對本人或利害關係案件迴避且不得代理出席",
+    "expr": [
+      "EQ",
+      "board_member_recusal_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "single_corporate_shareholder",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "board_member_recusal",
+            true
+          ],
+          [
+            "EQ",
+            "no_proxy_vote",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_authorized",
+    "desc": "董事會授權經理部門依作業規範辦理特定交易",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_authorized",
+      [
+        "AND",
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ],
+        [
+          "EQ",
+          "manager_department_authorized",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operating_rules_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_limit_single_related_party_ok",
+    "desc": "與單一利害關係人交易總餘額不超過業主權益10%",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_limit_single_related_party_ok",
+      [
+        "LE",
+        "non_loan_transaction_single_related_party_amount",
+        [
+          "MUL",
+          "insurance_owner_equity",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_limit_all_related_parties_ok",
+    "desc": "與所有利害關係人交易總餘額不超過業主權益60%",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_limit_all_related_parties_ok",
+      [
+        "LE",
+        "non_loan_transaction_all_related_parties_amount",
+        [
+          "MUL",
+          "insurance_owner_equity",
+          0.6
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_compliance",
+    "desc": "保險業與利害關係人放款以外交易符合條件及限額規定",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_loan_transaction_condition_met",
+          true
+        ],
+        [
+          "EQ",
+          "board_member_recusal_compliance",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "non_loan_transaction_authorized",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "non_loan_transaction_limit_single_related_party_ok",
+              true
+            ],
+            [
+              "EQ",
+              "non_loan_transaction_limit_all_related_parties_ok",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_article_4",
+    "desc": "違反保險業與利害關係人放款以外交易管理辦法第4條規定",
+    "expr": [
+      "EQ",
+      "violation_article_4",
+      [
+        "NOT",
+        [
+          "EQ",
+          "non_loan_transaction_condition_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_article_5",
+    "desc": "違反保險業與利害關係人放款以外交易管理辦法第5條限額規定",
+    "expr": [
+      "EQ",
+      "violation_article_5",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_loan_transaction_limit_single_related_party_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_loan_transaction_limit_all_related_parties_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_article_4_or_5",
+    "desc": "違反保險業放款以外交易管理辦法第4或5條規定",
+    "expr": [
+      "EQ",
+      "violation_article_4_or_5",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_article_4",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_5",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "public_company:asset_transaction_reporting_required",
+    "desc": "公開發行公司資產交易達一定金額需董事會通過及監察人承認",
+    "expr": [
+      "EQ",
+      "asset_transaction_reporting_required",
+      [
+        "OR",
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "asset_transaction_amount",
+              "paid_in_capital"
+            ],
+            100.0
+          ],
+          20.0
+        ],
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "asset_transaction_amount",
+              "total_assets"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "GE",
+          "asset_transaction_amount",
+          300000000.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_exclusion",
+    "desc": "公開發行公司資產交易排除特定債券及基金交易",
+    "expr": [
+      "EQ",
+      "asset_transaction_exclusion",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_is_domestic_government_bond",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_repo_bond",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_money_market_fund",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_must_report",
+    "desc": "公開發行公司資產交易需報告董事會及監察人",
+    "expr": [
+      "EQ",
+      "asset_transaction_must_report",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_transaction_reporting_required",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "asset_transaction_exclusion",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_shareholder_meeting_required",
+    "desc": "公開發行公司資產交易達一定金額需股東會同意",
+    "expr": [
+      "EQ",
+      "asset_transaction_shareholder_meeting_required",
+      [
+        "AND",
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "asset_transaction_amount",
+              "total_assets"
+            ],
+            100.0
+          ],
+          10.0
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_between_parent_and_subsidiaries",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_compliance",
+    "desc": "公開發行公司資產交易符合報告及決議程序",
+    "expr": [
+      "EQ",
+      "asset_transaction_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_transaction_must_report",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "asset_transaction_shareholder_meeting_required",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "shareholder_meeting_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司法第45條或第60條第14款，或違反保險業放款以外交易管理辦法第4或5條，或違反公開發行公司資產交易規定",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_article_60_14",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_4_or_5",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "asset_transaction_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,401 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_compliance",
+    "desc": "內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_training_compliance",
+    "desc": "核保人員每年參加公平對待65歲以上客戶相關教育訓練",
+    "expr": [
+      "EQ",
+      "underwriting_training_compliance",
+      [
+        "EQ",
+        "underwriting_training_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_qualification_compliance",
+    "desc": "核保人員具資格執行核保簽署作業",
+    "expr": [
+      "EQ",
+      "underwriting_qualification_compliance",
+      [
+        "EQ",
+        "underwriting_staff_qualified",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_policy_compliance",
+    "desc": "核保政策符合規定且執行",
+    "expr": [
+      "EQ",
+      "underwriting_policy_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_guidelines_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_financial_mechanism_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_medical_standards_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_policy_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_appropriateness_compliance",
+    "desc": "評估要保人與被保險人保險需求及適合度政策符合規定",
+    "expr": [
+      "EQ",
+      "underwriting_appropriateness_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "applicant_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "applicant_insurance_amount_and_premium_reasonable",
+          true
+        ],
+        [
+          "EQ",
+          "applicant_foreign_currency_risk_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "investment_type_risk_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "investment_type_understood",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "inappropriate_product_offered",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_aggressive_investor_loan_premium",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_financial_check_compliance",
+    "desc": "評估保險金額、保險費與要保人或被保險人收入、財務狀況與職業相當性程序符合規定",
+    "expr": [
+      "EQ",
+      "underwriting_financial_check_compliance",
+      [
+        "EQ",
+        "financial_check_procedure_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_reporting_compliance",
+    "desc": "依規定報主管機關備查",
+    "expr": [
+      "EQ",
+      "insurance_reporting_compliance",
+      [
+        "EQ",
+        "report_to_authority_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_notification_mechanism_compliance",
+    "desc": "保險通報機制執行及查詢作業符合規定",
+    "expr": [
+      "EQ",
+      "insurance_notification_mechanism_compliance",
+      [
+        "EQ",
+        "notification_mechanism_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:personal_data_preservation_compliance",
+    "desc": "未承保件個人資料保存程序符合規定",
+    "expr": [
+      "EQ",
+      "personal_data_preservation_compliance",
+      [
+        "EQ",
+        "personal_data_preservation_procedure_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_execution_compliance",
+    "desc": "依第六條、第七條、第八條及前條所訂定之招攬、核保及理賠處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "underwriting_execution_compliance",
+      [
+        "EQ",
+        "underwriting_systems_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_staff_discipline",
+    "desc": "對未依規定執行業務之招攬、核保及理賠人員予以警告或適當處置",
+    "expr": [
+      "EQ",
+      "underwriting_staff_discipline",
+      [
+        "EQ",
+        "staff_discipline_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance_full",
+    "desc": "內部控制及稽核制度建立且執行符合規定",
+    "expr": [
+      "EQ",
+      "internal_control_compliance_full",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_compliance_full",
+    "desc": "內部處理制度及程序建立且執行符合規定",
+    "expr": [
+      "EQ",
+      "internal_handling_compliance_full",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未執行內部控制或稽核制度，或未建立或未執行內部處理制度或程序時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance_full",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_compliance_full",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,247 @@
+[
+  {
+    "id": "bank:outsourcing_internal_control_compliance",
+    "desc": "委外內部作業制度及程序符合監督管理、內部控制及稽核制度要求",
+    "expr": [
+      "EQ",
+      "outsourcing_internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "outsourcing_scope_supervision_defined",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_scope_supervision_executed",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_included_in_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_included_in_internal_audit",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_supervision_of_delegate_internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_supervision_of_delegate_internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_supervision_of_delegate_internal_audit_established",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_supervision_of_delegate_internal_audit_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_and_audit_established",
+    "desc": "銀行建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_system_established",
+    "desc": "銀行建立資產品質評估、損失準備提列、逾期放款催收及呆帳轉銷之內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_system_and_procedure_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_system_established",
+    "desc": "銀行訂定委託事項範圍、客戶權益保障、風險管理及內部控制原則之內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_system_established",
+      [
+        "EQ",
+        "internal_operation_system_and_procedure_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_business_internal_operation_system_established",
+    "desc": "銀行訂定衍生性金融商品業務範圍、人員管理、客戶權益保障及風險管理之內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "derivative_business_internal_operation_system_established",
+      [
+        "EQ",
+        "derivative_business_internal_operation_system_and_procedure_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_and_audit_executed",
+    "desc": "銀行確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_executed",
+      [
+        "EQ",
+        "internal_control_and_audit_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_system_executed",
+    "desc": "銀行確實執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_executed",
+      [
+        "EQ",
+        "internal_handling_system_and_procedure_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_system_executed",
+    "desc": "銀行確實執行內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_system_executed",
+      [
+        "EQ",
+        "internal_operation_system_and_procedure_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_business_internal_operation_system_executed",
+    "desc": "銀行確實執行衍生性金融商品業務內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "derivative_business_internal_operation_system_executed",
+      [
+        "EQ",
+        "derivative_business_internal_operation_system_and_procedure_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定建立或執行內部控制、稽核、處理及作業制度程序時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]
