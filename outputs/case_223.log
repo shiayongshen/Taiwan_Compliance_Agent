@@ -1,0 +1,125 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5394 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5919 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (11 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (23 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [insurance:capital_severely_insufficient_measures_ok]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 1
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 2
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (11 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (ERROR)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (14 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (14 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law check error: Failed to build constraint {'id': 'insurance:capital_severely_insufficient_measures_ok', 'desc': '資本嚴重不足等級措施執行完成（採取第149條第3項第1款處分）', 'expr': ['EQ', 'capital_severely_insufficient_measures_ok', ['EQ', 'capital_severely_insufficient', True]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice'
+❌ Checkpoint [step8_case_law_check]: FAIL (Failed to build constraint {'id': 'insurance:capital_severely_insufficient_measures_ok', 'desc': '資本嚴重不足等級措施執行完成（採取第149條第3項第1款處分）', 'expr': ['EQ', 'capital_severely_insufficient_measures_ok', ['EQ', 'capital_severely_insufficient', True]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice')
+
+============================================================
+Step 8.1: Repair Problematic Constraints
+============================================================
+🔧 Attempting to repair constraints (max 2 retries)
+✅ Checkpoint [case_law_repair_start]: PASS (Starting repair with 11 constraints)
+⚠️ 無法定位問題 constraint
+❌ Checkpoint [case_law_repair]: FAIL (No problematic constraints found)
+❌ Constraint repair failed
+⚠️ Checkpoint [step8_violation_detected]: SKIP (REPAIR_FAILED)
+❌ Checkpoint [step8_repair_success]: FAIL (Repair failed)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_223
+
+📊 Model (filtered):
+   capital_adequacy_ratio = 40
+   special_asset_disposal_ordered = True
+   responsible_person_suspended = True
+   net_worth_ratio_prev = -10
+   special_asset_acquisition_approved = True
+   net_worth_ratio = -10
+   responsible_person_compensation_ratio = 50
+   improvement_plan_submitted = True
+   responsible_person_removed = True
+   net_worth = -1000000
+   improvement_plan_executed = False
+   responsible_person_deregistration_notified = True
+   branch_restriction_or_closure = True
+   related_party_credit_restriction = True
+   capital_insufficient = False
+   capital_insufficient_measures_ok = False
+   capital_significantly_insufficient = False
+   capital_adequate = False
+   penalty = False
+   capital_severely_insufficient_measures_ok = True
+   capital_severely_insufficient = True
+   capital_level = 4
+   capital_significantly_insufficient_measures_ok = False
+✅ Model saved to: outputs\case_223.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_223.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_223.smt2

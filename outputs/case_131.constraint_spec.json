@@ -1,0 +1,630 @@
+[
+  {
+    "id": "insurance:violation_occurred",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_measures_authorized",
+    "desc": "主管機關得依違反情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures_authorized",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "建立且確實執行內部控制、稽核制度及招攬處理制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_167_2",
+    "desc": "違反保險法第163條相關財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "violation_167_2",
+      [
+        "EQ",
+        "violation_163_financial_or_business_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_167_3",
+    "desc": "違反保險法第165條或第163條相關內部控制、稽核、招攬處理制度規定",
+    "expr": [
+      "EQ",
+      "violation_167_3",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:solicitation_system_required_items_compliance",
+    "desc": "招攬處理制度及程序符合第7條規定項目",
+    "expr": [
+      "EQ",
+      "solicitation_system_required_items_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "item_1_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_2_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_3_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_4_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_5_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_6_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_7_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_8_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_9_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_10_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "item_11_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_approval_internal_control",
+    "desc": "內部控制、稽核制度及招攬處理制度經董（理）事會通過",
+    "expr": [
+      "EQ",
+      "board_approval_internal_control",
+      [
+        "EQ",
+        "board_approval",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_approval",
+    "desc": "設置審計委員會者，內部控制、稽核制度及招攬處理制度經審計委員會半數以上同意",
+    "expr": [
+      "EQ",
+      "audit_committee_approval",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_exists",
+          true
+        ],
+        [
+          "GE",
+          "audit_committee_approval_ratio",
+          0.5
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_approval_if_no_audit_committee",
+    "desc": "未經審計委員會同意時，得由三分之二以上董（理）事同意",
+    "expr": [
+      "EQ",
+      "board_approval_if_no_audit_committee",
+      [
+        "IMPLIES",
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_committee_approval",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.6667
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_approval_compliance",
+    "desc": "內部控制、稽核制度及招攬處理制度經適當程序通過",
+    "expr": [
+      "EQ",
+      "internal_control_approval_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "audit_committee_approval",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_if_no_audit_committee",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_prohibited_acts_compliance",
+    "desc": "經紀人及經紀人公司未有第49條禁止行為",
+    "expr": [
+      "EQ",
+      "broker_prohibited_acts_compliance",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_1",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_2",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_3",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_4",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_5",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_6",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_7",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_8",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_9",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_10",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_11",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_12",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_13",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_14",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_15",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_16",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_17",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_18",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_19",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_20",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_21",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_22",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_23",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_24",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_25",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_26",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_27",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_28",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_29",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_30",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關法令或內部控制制度規定，或有禁止行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "violation_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_167_3",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_system_required_items_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_approval_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_prohibited_acts_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

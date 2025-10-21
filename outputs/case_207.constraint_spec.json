@@ -1,0 +1,323 @@
+[
+  {
+    "id": "bank:fund_transfer_service_permitted",
+    "desc": "經營金融機構間資金移轉帳務清算之金融資訊服務事業須經主管機關許可",
+    "expr": [
+      "EQ",
+      "fund_transfer_service_permitted",
+      [
+        "EQ",
+        "fund_transfer_service_license_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:large_amount_fund_transfer_permitted",
+    "desc": "涉及大額資金移轉帳務清算業務須經中央銀行許可",
+    "expr": [
+      "EQ",
+      "large_amount_fund_transfer_permitted",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "involves_large_amount_fund_transfer",
+          true
+        ],
+        [
+          "EQ",
+          "central_bank_license_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_data_service_permitted",
+    "desc": "經營金融機構間徵信資料處理交換之服務事業須經主管機關許可",
+    "expr": [
+      "EQ",
+      "credit_data_service_permitted",
+      [
+        "EQ",
+        "credit_data_service_license_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cross_bank_network_operational",
+    "desc": "跨行金融資訊網路事業應維持跨行網路系統正常運作",
+    "expr": [
+      "EQ",
+      "cross_bank_network_operational",
+      [
+        "EQ",
+        "network_system_operational",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cross_bank_network_obstacle_handled",
+    "desc": "系統障礙應儘速排除及維護系統與相關設備，必要時採取備援措施",
+    "expr": [
+      "EQ",
+      "cross_bank_network_obstacle_handled",
+      [
+        "AND",
+        [
+          "EQ",
+          "obstacle_detected",
+          true
+        ],
+        [
+          "EQ",
+          "obstacle_resolved_quickly",
+          true
+        ],
+        [
+          "EQ",
+          "system_and_equipment_maintained",
+          true
+        ],
+        [
+          "EQ",
+          "backup_measures_taken_if_needed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cross_bank_network_obstacle_notification",
+    "desc": "因系統障礙需停止作業時，除有正當理由外應事先通知連線用戶及主管機關與中央銀行",
+    "expr": [
+      "EQ",
+      "cross_bank_network_obstacle_notification",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "obstacle_causes_stop",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "justified_reason",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "user_notified",
+            true
+          ],
+          [
+            "EQ",
+            "authority_notified",
+            true
+          ],
+          [
+            "EQ",
+            "central_bank_notified",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_scope_valid",
+    "desc": "跨行金融資訊網路事業經營業務範圍符合規定",
+    "expr": [
+      "EQ",
+      "business_scope_valid",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_includes_fund_clearing",
+          true
+        ],
+        [
+          "EQ",
+          "business_includes_info_transmission",
+          true
+        ],
+        [
+          "EQ",
+          "business_includes_disaster_backup",
+          true
+        ],
+        [
+          "EQ",
+          "business_includes_automation_consulting",
+          true
+        ],
+        [
+          "EQ",
+          "business_includes_other_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:legal_compliance",
+    "desc": "遵守銀行法及授權命令中強制、禁止及應為行為規定",
+    "expr": [
+      "EQ",
+      "legal_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "complies_with_bank_law",
+          true
+        ],
+        [
+          "EQ",
+          "complies_with_authorized_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反許可規定、系統維護義務或法律強制禁止規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_transfer_service_permitted",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "involves_large_amount_fund_transfer",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "large_amount_fund_transfer_permitted",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_data_service_permitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cross_bank_network_operational",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cross_bank_network_obstacle_handled",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "obstacle_causes_stop",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "justified_reason",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "cross_bank_network_obstacle_notification",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_scope_valid",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "legal_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

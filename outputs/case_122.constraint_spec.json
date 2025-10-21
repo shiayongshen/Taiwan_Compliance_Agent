@@ -1,0 +1,420 @@
+[
+  {
+    "id": "financial_consumer:understand_consumer_data",
+    "desc": "金融服務業應充分瞭解金融消費者相關資料",
+    "expr": [
+      "EQ",
+      "understand_consumer_data",
+      [
+        "EQ",
+        "financial_consumer_data_fully_understood",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:ensure_suitability",
+    "desc": "金融服務業應確保商品或服務對金融消費者之適合度",
+    "expr": [
+      "EQ",
+      "ensure_suitability",
+      [
+        "EQ",
+        "product_service_suitability_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:compliance_9_1",
+    "desc": "符合金融消費者保護法第9條第一項規定",
+    "expr": [
+      "EQ",
+      "compliance_9_1",
+      [
+        "AND",
+        [
+          "EQ",
+          "understand_consumer_data",
+          true
+        ],
+        [
+          "EQ",
+          "ensure_suitability",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violate_advertising_rules",
+    "desc": "違反第8條第2項辦法中廣告、業務招攬、營業促銷方式或內容規定",
+    "expr": [
+      "EQ",
+      "violate_advertising_rules",
+      [
+        "EQ",
+        "violate_advertising_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violate_suitability_rules",
+    "desc": "違反第9條第一項未充分瞭解消費者資料及確保適合度或相關辦法規定",
+    "expr": [
+      "EQ",
+      "violate_suitability_rules",
+      [
+        "NOT",
+        [
+          "EQ",
+          "compliance_9_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violate_disclosure_rules",
+    "desc": "違反第10條第一項未充分說明重要內容或揭露風險或相關辦法規定",
+    "expr": [
+      "EQ",
+      "violate_disclosure_rules",
+      [
+        "EQ",
+        "violate_disclosure_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violate_compensation_rules",
+    "desc": "違反第11條之一未訂定或未依主管機關核定原則訂定酬金制度或未確實執行",
+    "expr": [
+      "EQ",
+      "violate_compensation_rules",
+      [
+        "EQ",
+        "violate_compensation_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:assist_create_formal_appearance",
+    "desc": "協助自然人或法人創造符合形式上之外觀條件",
+    "expr": [
+      "EQ",
+      "assist_create_formal_appearance",
+      [
+        "EQ",
+        "assist_create_formal_appearance_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "insurance:agent_license_and_insurance",
+    "desc": "保險代理人、經紀人、公證人應經主管機關許可，繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "agent_license_and_insurance",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_permit_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_guarantee_fund",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care",
+    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂契約或提供服務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_diligence",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fiduciary_duty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_report",
+    "desc": "保險經紀人於主管機關指定範圍內，應主動提供書面分析報告並明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_provide_written_report",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_report_provided",
+          true
+        ],
+        [
+          "EQ",
+          "compensation_standard_clearly_informed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_financial_or_business_management",
+    "desc": "違反保險法第163條第四項管理規則中財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "violate_financial_or_business_management",
+      [
+        "EQ",
+        "violate_financial_business_management",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_broker_duties",
+    "desc": "違反保險法第163條第七項或第165條第一項規定",
+    "expr": [
+      "EQ",
+      "violate_broker_duties",
+      [
+        "EQ",
+        "violate_broker_related_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_agent_broker_provisions",
+    "desc": "違反保險法第163條第五項準用規定",
+    "expr": [
+      "EQ",
+      "violate_agent_broker_provisions",
+      [
+        "EQ",
+        "violate_agent_broker_related_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:correction_or_penalty",
+    "desc": "違反相關規定應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "correction_or_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_broker_duties",
+          true
+        ],
+        [
+          "EQ",
+          "violate_agent_broker_provisions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:severe_violation",
+    "desc": "違反情節重大者，廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "severe_violation",
+      [
+        "AND",
+        [
+          "EQ",
+          "correction_or_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "violation_severe",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_system_compliance",
+    "desc": "保險業訂定核保處理制度及程序符合規定",
+    "expr": [
+      "EQ",
+      "underwriting_system_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_personnel_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_process_defined",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_risk_assessment_policy_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_documents_retained",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_no_unfair_treatment",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_no_unqualified_personnel",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_proper_signatures",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_financial_source_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_other_regulations_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融消費者保護法及保險法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_advertising_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_suitability_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_disclosure_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_compensation_rules",
+          true
+        ],
+        [
+          "EQ",
+          "assist_create_formal_appearance",
+          true
+        ],
+        [
+          "EQ",
+          "correction_or_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_system_compliance",
+          false
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,543 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              2.0
+            ]
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            3.0
+          ]
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_final",
+    "desc": "資本等級最終判定，若同時符合多等級，取較低等級",
+    "expr": [
+      "EQ",
+      "capital_level_final",
+      [
+        "CASE",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        4,
+        [
+          "EQ",
+          "capital_level",
+          3
+        ],
+        3,
+        [
+          "EQ",
+          "capital_level",
+          2
+        ],
+        2,
+        [
+          "EQ",
+          "capital_level",
+          1
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate",
+    "desc": "資本適足判定",
+    "expr": [
+      "EQ",
+      "capital_adequate",
+      [
+        "EQ",
+        "capital_level_final",
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient",
+    "desc": "資本不足判定",
+    "expr": [
+      "EQ",
+      "capital_insufficient",
+      [
+        "EQ",
+        "capital_level_final",
+        2
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient",
+    "desc": "資本顯著不足判定",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient",
+      [
+        "EQ",
+        "capital_level_final",
+        3
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient",
+    "desc": "資本嚴重不足判定",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient",
+      [
+        "EQ",
+        "capital_level_final",
+        4
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_completed",
+    "desc": "增資、財務或業務改善計畫或合併於主管機關規定期限內完成",
+    "expr": [
+      "EQ",
+      "improvement_plan_completed",
+      [
+        "EQ",
+        "improvement_plan_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_penalty_condition",
+    "desc": "資本嚴重不足且未於期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_penalty_condition",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_severely_insufficient",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration",
+    "desc": "財務或業務狀況顯著惡化，不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration",
+      [
+        "EQ",
+        "financial_business_deterioration_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_approved",
+    "desc": "主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_approved",
+      [
+        "EQ",
+        "improvement_plan_approved_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accelerated_deterioration_or_no_improvement",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_or_no_improvement",
+      [
+        "EQ",
+        "accelerated_deterioration_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:regulatory_action_required",
+    "desc": "應為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "regulatory_action_required",
+      [
+        "OR",
+        "capital_severely_insufficient_penalty_condition",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ],
+          [
+            "EQ",
+            "accelerated_deterioration_or_no_improvement",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_refuse_inspection",
+    "desc": "拒絕檢查或拒絕開啟金庫或其他庫房",
+    "expr": [
+      "EQ",
+      "violation_refuse_inspection",
+      [
+        "EQ",
+        "refuse_inspection",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_hide_or_destroy_documents",
+    "desc": "隱匿或毀損有關業務或財務狀況之帳冊文件",
+    "expr": [
+      "EQ",
+      "violation_hide_or_destroy_documents",
+      [
+        "EQ",
+        "hide_or_destroy_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_no_response_or_false_response",
+    "desc": "無故對檢查人員之詢問不為答復或答復不實",
+    "expr": [
+      "EQ",
+      "violation_no_response_or_false_response",
+      [
+        "EQ",
+        "no_response_or_false_response",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_late_or_false_report",
+    "desc": "逾期提報財務報告、財產目錄或其他有關資料及報告，或提報不實、不全或未於規定期限內繳納查核費用",
+    "expr": [
+      "EQ",
+      "violation_late_or_false_report",
+      [
+        "EQ",
+        "late_or_false_report",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_related_enterprise_report",
+    "desc": "關係企業或其他金融機構怠於提供財務報告、帳冊、文件或相關交易資料",
+    "expr": [
+      "EQ",
+      "violation_related_enterprise_report",
+      [
+        "EQ",
+        "related_enterprise_report_failure",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_1_or_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violation_148_1_or_2",
+      [
+        "EQ",
+        "violation_148_1_or_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定，未提供說明文件或說明文件不實",
+    "expr": [
+      "EQ",
+      "violation_148_2_1",
+      [
+        "EQ",
+        "violation_148_2_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定，未依限報告或報告不實",
+    "expr": [
+      "EQ",
+      "violation_148_2_2",
+      [
+        "EQ",
+        "violation_148_2_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定，未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "violation_148_3_1",
+      [
+        "EQ",
+        "violation_148_3_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定，未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violation_148_3_2",
+      [
+        "EQ",
+        "violation_148_3_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一保險法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_severely_insufficient_penalty_condition",
+          true
+        ],
+        [
+          "EQ",
+          "violation_refuse_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "violation_hide_or_destroy_documents",
+          true
+        ],
+        [
+          "EQ",
+          "violation_no_response_or_false_response",
+          true
+        ],
+        [
+          "EQ",
+          "violation_late_or_false_report",
+          true
+        ],
+        [
+          "EQ",
+          "violation_related_enterprise_report",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

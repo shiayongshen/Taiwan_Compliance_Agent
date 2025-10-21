@@ -1,0 +1,1362 @@
+[
+  {
+    "id": "securities:business_duty_of_care_and_loyalty",
+    "desc": "證券投資信託及顧問事業等應以善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "business_duty_of_care_and_loyalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care_observed",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_loyalty_observed",
+          true
+        ],
+        [
+          "EQ",
+          "good_faith_principle_observed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:confidentiality_observed",
+    "desc": "對受益人或客戶資料保守秘密",
+    "expr": [
+      "EQ",
+      "confidentiality_observed",
+      [
+        "AND",
+        [
+          "EQ",
+          "personal_data_confidential",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_data_confidential",
+          true
+        ],
+        [
+          "EQ",
+          "other_related_data_confidential",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:liability_for_damage",
+    "desc": "違反注意義務、忠實義務或保密義務應負賠償責任",
+    "expr": [
+      "EQ",
+      "liability_for_damage",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_duty_of_care_and_loyalty",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "confidentiality_observed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_of_law_or_order",
+    "desc": "違反本法或依本法發布之命令",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_order",
+      [
+        "EQ",
+        "law_or_order_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_measures",
+    "desc": "主管機關可依情節輕重處分",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "warning_issued",
+          true
+        ],
+        [
+          "EQ",
+          "order_to_remove_officer",
+          true
+        ],
+        [
+          "EQ",
+          "suspension_of_fund_raising",
+          true
+        ],
+        [
+          "EQ",
+          "business_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "license_revocation",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personnel_misconduct_affecting_business",
+    "desc": "董事、監察人、經理人或受僱人違法行為影響業務正常執行",
+    "expr": [
+      "EQ",
+      "personnel_misconduct_affecting_business",
+      [
+        "EQ",
+        "personnel_misconduct",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personnel_penalty_measures",
+    "desc": "主管機關得命停止執行業務或解除職務，並得視情節處分事業",
+    "expr": [
+      "EQ",
+      "personnel_penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "order_to_suspend_personnel",
+          true
+        ],
+        [
+          "EQ",
+          "order_to_remove_personnel",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_violation_list",
+    "desc": "違反第111條列舉事項之一",
+    "expr": [
+      "EQ",
+      "penalty_violation_list",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_unapproved_business",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_scope_14_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_scope_16_4",
+          true
+        ],
+        [
+          "EQ",
+          "violation_provisions_16_1_19_1_51_1_59",
+          true
+        ],
+        [
+          "EQ",
+          "violation_diversification_ratio_58_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_no_business_license_63_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_behavior_rules_69",
+          true
+        ],
+        [
+          "EQ",
+          "violation_restriction_rules_70",
+          true
+        ],
+        [
+          "EQ",
+          "violation_branch_establishment_72_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "financial_consumer:advertising_misleading",
+    "desc": "金融服務業廣告不得虛偽、詐欺、隱匿或足致誤信",
+    "expr": [
+      "EQ",
+      "advertising_misleading",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "advertising_false",
+            true
+          ],
+          [
+            "EQ",
+            "advertising_fraud",
+            true
+          ],
+          [
+            "EQ",
+            "advertising_concealment",
+            true
+          ],
+          [
+            "EQ",
+            "advertising_misleading_other",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:advertising_truthful",
+    "desc": "金融服務業廣告內容須真實且義務不低於廣告內容",
+    "expr": [
+      "EQ",
+      "advertising_truthful",
+      [
+        "AND",
+        [
+          "EQ",
+          "advertising_content_true",
+          true
+        ],
+        [
+          "IMPLIES",
+          "obligation_to_consumer",
+          "advertising_content_obligation"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:prohibited_financial_education",
+    "desc": "金融服務業不得藉金融教育引薦個別商品或服務",
+    "expr": [
+      "EQ",
+      "prohibited_financial_education",
+      [
+        "NOT",
+        [
+          "EQ",
+          "financial_education_referral",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violation_advertising_rules",
+    "desc": "違反廣告、業務招攬及促銷活動方式或內容規定",
+    "expr": [
+      "EQ",
+      "violation_advertising_rules",
+      [
+        "EQ",
+        "violation_advertising_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violation_consumer_understanding",
+    "desc": "未充分瞭解金融消費者資料及確保適合度",
+    "expr": [
+      "EQ",
+      "violation_consumer_understanding",
+      [
+        "EQ",
+        "violation_consumer_suitability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violation_disclosure",
+    "desc": "未充分說明金融商品重要內容或揭露風險",
+    "expr": [
+      "EQ",
+      "violation_disclosure",
+      [
+        "EQ",
+        "violation_disclosure_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:violation_compensation_system",
+    "desc": "未訂定或未依核定原則訂定酬金制度或未確實執行",
+    "expr": [
+      "EQ",
+      "violation_compensation_system",
+      [
+        "EQ",
+        "violation_compensation_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "financial_consumer:penalty_fines",
+    "desc": "違反金融消費者保護法第30-1條規定處罰",
+    "expr": [
+      "EQ",
+      "penalty_fines",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_advertising_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_consumer_understanding",
+          true
+        ],
+        [
+          "EQ",
+          "violation_disclosure",
+          true
+        ],
+        [
+          "EQ",
+          "violation_compensation_system",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_consumer"
+  },
+  {
+    "id": "securities_trust:internal_control_established",
+    "desc": "證券投資信託事業建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:internal_control_operated",
+    "desc": "證券投資信託事業依內部控制制度經營業務",
+    "expr": [
+      "EQ",
+      "internal_control_operated",
+      [
+        "EQ",
+        "business_operated_according_to_internal_control",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:internal_control_change_reported",
+    "desc": "內部控制制度訂定或變更應報董事會同意並留存備查",
+    "expr": [
+      "EQ",
+      "internal_control_change_reported",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_change_reported_to_board",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_recorded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:internal_control_change_complied",
+    "desc": "經主管機關通知變更者應於限期內變更",
+    "expr": [
+      "EQ",
+      "internal_control_change_complied",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "internal_control_change_notified_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_completed_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:advertising_prohibited_behaviors",
+    "desc": "證券投資信託事業廣告及促銷活動不得有禁止行為",
+    "expr": [
+      "EQ",
+      "advertising_prohibited_behaviors",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_use_approval_as_guarantee",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_guarantee_principal_or_profit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_illegal_promotion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_false_or_fraudulent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_unapproved_fund_promotion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_violate_law_or_contract",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_performance_forecast",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_foreign_exchange_speculation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_other_impacting_business_or_beneficiaries",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:advertising_reported",
+    "desc": "證券投資信託事業應於事實發生後十日內向同業公會申報廣告及促銷活動",
+    "expr": [
+      "EQ",
+      "advertising_reported",
+      [
+        "EQ",
+        "advertising_reported_to_association_within_10_days",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:fund_sales_violation_responsibility",
+    "desc": "基金銷售機構違反廣告及促銷規定，事業及銷售機構負責",
+    "expr": [
+      "EQ",
+      "fund_sales_violation_responsibility",
+      [
+        "EQ",
+        "fund_sales_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:personnel_duty_of_care_and_loyalty",
+    "desc": "負責人及業務人員應以善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "personnel_duty_of_care_and_loyalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "personnel_duty_of_care_observed",
+          true
+        ],
+        [
+          "EQ",
+          "personnel_duty_of_loyalty_observed",
+          true
+        ],
+        [
+          "EQ",
+          "personnel_good_faith_principle_observed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:personnel_prohibited_behaviors",
+    "desc": "負責人及業務人員不得有禁止行為",
+    "expr": [
+      "EQ",
+      "personnel_prohibited_behaviors",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "personnel_leak_confidential_info",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_self_dealing",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_false_or_fraudulent",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_not_return_commission_to_fund",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_offer_specific_benefits",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_sell_proxy_votes",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_manipulate_market_price",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_change_trade_account",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_public_recommendation_or_forecast",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_unreasonable_commission",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_agent_for_others",
+            true
+          ],
+          [
+            "EQ",
+            "personnel_other_harmful_behaviors",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:personnel_confidentiality",
+    "desc": "負責人及業務人員對受益人或客戶資料保守秘密",
+    "expr": [
+      "EQ",
+      "personnel_confidentiality",
+      [
+        "AND",
+        [
+          "EQ",
+          "personnel_personal_data_confidential",
+          true
+        ],
+        [
+          "EQ",
+          "personnel_transaction_data_confidential",
+          true
+        ],
+        [
+          "EQ",
+          "personnel_other_related_data_confidential",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "securities_trust:personnel_proxy_assignment",
+    "desc": "代理人應具相當資格且不得違反規定，並設專簿記錄",
+    "expr": [
+      "EQ",
+      "personnel_proxy_assignment",
+      [
+        "AND",
+        [
+          "EQ",
+          "proxy_assigned_with_qualification",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "proxy_violate_provisions",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "proxy_recorded_in_special_book",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities_trust"
+  },
+  {
+    "id": "market_services:internal_control_requirements",
+    "desc": "各服務事業應訂定明確內部控制制度並確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_structure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "market_services"
+  },
+  {
+    "id": "market_services:internal_control_subsidiary_definition",
+    "desc": "子公司依財務報告編製規範認定",
+    "expr": [
+      "EQ",
+      "subsidiary_defined",
+      [
+        "EQ",
+        "subsidiary_defined_by_financial_reporting",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "market_services"
+  },
+  {
+    "id": "market_services:internal_control_violation_conditions",
+    "desc": "未訂書面內部控制制度等情事之一",
+    "expr": [
+      "EQ",
+      "internal_control_violation_conditions",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_written",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_audit_staff_adequate",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_audit_plan_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_audit_plan_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_findings_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_self_assessed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_deficiencies_corrected",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "serious_fraud_or_suspected",
+          true
+        ],
+        [
+          "EQ",
+          "serious_financial_reporting_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "market_services"
+  },
+  {
+    "id": "futures_trust:internal_control_established",
+    "desc": "期貨信託事業依主管機關規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "futures_internal_control_established",
+      [
+        "EQ",
+        "futures_internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_operated",
+    "desc": "期貨信託事業依內部控制制度經營業務",
+    "expr": [
+      "EQ",
+      "futures_internal_control_operated",
+      [
+        "EQ",
+        "futures_business_operated_according_to_internal_control",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_change_reported",
+    "desc": "內部控制制度訂定或變更應報董事會同意並留存備查",
+    "expr": [
+      "EQ",
+      "futures_internal_control_change_reported",
+      [
+        "AND",
+        [
+          "EQ",
+          "futures_internal_control_change_reported_to_board",
+          true
+        ],
+        [
+          "EQ",
+          "futures_internal_control_change_recorded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_change_complied",
+    "desc": "經主管機關或指定機構通知變更者應於限期內變更",
+    "expr": [
+      "EQ",
+      "futures_internal_control_change_complied",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "futures_internal_control_change_notified",
+          true
+        ],
+        [
+          "EQ",
+          "futures_internal_control_change_completed_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:customer_knowledge_and_risk_assessment",
+    "desc": "期貨信託事業應充分知悉並評估客戶投資知識、經驗、財務狀況及風險承受度",
+    "expr": [
+      "EQ",
+      "customer_knowledge_and_risk_assessment",
+      [
+        "EQ",
+        "customer_knowledge_and_risk_assessed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:customer_identity_and_basic_data",
+    "desc": "首次申購客戶應提出身分證明文件並填具基本資料",
+    "expr": [
+      "EQ",
+      "customer_identity_and_basic_data",
+      [
+        "EQ",
+        "customer_identity_provided_and_basic_data_filled",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:subscription_and_redemption_procedures",
+    "desc": "受理申購買回應依契約及作業程序辦理",
+    "expr": [
+      "EQ",
+      "subscription_and_redemption_procedures",
+      [
+        "EQ",
+        "subscription_and_redemption_follow_contract_and_procedures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:large_or_suspicious_transactions_recorded",
+    "desc": "一定金額以上或疑似洗錢交易應留存完整正確交易紀錄及憑證",
+    "expr": [
+      "EQ",
+      "large_or_suspicious_transactions_recorded",
+      [
+        "EQ",
+        "large_or_suspicious_transactions_recorded_and_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:short_swing_trading_fee_deducted",
+    "desc": "對符合短線交易認定標準之受益人扣除買回費用歸入基金資產",
+    "expr": [
+      "EQ",
+      "short_swing_trading_fee_deducted",
+      [
+        "EQ",
+        "short_swing_trading_fee_deducted_and_accounted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures_trust:internal_control_includes_required_principles",
+    "desc": "內部控制制度應包括充分瞭解客戶、銷售行為、短線交易防制、洗錢防制及法令遵循",
+    "expr": [
+      "EQ",
+      "internal_control_includes_required_principles",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_customer_understanding",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_sales_behavior",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_short_swing_prevention",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_anti_money_laundering",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_legal_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures_trust"
+  },
+  {
+    "id": "futures:violation_list_119",
+    "desc": "違反期貨交易法第119條列舉事項之一",
+    "expr": [
+      "EQ",
+      "violation_list_119",
+      [
+        "EQ",
+        "violation_119_listed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:penalty_exemption_for_minor_cases",
+    "desc": "情節輕微得免予處罰",
+    "expr": [
+      "EQ",
+      "penalty_exemption_for_minor_cases",
+      [
+        "EQ",
+        "minor_case_exemption",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法定義務或規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_duty_of_care_and_loyalty",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "confidentiality_observed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_of_law_or_order",
+          true
+        ],
+        [
+          "EQ",
+          "personnel_misconduct_affecting_business",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_violation_list",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_fines",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_operated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_change_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_change_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_prohibited_behaviors",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_reported",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "fund_sales_violation_responsibility",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_duty_of_care_and_loyalty",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_prohibited_behaviors",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_confidentiality",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_proxy_assignment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_requirements",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "internal_control_violation_conditions",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "futures_internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "futures_internal_control_operated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "futures_internal_control_change_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "futures_internal_control_change_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_knowledge_and_risk_assessment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_identity_and_basic_data",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subscription_and_redemption_procedures",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "large_or_suspicious_transactions_recorded",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "short_swing_trading_fee_deducted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_includes_required_principles",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_list_119",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "penalty_exemption_for_minor_cases",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

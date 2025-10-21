@@ -1,0 +1,646 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_ok",
+    "desc": "建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "建立內部作業制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_product_suitability_established",
+    "desc": "建立衍生性金融商品適合度制度",
+    "expr": [
+      "EQ",
+      "derivative_product_suitability_established",
+      [
+        "EQ",
+        "derivative_product_suitability_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_customer_evaluation_reviewed",
+    "desc": "客戶屬性評估及分級結果覆核且每年檢視並確認",
+    "expr": [
+      "EQ",
+      "derivative_customer_evaluation_reviewed",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_evaluation_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "customer_evaluation_review_confirmed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_product_level_restriction",
+    "desc": "不得向一般客戶提供超過其適合等級之衍生性金融商品交易服務，除避險非結構型商品外",
+    "expr": [
+      "EQ",
+      "derivative_product_level_restriction",
+      [
+        "OR",
+        [
+          "EQ",
+          "customer_is_professional",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_is_general",
+            true
+          ],
+          [
+            "EQ",
+            "product_is_non_structured",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_is_hedging",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_qualified",
+    "desc": "內部稽核人員具備資格條件",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_qualified",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "GE",
+            "internal_audit_experience_years",
+            2
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "college_graduate",
+              true
+            ],
+            [
+              "OR",
+              [
+                "EQ",
+                "passed_high_exam",
+                true
+              ],
+              [
+                "EQ",
+                "passed_equivalent_exam",
+                true
+              ],
+              [
+                "EQ",
+                "passed_cia_exam",
+                true
+              ]
+            ],
+            [
+              "GE",
+              "financial_experience_years",
+              2
+            ]
+          ],
+          [
+            "GE",
+            "financial_experience_years",
+            5
+          ]
+        ],
+        [
+          "LE",
+          "accounting_firm_experience_years",
+          [
+            "MUL",
+            "internal_audit_staff_total",
+            0.3333
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "GE",
+              "disciplinary_records_in_3_years",
+              1
+            ]
+          ],
+          [
+            "EQ",
+            "disciplinary_records_offset",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "is_team_leader",
+              true
+            ]
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "audit_or_inspection_experience_years",
+              3
+            ],
+            [
+              "AND",
+              [
+                "GE",
+                "audit_experience_years",
+                1
+              ],
+              [
+                "GE",
+                "financial_experience_years",
+                5
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:foreign_office_audit_staff_qualified",
+    "desc": "國外營業單位內部稽核人員資格符合當地法令或董事會評估遴選",
+    "expr": [
+      "EQ",
+      "foreign_office_audit_staff_qualified",
+      [
+        "OR",
+        [
+          "EQ",
+          "local_regulation_has_qualification_requirements",
+          true
+        ],
+        [
+          "EQ",
+          "board_approved_selection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_compliance",
+    "desc": "內部稽核人員無違反資格規定，違反者限期改善",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_compliance",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_audit_staff_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:customer_attribute_evaluation_separation",
+    "desc": "客戶屬性評估人員與推介人員不同",
+    "expr": [
+      "EQ",
+      "customer_attribute_evaluation_separation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "customer_evaluator",
+          "product_promoter"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:first_time_customer_evaluation_recorded",
+    "desc": "首次自然人客戶屬性評估有錄音錄影或電子設備留存",
+    "expr": [
+      "EQ",
+      "first_time_customer_evaluation_recorded",
+      [
+        "OR",
+        [
+          "EQ",
+          "evaluation_recorded_audio",
+          true
+        ],
+        [
+          "EQ",
+          "evaluation_recorded_video",
+          true
+        ],
+        [
+          "EQ",
+          "evaluation_recorded_electronic",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:professional_client_definition_met",
+    "desc": "符合專業客戶定義條件",
+    "expr": [
+      "EQ",
+      "professional_client_definition_met",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_professional_institutional_investor",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_corporate_or_subsidiary",
+            true
+          ],
+          [
+            "EQ",
+            "has_qualified_financial_report",
+            true
+          ],
+          [
+            "EQ",
+            "has_investment_decision_unit",
+            true
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "investment_experience_years",
+              3
+            ],
+            [
+              "GE",
+              "financial_investment_experience_years",
+              4
+            ],
+            [
+              "EQ",
+              "has_other_financial_knowledge",
+              true
+            ]
+          ],
+          [
+            "GE",
+            "financial_report_securities_or_derivatives",
+            10.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_corporate_or_fund",
+            true
+          ],
+          [
+            "GE",
+            "financial_report_total_assets",
+            1.0
+          ],
+          [
+            "EQ",
+            "authorized_trader_has_expertise",
+            true
+          ],
+          [
+            "EQ",
+            "signed_professional_client_agreement",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_individual",
+            true
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "financial_capacity",
+              3000.0
+            ],
+            [
+              "AND",
+              [
+                "GE",
+                "single_transaction_amount",
+                300.0
+              ],
+              [
+                "GE",
+                "total_assets",
+                1500.0
+              ]
+            ]
+          ],
+          [
+            "EQ",
+            "has_financial_knowledge_and_experience",
+            true
+          ],
+          [
+            "EQ",
+            "signed_professional_client_agreement",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_trust_company",
+            true
+          ],
+          [
+            "EQ",
+            "trustee_meets_professional_client_conditions",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:professional_client_due_diligence",
+    "desc": "銀行對專業客戶資格條件盡合理調查並每年覆審",
+    "expr": [
+      "EQ",
+      "professional_client_due_diligence",
+      [
+        "AND",
+        [
+          "EQ",
+          "reasonable_investigation_done",
+          true
+        ],
+        [
+          "EQ",
+          "annual_review_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定建立或執行內部控制、內部處理、內部作業制度或其他違反銀行法規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "internal_audit_staff_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

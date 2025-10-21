@@ -1,0 +1,272 @@
+[
+  {
+    "id": "bank:investment_limit_stock_etc",
+    "desc": "商業銀行投資於集中交易市場與店頭市場股票等原始取得成本總餘額不得超過核算基數30%",
+    "expr": [
+      "EQ",
+      "investment_limit_stock_etc",
+      [
+        "LE",
+        "cost_stock_etc",
+        [
+          "MUL",
+          "capital_base",
+          30.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_otsm_stock",
+    "desc": "商業銀行投資於店頭市場股票等原始取得成本總餘額不得超過核算基數5%",
+    "expr": [
+      "EQ",
+      "investment_limit_otsm_stock",
+      [
+        "LE",
+        "cost_otsm_stock",
+        [
+          "MUL",
+          "capital_base",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_unrated_shortterm",
+    "desc": "商業銀行投資於無信用評等或信用評等未達標準短期票券等原始取得成本總餘額不得超過核算基數10%",
+    "expr": [
+      "EQ",
+      "investment_limit_unrated_shortterm",
+      [
+        "LE",
+        "cost_unrated_shortterm",
+        [
+          "MUL",
+          "capital_base",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_total_except_gov",
+    "desc": "銀行投資於第二點第一項各種有價證券總餘額（除政府公債等）不得超過存款總餘額及金融債券發售額和25%",
+    "expr": [
+      "EQ",
+      "investment_limit_total_except_gov",
+      [
+        "LE",
+        "cost_total_except_gov",
+        [
+          "MUL",
+          [
+            "ADD",
+            "deposit_total",
+            "bond_issuance_amount"
+          ],
+          25.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_securities_hold_over_1yr",
+    "desc": "銀行兼營證券商持有一年以上有價證券應計入前三款限額",
+    "expr": [
+      "EQ",
+      "investment_limit_securities_hold_over_1yr",
+      [
+        "EQ",
+        "securities_hold_over_1yr_included",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_repo_shortterm_exclusion",
+    "desc": "銀行以附賣回條件買入短期票券及債券餘額不計入前三款限額",
+    "expr": [
+      "EQ",
+      "investment_limit_repo_shortterm_exclusion",
+      [
+        "EQ",
+        "repo_shortterm_excluded",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_reverse_repo_shortterm_inclusion",
+    "desc": "銀行以附買回條件賣出短期票券及債券餘額應計入前三款限額",
+    "expr": [
+      "EQ",
+      "investment_limit_reverse_repo_shortterm_inclusion",
+      [
+        "EQ",
+        "reverse_repo_shortterm_included",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_per_company_stock_bond",
+    "desc": "商業銀行投資於每一公司股票及債券換股權利證書股份總額不得超過該公司已發行股份總數5%",
+    "expr": [
+      "EQ",
+      "investment_limit_per_company_stock_bond",
+      [
+        "LE",
+        "investment_per_company",
+        [
+          "MUL",
+          "company_total_shares",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:capital_base_definition",
+    "desc": "核算基數為上會計年度決算後淨值扣除特定項目後餘額，年度中現金增資計入，現金股利減除",
+    "expr": [
+      "EQ",
+      "capital_base",
+      [
+        "SUB",
+        [
+          "ADD",
+          "net_worth_last_year",
+          "cash_increase_this_year"
+        ],
+        "cash_dividend_this_year"
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:capital_base_deductions",
+    "desc": "核算基數扣除對其他銀行持股超過一年原始取得成本及轉投資銀行以外其他企業原始取得成本",
+    "expr": [
+      "EQ",
+      "capital_base_deductions",
+      [
+        "SUB",
+        [
+          "SUB",
+          "capital_base",
+          "cost_other_bank_shares_over_1yr"
+        ],
+        "cost_other_enterprise_investments"
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反投資有價證券種類及限額規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_stock_etc",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_otsm_stock",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_unrated_shortterm",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_total_except_gov",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_securities_hold_over_1yr",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_repo_shortterm_exclusion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_reverse_repo_shortterm_inclusion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_per_company_stock_bond",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

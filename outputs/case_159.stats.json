@@ -1,0 +1,147 @@
+{
+  "case_id": "case_159",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 64.94,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 16622,
+  "total_output_tokens": 4405,
+  "total_tokens": 21027,
+  "total_cost_usd": 0.013697,
+  "timestamp": "2025-10-21T03:34:59.350601",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3652,
+      "output_tokens": 1262,
+      "elapsed_time": 21.974120140075684,
+      "cost": 0.0034800000000000005
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 8930,
+      "output_tokens": 1743,
+      "elapsed_time": 21.136666536331177,
+      "cost": 0.006360800000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 153,
+      "output_tokens": 625,
+      "elapsed_time": 9.88943099975586,
+      "cost": 0.0010612
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 153,
+      "output_tokens": 603,
+      "elapsed_time": 8.776941537857056,
+      "cost": 0.001026
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3734,
+      "output_tokens": 172,
+      "elapsed_time": 3.119549512863159,
+      "cost": 0.0017688
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3983 chars",
+      "timestamp": 21.974120140075684
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "5188 chars",
+      "timestamp": 43.11078667640686
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 43.11078667640686
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "21 varspecs",
+      "timestamp": 53.001216411590576
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 53.00521492958069
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 53.01221680641174
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 53.01221680641174
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "15 facts",
+      "timestamp": 64.91070604324341
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 64.91070604324341
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 64.91870641708374
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:penalty_conditions', 'c12', 'insurance:capital_severely_insufficient_measures_ok', 'insurance:capital_level', 'c6', 'insurance:capital_significantly_insufficient_measures_ok', 'insurance:penalty_default_false']",
+      "timestamp": 64.91870641708374
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 64.92870426177979
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 53.01221680641174
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 53.0
+    }
+  ]
+}

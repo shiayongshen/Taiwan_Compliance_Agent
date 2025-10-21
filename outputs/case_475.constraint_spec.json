@@ -1,0 +1,293 @@
+[
+  {
+    "id": "insurance:license_and_bond_and_insurance",
+    "desc": "保險代理人、經紀人、公證人須經許可、繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "license_and_bond_and_insurance",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "EQ",
+          "bond_deposited",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_purchased",
+          true
+        ],
+        [
+          "EQ",
+          "license_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_type_correct",
+    "desc": "保險代理人、公證人投保責任保險；保險經紀人投保責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "insurance_type_correct",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "agent_or_notary",
+            true
+          ],
+          [
+            "EQ",
+            "liability_insurance_purchased",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "liability_insurance_purchased",
+              true
+            ],
+            [
+              "EQ",
+              "guarantee_insurance_purchased",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_for_agent_or_broker",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "bank_permission_granted",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_operate_as_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_operate_as_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務洽訂保險契約並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_report_and_disclose_fee",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_provide_written_report_and_disclose_fee",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_report_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_pre_service_training",
+    "desc": "個人執業代理人及受代理人公司或銀行任用代理人應於申請執行業務前一年內參加職前教育訓練達32小時以上並測驗及格",
+    "expr": [
+      "EQ",
+      "agent_pre_service_training",
+      [
+        "AND",
+        [
+          "GE",
+          "pre_service_training_hours",
+          32.0
+        ],
+        [
+          "EQ",
+          "pre_service_training_passed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:legal_compliance_training",
+    "desc": "法令遵循人員應參加職前教育訓練30小時以上",
+    "expr": [
+      "EQ",
+      "legal_compliance_training",
+      [
+        "GE",
+        "legal_compliance_training_hours",
+        30.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未經許可、未繳存保證金、未投保相關保險、未領執業證照、保險經紀人未履行義務、未提供書面報告或未告知報酬標準、未完成職前教育訓練或測驗不合格時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_bond_and_insurance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_type_correct",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "broker_duty_of_care_and_fidelity",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "broker_provide_written_report_and_disclose_fee",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_pre_service_training",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "legal_compliance_training",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,113 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4959 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (4959 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (14 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (23 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (14 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (17 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (17 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c24', 'bank:internal_control_established'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c24', 'bank:internal_control_established'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_283
+
+📊 Model (filtered):
+   consumer_loan_limit = 10000000
+   paid_in_capital = 1000000000
+   unsecured_credit_to_related_parties = 30000000
+   central_authority_threshold = 6000000003/100
+   unsecured_consumer_loan = 5000000
+   board_meeting_attendance_ratio = 3/5
+   secured_credit_to_related_parties = 60000000
+   board_approval_ratio = 7/10
+   internal_operation_executed = True
+   internal_handling_established = True
+   collateral_condition_advantage = False
+   no_unsecured_credit_over_3_percent = True
+   internal_operation_ok = True
+   internal_handling_ok = True
+   internal_control_executed = True
+   major_shareholder_definition = True
+   full_collateral_provided = True
+   secured_credit_over_5_percent_requirements = True
+   penalty = False
+   internal_control_established = True
+   internal_handling_executed = True
+   internal_operation_established = True
+   internal_control_ok = True
+   /0 = [(60000000, 1000000000) -> 3/50, else -> 3/100]
+✅ Model saved to: outputs\case_283.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_283.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_283.smt2

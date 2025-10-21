@@ -1,0 +1,1263 @@
+[
+  {
+    "id": "insurance:real_estate_investment_limit",
+    "desc": "不動產投資總額除自用不動產外不得超過資金30%，自用不動產不得超過業主權益總額",
+    "expr": [
+      "EQ",
+      "real_estate_investment_limit",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "SUB",
+            "total_real_estate_investment",
+            "self_use_real_estate_investment"
+          ],
+          [
+            "MUL",
+            "capital_fund",
+            30.0
+          ]
+        ],
+        [
+          "LE",
+          "self_use_real_estate_investment",
+          "owner_equity"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_use_and_income",
+    "desc": "不動產投資以即時利用並有收益者為限，住宅法興辦社會住宅且僅供租賃者除外",
+    "expr": [
+      "EQ",
+      "real_estate_use_and_income",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "real_estate_invested_use",
+            true
+          ],
+          [
+            "EQ",
+            "real_estate_invested_income",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "social_housing_rental_only",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_valuation_required",
+    "desc": "不動產取得及處分應經合法不動產鑑價機構評價",
+    "expr": [
+      "EQ",
+      "real_estate_valuation_required",
+      [
+        "EQ",
+        "real_estate_valuation_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_type_limit_per_loan",
+    "desc": "放款每一單位金額不得超過資金5%",
+    "expr": [
+      "EQ",
+      "loan_type_limit_per_loan",
+      [
+        "LE",
+        "single_loan_amount",
+        [
+          "MUL",
+          "capital_fund",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_total_limit",
+    "desc": "放款總額不得超過資金35%",
+    "expr": [
+      "EQ",
+      "loan_total_limit",
+      [
+        "LE",
+        "total_loan_amount",
+        [
+          "MUL",
+          "capital_fund",
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_conditions",
+    "desc": "對負責人、職員或主要股東等利害關係人擔保放款應有十足擔保且條件不得優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_guarantee_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "guarantee_sufficient",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "guarantee_condition",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "other_similar_loan_condition",
+                true
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_board_approval_required",
+    "desc": "擔保放款達主管機關規定金額以上須經三分之二以上董事出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "loan_board_approval_required",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "guaranteed_loan_amount",
+          "regulatory_threshold"
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            0.6667
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            0.75
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_limit",
+    "desc": "依規定對負責人、職員或主要股東等利害關係人擔保放款限額及總餘額應遵行主管機關辦法",
+    "expr": [
+      "EQ",
+      "loan_related_party_limit",
+      [
+        "EQ",
+        "loan_related_party_limit_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:securities_and_loan_combined_limit",
+    "desc": "有價證券投資與以該公司有價證券為質放款合併計算不得超過資金10%及公司業主權益10%",
+    "expr": [
+      "EQ",
+      "securities_and_loan_combined_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "combined_investment_amount",
+          [
+            "MUL",
+            "capital_fund",
+            10.0
+          ]
+        ],
+        [
+          "LE",
+          "combined_investment_amount",
+          [
+            "MUL",
+            "company_owner_equity",
+            10.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_types",
+    "desc": "國外投資限於外匯存款、國外有價證券、核准保險相關事業及其他核准投資",
+    "expr": [
+      "EQ",
+      "foreign_investment_types",
+      [
+        "OR",
+        [
+          "EQ",
+          "foreign_investment_foreign_currency_deposit",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_foreign_securities",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_approved_insurance_related",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_other_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_total_limit",
+    "desc": "國外投資總額最高不得超過資金45%，特定金額及項目不計入限額",
+    "expr": [
+      "EQ",
+      "foreign_investment_total_limit",
+      [
+        "LE",
+        "foreign_investment_total_amount",
+        [
+          "MUL",
+          "capital_fund",
+          45.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_exclusions",
+    "desc": "不計入國外投資限額之金額須經主管機關核准",
+    "expr": [
+      "EQ",
+      "foreign_investment_exclusions",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_investment_non_investment_type_approved",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_domestic_foreign_currency_securities_approved",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_approved_foreign_insurance_related",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_other_approved_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_and_transaction_limit",
+    "desc": "主管機關得限制同一人、同一關係人或同一關係企業放款及其他交易之限額及範圍",
+    "expr": [
+      "EQ",
+      "related_party_loan_and_transaction_limit",
+      [
+        "EQ",
+        "related_party_limit_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:shareholder_rights_prohibition",
+    "desc": "不得與被投資公司或第三人約定股權交換或利益輸送，不得損及要保人等利益",
+    "expr": [
+      "EQ",
+      "shareholder_rights_prohibition",
+      [
+        "EQ",
+        "no_illegal_shareholder_rights_agreement",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:shareholder_meeting_vote_record",
+    "desc": "出席股東會前應作表決權評估分析，會後應提報董事會書面紀錄",
+    "expr": [
+      "EQ",
+      "shareholder_meeting_vote_record",
+      [
+        "EQ",
+        "vote_evaluation_and_record_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:proxy_prohibition",
+    "desc": "不得擔任被投資公司委託書徵求人或委託他人擔任",
+    "expr": [
+      "EQ",
+      "proxy_prohibition",
+      [
+        "EQ",
+        "no_proxy_agent",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "應建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_and_audit_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_established",
+    "desc": "應建立資產品質評估、準備金提存、逾期放款等內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_system_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_classification",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_penalty_conditions",
+    "desc": "主管機關對資本嚴重不足且未完成增資或改善計畫者得為接管等處分",
+    "expr": [
+      "EQ",
+      "supervisory_measures_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_increase_or_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_other_conditions",
+    "desc": "財務或業務狀況惡化且未改善者主管機關得為監管等處分",
+    "expr": [
+      "EQ",
+      "supervisory_measures_other_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_approved_and_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_compliance",
+    "desc": "主管機關監管處分時保險業不得超限額支付款項或處分財產等",
+    "expr": [
+      "EQ",
+      "supervisory_measures_compliance",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "exceed_payment_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "enter_major_contract_commitment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_major_financial_impact",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_conditions",
+    "desc": "國外及大陸地區不動產投資須合法利用並產生效益，且符合資本與風險資本比率標準及內部控制要求",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_real_estate_legal_use_and_benefit",
+          true
+        ],
+        [
+          "GE",
+          "capital_to_risk_capital_ratio",
+          "statutory_standard"
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "major_violation_in_last_two_years",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_corrected",
+              true
+            ],
+            [
+              "EQ",
+              "correction_approved",
+              true
+            ]
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "board_risk_management_committee_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_risk_management_department_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_total_limit",
+    "desc": "國外及大陸地區不動產投資總額依資本與風險資本比率分級限制",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_total_limit",
+      [
+        "CASE",
+        [
+          "LT",
+          "capital_to_risk_capital_ratio",
+          1.25
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "foreign_real_estate_investment_amount",
+            [
+              "MUL",
+              "capital_fund",
+              1.0
+            ]
+          ],
+          [
+            "LE",
+            "foreign_real_estate_investment_amount",
+            [
+              "MUL",
+              "owner_equity",
+              10.0
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "capital_to_risk_capital_ratio",
+            1.25
+          ],
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            1.5
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "foreign_real_estate_investment_amount",
+            [
+              "MUL",
+              "capital_fund",
+              2.5
+            ]
+          ],
+          [
+            "LE",
+            "foreign_real_estate_investment_amount",
+            [
+              "MUL",
+              "owner_equity",
+              40.0
+            ]
+          ]
+        ],
+        [
+          "GE",
+          "capital_to_risk_capital_ratio",
+          1.5
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "foreign_real_estate_investment_amount",
+            [
+              "MUL",
+              "capital_fund",
+              3.0
+            ]
+          ],
+          [
+            "LE",
+            "foreign_real_estate_investment_amount",
+            [
+              "MUL",
+              "owner_equity",
+              40.0
+            ]
+          ]
+        ],
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_legal_use_standard",
+    "desc": "投資時已合法利用並產生效益認定標準為出租率達60%且符合當地經濟環境投資報酬率",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_legal_use_standard",
+      [
+        "AND",
+        [
+          "GE",
+          "rental_rate",
+          60.0
+        ],
+        [
+          "EQ",
+          "meets_local_economic_return",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_trustee_requirements",
+    "desc": "信託方式取得國外不動產受託機構須為當地主管機關核准且信用評等BBB+以上金融機構，且非利害關係人",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_trustee_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "trustee_approved_by_local_authority",
+          true
+        ],
+        [
+          "EQ",
+          "trustee_credit_rating",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "trustee_is_related_party",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_trust_contract_requirements",
+    "desc": "信託契約應包含運用決定權、收益匯交及資料提供等條款",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_trust_contract_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "trust_contract_investment_decision_right",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "NOT",
+            [
+              "EQ",
+              "trust_contract_approved_investment_plan",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "trust_contract_income_remitted_within_6_months",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "trust_contract_data_provision_cooperation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_trust_approval_documents",
+    "desc": "信託方式投資國外不動產應事前檢送受託機構資料、信託契約、合法利用證明及其他文件申請核准",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_trust_approval_documents",
+      [
+        "AND",
+        [
+          "EQ",
+          "trustee_info_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "trust_contract_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "legal_use_proof_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "other_required_documents_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_trust_annual_report",
+    "desc": "信託方式取得國外不動產應於年度終了後三個月內檢具信託決算書、營運狀況及其他文件報主管機關備查",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_trust_annual_report",
+      [
+        "AND",
+        [
+          "EQ",
+          "trust_audit_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "trust_operation_summary_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "trust_other_documents_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_trust_change_report",
+    "desc": "信託方式取得國外不動產有變動應於7日內檢具事由及資料向主管機關陳報",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_trust_change_report",
+      [
+        "OR",
+        [
+          "EQ",
+          "trust_structure_change_reported",
+          true
+        ],
+        [
+          "EQ",
+          "trustee_change_reported",
+          true
+        ],
+        [
+          "EQ",
+          "trust_contract_change_reported",
+          true
+        ],
+        [
+          "EQ",
+          "trust_major_violation_reported",
+          true
+        ],
+        [
+          "EQ",
+          "trust_property_sale_or_loss_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_methods",
+    "desc": "國外不動產投資方式包括自有名義、特定目的不動產投資事業及信託方式",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_methods",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_by_own_name",
+          true
+        ],
+        [
+          "EQ",
+          "investment_by_special_purpose_entity",
+          true
+        ],
+        [
+          "EQ",
+          "investment_by_special_purpose_entity_loan",
+          true
+        ],
+        [
+          "EQ",
+          "investment_by_trust",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_real_estate_investment_disclosure",
+    "desc": "國外不動產投資應於公司網站及年度財務報告揭露相關資訊",
+    "expr": [
+      "EQ",
+      "foreign_real_estate_investment_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "website_disclosure_done",
+          true
+        ],
+        [
+          "EQ",
+          "annual_financial_report_disclosure_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反不動產投資限制、放款限額、擔保條件、國外投資規定、內部控制制度、監管處分規定或資訊揭露等任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_investment_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_use_and_income",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_valuation_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_type_limit_per_loan",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_total_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_guarantee_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_board_approval_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_related_party_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "securities_and_loan_combined_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_types",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_total_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_exclusions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_and_transaction_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholder_rights_prohibition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholder_meeting_vote_record",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "proxy_prohibition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_increase_or_improvement_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_approved_and_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervisory_measures_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_total_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_legal_use_standard",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_trustee_requirements",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_trust_contract_requirements",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_trust_approval_documents",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_trust_annual_report",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_trust_change_report",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_methods",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_real_estate_investment_disclosure",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

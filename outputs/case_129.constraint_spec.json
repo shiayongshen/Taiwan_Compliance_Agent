@@ -1,0 +1,233 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "已建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "已確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_system_established",
+    "desc": "已建立稽核制度",
+    "expr": [
+      "EQ",
+      "audit_system_established",
+      [
+        "EQ",
+        "audit_system_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_system_executed",
+    "desc": "已確實執行稽核制度",
+    "expr": [
+      "EQ",
+      "audit_system_executed",
+      [
+        "EQ",
+        "audit_system_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:handling_system_established",
+    "desc": "已建立招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "handling_system_established",
+      [
+        "EQ",
+        "handling_system_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:handling_system_executed",
+    "desc": "已確實執行招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "handling_system_executed",
+      [
+        "EQ",
+        "handling_system_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_system_compliance",
+    "desc": "稽核制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "audit_system_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:handling_system_compliance",
+    "desc": "招攬處理制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "handling_system_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "handling_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_audit_handling_compliance",
+    "desc": "內部控制、稽核及招攬處理制度均建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_audit_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "handling_system_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:legal_requirement_met",
+    "desc": "符合法定內部控制、稽核及招攬處理制度建立與執行要求",
+    "expr": [
+      "EQ",
+      "legal_requirement_met",
+      [
+        "EQ",
+        "internal_control_audit_handling_compliance",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未確實執行內部控制、稽核或招攬處理制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "legal_requirement_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

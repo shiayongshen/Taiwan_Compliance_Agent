@@ -1,0 +1,403 @@
+{
+  "case_id": "case_114",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 70.5,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 15172,
+  "total_output_tokens": 3707,
+  "total_tokens": 18879,
+  "total_cost_usd": 0.012,
+  "timestamp": "2025-10-21T02:00:42.122105",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3024,
+      "output_tokens": 865,
+      "elapsed_time": 16.1461341381073,
+      "cost": 0.0025936
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 7277,
+      "output_tokens": 1622,
+      "elapsed_time": 28.653582334518433,
+      "cost": 0.0055060000000000005
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 135,
+      "output_tokens": 515,
+      "elapsed_time": 10.240747213363647,
+      "cost": 0.0008780000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 135,
+      "output_tokens": 515,
+      "elapsed_time": 11.591273069381714,
+      "cost": 0.0008780000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4601,
+      "output_tokens": 190,
+      "elapsed_time": 3.8468971252441406,
+      "cost": 0.0021444000000000003
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "2285 chars",
+      "timestamp": 16.1461341381073
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4437 chars",
+      "timestamp": 44.79971647262573
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 44.79971647262573
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "19 varspecs",
+      "timestamp": 55.04046368598938
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 55.04246187210083
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 55.045462131500244
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 55.045462131500244
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "19 facts",
+      "timestamp": 70.4836323261261
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 70.48463797569275
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 70.48963785171509
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c24']",
+      "timestamp": 70.48963785171509
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 70.49663782119751
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 55.045462131500244
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "epayment:company_type_restriction",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "epayment:company_type_restriction",
+        [
+          "EQ",
+          "company_type",
+          "stock_company"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "company_type_restriction",
+        [
+          "EQ",
+          "company_type",
+          "stock_company"
+        ]
+      ],
+      "timestamp": 55.04
+    },
+    {
+      "id": "epayment:exclusive_business_requirement",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "epayment:exclusive_business_requirement",
+        [
+          "OR",
+          [
+            "EQ",
+            "has_permission_to_concurrent_business",
+            true
+          ],
+          [
+            "EQ",
+            "business_scope",
+            "exclusive_4_1_2"
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "exclusive_business_requirement",
+        [
+          "OR",
+          [
+            "EQ",
+            "has_permission_to_concurrent_business",
+            true
+          ],
+          [
+            "EQ",
+            "business_scope",
+            "exclusive_4_1_2"
+          ]
+        ]
+      ],
+      "timestamp": 55.04
+    },
+    {
+      "id": "epayment:contract_terms_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "epayment:contract_terms_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "contract_terms_include_mandatory_items",
+            true
+          ],
+          [
+            "EQ",
+            "contract_terms_exclude_prohibited_items",
+            true
+          ],
+          [
+            "GE",
+            "user_rights_protection_level",
+            "standard_template_level"
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "contract_terms_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "contract_terms_include_mandatory_items",
+            true
+          ],
+          [
+            "EQ",
+            "contract_terms_exclude_prohibited_items",
+            true
+          ],
+          [
+            "GE",
+            "user_rights_protection_level",
+            "standard_template_level"
+          ]
+        ]
+      ],
+      "timestamp": 55.04
+    },
+    {
+      "id": "epayment:annual_report_submission",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "epayment:annual_report_submission",
+        [
+          "AND",
+          [
+            "LE",
+            "report_preparation_days_after_fiscal_year_end",
+            120
+          ],
+          [
+            "EQ",
+            "financial_report_audited_or_approved",
+            true
+          ],
+          [
+            "LE",
+            "days_after_board_approval_to_submission",
+            15
+          ],
+          [
+            "EQ",
+            "report_submitted_to_authority",
+            true
+          ],
+          [
+            "EQ",
+            "report_announced_publicly",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "annual_report_submission",
+        [
+          "AND",
+          [
+            "LE",
+            "report_preparation_days_after_fiscal_year_end",
+            120
+          ],
+          [
+            "EQ",
+            "financial_report_audited_or_approved",
+            true
+          ],
+          [
+            "LE",
+            "days_after_board_approval_to_submission",
+            15
+          ],
+          [
+            "EQ",
+            "report_submitted_to_authority",
+            true
+          ],
+          [
+            "EQ",
+            "report_announced_publicly",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 55.04
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "epayment:company_type_restriction",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "epayment:exclusive_business_requirement",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "epayment:contract_terms_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "epayment:annual_report_submission",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "company_type_restriction",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "exclusive_business_requirement",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "contract_terms_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "annual_report_submission",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 55.04
+    }
+  ]
+}

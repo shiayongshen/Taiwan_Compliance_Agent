@@ -1,0 +1,293 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              150.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ]
+          ]
+        ],
+        3,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              2.0
+            ]
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio_prev",
+              3.0
+            ]
+          ]
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_measures_ok",
+    "desc": "資本不足等級措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_insufficient_measures_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_measures_ok",
+    "desc": "資本顯著不足等級措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_measures_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_insufficient_measures_ok",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_removed",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_registration_cancelled",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_duty_suspended",
+          true
+        ],
+        [
+          "EQ",
+          "special_asset_approval_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "special_asset_disposed",
+          true
+        ],
+        [
+          "EQ",
+          "credit_restriction_enforced",
+          true
+        ],
+        [
+          "GE",
+          "responsible_person_compensation_reduction_rate",
+          0.0
+        ],
+        [
+          "LE",
+          "responsible_person_compensation_reduction_rate",
+          30.0
+        ],
+        [
+          "EQ",
+          "branch_office_restriction_enforced",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_measures_ok",
+    "desc": "資本嚴重不足等級措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_measures_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_significantly_insufficient_measures_ok",
+          true
+        ],
+        [
+          "EQ",
+          "supervisory_disposition_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：資本不足等級達一定程度且未執行對應措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_severely_insufficient_measures_ok",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_significantly_insufficient_measures_ok",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_insufficient_measures_ok",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

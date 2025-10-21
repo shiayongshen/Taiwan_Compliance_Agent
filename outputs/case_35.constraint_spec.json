@@ -1,0 +1,207 @@
+[
+  {
+    "id": "securities:violation_penalty_level",
+    "desc": "證券商違反法令之處分等級（1=警告,2=解除職務,3=停業,4=撤銷營業許可,5=其他處置）",
+    "expr": [
+      "EQ",
+      "violation_penalty_level",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation_warning",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "violation_dismiss_officer",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "violation_suspension",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "violation_revoke_license",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "violation_other_measures",
+          true
+        ],
+        5,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliance",
+    "desc": "證券商內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "EQ",
+        "internal_control_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:report_submission_compliance",
+    "desc": "依主管機關命令提出帳簿、表冊、文件或其他資料",
+    "expr": [
+      "EQ",
+      "report_submission_compliance",
+      [
+        "EQ",
+        "report_submitted_on_time",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:document_preparation_compliance",
+    "desc": "依規定製作、申報、公告、備置或保存帳簿、表冊、傳票、財務報告或其他文件",
+    "expr": [
+      "EQ",
+      "document_preparation_compliance",
+      [
+        "EQ",
+        "documents_prepared_and_preserved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:minor_violation_exemption",
+    "desc": "違反行為情節輕微且已改善完成免予處罰",
+    "expr": [
+      "EQ",
+      "minor_violation_exemption",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_minor",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_completed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_applicable",
+    "desc": "違反法令且未免予處罰者應處罰",
+    "expr": [
+      "EQ",
+      "penalty_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "minor_violation_exemption",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:derivative_financial_contract_compliance",
+    "desc": "衍生性金融商品交易書面契約充分說明重要內容及揭露風險",
+    "expr": [
+      "EQ",
+      "derivative_financial_contract_compliance",
+      [
+        "EQ",
+        "contract_written_and_risk_disclosed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:derivative_financial_contract_important_content_compliance",
+    "desc": "衍生性金融商品交易重要內容完整且以顯著方式表達",
+    "expr": [
+      "EQ",
+      "derivative_financial_contract_important_content_compliance",
+      [
+        "EQ",
+        "important_content_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "securities:penalty_conditions",
+    "desc": "處罰條件：違反法令且未免予處罰時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "minor_violation_exemption",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

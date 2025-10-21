@@ -1,0 +1,1242 @@
+{
+  "case_id": "case_301",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 98.44,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 44547,
+  "total_output_tokens": 6632,
+  "total_tokens": 51179,
+  "total_cost_usd": 0.02843,
+  "timestamp": "2025-10-21T06:41:36.737845",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 10399,
+      "output_tokens": 2899,
+      "elapsed_time": 39.49434733390808,
+      "cost": 0.008798
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 24061,
+      "output_tokens": 1,
+      "elapsed_time": 0.006999969482421875,
+      "cost": 0.009626000000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 450,
+      "output_tokens": 1628,
+      "elapsed_time": 25.5276997089386,
+      "cost": 0.0027848000000000005
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 450,
+      "output_tokens": 1628,
+      "elapsed_time": 25.514915227890015,
+      "cost": 0.0027848000000000005
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 9187,
+      "output_tokens": 476,
+      "elapsed_time": 7.845815658569336,
+      "cost": 0.0044364
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "9354 chars",
+      "timestamp": 39.49434733390808
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4 chars",
+      "timestamp": 39.5013473033905
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "21 constraints",
+      "timestamp": 39.5013473033905
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "63 varspecs",
+      "timestamp": 65.0290470123291
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "21 constraints",
+      "timestamp": 65.03604912757874
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 65.04404926300049
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 65.04404926300049
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "43 facts",
+      "timestamp": 98.40678071975708
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "43 constraints",
+      "timestamp": 98.40778279304504
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 98.41878271102905
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'meta:penalty_conditions', 'c21']",
+      "timestamp": 98.41878271102905
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 98.43178105354309
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 65.04404926300049
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:over_insurance_prohibited",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:over_insurance_prohibited",
+        [
+          "LE",
+          "insurance_amount",
+          "insured_object_market_value"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "over_insurance_prohibited",
+        [
+          "LE",
+          "insurance_amount",
+          "insured_object_market_value"
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:actuary_assigned",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:actuary_assigned",
+        [
+          "AND",
+          [
+            "EQ",
+            "actuary_employed",
+            true
+          ],
+          [
+            "EQ",
+            "signing_actuary_assigned",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "actuary_assigned",
+        [
+          "AND",
+          [
+            "EQ",
+            "actuary_employed",
+            true
+          ],
+          [
+            "EQ",
+            "signing_actuary_assigned",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:external_actuary_reviewed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:external_actuary_reviewed",
+        [
+          "AND",
+          [
+            "EQ",
+            "external_actuary_hired",
+            true
+          ],
+          [
+            "EQ",
+            "external_actuary_review_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "external_actuary_reviewed",
+        [
+          "AND",
+          [
+            "EQ",
+            "external_actuary_hired",
+            true
+          ],
+          [
+            "EQ",
+            "external_actuary_review_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:board_approval_for_actuary",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:board_approval_for_actuary",
+        [
+          "AND",
+          [
+            "EQ",
+            "board_approved_signing_actuary",
+            true
+          ],
+          [
+            "EQ",
+            "board_approved_external_actuary",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "board_approval_for_actuary",
+        [
+          "AND",
+          [
+            "EQ",
+            "board_approved_signing_actuary",
+            true
+          ],
+          [
+            "EQ",
+            "board_approved_external_actuary",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:actuary_reports_fair_and_true",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:actuary_reports_fair_and_true",
+        [
+          "AND",
+          [
+            "EQ",
+            "signing_actuary_report_fair_and_true",
+            true
+          ],
+          [
+            "EQ",
+            "external_actuary_report_fair_and_true",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "actuary_reports_fair_and_true",
+        [
+          "AND",
+          [
+            "EQ",
+            "signing_actuary_report_fair_and_true",
+            true
+          ],
+          [
+            "EQ",
+            "external_actuary_report_fair_and_true",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_control_established_and_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_control_established_and_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established_and_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_handling_established_and_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_handling_established_and_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_handling_established_and_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:reinsurance_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:reinsurance_compliance",
+        [
+          "EQ",
+          "reinsurance_business_compliant",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "reinsurance_compliance",
+        [
+          "EQ",
+          "reinsurance_business_compliant",
+          true
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:reinsurance_contract_content_compliant",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:reinsurance_contract_content_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "contract_risk_scope_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_termination_conditions_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_insolvency_handling_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_accounting_handling_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_other_mandated_items_specified",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "reinsurance_contract_content_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "contract_risk_scope_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_termination_conditions_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_insolvency_handling_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_accounting_handling_specified",
+            true
+          ],
+          [
+            "EQ",
+            "contract_other_mandated_items_specified",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:financial_and_business_disclosure_compliant",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:financial_and_business_disclosure_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_business_documents_prepared",
+            true
+          ],
+          [
+            "EQ",
+            "major_information_reported_within_2_days",
+            true
+          ],
+          [
+            "EQ",
+            "major_information_publicly_disclosed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "financial_and_business_disclosure_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_business_documents_prepared",
+            true
+          ],
+          [
+            "EQ",
+            "major_information_reported_within_2_days",
+            true
+          ],
+          [
+            "EQ",
+            "major_information_publicly_disclosed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:insurance_product_review_compliant",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:insurance_product_review_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_product_review_procedures_followed",
+            true
+          ],
+          [
+            "EQ",
+            "required_documents_submitted",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "insurance_product_review_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_product_review_procedures_followed",
+            true
+          ],
+          [
+            "EQ",
+            "required_documents_submitted",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:insurance_product_approval_and_disclosure",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:insurance_product_approval_and_disclosure",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_product_approved_or_filed",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_product_information_publicly_available",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "insurance_product_approval_and_disclosure",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_product_approved_or_filed",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_product_information_publicly_available",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:insurance_rate_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:insurance_rate_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_rate_set_by_authority",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_rate_collected_accordingly",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "insurance_rate_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance_rate_set_by_authority",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_rate_collected_accordingly",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:reinsurance_risk_management_plan_compliant",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:reinsurance_risk_management_plan_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "retention_risk_management_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "reinsurance_out_risk_management_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "reinsurance_in_risk_management_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "intra_group_reinsurance_risk_management_compliant",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "reinsurance_risk_management_plan_compliant",
+        [
+          "AND",
+          [
+            "EQ",
+            "retention_risk_management_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "reinsurance_out_risk_management_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "reinsurance_in_risk_management_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "intra_group_reinsurance_risk_management_compliant",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_audit_organization_planned",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_audit_organization_planned",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_audit_organization_planned",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_manual_compiled",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_audit_organization_planned",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_audit_organization_planned",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_manual_compiled",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_audit_plan_and_execution",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_audit_plan_and_execution",
+        [
+          "AND",
+          [
+            "EQ",
+            "annual_audit_plan_executed",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_audit_and_evaluation_done",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_audit_plan_and_execution",
+        [
+          "AND",
+          [
+            "EQ",
+            "annual_audit_plan_executed",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_audit_and_evaluation_done",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_audit_report_handling",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_audit_report_handling",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_audit_report_format_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_report_handled_and_stored",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_audit_report_handling",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_audit_report_format_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_report_handled_and_stored",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_audit_review_and_improvement",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_audit_review_and_improvement",
+        [
+          "AND",
+          [
+            "EQ",
+            "self_audit_supervised",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_review_done",
+            true
+          ],
+          [
+            "EQ",
+            "deficiencies_and_anomalies_improved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_audit_review_and_improvement",
+        [
+          "AND",
+          [
+            "EQ",
+            "self_audit_supervised",
+            true
+          ],
+          [
+            "EQ",
+            "internal_audit_review_done",
+            true
+          ],
+          [
+            "EQ",
+            "deficiencies_and_anomalies_improved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "insurance:internal_control_effectiveness_evaluated",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_control_effectiveness_evaluated",
+        [
+          "AND",
+          [
+            "EQ",
+            "board_and_management_evaluated_internal_control",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_statement_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_effectiveness_evaluated",
+        [
+          "AND",
+          [
+            "EQ",
+            "board_and_management_evaluated_internal_control",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_statement_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:over_insurance_prohibited",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:actuary_assigned",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:external_actuary_reviewed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:board_approval_for_actuary",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:actuary_reports_fair_and_true",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_control_established_and_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_handling_established_and_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:reinsurance_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:reinsurance_contract_content_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:financial_and_business_disclosure_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:insurance_product_review_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:insurance_product_approval_and_disclosure",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:insurance_rate_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:reinsurance_risk_management_plan_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_audit_organization_planned",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_audit_plan_and_execution",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_audit_report_handling",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_audit_review_and_improvement",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:internal_control_effectiveness_evaluated",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "over_insurance_prohibited",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "actuary_assigned",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "external_actuary_reviewed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "board_approval_for_actuary",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "actuary_reports_fair_and_true",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_established_and_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_handling_established_and_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reinsurance_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reinsurance_contract_content_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial_and_business_disclosure_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_product_review_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_product_approval_and_disclosure",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_rate_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reinsurance_risk_management_plan_compliant",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_audit_organization_planned",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_audit_plan_and_execution",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_audit_report_handling",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_audit_review_and_improvement",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_effectiveness_evaluated",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 65.03
+    }
+  ]
+}

@@ -1,0 +1,593 @@
+[
+  {
+    "id": "insurance:other_transaction_limit_single",
+    "desc": "非政府機關單一其他交易金額不得超過業主權益35%",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_single",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_counterparty_is_government",
+          true
+        ],
+        [
+          "LE",
+          "other_transaction_amount",
+          [
+            "MUL",
+            "policyholder_equity",
+            35.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_transaction_limit_total",
+    "desc": "非政府機關其他交易總餘額不得超過業主權益70%",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_total",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_counterparty_is_government",
+          true
+        ],
+        [
+          "LE",
+          "other_transaction_total_amount",
+          [
+            "MUL",
+            "policyholder_equity",
+            70.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_transaction_limit_single_min",
+    "desc": "其他交易單一交易金額未達1億元者，得以1億元為最高限額",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_single_min",
+      [
+        "OR",
+        [
+          "GE",
+          "other_transaction_amount",
+          100000000.0
+        ],
+        [
+          "LE",
+          "other_transaction_amount",
+          100000000.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_transaction_limit_total_min",
+    "desc": "其他交易總餘額不得逾2億元",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_total_min",
+      [
+        "LE",
+        "other_transaction_total_amount",
+        200000000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:government_transaction_exclusion",
+    "desc": "政府機關、公立學校、公營事業交易不計入交易總餘額",
+    "expr": [
+      "EQ",
+      "government_transaction_exclusion",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "transaction_counterparty_is_government",
+          true
+        ],
+        [
+          "EQ",
+          "counted_in_total_amount",
+          false
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:government_transaction_single_limit",
+    "desc": "政府機關單一交易金額不得超過業主權益",
+    "expr": [
+      "EQ",
+      "government_transaction_single_limit",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "transaction_counterparty_is_government",
+          true
+        ],
+        [
+          "LE",
+          "other_transaction_amount",
+          "policyholder_equity"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:government_transaction_single_limit_min",
+    "desc": "依前款規定計算之單一交易金額未達2億元者，得以2億元為最高限額",
+    "expr": [
+      "EQ",
+      "government_transaction_single_limit_min",
+      [
+        "OR",
+        [
+          "GE",
+          "other_transaction_amount",
+          200000000.0
+        ],
+        [
+          "LE",
+          "other_transaction_amount",
+          200000000.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:pre_existing_other_transaction_limit",
+    "desc": "本辦法發布前其他交易案件交易總餘額逾限額者不得再增加交易",
+    "expr": [
+      "EQ",
+      "pre_existing_other_transaction_limit",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "pre_existing_other_transaction_total_amount",
+          "other_transaction_total_limit"
+        ],
+        [
+          "EQ",
+          "no_additional_transaction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_single_limit",
+    "desc": "非利害關係人不動產單一交易金額限額依資本與風險資本比率分類",
+    "expr": [
+      "EQ",
+      "non_related_real_estate_single_limit",
+      [
+        "CASE",
+        [
+          "GE",
+          "capital_to_risk_capital_ratio",
+          "legal_standard"
+        ],
+        [
+          "LE",
+          "real_estate_single_amount",
+          [
+            "MUL",
+            "funds",
+            1.5
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "GT",
+            "policyholder_equity",
+            0
+          ]
+        ],
+        [
+          "LE",
+          "real_estate_single_amount",
+          [
+            "MUL",
+            "funds",
+            1.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "LE",
+            "policyholder_equity",
+            0
+          ]
+        ],
+        [
+          "LE",
+          "real_estate_single_amount",
+          [
+            "CASE",
+            [
+              "LE",
+              [
+                "MUL",
+                "funds",
+                1.0
+              ],
+              5000000000.0
+            ],
+            [
+              "MUL",
+              "funds",
+              1.0
+            ],
+            5000000000.0
+          ]
+        ],
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_total_limit",
+    "desc": "非利害關係人不動產交易總餘額限額依資本與風險資本比率分類",
+    "expr": [
+      "EQ",
+      "non_related_real_estate_total_limit",
+      [
+        "CASE",
+        [
+          "GE",
+          "capital_to_risk_capital_ratio",
+          "legal_standard"
+        ],
+        [
+          "LE",
+          "real_estate_total_amount",
+          [
+            "MUL",
+            "funds",
+            3.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "GT",
+            "policyholder_equity",
+            0
+          ]
+        ],
+        [
+          "LE",
+          "real_estate_total_amount",
+          [
+            "MUL",
+            "funds",
+            2.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "LE",
+            "policyholder_equity",
+            0
+          ]
+        ],
+        [
+          "LE",
+          "real_estate_total_amount",
+          [
+            "CASE",
+            [
+              "LE",
+              [
+                "MUL",
+                "funds",
+                2.0
+              ],
+              10000000000.0
+            ],
+            [
+              "MUL",
+              "funds",
+              2.0
+            ],
+            10000000000.0
+          ]
+        ],
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_conditions",
+    "desc": "非利害關係人不動產交易應符合公開招標、交易程序及董事會決議等條件",
+    "expr": [
+      "EQ",
+      "non_related_real_estate_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "acquired_by_public_tender",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_yielding_income",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_procedure_followed",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval_passed",
+          true
+        ],
+        [
+          "EQ",
+          "complete_evaluation_report_provided",
+          true
+        ],
+        [
+          "EQ",
+          "written_opinions_from_directors_and_supervisors",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_related_party_real_estate_conditions_negative_equity",
+    "desc": "資本與風險資本比率未達法定標準且業主權益為負數者，應符合增資計畫及董事會決議等條件",
+    "expr": [
+      "EQ",
+      "non_related_real_estate_conditions_negative_equity",
+      [
+        "AND",
+        [
+          "LT",
+          "capital_to_risk_capital_ratio",
+          "legal_standard"
+        ],
+        [
+          "LE",
+          "policyholder_equity",
+          0
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "capital_increase_actual",
+          true
+        ],
+        [
+          "EQ",
+          "regulatory_approval_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "non_related_real_estate_conditions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_increase_plan_compliance",
+    "desc": "經主管機關核准之增資計畫應確實辦理",
+    "expr": [
+      "EQ",
+      "capital_increase_plan_compliance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "regulatory_approval_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "capital_increase_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反其他交易限額或不動產交易規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_transaction_limit_single",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_transaction_limit_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_transaction_limit_single_min",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_transaction_limit_total_min",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "government_transaction_exclusion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "government_transaction_single_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "government_transaction_single_limit_min",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "pre_existing_other_transaction_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_related_real_estate_single_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_related_real_estate_total_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_related_real_estate_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_related_real_estate_conditions_negative_equity",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_increase_plan_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

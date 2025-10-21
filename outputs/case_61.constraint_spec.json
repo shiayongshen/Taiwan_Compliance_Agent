@@ -1,0 +1,450 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著惡化, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_severely_insufficient",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed",
+              true
+            ]
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_significantly_deteriorated",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed",
+              true
+            ]
+          ]
+        ],
+        3,
+        [
+          "EQ",
+          "capital_adequate",
+          true
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient",
+    "desc": "資本嚴重不足",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient",
+      [
+        "OR",
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "net_worth",
+          0.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_deteriorated",
+    "desc": "財務或業務狀況顯著惡化",
+    "expr": [
+      "EQ",
+      "capital_significantly_deteriorated",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "GE",
+            "net_worth",
+            0.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate",
+    "desc": "資本適足",
+    "expr": [
+      "EQ",
+      "capital_adequate",
+      [
+        "GE",
+        "capital_adequacy_ratio",
+        200.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_improvement_completed",
+    "desc": "主管機關規定期限內完成增資、財務或業務改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_improvement_completed",
+      [
+        "EQ",
+        "capital_improvement_plan_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures_taken",
+    "desc": "主管機關已對資本嚴重不足且未完成改善者，採取接管、勒令停業清理或命令解散處分",
+    "expr": [
+      "EQ",
+      "supervision_measures_taken",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_severely_insufficient",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "supervision_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_deterioration_measures_taken",
+    "desc": "財務或業務狀況顯著惡化且未改善者，主管機關採取監管、接管、勒令停業清理或命令解散處分",
+    "expr": [
+      "EQ",
+      "financial_deterioration_measures_taken",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_significantly_deteriorated",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "supervision_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_control",
+    "desc": "違反未建立或未執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "violation_internal_control",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_handling",
+    "desc": "違反未建立或未執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "violation_internal_handling",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制或內部處理制度規定，或資本嚴重不足且未完成改善，或財務狀況顯著惡化且未完成改善時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_handling",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_severely_insufficient",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_significantly_deteriorated",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

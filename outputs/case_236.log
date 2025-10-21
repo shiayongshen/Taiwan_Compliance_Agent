@@ -1,0 +1,143 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6105 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6105 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (14 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (54 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (14 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (51 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (51 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c51'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c51'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_236
+
+📊 Model (filtered):
+   internal_control_change_notified = False
+   internal_control_change_completed_within_deadline = False
+   penalty_applied = True
+   stop_order_issued = True
+   remove_order_issued = False
+   stabilization_operations_permitted = False
+   internal_control_updated = True
+   self_dealing_with_client_orders = False
+   other_violations_of_securities_laws_or_regulations = False
+   illegal_disclosure_of_client_info = False
+   business_operated_according_to_law = True
+   violation_occurred = True
+   fraud_or_misleading_in_underwriting_or_trading = False
+   stop_business_order = True
+   internal_control_defined = True
+   underwriting_fees_compensated_otherwise = False
+   misappropriation_of_client_assets = False
+   loan_or_mediation_with_client = False
+   accept_agent_trades_for_board_members_or_employees = False
+   accept_trades_by_investment_advisor_auto_rebalancing = True
+   handling_according_to_association_rules = True
+   promote_specific_stocks_to_public = False
+   accept_trades_while_aware_of_market_manipulation_intent = False
+   remove_officer_order = False
+   underwriting_fees_fair = True
+   underwriting_personnel_receive_improper_benefits = False
+   internal_control_established = True
+   accept_non_client_account = False
+   speculation_using_insider_info = False
+   honesty_and_credit_principle = True
+   not_follow_client_instructions = False
+   violation_of_law = True
+   accept_trades_without_client_authorization = False
+   joint_risk_sharing_with_client = False
+   underwriting_fair_and_reasonable = True
+   penalty_imposed = True
+   underwriting_handling_according_to_rules = True
+   prohibited_behaviors = True
+   guarantee_profit_or_share_profit = False
+   business_operated_according_to_internal_control = True
+   business_operated_according_to_articles = True
+   fees_returned_to_issuer_or_related = False
+   provide_market_forecast_to_induce_trading = False
+   penalty = False
+   honesty_and_credit_observed = True
+   client_account_offsetting_without_legal_basis = False
+   accept_trades_without_proper_contract = False
+   full_power_delegation_to_client = False
+   use_client_name_or_account_for_trading = False
+   use_others_or_relatives_name_for_client_trading = False
+   agent_open_account_or_trade_for_others_illegally = False
+   internal_control_compliant = True
+   solicit_unapproved_securities_or_derivatives = False
+   stabilization_operations_allowed = False
+✅ Model saved to: outputs\case_236.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_236.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_236.smt2

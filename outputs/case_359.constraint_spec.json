@@ -1,0 +1,654 @@
+[
+  {
+    "id": "insurance:responsible_person_qualification",
+    "desc": "保險業負責人具備資格條件",
+    "expr": [
+      "EQ",
+      "responsible_person_qualification",
+      [
+        "EQ",
+        "meets_qualification_criteria",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:responsible_person_conflict_of_interest",
+    "desc": "保險業負責人未違反兼職限制及利益衝突禁止",
+    "expr": [
+      "EQ",
+      "responsible_person_conflict_of_interest",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_conflict_of_interest",
+          true
+        ],
+        [
+          "EQ",
+          "no_part_time_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:responsible_person_adjusted",
+    "desc": "保險業負責人違反兼職限制或利益衝突禁止已限期調整",
+    "expr": [
+      "EQ",
+      "responsible_person_adjusted",
+      [
+        "EQ",
+        "adjustment_made_within_deadline",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_limit_per_unit",
+    "desc": "單一放款金額不得超過資金百分之五",
+    "expr": [
+      "EQ",
+      "loan_guarantee_limit_per_unit",
+      [
+        "LE",
+        "single_loan_amount",
+        [
+          "MUL",
+          "capital_fund",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_total_limit",
+    "desc": "放款總額不得超過資金百分之三十五",
+    "expr": [
+      "EQ",
+      "loan_total_limit",
+      [
+        "LE",
+        "total_loan_amount",
+        [
+          "MUL",
+          "capital_fund",
+          0.35
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_sufficient_collateral",
+    "desc": "對負責人、職員或主要股東之擔保放款有十足擔保且條件不優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_guarantee_sufficient_collateral",
+      [
+        "AND",
+        [
+          "EQ",
+          "sufficient_collateral",
+          true
+        ],
+        [
+          "EQ",
+          "no_preferential_terms",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_guarantee_board_approval",
+    "desc": "擔保放款達主管機關規定金額以上經董事會三分之二以上出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "loan_guarantee_board_approval",
+      [
+        "AND",
+        [
+          "GE",
+          "loan_amount",
+          "regulatory_threshold"
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_and_investment_limit_combined",
+    "desc": "合併計算放款與投資不得超過資金百分之十及公司業主權益百分之十",
+    "expr": [
+      "EQ",
+      "loan_and_investment_limit_combined",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_amount",
+            "loan_amount"
+          ],
+          [
+            "MUL",
+            "capital_fund",
+            0.1
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_amount",
+            "loan_amount"
+          ],
+          [
+            "MUL",
+            "company_equity",
+            0.1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_limit",
+    "desc": "對負責人、職員或利害關係人之擔保放款應有十足擔保且條件不優於其他同類放款",
+    "expr": [
+      "EQ",
+      "related_party_loan_limit",
+      [
+        "AND",
+        [
+          "EQ",
+          "related_party_sufficient_collateral",
+          true
+        ],
+        [
+          "EQ",
+          "related_party_no_preferential_terms",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_board_approval",
+    "desc": "利害關係人擔保放款達主管機關規定金額以上經董事會三分之二以上出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "related_party_loan_board_approval",
+      [
+        "AND",
+        [
+          "GE",
+          "related_party_loan_amount",
+          "regulatory_threshold"
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級(4)措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_executed",
+      [
+        "EQ",
+        "capital_level_4_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著不足等級(3)措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_executed",
+      [
+        "EQ",
+        "capital_level_3_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級(2)措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_no_sufficient_collateral_or_preferential_terms",
+    "desc": "放款無十足擔保或條件優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_no_sufficient_collateral_or_preferential_terms",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_guarantee_sufficient_collateral",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_guarantee_board_approval",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_no_sufficient_collateral_or_preferential_terms",
+    "desc": "利害關係人放款無十足擔保或條件優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_related_party_no_sufficient_collateral_or_preferential_terms",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_board_approval",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_control",
+    "desc": "未建立或未執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "violation_internal_control",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_handling",
+    "desc": "未建立或未執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "violation_internal_handling",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反負責人資格條件、兼職限制、利益衝突禁止，或放款無十足擔保、條件優於其他同類放款，或未建立或執行內部控制及內部處理制度",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "responsible_person_qualification",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "responsible_person_conflict_of_interest",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "responsible_person_adjusted",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "loan_no_sufficient_collateral_or_preferential_terms",
+          true
+        ],
+        [
+          "EQ",
+          "loan_related_party_no_sufficient_collateral_or_preferential_terms",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_handling",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_2_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

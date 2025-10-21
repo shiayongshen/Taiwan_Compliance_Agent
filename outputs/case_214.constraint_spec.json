@@ -1,0 +1,575 @@
+[
+  {
+    "id": "bank:shareholder_exceeds_5_percent",
+    "desc": "同一人或同一關係人持有有表決權股份超過5%",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_percent",
+      [
+        "GT",
+        "voting_shares_percent",
+        5.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_10_percent",
+    "desc": "同一人或同一關係人擬持有有表決權股份超過10%",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_10_percent",
+      [
+        "GT",
+        "voting_shares_percent_intent",
+        10.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_25_percent",
+    "desc": "同一人或同一關係人擬持有有表決權股份超過25%",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_25_percent",
+      [
+        "GT",
+        "voting_shares_percent_intent",
+        25.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_50_percent",
+    "desc": "同一人或同一關係人擬持有有表決權股份超過50%",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_50_percent",
+      [
+        "GT",
+        "voting_shares_percent_intent",
+        50.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_5_percent_cumulative_change",
+    "desc": "持股超過5%後累積增減逾1個百分點",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_percent_cumulative_change",
+      [
+        "AND",
+        [
+          "GT",
+          "voting_shares_percent",
+          5.0
+        ],
+        [
+          "GT",
+          "cumulative_change_percent",
+          1.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_5_percent_reported",
+    "desc": "同一人或同一關係人持有超過5%股份已於10日內申報",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_percent_reported",
+      [
+        "AND",
+        [
+          "EQ",
+          "shareholder_exceeds_5_percent",
+          true
+        ],
+        [
+          "EQ",
+          "reported_within_10_days",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_cumulative_change_reported",
+    "desc": "持股超過5%後累積增減逾1%已於10日內申報",
+    "expr": [
+      "EQ",
+      "shareholder_cumulative_change_reported",
+      [
+        "AND",
+        [
+          "EQ",
+          "shareholder_exceeds_5_percent_cumulative_change",
+          true
+        ],
+        [
+          "EQ",
+          "reported_within_10_days",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_10_percent_approved",
+    "desc": "同一人或同一關係人擬持有超過10%股份已事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_10_percent_approved",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "shareholder_exceeds_10_percent",
+          true
+        ],
+        [
+          "EQ",
+          "approved_before_acquisition",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_25_percent_approved",
+    "desc": "同一人或同一關係人擬持有超過25%股份已事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_25_percent_approved",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "shareholder_exceeds_25_percent",
+          true
+        ],
+        [
+          "EQ",
+          "approved_before_acquisition",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_50_percent_approved",
+    "desc": "同一人或同一關係人擬持有超過50%股份已事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_50_percent_approved",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "shareholder_exceeds_50_percent",
+          true
+        ],
+        [
+          "EQ",
+          "approved_before_acquisition",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_5_to_15_percent_pre_2008_reported",
+    "desc": "修正施行前持股超過5%未超過15%者於6個月內申報",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_to_15_percent_pre_2008_reported",
+      [
+        "AND",
+        [
+          "GE",
+          "voting_shares_percent_pre_2008",
+          5.0
+        ],
+        [
+          "LE",
+          "voting_shares_percent_pre_2008",
+          15.0
+        ],
+        [
+          "EQ",
+          "reported_within_6_months_after_revision",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_10_percent_pre_2008_approved",
+    "desc": "修正施行前持股超過10%者第一次擬增加持股應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_10_percent_pre_2008_approved",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "voting_shares_percent_pre_2008",
+          10.0
+        ],
+        [
+          "EQ",
+          "first_increase_approved_before_acquisition",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_5_percent_reported_or_pre_2008_compliant",
+    "desc": "持股超過5%已申報或符合修正施行前申報規定",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_percent_reported_or_pre_2008_compliant",
+      [
+        "OR",
+        [
+          "EQ",
+          "shareholder_exceeds_5_percent_reported",
+          true
+        ],
+        [
+          "EQ",
+          "shareholder_exceeds_5_to_15_percent_pre_2008_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_approval_compliance",
+    "desc": "擬持有超過10%、25%、50%股份均已事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholder_approval_compliance",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "shareholder_exceeds_10_percent",
+            true
+          ],
+          [
+            "EQ",
+            "shareholder_exceeds_10_percent_approved",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "shareholder_exceeds_25_percent",
+            true
+          ],
+          [
+            "EQ",
+            "shareholder_exceeds_25_percent_approved",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "shareholder_exceeds_50_percent",
+            true
+          ],
+          [
+            "EQ",
+            "shareholder_exceeds_50_percent_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_compliance",
+    "desc": "持股申報及核准均符合規定",
+    "expr": [
+      "EQ",
+      "shareholder_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "shareholder_exceeds_5_percent_reported_or_pre_2008_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "shareholder_approval_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_1_percent_notify_bank",
+    "desc": "同一人或本人與配偶、未成年子女合計持股超過1%應通知銀行",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_1_percent_notify_bank",
+      [
+        "GE",
+        "voting_shares_percent_family",
+        1.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_5_percent_penalty",
+    "desc": "未依規定申報或核准持有超過5%股份者，超過部分無表決權",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_percent_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "shareholder_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_exceeds_5_percent_penalty_effect",
+    "desc": "超過部分股份無表決權且主管機關命限期處分",
+    "expr": [
+      "EQ",
+      "shareholder_exceeds_5_percent_penalty_effect",
+      [
+        "EQ",
+        "shareholder_exceeds_5_percent_penalty",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:director_or_supervisor_fail_report",
+    "desc": "銀行董事或監察人違反申報規定怠於申報",
+    "expr": [
+      "EQ",
+      "director_or_supervisor_fail_report",
+      [
+        "EQ",
+        "violate_article_64_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:trust_investment_company_violate",
+    "desc": "信託投資公司董事或職員違反規定參與決定",
+    "expr": [
+      "EQ",
+      "trust_investment_company_violate",
+      [
+        "EQ",
+        "violate_article_108",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:foreign_bank_responsible_violate",
+    "desc": "外國銀行負責人或職員違反規定參與決定",
+    "expr": [
+      "EQ",
+      "foreign_bank_responsible_violate",
+      [
+        "EQ",
+        "violate_article_123_108",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholder_penalty",
+    "desc": "銀行股東持股違反申報或核准規定處罰",
+    "expr": [
+      "EQ",
+      "shareholder_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "shareholder_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:financial_info_service_violate",
+    "desc": "金融資訊服務事業違反檢查、提報、停止業務或洩漏資料規定",
+    "expr": [
+      "EQ",
+      "financial_info_service_violate",
+      [
+        "OR",
+        [
+          "EQ",
+          "refuse_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "conceal_or_destroy_data",
+          true
+        ],
+        [
+          "EQ",
+          "no_reasonable_response",
+          true
+        ],
+        [
+          "EQ",
+          "false_or_late_report",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_stop_business",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_disclosure",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:unauthorized_financial_info_service_operation",
+    "desc": "金融資訊服務事業未經主管機關許可擅自營業",
+    "expr": [
+      "EQ",
+      "unauthorized_financial_info_service_operation",
+      [
+        "EQ",
+        "unauthorized_operation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反申報、核准、董事監察人申報義務、信託投資公司規定、金融資訊服務事業規定或擅自營業時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholder_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "director_or_supervisor_fail_report",
+          true
+        ],
+        [
+          "EQ",
+          "trust_investment_company_violate",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_bank_responsible_violate",
+          true
+        ],
+        [
+          "EQ",
+          "financial_info_service_violate",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_financial_info_service_operation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

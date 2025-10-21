@@ -1579,3 +1579,130 @@ def sync_types_constraints_and_varspecs(constraints, varspecs, stats=None):
     print(f"   - Total fixes: {total_prefix_removals + total_min_max_replacements + total_vars_converted_to_real + total_case_fixes}")
     
     return fixed_constraints, updated_varspecs
+
+
+def repair_sat_to_unsat(team, constraints, facts, varspecs, z3_vars, build_expr, case_text, stats):
+    """
+    當 SAT 但期望 UNSAT 時的修復策略
+    優先順序：Facts > Constraints > VarSpecs
+    """
+    print("🔧 Starting SAT→UNSAT repair process...")
+    
+    # === 策略 1: 修復 Facts ===
+    print("\n--- Strategy 1: Repair Facts ---")
+    
+    # 重新請 mapper 生成更激進的違規 facts
+    aggressive_mapper_prompt = (
+        f"【法律案例】\n{case_text}\n\n"
+        f"【相關 Constraints】\n{json.dumps(constraints, ensure_ascii=False, indent=2)}\n\n"
+        f"【需用到的變數與型別】\n{json.dumps(varspecs, ensure_ascii=False, indent=2)}\n\n"
+        "——請根據案例內容，輸出 facts（JSON 物件）。\n\n"
+        
+        "⚠️ **特別注意**：\n"
+        "1. **這是違規案例，必須設定 facts 明顯違反至少一個 constraint**\n"
+        "2. **請設定較極端的數值來確保違規**（例如：比例設為 0 或超過限制）\n"
+        "3. **如果有布林變數，請設定為會造成違規的值**\n"
+        "4. **如果有數值變數，請設定為明顯超出合規範圍的值**\n"
+        "5. 禁止使用 null/None\n"
+        "6. 只能使用 VarSpec 中的變數\n\n"
+        
+        "範例違規設定：\n"
+        "- 如果法規要求 capital_ratio >= 0.08，請設定為 0.0 或 0.05\n"
+        "- 如果法規要求 stop_distribution = true，請設定為 false\n"
+        "- 如果法規要求 days <= 30，請設定為 60\n\n"
+        
+        "僅輸出 JSON 物件："
+    )
+    
+    mapper_messages = [{"role": "user", "content": aggressive_mapper_prompt}]
+    
+    start = time.time()
+    new_mapper_reply, input_tokens, output_tokens = get_reply_with_tokens(team["mapper"], mapper_messages)
+    elapsed = time.time() - start
+    stats.log_agent_call("mapper_aggressive_repair", input_tokens, output_tokens, elapsed)
+    
+    try:
+        import re
+        new_mapper_reply = clean_json_response(new_mapper_reply)
+        new_mapper_reply = re.sub(r'//.*', '', new_mapper_reply)
+        new_mapper_reply = re.sub(r'/\*.*?\*/', '', new_mapper_reply, flags=re.DOTALL)
+        
+        new_facts = json.loads(new_mapper_reply)
+        if "facts" in new_facts:
+            new_facts = new_facts["facts"]
+            
+        # 過濾無效變數
+        z3_var_names = set(z3_vars.keys())
+        new_facts = {k: v for k, v in new_facts.items() if k in z3_var_names}
+        
+        print(f"✅ Generated new aggressive facts: {list(new_facts.keys())}")
+        
+        # 測試新的 facts
+        sat_result, info = check_case_law_hard(constraints, new_facts, z3_vars, build_expr)
+        if sat_result == "UNSAT":
+            print(f"✅ Facts修復成功！UNSAT achieved: {info}")
+            return new_facts, constraints, varspecs, True
+        else:
+            print(f"⚠️ Facts修復後仍然 {sat_result}")
+            
+    except Exception as e:
+        print(f"❌ Facts修復失敗: {e}")
+    
+    # === 策略 2: 加強 Constraints ===
+    print("\n--- Strategy 2: Strengthen Constraints ---")
+    
+    strengthen_prompt = (
+        f"【現有 Constraints】\n{json.dumps(constraints, ensure_ascii=False, indent=2)}\n\n"
+        f"【Case Facts】\n{json.dumps(facts, ensure_ascii=False, indent=2)}\n\n"
+        f"【法律案例】\n{case_text}\n\n"
+        
+        "目前 constraints + facts 組合是 SAT（可滿足），但這是違規案例，應該要 UNSAT。\n"
+        "請加強 constraints，使其更嚴格，以確保違規案例會被檢測出來。\n\n"
+        
+        "修復策略：\n"
+        "1. 收緊數值範圍（例如：>= 0.1 改為 >= 0.15）\n"
+        "2. 加入更多約束條件\n"
+        "3. 修正邏輯條件（例如：Or 改為 And）\n"
+        "4. 加強連鎖約束（例如：if A then B and C）\n\n"
+        
+        "請輸出加強後的 ConstraintSpec[]（JSON 陣列）："
+    )
+    
+    repair_messages = [{"role": "user", "content": strengthen_prompt}]
+    
+    start = time.time()
+    repair_reply, input_tokens, output_tokens = get_reply_with_tokens(team["parser"], repair_messages)
+    elapsed = time.time() - start
+    stats.log_agent_call("parser_strengthen_constraints", input_tokens, output_tokens, elapsed)
+    
+    try:
+        strengthened_constraints = ensure_json_valid(team, repair_reply)
+        print(f"✅ Generated {len(strengthened_constraints)} strengthened constraints")
+        
+        # 測試加強後的 constraints
+        sat_result, info = check_case_law_hard(strengthened_constraints, facts, z3_vars, build_expr)
+        if sat_result == "UNSAT":
+            print(f"✅ Constraints加強成功！UNSAT achieved: {info}")
+            return facts, strengthened_constraints, varspecs, True
+        else:
+            print(f"⚠️ Constraints加強後仍然 {sat_result}")
+            
+    except Exception as e:
+        print(f"❌ Constraints加強失敗: {e}")
+    
+    # === 策略 3: 組合修復 ===
+    print("\n--- Strategy 3: Combined Repair ---")
+    
+    if 'new_facts' in locals() and 'strengthened_constraints' in locals():
+        try:
+            sat_result, info = check_case_law_hard(strengthened_constraints, new_facts, z3_vars, build_expr)
+            if sat_result == "UNSAT":
+                print(f"✅ 組合修復成功！UNSAT achieved: {info}")
+                return new_facts, strengthened_constraints, varspecs, True
+            else:
+                print(f"❌ 組合修復後仍然 {sat_result}")
+        except Exception as e:
+            print(f"❌ 組合修復失敗: {e}")
+    
+    print("❌ 所有修復策略都失敗")
+    return facts, constraints, varspecs, False

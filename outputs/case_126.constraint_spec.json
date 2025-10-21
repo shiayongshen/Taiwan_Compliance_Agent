@@ -1,0 +1,366 @@
+[
+  {
+    "id": "insurance:foreign_investment_allowed_types",
+    "desc": "保險業國外投資限於外匯存款、國外有價證券、國外保險相關事業及主管機關核准之其他投資",
+    "expr": [
+      "EQ",
+      "foreign_investment_allowed_types",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_type_foreign_deposit",
+          true
+        ],
+        [
+          "EQ",
+          "investment_type_foreign_securities",
+          true
+        ],
+        [
+          "EQ",
+          "investment_type_foreign_insurance_related",
+          true
+        ],
+        [
+          "EQ",
+          "investment_type_other_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_limit",
+    "desc": "國外投資總額不得超過核定比例且最高不得超過資金45%",
+    "expr": [
+      "EQ",
+      "foreign_investment_limit",
+      [
+        "LE",
+        "foreign_investment_total",
+        [
+          "MUL",
+          "capital_fund",
+          0.45
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_exclusion_amount",
+    "desc": "不計入國外投資限額之金額計算",
+    "expr": [
+      "EQ",
+      "foreign_investment_exclusion_amount",
+      [
+        "SUB",
+        [
+          "MUL",
+          [
+            "CASE",
+            [
+              "LE",
+              [
+                "MUL",
+                "non_investment_foreign_currency_reserve_40_percent",
+                1.0
+              ],
+              "foreign_currency_non_investment_reserve"
+            ],
+            [
+              "MUL",
+              "non_investment_foreign_currency_reserve_40_percent",
+              1.0
+            ],
+            "foreign_currency_non_investment_reserve"
+          ],
+          [
+            "DIV",
+            [
+              "MUL",
+              [
+                "SUB",
+                1.0,
+                "approved_ratio"
+              ],
+              1.0
+            ],
+            1.0
+          ]
+        ],
+        "foreign_currency_investment_in_domestic_foreign_currency_securities"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_total_calculation",
+    "desc": "國外投資總額計算不含不計入國外投資額度",
+    "expr": [
+      "EQ",
+      "foreign_investment_total",
+      [
+        "SUB",
+        "foreign_investment_gross",
+        "foreign_investment_exclusion_amount"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_approved_ratio",
+    "desc": "核定比例由主管機關核定並可變動",
+    "expr": [
+      "EQ",
+      "approved_ratio",
+      "approved_ratio_value"
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_compliance",
+    "desc": "國外投資符合主管機關核定比例及投資範圍",
+    "expr": [
+      "EQ",
+      "foreign_investment_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_investment_allowed_types",
+          true
+        ],
+        [
+          "LE",
+          "foreign_investment_total",
+          [
+            "MUL",
+            "capital_fund",
+            0.45
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_adjustment_plan_required",
+    "desc": "不計入國外投資額度核准後發生違規應訂定調整計畫並通過董事會",
+    "expr": [
+      "EQ",
+      "foreign_investment_adjustment_plan_required",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_currency_non_investment_reserve_fully_invested_in_same_currency",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "meets_fund_usage_ratio_requirements",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_adjustment_plan_completed",
+    "desc": "調整計畫經董事會通過並於一個月內完成改正",
+    "expr": [
+      "EQ",
+      "foreign_investment_adjustment_plan_completed",
+      [
+        "AND",
+        [
+          "EQ",
+          "adjustment_plan_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "adjustment_completed_within_one_month",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_adjustment_plan_violation",
+    "desc": "未依規定辦理調整計畫或調整計畫未完成且累計超過兩次",
+    "expr": [
+      "EQ",
+      "foreign_investment_adjustment_plan_violation",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "foreign_investment_adjustment_plan_required",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "foreign_investment_adjustment_plan_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "GE",
+          "adjustment_plan_violation_count",
+          3
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_investment_regulations",
+    "desc": "違反保險法相關投資規定",
+    "expr": [
+      "EQ",
+      "violation_of_investment_regulations",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_138_1_3_5_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_138_2_4_5_7_or_138_3_1_2_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_143",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_143_5_or_143_6_measures",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_1_3_5_7_6_or_8",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_1_2_3_5_or_146_5_3_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_2_1_2_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_3_1_2_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_4_1_2_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_5_1_or_146_5_unauthorized_investment",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_6_1_2_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_9_1_2_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_3_3_loan_without_sufficient_collateral",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_3_3_loan_board_approval",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_146_7_1_3_loan_or_transaction_limit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法相關投資規定或未依調整計畫完成改正且累計超過兩次",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_of_investment_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_adjustment_plan_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

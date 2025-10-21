@@ -1,0 +1,867 @@
+[
+  {
+    "id": "fhc:non_credit_transaction_party",
+    "desc": "授信以外交易對象分類",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_party",
+      [
+        "CASE",
+        "is_fhc_and_responsible_or_major_shareholder",
+        1,
+        "is_fhc_responsible_or_major_shareholder_sole_proprietor_or_partner_or_enterprise_or_representative",
+        2,
+        "is_fhc_affiliated_company_and_responsible_or_major_shareholder",
+        3,
+        "is_fhc_bank_insurance_securities_subsidiary_or_subsidiary_responsible",
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_condition_met",
+    "desc": "授信以外交易條件不得優於其他同類對象且董事會決議通過",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_condition_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "transaction_condition_not_better_than_others",
+          true
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_related_party_limit_ok",
+    "desc": "銀行子公司與單一關係人交易金額不超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_single_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_related_party_limit_ok",
+    "desc": "銀行子公司與所有利害關係人交易總額不超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_all_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_compliance",
+    "desc": "授信以外交易符合條件及限額規定",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_credit_transaction_condition_met",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_single_related_party_limit_ok",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_all_related_party_limit_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_45",
+    "desc": "違反金融控股公司法第45條規定",
+    "expr": [
+      "EQ",
+      "violation_article_45",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_credit_transaction_condition_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_single_related_party_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_all_related_party_limit_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_1",
+    "desc": "違反第六條第一項規定，未申請設立金融控股公司",
+    "expr": [
+      "EQ",
+      "violation_article_60_1",
+      [
+        "EQ",
+        "article_6_1_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_2",
+    "desc": "違反第十六條第三項規定，未經主管機關核准而持有股份",
+    "expr": [
+      "EQ",
+      "violation_article_60_2",
+      [
+        "EQ",
+        "article_16_3_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_3",
+    "desc": "違反第十六條第一項、第二項或第九項規定未向主管機關申報，或違反同條第七項但書規定增加持股",
+    "expr": [
+      "EQ",
+      "violation_article_60_3",
+      [
+        "EQ",
+        "article_16_1_2_9_7_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_4",
+    "desc": "違反第十六條第十項規定，未依主管機關所定期限處分",
+    "expr": [
+      "EQ",
+      "violation_article_60_4",
+      [
+        "EQ",
+        "article_16_10_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_5",
+    "desc": "違反主管機關依第十六條第五項所定辦法中有關申報或公告之規定",
+    "expr": [
+      "EQ",
+      "violation_article_60_5",
+      [
+        "EQ",
+        "article_16_5_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_6",
+    "desc": "違反第十六條第六項規定，為質權之設定",
+    "expr": [
+      "EQ",
+      "violation_article_60_6",
+      [
+        "EQ",
+        "article_16_6_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_7",
+    "desc": "違反第十八條第一項規定，未經許可為合併、概括讓與或概括承受",
+    "expr": [
+      "EQ",
+      "violation_article_60_7",
+      [
+        "EQ",
+        "article_18_1_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_8",
+    "desc": "違反第三十八條規定，持有金融控股公司之股份",
+    "expr": [
+      "EQ",
+      "violation_article_60_8",
+      [
+        "EQ",
+        "article_38_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_9",
+    "desc": "違反第三十九條第一項所定短期資金運用項目；或違反同條第二項規定，未經核准投資不動產或投資非自用不動產",
+    "expr": [
+      "EQ",
+      "violation_article_60_9",
+      [
+        "EQ",
+        "article_39_1_2_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_10",
+    "desc": "違反主管機關依第三十九條第三項所定辦法中有關發行條件或期限之規定",
+    "expr": [
+      "EQ",
+      "violation_article_60_10",
+      [
+        "EQ",
+        "article_39_3_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_11",
+    "desc": "違反主管機關依第四十條或第四十一條所定之比率或所為之處置或限制",
+    "expr": [
+      "EQ",
+      "violation_article_60_11",
+      [
+        "EQ",
+        "article_40_41_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_12",
+    "desc": "違反第四十二條第一項規定，未保守秘密",
+    "expr": [
+      "EQ",
+      "violation_article_60_12",
+      [
+        "EQ",
+        "article_42_1_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_13",
+    "desc": "違反第四十三條第一項、第二項或第四項規定；或違反主管機關依同條第三項所定辦法中有關可從事之業務範圍、資訊交互運用、共用設備、場所或人員管理之規定",
+    "expr": [
+      "EQ",
+      "violation_article_60_13",
+      [
+        "EQ",
+        "article_43_1_2_4_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_14",
+    "desc": "違反第四十五條第一項交易條件之限制或董事會之決議方法；或違反同條第四項所定之金額比率",
+    "expr": [
+      "EQ",
+      "violation_article_60_14",
+      [
+        "EQ",
+        "article_45_1_4_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_15",
+    "desc": "違反第四十六條第一項規定，未向主管機關申報或揭露",
+    "expr": [
+      "EQ",
+      "violation_article_60_15",
+      [
+        "EQ",
+        "article_46_1_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_16",
+    "desc": "違反第五十一條規定，未建立內部控制或稽核制度，或未確實執行",
+    "expr": [
+      "EQ",
+      "violation_article_60_16",
+      [
+        "EQ",
+        "article_51_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_17",
+    "desc": "違反第五十三條第一項或第二項規定；或未於主管機關依同條第三項所定期限內補足資本",
+    "expr": [
+      "EQ",
+      "violation_article_60_17",
+      [
+        "EQ",
+        "article_53_1_2_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_18",
+    "desc": "違反主管機關依第五十五條第一項所為之命令",
+    "expr": [
+      "EQ",
+      "violation_article_60_18",
+      [
+        "EQ",
+        "article_55_1_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_19",
+    "desc": "違反第五十六條第一項規定，未盡協助義務；或違反主管機關依同條第二項所為之命令",
+    "expr": [
+      "EQ",
+      "violation_article_60_19",
+      [
+        "EQ",
+        "article_56_1_compliance",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "insurance:non_loan_transaction_condition_met",
+    "desc": "保險業與利害關係人從事放款以外其他交易條件不得優於其他同類對象且董事會決議通過",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_condition_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "transaction_condition_not_better_than_others",
+          true
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_member_recusal_compliance",
+    "desc": "出席董事對本人或利害關係者案件迴避且不得代理表決權（單一法人股東組織除外）",
+    "expr": [
+      "EQ",
+      "board_member_recusal_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "single_corporate_shareholder",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "board_member_recusal",
+            true
+          ],
+          [
+            "EQ",
+            "no_proxy_vote",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_authorized",
+    "desc": "符合董事會授權及交易條件不得優於其他同類對象之規定",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_authorized",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_rules_authorized",
+          true
+        ],
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ],
+        [
+          "EQ",
+          "transaction_condition_not_better_than_others",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_limit_single_related_party_ok",
+    "desc": "與單一利害關係人交易總餘額不超過業主權益10%",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_limit_single_related_party_ok",
+      [
+        "LE",
+        "non_loan_transaction_single_related_party_amount",
+        [
+          "MUL",
+          "insurance_owner_equity",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_limit_all_related_party_ok",
+    "desc": "與所有利害關係人交易總餘額不超過業主權益60%",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_limit_all_related_party_ok",
+      [
+        "LE",
+        "non_loan_transaction_all_related_party_amount",
+        [
+          "MUL",
+          "insurance_owner_equity",
+          0.6
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_loan_transaction_compliance",
+    "desc": "保險業與利害關係人從事放款以外其他交易符合條件及限額規定",
+    "expr": [
+      "EQ",
+      "non_loan_transaction_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_loan_transaction_condition_met",
+          true
+        ],
+        [
+          "EQ",
+          "board_member_recusal_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "non_loan_transaction_limit_single_related_party_ok",
+          true
+        ],
+        [
+          "EQ",
+          "non_loan_transaction_limit_all_related_party_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "public_company:asset_transaction_reporting_required",
+    "desc": "公開發行公司與關係人取得或處分資產達一定金額須提交董事會及監察人承認",
+    "expr": [
+      "EQ",
+      "asset_transaction_reporting_required",
+      [
+        "OR",
+        [
+          "GE",
+          "transaction_amount",
+          [
+            "MUL",
+            "paid_in_capital",
+            0.2
+          ]
+        ],
+        [
+          "GE",
+          "transaction_amount",
+          [
+            "MUL",
+            "total_assets",
+            0.1
+          ]
+        ],
+        [
+          "GE",
+          "transaction_amount",
+          300000000.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_exclusion",
+    "desc": "不包括買賣國內公債、附買回賣回條件債券及申購或買回國內證券投資信託事業貨幣市場基金",
+    "expr": [
+      "EQ",
+      "asset_transaction_exclusion",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "transaction_type",
+            "domestic_government_bond"
+          ],
+          [
+            "EQ",
+            "transaction_type",
+            "repo_bond"
+          ],
+          [
+            "EQ",
+            "transaction_type",
+            "money_market_fund"
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_approval_required",
+    "desc": "須提交董事會通過及監察人承認後始得簽訂交易契約及支付款項",
+    "expr": [
+      "EQ",
+      "asset_transaction_approval_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_transaction_reporting_required",
+          true
+        ],
+        [
+          "EQ",
+          "asset_transaction_exclusion",
+          true
+        ],
+        [
+          "EQ",
+          "board_approval",
+          true
+        ],
+        [
+          "EQ",
+          "supervisor_approval",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "public_company:asset_transaction_shareholder_approval_required",
+    "desc": "交易金額達總資產10%以上須提交股東會同意後始得簽訂交易契約及支付款項",
+    "expr": [
+      "EQ",
+      "asset_transaction_shareholder_approval_required",
+      [
+        "AND",
+        [
+          "GE",
+          "transaction_amount",
+          [
+            "MUL",
+            "total_assets",
+            0.1
+          ]
+        ],
+        [
+          "EQ",
+          "board_approval",
+          true
+        ],
+        [
+          "EQ",
+          "supervisor_approval",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "is_transaction_between_parent_subsidiaries",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "public_company"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司法第45條交易條件限制或董事會決議方法，或銀行子公司交易限額規定；及違反第60條各款規定",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_article_45",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_3",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_4",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_5",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_6",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_7",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_8",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_9",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_10",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_11",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_12",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_13",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_14",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_15",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_16",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_17",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_18",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_60_19",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

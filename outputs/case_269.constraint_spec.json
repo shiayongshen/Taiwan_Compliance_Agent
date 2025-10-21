@@ -1,0 +1,315 @@
+[
+  {
+    "id": "billfinance:internal_control_established",
+    "desc": "票券商已建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:internal_control_executed",
+    "desc": "票券商已確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:internal_control_compliance",
+    "desc": "票券商建立且確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_16_1",
+    "desc": "違反第十六條第一項規定",
+    "expr": [
+      "EQ",
+      "violation_16_1",
+      [
+        "EQ",
+        "violate_article_16_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_19",
+    "desc": "違反第十九條規定",
+    "expr": [
+      "EQ",
+      "violation_19",
+      [
+        "EQ",
+        "violate_article_19",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_21_3",
+    "desc": "違反第二十一條第三項規定，經營未經主管機關核定之業務",
+    "expr": [
+      "EQ",
+      "violation_21_3",
+      [
+        "EQ",
+        "violate_article_21_3",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_28_1",
+    "desc": "違反第二十八條第一項規定",
+    "expr": [
+      "EQ",
+      "violation_28_1",
+      [
+        "EQ",
+        "violate_article_28_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_30_1_limit",
+    "desc": "違反主管機關依第三十條第一項規定所為之限制",
+    "expr": [
+      "EQ",
+      "violation_30_1_limit",
+      [
+        "EQ",
+        "violate_article_30_1_limit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_31_1_limit",
+    "desc": "違反主管機關依第三十一條第一項規定所定之總餘額",
+    "expr": [
+      "EQ",
+      "violation_31_1_limit",
+      [
+        "EQ",
+        "violate_article_31_1_limit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_33_limit",
+    "desc": "違反主管機關依第三十三條規定所定之業務、財務比率或所為之限制或處置",
+    "expr": [
+      "EQ",
+      "violation_33_limit",
+      [
+        "EQ",
+        "violate_article_33_limit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_41_limit",
+    "desc": "違反主管機關依第四十一條規定所定之比率或所為之限制或處置",
+    "expr": [
+      "EQ",
+      "violation_41_limit",
+      [
+        "EQ",
+        "violate_article_41_limit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_43_internal_control",
+    "desc": "違反第四十三條規定，未建立內部控制及稽核制度或未確實執行",
+    "expr": [
+      "EQ",
+      "violation_43_internal_control",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "billfinance:violation_47_reporting",
+    "desc": "違反第四十七條第一項規定，未立即函報財務報表及虧損原因；或同條第二項規定，未於限期內補足資本，或未依限制營業、勒令停業之處分辦理",
+    "expr": [
+      "EQ",
+      "violation_47_reporting",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_report_reported_immediately",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_replenished_within_deadline",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_restriction_or_suspension_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "billfinance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一法定規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_16_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_19",
+          true
+        ],
+        [
+          "EQ",
+          "violation_21_3",
+          true
+        ],
+        [
+          "EQ",
+          "violation_28_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_30_1_limit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_31_1_limit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_33_limit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_41_limit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_43_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violation_47_reporting",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

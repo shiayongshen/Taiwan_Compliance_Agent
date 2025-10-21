@@ -1,0 +1,117 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (3498 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (4003 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (8 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (22 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [aml:internal_control_established]
+   ✅ Removed prefixes in [aml:internal_control_executed]
+   ✅ Removed prefixes in [aml:customer_identification_procedure_ok]
+   ✅ Removed prefixes in [aml:customer_identification_data_retained]
+   ✅ Removed prefixes in [aml:enhanced_customer_due_diligence_ok]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 6
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 6
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (8 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (15 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (15 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c8', 'meta:penalty_default_false', 'aml:internal_control_established', 'meta:penalty_conditions'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c8', 'meta:penalty_default_false', 'aml:internal_control_established', 'meta:penalty_conditions'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_245
+
+📊 Model (filtered):
+   temporary_transaction_terminated = False
+   business_relationship_terminated = False
+   enhanced_due_diligence_executed = True
+   customer_is_politically_exposed_person_or_related = False
+   customer_data_retention_years = 3
+   longer_legal_retention_years = 0
+   customer_identification_data_retained = True
+   compliance_ok = True
+   internal_control_implemented = True
+   control_procedures_established = True
+   other_required_matters_established = True
+   customer_identification_procedure_established = True
+   internal_control_executed = True
+   beneficial_owner_reviewed = True
+   dedicated_personnel_assigned = True
+   penalty = False
+   internal_control_established = True
+   audit_procedures_established = True
+   risk_assessment_report_updated = True
+   enhanced_customer_due_diligence_ok = True
+   training_held = True
+   customer_identification_procedure_ok = True
+✅ Model saved to: outputs\case_245.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_245.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_245.smt2

@@ -1,0 +1,603 @@
+[
+  {
+    "id": "fhc:subsidiary_joint_marketing_approval",
+    "desc": "金融控股公司子公司間共同行銷須事先申請核准",
+    "expr": [
+      "EQ",
+      "subsidiary_joint_marketing_approval",
+      [
+        "EQ",
+        "fhc_joint_marketing_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_joint_marketing_no_customer_harm",
+    "desc": "金融控股公司子公司間共同行銷不得損害客戶權益",
+    "expr": [
+      "EQ",
+      "subsidiary_joint_marketing_no_customer_harm",
+      [
+        "EQ",
+        "fhc_joint_marketing_no_customer_harm",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_joint_marketing_customer_identifiable",
+    "desc": "子公司間共同行銷應使客戶易於識別",
+    "expr": [
+      "EQ",
+      "subsidiary_joint_marketing_customer_identifiable",
+      [
+        "EQ",
+        "fhc_joint_marketing_customer_identifiable",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_joint_marketing_personal_data_protection",
+    "desc": "子公司間共同行銷蒐集、處理及利用客戶個人資料應依個資法規定",
+    "expr": [
+      "EQ",
+      "subsidiary_joint_marketing_personal_data_protection",
+      [
+        "EQ",
+        "fhc_joint_marketing_personal_data_protection_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:contract_disclosure_and_reporting",
+    "desc": "子公司與客戶簽約應揭露重要內容及交易風險並報備主管機關",
+    "expr": [
+      "EQ",
+      "contract_disclosure_and_reporting",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_important_content_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "contract_transaction_risk_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "contract_protection_mechanism_annotated",
+          true
+        ],
+        [
+          "EQ",
+          "contract_reported_to_authority",
+          true
+        ],
+        [
+          "EQ",
+          "contract_website_announcement_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_customer_data_marketing_use_restriction",
+    "desc": "子公司間交互運用客戶資料蒐集不得為行銷目的外之利用，且揭露轉介資料限制",
+    "expr": [
+      "EQ",
+      "subsidiary_customer_data_marketing_use_restriction",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "marketing_purpose_data_collected",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "marketing_purpose_data_used_outside",
+              true
+            ]
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "customer_data_disclosed_or_referred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "OR",
+              [
+                "EQ",
+                "neq_customer_name",
+                true
+              ],
+              [
+                "EQ",
+                "neq_customer_address",
+                true
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:customer_contract_data_usage_terms",
+    "desc": "客戶契約應訂定資料使用條款並取得客戶同意",
+    "expr": [
+      "EQ",
+      "customer_contract_data_usage_terms",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_data_usage_terms_set",
+          true
+        ],
+        [
+          "EQ",
+          "customer_consent_for_data_usage",
+          true
+        ],
+        [
+          "EQ",
+          "contract_data_usage_terms_disclose_subsidiary",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:organization_change_announcement",
+    "desc": "金融控股公司組織異動子公司增減應公告於公司及子公司網站",
+    "expr": [
+      "EQ",
+      "organization_change_announcement",
+      [
+        "EQ",
+        "fhc_subsidiary_change_announced",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:customer_notice_and_stop_data_use",
+    "desc": "客戶得隨時要求停止交互運用資料，子公司應立即停止使用",
+    "expr": [
+      "EQ",
+      "customer_notice_and_stop_data_use",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "customer_stop_data_use_notice_received",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiaries_stop_data_use_immediately",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:customer_data_confidentiality_and_security",
+    "desc": "子公司應建立保密措施及安全管理，設置專責單位負責客戶資料管理",
+    "expr": [
+      "EQ",
+      "customer_data_confidentiality_and_security",
+      [
+        "AND",
+        [
+          "EQ",
+          "confidentiality_measures_established",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_unit_or_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "customer_database_established",
+          true
+        ],
+        [
+          "EQ",
+          "customer_data_securely_stored",
+          true
+        ],
+        [
+          "EQ",
+          "customer_data_access_limited_to_authorized",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_data_transfer_and_confidentiality_agreement",
+    "desc": "子公司間交付客戶資料應訂定保密協定並限制用途，不得再向第三人揭露",
+    "expr": [
+      "EQ",
+      "subsidiary_data_transfer_and_confidentiality_agreement",
+      [
+        "AND",
+        [
+          "EQ",
+          "confidentiality_agreement_established",
+          true
+        ],
+        [
+          "EQ",
+          "data_use_restricted",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "data_disclosed_to_third_party",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:disclosure_of_data_use_and_measures",
+    "desc": "金融控股公司及子公司應揭露交互運用客戶資料子公司名稱及保密措施並公告",
+    "expr": [
+      "EQ",
+      "disclosure_of_data_use_and_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_use_subsidiary_names_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "confidentiality_measures_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "disclosure_announced_on_website",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "disclosure_sent_by_letter",
+            true
+          ],
+          [
+            "EQ",
+            "disclosure_sent_by_email",
+            true
+          ],
+          [
+            "EQ",
+            "disclosure_posted_in_office",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:disclosure_measures_content",
+    "desc": "揭露保密措施內容應包含資料蒐集、儲存、保護、分類、利用目的、揭露對象、變更及退出方式",
+    "expr": [
+      "EQ",
+      "disclosure_measures_content",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_collection_method_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "data_storage_and_custody_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "data_security_and_protection_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "data_classification_and_usage_scope_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "data_usage_purpose_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "data_disclosure_targets_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "customer_data_change_method_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "customer_opt_out_method_disclosed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:disclosure_measures_written_or_email",
+    "desc": "揭露保密措施第七及第八款事項應以書面或電子郵件方式為之",
+    "expr": [
+      "EQ",
+      "disclosure_measures_written_or_email",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "customer_data_change_method_sent_by_letter",
+            true
+          ],
+          [
+            "EQ",
+            "customer_data_change_method_sent_by_email",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "customer_opt_out_method_sent_by_letter",
+            true
+          ],
+          [
+            "EQ",
+            "customer_opt_out_method_sent_by_email",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:joint_marketing_business_scope",
+    "desc": "子公司間共同行銷可從事之業務範圍",
+    "expr": [
+      "EQ",
+      "joint_marketing_business_scope_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "business_scope_in_allowed_bank_business",
+          true
+        ],
+        [
+          "EQ",
+          "business_scope_in_allowed_securities_business",
+          true
+        ],
+        [
+          "EQ",
+          "business_scope_in_allowed_futures_business",
+          true
+        ],
+        [
+          "EQ",
+          "business_scope_in_allowed_insurance_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司法第43條及相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_joint_marketing_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_joint_marketing_no_customer_harm",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_joint_marketing_customer_identifiable",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_joint_marketing_personal_data_protection",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_disclosure_and_reporting",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_customer_data_marketing_use_restriction",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_contract_data_usage_terms",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "organization_change_announcement",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_notice_and_stop_data_use",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_data_confidentiality_and_security",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_data_transfer_and_confidentiality_agreement",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_of_data_use_and_measures",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_measures_content",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_measures_written_or_email",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "joint_marketing_business_scope_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

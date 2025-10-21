@@ -1,0 +1,523 @@
+[
+  {
+    "id": "fhc:non_credit_transaction_party",
+    "desc": "授信以外交易對象分類",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_party",
+      [
+        "CASE",
+        "is_fhc_and_responsible_or_major_shareholder",
+        1,
+        "is_fhc_responsible_or_major_shareholder_sole_proprietor_or_partner_or_enterprise_or_representative",
+        2,
+        "is_fhc_affiliated_and_responsible_or_major_shareholder",
+        3,
+        "is_fhc_bank_insurance_securities_subsidiary_or_subsidiary_responsible",
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_condition_met",
+    "desc": "授信以外交易條件符合董事會出席及決議比例要求",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_condition_met",
+      [
+        "AND",
+        [
+          "GE",
+          "board_attendance_ratio",
+          66.6667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          75.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_terms_ok",
+    "desc": "授信以外交易條件不得優於其他同類對象",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_terms_ok",
+      [
+        "EQ",
+        "transaction_terms_not_better_than_others",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_ok",
+    "desc": "授信以外交易符合條件及決議程序",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_ok",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "non_credit_transaction_party",
+            1
+          ],
+          [
+            "EQ",
+            "non_credit_transaction_party",
+            2
+          ],
+          [
+            "EQ",
+            "non_credit_transaction_party",
+            3
+          ],
+          [
+            "EQ",
+            "non_credit_transaction_party",
+            4
+          ]
+        ],
+        [
+          "EQ",
+          "non_credit_transaction_terms_ok",
+          true
+        ],
+        [
+          "EQ",
+          "non_credit_transaction_condition_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_type",
+    "desc": "授信以外交易類型分類",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_type",
+      [
+        "CASE",
+        "is_invest_or_purchase_issuer_securities",
+        1,
+        "is_purchase_real_estate_or_other_assets",
+        2,
+        "is_sell_securities_real_estate_or_other_assets_to_party",
+        3,
+        "is_contract_for_payment_or_service",
+        4,
+        "is_party_as_agent_broker_or_commission_service",
+        5,
+        "is_transaction_with_third_party_related_to_party",
+        6,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:excluded_securities",
+    "desc": "不包括銀行子公司發行之可轉讓定期存單",
+    "expr": [
+      "EQ",
+      "excluded_securities",
+      [
+        "EQ",
+        "is_transferable_time_deposit_certificate_issued_by_bank_subsidiary",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_related_party_limit_ok",
+    "desc": "銀行子公司與單一關係人交易金額不超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_single_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_related_party_limit_ok",
+    "desc": "銀行子公司與所有利害關係人交易總額不超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_all_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:business_scope_ok",
+    "desc": "子公司業務限於投資及管理被投資事業",
+    "expr": [
+      "EQ",
+      "business_scope_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "subsidiary_business_is_investment",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_business_is_management_of_invested_enterprises",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:investment_approved_or_deemed",
+    "desc": "投資事業經主管機關核准或視為核准",
+    "expr": [
+      "EQ",
+      "investment_approved_or_deemed",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_approved",
+          true
+        ],
+        [
+          "EQ",
+          "investment_deemed_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:investment_not_approved_prohibited",
+    "desc": "未經核准不得進行投資行為",
+    "expr": [
+      "EQ",
+      "investment_not_approved_prohibited",
+      [
+        "NOT",
+        [
+          "EQ",
+          "investment_approved_or_deemed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_business_or_investment_exceed_limit",
+    "desc": "子公司業務或投資逾越法令規定範圍",
+    "expr": [
+      "EQ",
+      "subsidiary_business_or_investment_exceed_limit",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_scope_ok",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "investment_not_approved_prohibited",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_adjustment_ordered",
+    "desc": "主管機關限期命令調整子公司業務或投資",
+    "expr": [
+      "EQ",
+      "subsidiary_adjustment_ordered",
+      [
+        "EQ",
+        "adjustment_ordered_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_adjustment_within_period",
+    "desc": "子公司調整期限最長三年，得申請延長兩次，每次二年",
+    "expr": [
+      "EQ",
+      "subsidiary_adjustment_within_period",
+      [
+        "AND",
+        [
+          "LE",
+          "adjustment_period_years",
+          3
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "extension_times",
+            0
+          ],
+          [
+            "LE",
+            "extension_times",
+            2
+          ]
+        ],
+        [
+          "LE",
+          "extension_period_years_per_extension",
+          2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:responsible_or_staff_not_manager_of_venture_invested",
+    "desc": "負責人或職員不得擔任創業投資事業所投資事業經理人",
+    "expr": [
+      "EQ",
+      "responsible_or_staff_not_manager_of_venture_invested",
+      [
+        "NOT",
+        [
+          "EQ",
+          "is_responsible_or_staff_manager_of_venture_invested",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_capital_reduction_approval",
+    "desc": "子公司減資應事先申請核准",
+    "expr": [
+      "EQ",
+      "subsidiary_capital_reduction_approval",
+      [
+        "EQ",
+        "capital_reduction_approved_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第45條交易條件限制或董事會決議程序，或銀行子公司交易金額限制，或未建立或執行內部控制制度，或子公司業務投資逾越規定，或未申請核准子公司減資",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "non_credit_transaction_terms_ok",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "non_credit_transaction_condition_met",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "OR",
+                [
+                  "EQ",
+                  "non_credit_transaction_party",
+                  1
+                ],
+                [
+                  "EQ",
+                  "non_credit_transaction_party",
+                  2
+                ],
+                [
+                  "EQ",
+                  "non_credit_transaction_party",
+                  3
+                ],
+                [
+                  "EQ",
+                  "non_credit_transaction_party",
+                  4
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_single_related_party_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_all_related_party_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "subsidiary_business_or_investment_exceed_limit",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_capital_reduction_approval",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

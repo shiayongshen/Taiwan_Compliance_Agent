@@ -1,0 +1,221 @@
+[
+  {
+    "id": "taiwan_china:business_direct_contact_permitted",
+    "desc": "經財政部許可，得與大陸地區人民等有業務上之直接往來",
+    "expr": [
+      "EQ",
+      "business_direct_contact_permitted",
+      [
+        "EQ",
+        "finance_institution_permit_granted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:branch_establishment_permitted",
+    "desc": "臺灣地區金融保險證券期貨機構在大陸地區設立分支機構，應報經財政部許可",
+    "expr": [
+      "EQ",
+      "branch_establishment_permitted",
+      [
+        "EQ",
+        "branch_establishment_permit_granted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:restriction_order_issued",
+    "desc": "財政部經行政院核定後，限制或禁止業務直接往來",
+    "expr": [
+      "EQ",
+      "restriction_order_issued",
+      [
+        "EQ",
+        "restriction_order_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:violate_article_36_1_or_2",
+    "desc": "違反第三十六條第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_1_or_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_direct_contact_permitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "branch_establishment_permitted",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:violate_restriction_order",
+    "desc": "違反財政部依第三十六條第四項規定報請行政院核定之限制或禁止命令",
+    "expr": [
+      "EQ",
+      "violate_restriction_order",
+      [
+        "AND",
+        [
+          "EQ",
+          "restriction_order_issued",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_restriction_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:penalty_fine_200_to_1000",
+    "desc": "違反第三十六條第一項或第二項規定者，處新臺幣二百萬元以上一千萬元以下罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_200_to_1000",
+      [
+        "EQ",
+        "violate_article_36_1_or_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:penalty_fine_100_to_1500",
+    "desc": "違反限制或禁止命令者，處新臺幣一百萬元以上一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_fine_100_to_1500",
+      [
+        "EQ",
+        "violate_restriction_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:penalty_imprisonment_or_fine_1500",
+    "desc": "屆期不停止或改正，或停止後再為相同違反行為者，處行為負責人三年以下有期徒刑、拘役或科或併科新臺幣一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_imprisonment_or_fine_1500",
+      [
+        "EQ",
+        "repeat_violation_after_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:penalty_imprisonment_or_fine_100_to_1500",
+    "desc": "違反限制或禁止命令者，處行為負責人三年以下有期徒刑、拘役或科或併科新臺幣一百萬元以上一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_imprisonment_or_fine_100_to_1500",
+      [
+        "EQ",
+        "violate_restriction_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "taiwan_china:penalty_imposed_on_institution",
+    "desc": "對金融保險證券期貨機構科罰金",
+    "expr": [
+      "EQ",
+      "penalty_imposed_on_institution",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_36_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_restriction_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_china"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第三十六條第一項或第二項規定，或違反限制或禁止命令，或重複違反者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_36_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_restriction_order",
+          true
+        ],
+        [
+          "EQ",
+          "repeat_violation_after_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

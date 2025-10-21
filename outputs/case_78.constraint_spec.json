@@ -1,0 +1,461 @@
+[
+  {
+    "id": "insurance:capital_level_severe_insufficient",
+    "desc": "資本等級為嚴重不足",
+    "expr": [
+      "EQ",
+      "capital_level_severe_insufficient",
+      [
+        "LT",
+        "capital_adequacy_ratio",
+        50.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significantly_insufficient",
+    "desc": "資本等級為顯著不足",
+    "expr": [
+      "EQ",
+      "capital_level_significantly_insufficient",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "GE",
+          "net_worth_ratio",
+          0.0
+        ],
+        [
+          "LT",
+          "net_worth_ratio",
+          2.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_insufficient",
+    "desc": "資本等級為不足",
+    "expr": [
+      "EQ",
+      "capital_level_insufficient",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          200.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_adequate",
+    "desc": "資本等級為適足",
+    "expr": [
+      "EQ",
+      "capital_level_adequate",
+      [
+        "GE",
+        "capital_adequacy_ratio",
+        200.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe_insufficient_and_no_measures",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_severe_insufficient_and_no_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "capital_increase_completed",
+              true
+            ],
+            [
+              "EQ",
+              "financial_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "business_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "merger_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration",
+    "desc": "財務或業務狀況顯著惡化，不能支付債務或無法履行契約責任或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "financial_or_business_deterioration_flag",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_approved",
+    "desc": "已提出財務或業務改善計畫並經主管機關核定",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_accelerated_deterioration_or_no_improvement",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_accelerated_deterioration_or_no_improvement",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_accelerated_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_effective",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_required",
+    "desc": "依情節輕重，應為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "supervisory_measures_required",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_severe_insufficient_and_no_measures",
+          true
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_severe_insufficient_and_no_measures",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_accelerated_deterioration_or_no_improvement",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_restrictions_agreed",
+    "desc": "監管處分時，非經監管人同意不得超過限額支付款項或處分財產等行為",
+    "expr": [
+      "EQ",
+      "supervisory_restrictions_agreed",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "payment_exceeds_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_or_major_commitment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_major_financial_impact",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_144_145",
+    "desc": "違反第一百四十四條第一項至第四項、第一百四十五條規定",
+    "expr": [
+      "EQ",
+      "violation_of_144_145",
+      [
+        "EQ",
+        "violation_144_145_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_144_145",
+    "desc": "違反第一百四十四條第一項至第四項、第一百四十五條規定者，處罰",
+    "expr": [
+      "EQ",
+      "penalty_144_145",
+      [
+        "EQ",
+        "violation_of_144_145",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_144_5",
+    "desc": "簽證精算人員或外部複核精算人員違反第一百四十四條第五項規定",
+    "expr": [
+      "EQ",
+      "violation_of_144_5",
+      [
+        "EQ",
+        "violation_144_5_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_144_5",
+    "desc": "簽證精算人員或外部複核精算人員違反第一百四十四條第五項規定者，主管機關得警告或停止簽證或複核",
+    "expr": [
+      "EQ",
+      "penalty_144_5",
+      [
+        "EQ",
+        "violation_of_144_5",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法第144條第1至4項、第145條規定或簽證精算人員違反第144條第5項規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_144_145",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_144_5",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

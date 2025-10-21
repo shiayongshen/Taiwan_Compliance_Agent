@@ -1,0 +1,311 @@
+[
+  {
+    "id": "insurance:prohibit_equity_swap",
+    "desc": "禁止與被投資公司或第三人以信託、委任或其他契約約定或協議、授權等方式進行股權交換或利益輸送",
+    "expr": [
+      "EQ",
+      "prohibit_equity_swap",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "equity_swap_trust_agreement",
+            true
+          ],
+          [
+            "EQ",
+            "equity_swap_commission_agreement",
+            true
+          ],
+          [
+            "EQ",
+            "equity_swap_other_contract",
+            true
+          ],
+          [
+            "EQ",
+            "equity_swap_agreement",
+            true
+          ],
+          [
+            "EQ",
+            "equity_swap_authorization",
+            true
+          ],
+          [
+            "EQ",
+            "equity_swap_other_method",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:protect_insured_interest",
+    "desc": "不得損及要保人、被保險人或受益人之利益",
+    "expr": [
+      "EQ",
+      "protect_insured_interest",
+      [
+        "EQ",
+        "insured_interest_not_harmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:submit_vote_evaluation",
+    "desc": "出席被投資公司股東會前，應作成行使表決權之評估分析說明",
+    "expr": [
+      "EQ",
+      "submit_vote_evaluation",
+      [
+        "EQ",
+        "vote_evaluation_reported_before_meeting",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:report_vote_record",
+    "desc": "股東會後，應將行使表決權之書面紀錄提報董事會",
+    "expr": [
+      "EQ",
+      "report_vote_record",
+      [
+        "EQ",
+        "vote_record_reported_to_board",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibit_proxy_solicitor",
+    "desc": "不得擔任被投資公司之委託書徵求人或委託他人擔任委託書徵求人",
+    "expr": [
+      "EQ",
+      "prohibit_proxy_solicitor",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "proxy_solicitor_self",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "proxy_solicitor_others",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_ok",
+    "desc": "內部控制及稽核制度與內部處理制度及程序均已建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反股權交換、利益輸送、損害被保險人利益、未提交或未報告表決權評估及紀錄、擔任委託書徵求人、未建立或未執行內部控制及處理制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibit_equity_swap",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "protect_insured_interest",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "submit_vote_evaluation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "report_vote_record",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibit_proxy_solicitor",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

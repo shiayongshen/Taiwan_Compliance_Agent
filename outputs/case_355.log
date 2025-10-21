@@ -1,0 +1,119 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4940 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6153 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (12 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (30 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (12 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (19 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (19 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['insurance:prohibited_investment_conditions', 'meta:penalty_default_false', 'c26', 'meta:penalty_conditions'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['insurance:prohibited_investment_conditions', 'meta:penalty_default_false', 'c26', 'meta:penalty_conditions'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_355
+
+📊 Model (filtered):
+   company_issued_shares = 10000000
+   company_stock_and_equity_securities_per_firm = 60000000
+   insurance_funds = 1000000000
+   company_stock_and_equity_securities_shares_per_firm = 1500000
+   securitized_products_total = 150000000
+   financial_bonds_total = 400000000
+   fund_investment_total = 150000000
+   fund_issued_shares = 10000000
+   corporate_bonds_and_commercial_paper_per_firm = 60000000
+   company_equity = 100000000
+   fund_investment_per_fund_shares = 1500000
+   corporate_bonds_and_commercial_paper_total = 400000000
+   company_stock_and_equity_securities_total = 300000000
+   corporate_bonds_and_commercial_paper_equity_per_firm = 15000000
+   insurance_trustee_supervisor = False
+   investment_limit_financial_bonds = 1
+   prohibited_investment_conditions = True
+   investment_limit_corporate_bonds_per_firm_equity = 1
+   insurance_or_third_party_agreement = False
+   investment_limit_stock_and_bond_combined = 1
+   insurance_or_representative_director = False
+   investment_limit_fund_total = 1
+   investment_limit_corporate_bonds_per_firm = 1
+   investment_limit_fund_per_fund_shares = 1
+   investment_limit_securitized_products = 1
+   investment_limit_company_stock_per_firm = 1
+   penalty = False
+   insurance_or_representative_vote = False
+   insurance_or_representative_manager = False
+   investment_limit_company_stock_per_firm_shares = 1
+✅ Model saved to: outputs\case_355.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_355.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_355.smt2

@@ -1,0 +1,392 @@
+[
+  {
+    "id": "insurance:license_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可並領有執業證照",
+    "expr": [
+      "EQ",
+      "license_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "license_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:deposit_and_insurance_required",
+    "desc": "須繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "deposit_and_insurance_ok",
+      [
+        "AND",
+        [
+          "GE",
+          "deposit_amount",
+          "minimum_deposit_amount"
+        ],
+        [
+          "EQ",
+          "insurance_coverage_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_coverage_ok",
+    "desc": "保險代理人、公證人須投保責任保險；保險經紀人須投保責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "insurance_coverage_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            1
+          ],
+          [
+            "EQ",
+            "liability_insurance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            2
+          ],
+          [
+            "EQ",
+            "liability_insurance",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_insurance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            3
+          ],
+          [
+            "EQ",
+            "liability_insurance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_allowed",
+    "desc": "領有執業證照且符合繳存保證金及投保相關保險後，始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "business_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_required",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_and_insurance_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行經主管機關許可擇一兼營保險代理人或保險經紀人業務",
+    "expr": [
+      "EQ",
+      "bank_permission_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_approved_by_authority",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_agent_business",
+            true
+          ],
+          [
+            "EQ",
+            "bank_broker_business",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_compliance_with_agent_broker_rules",
+    "desc": "銀行兼營保險代理人或經紀人業務應分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_compliance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_permission_ok",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "agent_rules_applied",
+            true
+          ],
+          [
+            "EQ",
+            "broker_rules_applied",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務及負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_report_and_fee_disclosure",
+    "desc": "保險經紀人洽訂契約前應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_report_and_fee_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_report_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_finance_or_business_management",
+    "desc": "違反財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "violation_finance_or_business_management",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_finance_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_business_management",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_broker_report_rule",
+    "desc": "違反保險經紀人書面分析報告規定",
+    "expr": [
+      "EQ",
+      "violation_broker_report_rule",
+      [
+        "EQ",
+        "violate_broker_report_rule",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_other_related_rules",
+    "desc": "違反第一百六十五條第一項或第一百六十三條第五項準用規定",
+    "expr": [
+      "EQ",
+      "violation_other_related_rules",
+      [
+        "EQ",
+        "violate_other_related_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_any",
+    "desc": "違反任一相關規定",
+    "expr": [
+      "EQ",
+      "violation_any",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_finance_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violation_broker_report_rule",
+          true
+        ],
+        [
+          "EQ",
+          "violation_other_related_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:correction_or_penalty",
+    "desc": "違反規定應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "correction_or_penalty_required",
+      [
+        "EQ",
+        "violation_any",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:liability_for_damage",
+    "desc": "保險經紀人因過失致損害應負賠償責任",
+    "expr": [
+      "EQ",
+      "liability_for_damage",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_fault",
+          true
+        ],
+        [
+          "EQ",
+          "damage_to_insured",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_any",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

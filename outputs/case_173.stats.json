@@ -1,0 +1,154 @@
+{
+  "case_id": "case_173",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 70.37,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 18151,
+  "total_output_tokens": 4544,
+  "total_tokens": 22695,
+  "total_cost_usd": 0.014531,
+  "timestamp": "2025-10-21T03:55:31.363011",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4175,
+      "output_tokens": 1688,
+      "elapsed_time": 24.281450271606445,
+      "cost": 0.0043708
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 10402,
+      "output_tokens": 1772,
+      "elapsed_time": 26.416860580444336,
+      "cost": 0.0069960000000000005
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 132,
+      "output_tokens": 500,
+      "elapsed_time": 9.323803186416626,
+      "cost": 0.0008528
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 132,
+      "output_tokens": 500,
+      "elapsed_time": 8.011441707611084,
+      "cost": 0.0008528
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3310,
+      "output_tokens": 84,
+      "elapsed_time": 2.2985877990722656,
+      "cost": 0.0014584
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "4843 chars",
+      "timestamp": 24.281450271606445
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "5208 chars",
+      "timestamp": 50.69831085205078
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 50.69831085205078
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "17 varspecs",
+      "timestamp": 60.02211403846741
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 60.02611207962036
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 60.03411507606506
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 60.03411507606506
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "7 facts",
+      "timestamp": 70.34414458274841
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "7 constraints",
+      "timestamp": 70.3451452255249
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 70.35214400291443
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:penalty_default_false', 'c18']",
+      "timestamp": 70.35214400291443
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 70.36114454269409
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 60.03411507606506
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 60.02
+    },
+    {
+      "id": "varspec:capital_level_lower_priority",
+      "rule": "Auto convert to Real",
+      "before": "Bool",
+      "after": "Real",
+      "timestamp": 60.02
+    }
+  ]
+}

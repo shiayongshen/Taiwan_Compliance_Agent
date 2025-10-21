@@ -1,0 +1,260 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_required_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_procedure_ok",
+    "desc": "確認客戶身分程序已建立且包含實質受益人審查",
+    "expr": [
+      "EQ",
+      "customer_identification_procedure_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_identification_procedure_established",
+          true
+        ],
+        [
+          "EQ",
+          "beneficial_owner_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_data_retained",
+    "desc": "確認客戶身分程序所得資料已留存至少五年",
+    "expr": [
+      "EQ",
+      "customer_identification_data_retained",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "business_relationship_terminated",
+            true
+          ],
+          [
+            "GE",
+            "customer_data_retention_years",
+            5.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "temporary_transaction_terminated",
+            true
+          ],
+          [
+            "GE",
+            "customer_data_retention_years",
+            5.0
+          ]
+        ],
+        [
+          "GE",
+          "customer_data_retention_years",
+          "longer_legal_retention_years"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_customer_due_diligence_ok",
+    "desc": "對重要政治性職務客戶及其關係人執行加強客戶審查程序",
+    "expr": [
+      "EQ",
+      "enhanced_customer_due_diligence_ok",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "customer_is_politically_exposed_person_or_related",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_due_diligence_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:compliance_ok",
+    "desc": "符合洗錢防制法第7條及第8條規定",
+    "expr": [
+      "EQ",
+      "compliance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "customer_identification_procedure_ok",
+          true
+        ],
+        [
+          "EQ",
+          "customer_identification_data_retained",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_customer_due_diligence_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第7條或第8條規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_identification_procedure_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_identification_data_retained",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_is_politically_exposed_person_or_related",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "enhanced_customer_due_diligence_ok",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

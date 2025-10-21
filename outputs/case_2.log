@@ -1,0 +1,157 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7863 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6859 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (19 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (44 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [fhc:capital_increase_funding]
+   ✅ Removed prefixes in [fhc:accumulated_loss_exceeds_limit]
+   ✅ Removed prefixes in [fhc:board_meeting_held_and_reported]
+   ✅ Removed prefixes in [fhc:authority_orders_capital_replenishment]
+   ✅ Removed prefixes in [fhc:capital_replenishment_approved_and_executed]
+   ✅ Removed prefixes in [fhc:violation_occurred]
+   ✅ Removed prefixes in [fhc:authority_imposes_sanctions]
+   ✅ Removed prefixes in [fhc:authority_notifies_economic_ministry]
+   ✅ Removed prefixes in [fhc:license_revoked_disposal_and_dissolution]
+   ✅ Removed prefixes in [fhc:subsidiary_capital_adequacy_below_minimum]
+   ✅ Removed prefixes in [fhc:subsidiary_financial_condition_deteriorated]
+   ✅ Removed prefixes in [fhc:fhc_assists_subsidiary_recovery]
+   ✅ Removed prefixes in [fhc:authority_orders_fhc_to_assist_or_dispose]
+   ✅ Removed prefixes in [insurance:capital_adequacy_ratio]
+   ✅ Removed prefixes in [insurance:net_worth_ratio]
+   ✅ Removed prefixes in [insurance:capital_level]
+   ✅ Removed prefixes in [insurance:capital_level_corrected]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 18
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 19
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (19 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (31 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (31 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c46'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c46'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_2
+
+📊 Model (filtered):
+   funding_raised_within_share_ratio = 0
+   capital_increase_occurred = False
+   authority_order_issued = True
+   authority_orders_capital_replenishment = False
+   dissolution_and_liquidation_ordered = False
+   own_capital = 169000000000
+   risk_capital = 100000000000
+   board_meeting_held = False
+   sanction_dispose_subsidiary_shares = False
+   shares_disposed_within_deadline = False
+   sanction_remove_manager_or_staff = False
+   report_to_authority_submitted = False
+   accumulated_loss = 0
+   subsidiary_financial_condition_bad = True
+   subsidiary_capital_adequacy_below_minimum = True
+   owner_equity = 1500000000
+   sanction_revoke_meeting_resolution = False
+   sanction_suspend_subsidiary_business = True
+   subsidiary_capital_adequacy_ratio = 169
+   total_assets_excluding_investment_type = 100000000000
+   authority_minimum_capital_adequacy_ratio = 180
+   paid_in_capital = 0
+   sanction_other_measures = True
+   supervisors_notified = False
+   authority_notifies_economic_ministry = False
+   capital_replenishment_executed = False
+   capital_replenishment_approved = False
+   sanction_revoke_license = False
+   authority_imposes_sanctions = True
+   fhc_assists_subsidiary_recovery = True
+   violation_flag = False
+   violation_occurred = False
+   authority_orders_fhc_to_assist_or_dispose = True
+   license_revoked_disposal_and_dissolution = False
+   capital_level = 2
+   sanction_remove_director_or_supervisor = False
+   accumulated_loss_exceeds_limit = False
+   net_worth_ratio = 3/2
+   penalty = False
+   capital_replenishment_approved_and_executed = False
+   capital_adequacy_ratio = 169
+   board_meeting_held_and_reported = False
+   subsidiary_financial_condition_deteriorated = True
+   capital_increase_funding = 1
+   /0 = [(169000000000, 100000000000) -> 169/100,
+ (1500000000, 100000000000) -> 3/200,
+ else -> -1/2]
+✅ Model saved to: outputs\case_2.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_2.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_2.smt2

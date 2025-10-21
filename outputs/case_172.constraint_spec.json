@@ -1,0 +1,739 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe_and_not_completed_improvement",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、財務或業務改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_severe_and_not_completed_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe_and_not_completed_improvement_within_90_days",
+    "desc": "資本嚴重不足且未完成改善計畫，應於期限屆滿次日起90日內為接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "capital_level_severe_and_not_completed_improvement_within_90_days",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_severe_and_not_completed_improvement",
+          true
+        ],
+        [
+          "LE",
+          "days_since_improvement_deadline",
+          90.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration",
+    "desc": "財務或業務狀況顯著惡化，不能支付債務或無法履行契約責任或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "cannot_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "cannot_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_required_and_approved",
+    "desc": "主管機關已令保險業提出財務或業務改善計畫並核定",
+    "expr": [
+      "EQ",
+      "improvement_plan_required_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_requested",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accelerated_deterioration_or_no_improvement_after_counseling",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善，致仍有財務或業務惡化之虞",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_or_no_improvement_after_counseling",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_accelerated_deterioration",
+          true
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_after_counseling",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:regulatory_action_due_to_deterioration",
+    "desc": "主管機關得依情節輕重為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "regulatory_action_due_to_deterioration",
+      [
+        "AND",
+        [
+          "EQ",
+          "accelerated_deterioration_or_no_improvement_after_counseling",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_required_and_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:major_event_affecting_financial_market_and_not_completed_improvement",
+    "desc": "因重大事件影響金融市場致未於期限內完成增資、財務或業務改善或合併計畫",
+    "expr": [
+      "EQ",
+      "major_event_affecting_financial_market_and_not_completed_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "major_event_affecting_financial_market",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:extension_or_resubmission_of_improvement_plan",
+    "desc": "主管機關得令保險業另定完成期限或重新提具增資、財務或業務改善或合併計畫",
+    "expr": [
+      "EQ",
+      "extension_or_resubmission_of_improvement_plan",
+      [
+        "EQ",
+        "major_event_affecting_financial_market_and_not_completed_improvement",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:delegation_of_supervision",
+    "desc": "主管機關得委託其他保險業、保險相關機構或專業人員擔任監管人、接管人、清理人或清算人",
+    "expr": [
+      "EQ",
+      "delegation_of_supervision",
+      [
+        "EQ",
+        "regulatory_action_due_to_deterioration",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:exemption_from_gov_procurement_law",
+    "desc": "委託機構或個人辦理受委託事項時，不適用政府採購法規定",
+    "expr": [
+      "EQ",
+      "exemption_from_gov_procurement_law",
+      [
+        "EQ",
+        "delegation_of_supervision",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:non_applicability_of_company_law_provisions",
+    "desc": "保險業受接管或勒令停業清理時，不適用公司法有關臨時管理人或檢查人規定",
+    "expr": [
+      "EQ",
+      "non_applicability_of_company_law_provisions",
+      [
+        "EQ",
+        "regulatory_action_due_to_deterioration",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:automatic_suspension_of_other_proceedings",
+    "desc": "除依本法規定聲請重整外，其他重整、破產、和解及強制執行程序當然停止",
+    "expr": [
+      "EQ",
+      "automatic_suspension_of_other_proceedings",
+      [
+        "EQ",
+        "regulatory_action_due_to_deterioration",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:consolidated_reorganization_request",
+    "desc": "接管人得聲請法院合併審理或裁定受接管保險業重整案件",
+    "expr": [
+      "EQ",
+      "consolidated_reorganization_request",
+      [
+        "EQ",
+        "regulatory_action_due_to_deterioration",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_acts_without_supervisor_consent",
+    "desc": "監管處分期間，非經監管人同意不得超限支付款項、締結契約或其他重大財務事項",
+    "expr": [
+      "EQ",
+      "prohibited_acts_without_supervisor_consent",
+      [
+        "EQ",
+        "under_supervision",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisor_inspection_applies",
+    "desc": "監管人執行監管職務時，準用檢查規定",
+    "expr": [
+      "EQ",
+      "supervisor_inspection_applies",
+      [
+        "EQ",
+        "under_supervision",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:regulation_of_supervision_and_takeover",
+    "desc": "監管或接管程序及相關職權、費用負擔由主管機關定之",
+    "expr": [
+      "EQ",
+      "regulation_of_supervision_and_takeover",
+      [
+        "EQ",
+        "under_supervision",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_business_scope_rules",
+    "desc": "違反業務範圍規定",
+    "expr": [
+      "EQ",
+      "violation_of_business_scope_rules",
+      [
+        "EQ",
+        "violated_business_scope_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_reserve_rules",
+    "desc": "違反賠償準備金提存額度或方式規定",
+    "expr": [
+      "EQ",
+      "violation_of_reserve_rules",
+      [
+        "EQ",
+        "violated_reserve_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_article_143",
+    "desc": "違反第一百四十三條規定",
+    "expr": [
+      "EQ",
+      "violation_of_article_143",
+      [
+        "EQ",
+        "violated_article_143",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_article_143_5_or_143_6_measures",
+    "desc": "違反第一百四十三條之五或主管機關依第一百四十三條之六規定所為措施",
+    "expr": [
+      "EQ",
+      "violation_of_article_143_5_or_143_6_measures",
+      [
+        "EQ",
+        "violated_article_143_5_or_143_6_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_fund_management_rules",
+    "desc": "違反資金運用相關規定",
+    "expr": [
+      "EQ",
+      "violation_of_fund_management_rules",
+      [
+        "EQ",
+        "violated_fund_management_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_loan_guarantee_rules",
+    "desc": "違反放款無十足擔保或條件優於其他同類放款對象規定",
+    "expr": [
+      "EQ",
+      "violation_of_loan_guarantee_rules",
+      [
+        "EQ",
+        "violated_loan_guarantee_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_loan_approval_rules",
+    "desc": "違反放款董事會同意或限額規定",
+    "expr": [
+      "EQ",
+      "violation_of_loan_approval_rules",
+      [
+        "EQ",
+        "violated_loan_approval_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_loan_limit_rules",
+    "desc": "違反放款或其他交易限額及決議程序規定",
+    "expr": [
+      "EQ",
+      "violation_of_loan_limit_rules",
+      [
+        "EQ",
+        "violated_loan_limit_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_internal_control_audit",
+    "desc": "未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "violation_of_internal_control_audit",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_audit_established_and_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_internal_handling",
+    "desc": "未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violation_of_internal_handling",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_handling_established_and_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "aml:internal_control_audit_established",
+    "desc": "金融機構及指定非金融事業建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_audit_established",
+      [
+        "EQ",
+        "aml_internal_control_audit_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_audit_content_compliant",
+    "desc": "洗錢防制內部控制與稽核制度內容符合規定",
+    "expr": [
+      "EQ",
+      "internal_control_audit_content_compliant",
+      [
+        "EQ",
+        "aml_internal_control_audit_content_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:failure_to_establish_or_implement_internal_control",
+    "desc": "違反洗錢防制法未建立制度或未依規定實施",
+    "expr": [
+      "EQ",
+      "failure_to_establish_or_implement_internal_control",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_audit_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_audit_content_compliant",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:failure_to_improve_after_order",
+    "desc": "違反洗錢防制法被限期令其改善，屆期未改善",
+    "expr": [
+      "EQ",
+      "failure_to_improve_after_order",
+      [
+        "AND",
+        [
+          "EQ",
+          "failure_to_establish_or_implement_internal_control",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:refusal_or_obstruction_of_inspection",
+    "desc": "規避、拒絕或妨礙現地或非現地查核",
+    "expr": [
+      "EQ",
+      "refusal_or_obstruction_of_inspection",
+      [
+        "EQ",
+        "aml_refused_or_obstructed_inspection",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成改善計畫，或財務業務惡化未改善，或違反相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_severe_and_not_completed_improvement_within_90_days",
+          true
+        ],
+        [
+          "EQ",
+          "regulatory_action_due_to_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_business_scope_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_reserve_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_article_143",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_article_143_5_or_143_6_measures",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_fund_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_loan_guarantee_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_loan_approval_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_loan_limit_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_internal_control_audit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_internal_handling",
+          true
+        ],
+        [
+          "EQ",
+          "failure_to_improve_after_order",
+          true
+        ],
+        [
+          "EQ",
+          "refusal_or_obstruction_of_inspection",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

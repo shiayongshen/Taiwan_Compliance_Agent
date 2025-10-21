@@ -1,0 +1,816 @@
+{
+  "case_id": "case_126",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 102.28,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 18687,
+  "total_output_tokens": 6602,
+  "total_tokens": 25289,
+  "total_cost_usd": 0.018038,
+  "timestamp": "2025-10-21T02:24:03.072453",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3563,
+      "output_tokens": 1952,
+      "elapsed_time": 27.750178337097168,
+      "cost": 0.004548400000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9442,
+      "output_tokens": 1923,
+      "elapsed_time": 32.940412759780884,
+      "cost": 0.0068536000000000005
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 425,
+      "output_tokens": 1242,
+      "elapsed_time": 18.994245529174805,
+      "cost": 0.0021572
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 425,
+      "output_tokens": 1242,
+      "elapsed_time": 18.079075574874878,
+      "cost": 0.0021572
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4832,
+      "output_tokens": 243,
+      "elapsed_time": 4.470519781112671,
+      "cost": 0.0023216
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "6068 chars",
+      "timestamp": 27.750178337097168
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "5920 chars",
+      "timestamp": 60.69059109687805
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 60.69059109687805
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "41 varspecs",
+      "timestamp": 79.68483662605286
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 79.68884134292603
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 79.69584131240845
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 79.69584131240845
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "19 facts",
+      "timestamp": 102.24643683433533
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 102.24745273590088
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 102.25545501708984
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c30']",
+      "timestamp": 102.25545501708984
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 102.26945471763611
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 79.69584131240845
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:foreign_investment_allowed_types",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_allowed_types",
+        [
+          "OR",
+          [
+            "EQ",
+            "investment_type_foreign_deposit",
+            true
+          ],
+          [
+            "EQ",
+            "investment_type_foreign_securities",
+            true
+          ],
+          [
+            "EQ",
+            "investment_type_foreign_insurance_related",
+            true
+          ],
+          [
+            "EQ",
+            "investment_type_other_approved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_allowed_types",
+        [
+          "OR",
+          [
+            "EQ",
+            "investment_type_foreign_deposit",
+            true
+          ],
+          [
+            "EQ",
+            "investment_type_foreign_securities",
+            true
+          ],
+          [
+            "EQ",
+            "investment_type_foreign_insurance_related",
+            true
+          ],
+          [
+            "EQ",
+            "investment_type_other_approved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_limit",
+        [
+          "LE",
+          "foreign_investment_total",
+          [
+            "MUL",
+            "capital_fund",
+            0.45
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_limit",
+        [
+          "LE",
+          "foreign_investment_total",
+          [
+            "MUL",
+            "capital_fund",
+            0.45
+          ]
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_exclusion_amount",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_exclusion_amount",
+        [
+          "SUB",
+          [
+            "MUL",
+            [
+              "MIN",
+              [
+                "MUL",
+                "non_investment_foreign_currency_reserve_40_percent",
+                1.0
+              ],
+              "foreign_currency_non_investment_reserve"
+            ],
+            [
+              "DIV",
+              [
+                "MUL",
+                [
+                  "SUB",
+                  1.0,
+                  "approved_ratio"
+                ],
+                1.0
+              ],
+              1.0
+            ]
+          ],
+          "foreign_currency_investment_in_domestic_foreign_currency_securities"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_exclusion_amount",
+        [
+          "SUB",
+          [
+            "MUL",
+            [
+              "MIN",
+              [
+                "MUL",
+                "non_investment_foreign_currency_reserve_40_percent",
+                1.0
+              ],
+              "foreign_currency_non_investment_reserve"
+            ],
+            [
+              "DIV",
+              [
+                "MUL",
+                [
+                  "SUB",
+                  1.0,
+                  "approved_ratio"
+                ],
+                1.0
+              ],
+              1.0
+            ]
+          ],
+          "foreign_currency_investment_in_domestic_foreign_currency_securities"
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_total_calculation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_total",
+        [
+          "SUB",
+          "foreign_investment_gross",
+          "insurance:foreign_investment_exclusion_amount"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_total",
+        [
+          "SUB",
+          "foreign_investment_gross",
+          "foreign_investment_exclusion_amount"
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance:foreign_investment_allowed_types",
+            true
+          ],
+          [
+            "LE",
+            "insurance:foreign_investment_total",
+            [
+              "MUL",
+              "capital_fund",
+              0.45
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "foreign_investment_allowed_types",
+            true
+          ],
+          [
+            "LE",
+            "foreign_investment_total",
+            [
+              "MUL",
+              "capital_fund",
+              0.45
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_adjustment_plan_required",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_adjustment_plan_required",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "foreign_currency_non_investment_reserve_fully_invested_in_same_currency",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "meets_fund_usage_ratio_requirements",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_adjustment_plan_required",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "foreign_currency_non_investment_reserve_fully_invested_in_same_currency",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "meets_fund_usage_ratio_requirements",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_adjustment_plan_completed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_adjustment_plan_completed",
+        [
+          "AND",
+          [
+            "EQ",
+            "adjustment_plan_approved_by_board",
+            true
+          ],
+          [
+            "EQ",
+            "adjustment_completed_within_one_month",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_adjustment_plan_completed",
+        [
+          "AND",
+          [
+            "EQ",
+            "adjustment_plan_approved_by_board",
+            true
+          ],
+          [
+            "EQ",
+            "adjustment_completed_within_one_month",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 79.68
+    },
+    {
+      "id": "insurance:foreign_investment_adjustment_plan_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_investment_adjustment_plan_violation",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance:foreign_investment_adjustment_plan_required",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance:foreign_investment_adjustment_plan_completed",
+                true
+              ]
+            ]
+          ],
+          [
+            "GE",
+            "adjustment_plan_violation_count",
+            3
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_adjustment_plan_violation",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "foreign_investment_adjustment_plan_required",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "foreign_investment_adjustment_plan_completed",
+                true
+              ]
+            ]
+          ],
+          [
+            "GE",
+            "adjustment_plan_violation_count",
+            3
+          ]
+        ]
+      ],
+      "timestamp": 79.69
+    },
+    {
+      "id": "insurance:violation_of_investment_regulations",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:violation_of_investment_regulations",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_article_138_1_3_5_or_2",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_138_2_4_5_7_or_138_3_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_143",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_143_5_or_143_6_measures",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_1_3_5_7_6_or_8",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_1_2_3_5_or_146_5_3_4",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_2_1_2_4",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_3_1_2_4",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_4_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_5_1_or_146_5_unauthorized_investment",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_6_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_9_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_3_3_loan_without_sufficient_collateral",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_3_3_loan_board_approval",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_7_1_3_loan_or_transaction_limit",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_of_investment_regulations",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_article_138_1_3_5_or_2",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_138_2_4_5_7_or_138_3_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_143",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_143_5_or_143_6_measures",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_1_3_5_7_6_or_8",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_1_2_3_5_or_146_5_3_4",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_2_1_2_4",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_3_1_2_4",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_4_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_5_1_or_146_5_unauthorized_investment",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_6_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_9_1_2_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_3_3_loan_without_sufficient_collateral",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_3_3_loan_board_approval",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_146_7_1_3_loan_or_transaction_limit",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 79.69
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance:violation_of_investment_regulations",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:foreign_investment_adjustment_plan_violation",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_of_investment_regulations",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_investment_adjustment_plan_violation",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 79.69
+    },
+    {
+      "id": "insurance:foreign_investment_exclusion_amount",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "foreign_investment_exclusion_amount",
+        [
+          "SUB",
+          [
+            "MUL",
+            [
+              "MIN",
+              [
+                "MUL",
+                "non_investment_foreign_currency_reserve_40_percent",
+                1.0
+              ],
+              "foreign_currency_non_investment_reserve"
+            ],
+            [
+              "DIV",
+              [
+                "MUL",
+                [
+                  "SUB",
+                  1.0,
+                  "approved_ratio"
+                ],
+                1.0
+              ],
+              1.0
+            ]
+          ],
+          "foreign_currency_investment_in_domestic_foreign_currency_securities"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_investment_exclusion_amount",
+        [
+          "SUB",
+          [
+            "MUL",
+            [
+              "CASE",
+              [
+                "LE",
+                [
+                  "MUL",
+                  "non_investment_foreign_currency_reserve_40_percent",
+                  1.0
+                ],
+                "foreign_currency_non_investment_reserve"
+              ],
+              [
+                "MUL",
+                "non_investment_foreign_currency_reserve_40_percent",
+                1.0
+              ],
+              "foreign_currency_non_investment_reserve"
+            ],
+            [
+              "DIV",
+              [
+                "MUL",
+                [
+                  "SUB",
+                  1.0,
+                  "approved_ratio"
+                ],
+                1.0
+              ],
+              1.0
+            ]
+          ],
+          "foreign_currency_investment_in_domestic_foreign_currency_securities"
+        ]
+      ],
+      "timestamp": 79.69
+    }
+  ]
+}

@@ -1,0 +1,523 @@
+[
+  {
+    "id": "insurance:same_person_definition",
+    "desc": "同一人定義為同一自然人或同一法人",
+    "expr": [
+      "EQ",
+      "same_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "person_type",
+          1
+        ],
+        [
+          "EQ",
+          "person_type",
+          2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:same_related_person_definition",
+    "desc": "同一關係人定義包含本人、配偶、二親等以內血親及以本人或配偶為負責人之事業",
+    "expr": [
+      "EQ",
+      "same_related_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_self",
+          true
+        ],
+        [
+          "EQ",
+          "is_spouse",
+          true
+        ],
+        [
+          "LE",
+          "blood_relation_degree",
+          2
+        ],
+        [
+          "EQ",
+          "is_responsible_person_of_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:same_related_enterprise_definition",
+    "desc": "同一關係企業範圍依公司法相關條文規定",
+    "expr": [
+      "EQ",
+      "same_related_enterprise",
+      [
+        "EQ",
+        "company_law_related_enterprise",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_and_other_transaction_limit_compliance",
+    "desc": "保險業對同一人、同一關係人或同一關係企業之放款或其他交易符合主管機關限制規定",
+    "expr": [
+      "EQ",
+      "loan_and_other_transaction_limit_compliance",
+      [
+        "AND",
+        [
+          "LE",
+          "loan_amount_same_person",
+          "loan_limit_same_person"
+        ],
+        [
+          "LE",
+          "loan_amount_same_related_person",
+          "loan_limit_same_related_person"
+        ],
+        [
+          "LE",
+          "loan_amount_same_related_enterprise",
+          "loan_limit_same_related_enterprise"
+        ],
+        [
+          "LE",
+          "other_transaction_amount_same_person",
+          "other_transaction_limit_same_person"
+        ],
+        [
+          "LE",
+          "other_transaction_amount_same_related_person",
+          "other_transaction_limit_same_related_person"
+        ],
+        [
+          "LE",
+          "other_transaction_amount_same_related_enterprise",
+          "other_transaction_limit_same_related_enterprise"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_transaction_condition_compliance",
+    "desc": "保險業與利害關係人從事放款以外其他交易符合條件及決議程序",
+    "expr": [
+      "EQ",
+      "other_transaction_condition_compliance",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          "other_transaction_condition",
+          "other_transaction_condition_standard"
+        ],
+        [
+          "GE",
+          "board_meeting_attendance_ratio",
+          0.6667
+        ],
+        [
+          "GE",
+          "board_meeting_approval_ratio",
+          0.75
+        ],
+        [
+          "NOT",
+          "board_member_conflict_of_interest_vote"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_executed",
+    "desc": "保險業執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_executed",
+      [
+        "EQ",
+        "internal_control_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_executed",
+    "desc": "保險業執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_executed",
+      [
+        "EQ",
+        "internal_handling_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級(4)應執行之增資、財務或業務改善計畫已完成",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_executed",
+      [
+        "EQ",
+        "capital_level_4_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著不足等級(3)應執行之改善計畫已完成",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_executed",
+      [
+        "EQ",
+        "capital_level_3_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級(2)應執行之改善計畫已完成",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_executed",
+      [
+        "EQ",
+        "capital_level_2_measures_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_restriction_compliance",
+    "desc": "保險業監管處分期間遵守主管機關規定之限制",
+    "expr": [
+      "EQ",
+      "supervision_restriction_compliance",
+      [
+        "AND",
+        [
+          "LE",
+          "payment_limit",
+          "supervision_payment_limit"
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_or_major_commitment_exceeded",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_major_financial_impact_violated",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_compliance",
+    "desc": "保險業建立並執行內部控制、稽核及內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反放款及其他交易限額、內部控制及稽核制度、內部處理制度或資本不足等規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_and_other_transaction_limit_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_transaction_condition_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_executed",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_level_4_measures_executed",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              3
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_level_3_measures_executed",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              2
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_level_2_measures_executed",
+                true
+              ]
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervision_restriction_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

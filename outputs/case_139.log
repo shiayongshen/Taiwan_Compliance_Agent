@@ -1,0 +1,146 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7997 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7997 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (20 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (57 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (20 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (47 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (47 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c26', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c26', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_139
+
+📊 Model (filtered):
+   complete_reinsurance_contract_delivered_within_6_months = True
+   conflict_of_interest = False
+   foreign_broker_professional_liability_insurance_per_accident_usd = 5000000
+   required_credit_rating_level = 3
+   reinsurance_documents_preservation_period_years = 5
+   legal_reinsurance_organization = False
+   reinsurance_documents_properly_preserved = True
+   foreign_broker_insurance_period_uninterrupted = True
+   license_revoked = False
+   non_eligible_reinsurance_target = False
+   reinsurer_credit_rating_compliance = False
+   correction_order_issued = True
+   property_insurance_temporary_reinsurance_non_compliance = False
+   broker_reinsurer_confirmation_and_check = False
+   dual_business_disclosed_in_contract = True
+   penalty_fine_imposed = True
+   contract_signed_documents_delivered_within_60_days = True
+   foreign_broker_approved_by_home_regulator = True
+   foreign_reinsurance_credit_rating_level = 5
+   violate_163_7 = True
+   reinsurance_major_info_delivered_before_effective = True
+   domestic_reinsurance_participation_percentage = 0
+   written_delegation_from_original_insurer = True
+   contract_documents_obtained_within_time_limit = True
+   internal_control_segregated = True
+   original_insurer_consent = True
+   reinsurance_risk_management_plan_complied = True
+   foreign_broker_deductible_percentage = 5
+   other_approved_reinsurance_organization = False
+   foreign_broker_professional_liability_insurance_aggregate_usd = 10000000
+   violate_165_1_or_163_5_applied = False
+   international_reinsurer_credit_rating_level = 2
+   violate_financial_or_business_management_rules_163_4 = False
+   reinsurance_documents_preserved = True
+   foreign_reinsurance_company_approved = True
+   post_contract_major_info_notified_to_original_insurer = True
+   foreign_broker_qualification_checked = True
+   domestic_reinsurance_company_approved = True
+   reinsurer_confirmation_document_obtained_before_effective = False
+   reinsurance_conditions_and_rates_compliant = True
+   correction_order_or_penalty = True
+   eligible_reinsurance_target = True
+   reinsurance_confirmation_before_effective = False
+   broker_reinsurance_dual_business_disclosure = True
+   property_insurance_temporary_reinsurance_compliance = True
+   market_information_notification = True
+   foreign_broker_qualification = True
+   broker_reinsurance_written_delegation = True
+   reinsurance_business_operational_rules_compliance = False
+   reinsurance_contract_document_delivery = True
+   reinsurance_document_preservation = True
+   violation_of_management_rules = True
+   penalty = False
+   reinsurance_information_delivery = True
+   internal_control_segregation = True
+   reinsurance_conditions_compliance = True
+   reinsurer_credit_rating_level = 0
+✅ Model saved to: outputs\case_139.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_139.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_139.smt2

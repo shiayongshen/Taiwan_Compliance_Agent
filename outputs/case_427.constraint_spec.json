@@ -1,0 +1,363 @@
+[
+  {
+    "id": "insurance:license_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可並領有執業證照",
+    "expr": [
+      "EQ",
+      "license_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "has_license",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:guarantee_deposit_and_insurance",
+    "desc": "須繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "guarantee_and_insurance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "guarantee_deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_insurance_type",
+    "desc": "相關保險種類依身份區分",
+    "expr": [
+      "EQ",
+      "related_insurance_type_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "is_agent",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_broker",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              1
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              2
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_notary",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_allowed",
+    "desc": "領有執業證照且符合保證金及保險要求始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "business_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_required",
+          true
+        ],
+        [
+          "EQ",
+          "guarantee_and_insurance_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務",
+    "expr": [
+      "EQ",
+      "bank_permission_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_approved_by_authority",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_is_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_is_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_business_compliance",
+    "desc": "銀行兼營保險代理人或經紀人業務應分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_business_compliance",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "bank_is_agent",
+            true
+          ],
+          [
+            "EQ",
+            "agent_rules_complied",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "bank_is_broker",
+            true
+          ],
+          [
+            "EQ",
+            "broker_rules_complied",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duties",
+    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
+    "expr": [
+      "EQ",
+      "broker_duties_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_due_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fiduciary_duty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_report_and_fee_disclosure",
+    "desc": "保險經紀人於主管機關指定範圍內應主動提供書面分析報告並明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_report_and_fee_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_provide_written_report",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fee_disclosed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:compliance_all",
+    "desc": "保險代理人、經紀人、公證人合規條件",
+    "expr": [
+      "EQ",
+      "compliance_all",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_allowed",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_type_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:illegal_operation",
+    "desc": "未領有執業證照而經營或執行保險代理人、經紀人、公證人業務",
+    "expr": [
+      "EQ",
+      "illegal_operation",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "has_license",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "is_agent",
+            true
+          ],
+          [
+            "EQ",
+            "is_broker",
+            true
+          ],
+          [
+            "EQ",
+            "is_notary",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:illegal_non_insurance_business",
+    "desc": "為非本法之保險業或外國保險業代理、經紀或招攬保險業務",
+    "expr": [
+      "EQ",
+      "illegal_non_insurance_business",
+      [
+        "EQ",
+        "not_authorized_insurance_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反未領執照經營、非法代理經紀招攬或主管機關停止廢止許可情形",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "illegal_operation",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_non_insurance_business",
+          true
+        ],
+        [
+          "EQ",
+          "authority_suspension_or_revocation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

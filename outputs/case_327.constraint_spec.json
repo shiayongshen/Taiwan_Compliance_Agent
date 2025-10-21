@@ -1,0 +1,901 @@
+[
+  {
+    "id": "insurance:act_144_actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員",
+    "expr": [
+      "EQ",
+      "act_144_actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuarial_staff_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_review_hired",
+    "desc": "保險業聘請外部複核精算人員",
+    "expr": [
+      "EQ",
+      "act_144_external_review_hired",
+      [
+        "EQ",
+        "external_review_actuarial_staff_hired",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_board_approval_obtained",
+    "desc": "簽證精算人員指派及外部複核精算人員聘請經董（理）事會同意",
+    "expr": [
+      "EQ",
+      "act_144_board_approval_obtained",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuarial_staff_board_approved",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_actuarial_staff_board_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_reports_fair_and_true",
+    "desc": "簽證報告及複核報告內容公正且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "act_144_reports_fair_and_true",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_report_fair_and_true",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_report_fair_and_true",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_7_limitations_defined",
+    "desc": "主管機關對同一人、同一關係人或同一關係企業放款或其他交易限制已定",
+    "expr": [
+      "EQ",
+      "act_146_7_limitations_defined",
+      [
+        "EQ",
+        "regulatory_limits_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_fund_usage_limited",
+    "desc": "保險業資金運用限於法定項目",
+    "expr": [
+      "EQ",
+      "act_146_fund_usage_limited",
+      [
+        "OR",
+        [
+          "EQ",
+          "fund_usage_securities",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_real_estate",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_loans",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_special_approved_projects",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_foreign_investment",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_insurance_related_business",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_derivative_transactions",
+          true
+        ],
+        [
+          "EQ",
+          "fund_usage_other_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_deposit_limit_respected",
+    "desc": "存款於每一金融機構金額不超過資金百分之十，或經主管機關核准",
+    "expr": [
+      "EQ",
+      "act_146_deposit_limit_respected",
+      [
+        "OR",
+        [
+          "LE",
+          "deposit_per_financial_institution_percentage",
+          10.0
+        ],
+        [
+          "EQ",
+          "deposit_limit_approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_insurance_related_business_defined",
+    "desc": "保險相關事業範圍已依主管機關定義",
+    "expr": [
+      "EQ",
+      "act_146_insurance_related_business_defined",
+      [
+        "EQ",
+        "insurance_related_business_defined_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_investment_accounting_compliance",
+    "desc": "投資型保險業務專設帳簿並依主管機關辦法管理",
+    "expr": [
+      "EQ",
+      "act_146_investment_accounting_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_accounting_book_established",
+          true
+        ],
+        [
+          "EQ",
+          "investment_accounting_book_managed_per_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_146_derivative_trading_compliance",
+    "desc": "衍生性商品交易符合主管機關規定條件、範圍、限額及程序",
+    "expr": [
+      "EQ",
+      "act_146_derivative_trading_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "derivative_trading_conditions_met",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_scope_limited",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_limit_respected",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_internal_procedures_followed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_control_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_control_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_handling_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_149_violation_penalties",
+    "desc": "保險業違反法令或有礙健全經營時主管機關得為處分",
+    "expr": [
+      "EQ",
+      "act_149_violation_penalties",
+      [
+        "OR",
+        [
+          "EQ",
+          "business_restriction_imposed",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_product_sales_stopped",
+          true
+        ],
+        [
+          "EQ",
+          "capital_increase_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "manager_dismissal_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "statutory_meeting_resolution_revoked",
+          true
+        ],
+        [
+          "EQ",
+          "director_supervisor_dismissal_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_149_capital_level_severe_and_no_improvement",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資或改善計畫",
+    "expr": [
+      "EQ",
+      "act_149_capital_level_severe_and_no_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_149_financial_deterioration_and_no_improvement",
+    "desc": "財務或業務狀況顯著惡化且未改善",
+    "expr": [
+      "EQ",
+      "act_149_financial_deterioration_and_no_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_condition_deteriorated",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_or_business_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation_144_145_penalty",
+    "desc": "違反第144條第一項至第四項及第145條規定處罰",
+    "expr": [
+      "EQ",
+      "act_171_violation_144_145_penalty",
+      [
+        "EQ",
+        "violation_144_145",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_violation_144_5_144_6_penalty",
+    "desc": "違反第144條之五或主管機關依第144條之六措施處罰",
+    "expr": [
+      "EQ",
+      "act_171_violation_144_5_144_6_penalty",
+      [
+        "EQ",
+        "violation_144_5_or_144_6_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_148_1_2_penalty",
+    "desc": "違反第148條之一第一項或第二項規定處罰",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_148_1_2_penalty",
+      [
+        "EQ",
+        "violation_148_1_1_or_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_148_2_penalty",
+    "desc": "違反第148條之二第一項規定，未提供或不實說明文件處罰",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_148_2_penalty",
+      [
+        "EQ",
+        "violation_148_2_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_148_2_2_penalty",
+    "desc": "違反第148條之二第二項規定，未依限報告或內容不實處罰",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_148_2_2_penalty",
+      [
+        "EQ",
+        "violation_148_2_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_148_3_1_penalty",
+    "desc": "違反第148條之三第一項規定，未建立或未執行內部控制或稽核制度處罰",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_148_3_1_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_and_audit_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_148_3_2_penalty",
+    "desc": "違反第148條之三第二項規定，未建立或未執行內部處理制度或程序處罰",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_148_3_2_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:qualified_signing_personnel_human_insurance",
+    "desc": "人身保險商品合格簽署人員資格符合規定",
+    "expr": [
+      "EQ",
+      "qualified_signing_personnel_human_insurance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "underwriting_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "underwriting_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "claims_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "claims_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "actuarial_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "actuarial_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "legal_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "legal_experience_years",
+            5
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "investment_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "investment_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "policy_service_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "policy_service_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "risk_management_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "risk_management_experience_years",
+            3
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:qualified_signing_personnel_property_insurance",
+    "desc": "財產保險商品合格簽署人員資格符合規定",
+    "expr": [
+      "EQ",
+      "qualified_signing_personnel_property_insurance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "underwriting_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "underwriting_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "claims_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "claims_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "actuarial_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "actuarial_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "legal_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "legal_experience_years",
+            5
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "investment_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "investment_experience_years",
+            3
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "risk_management_personnel_qualified",
+            true
+          ],
+          [
+            "GE",
+            "risk_management_experience_years",
+            3
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_145_reserve_calculated_and_recorded",
+    "desc": "保險業於營業年度屆滿時計算各種準備金並記載於特設帳簿",
+    "expr": [
+      "EQ",
+      "act_145_reserve_calculated_and_recorded",
+      [
+        "AND",
+        [
+          "EQ",
+          "reserves_calculated_per_insurance_type",
+          true
+        ],
+        [
+          "EQ",
+          "reserves_recorded_in_special_books",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_external_review_hired",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_board_approval_obtained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_reports_fair_and_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_146_7_limitations_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_146_fund_usage_limited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_146_deposit_limit_respected",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_146_insurance_related_business_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_146_investment_accounting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_146_derivative_trading_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "act_149_violation_penalties",
+          true
+        ],
+        [
+          "EQ",
+          "act_149_capital_level_severe_and_no_improvement",
+          true
+        ],
+        [
+          "EQ",
+          "act_149_financial_deterioration_and_no_improvement",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_violation_144_145_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_violation_144_5_144_6_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_1_violation_148_1_2_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_1_violation_148_2_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_1_violation_148_2_2_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_1_violation_148_3_1_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "act_171_1_violation_148_3_2_penalty",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "qualified_signing_personnel_human_insurance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "qualified_signing_personnel_property_insurance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_145_reserve_calculated_and_recorded",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

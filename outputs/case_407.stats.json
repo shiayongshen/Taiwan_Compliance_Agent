@@ -1,0 +1,1021 @@
+{
+  "case_id": "case_407",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 135.8,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 23670,
+  "total_output_tokens": 9565,
+  "total_tokens": 33235,
+  "total_cost_usd": 0.024772,
+  "timestamp": "2025-10-21T08:56:16.420693",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4307,
+      "output_tokens": 3114,
+      "elapsed_time": 37.48437809944153,
+      "cost": 0.006705200000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 12092,
+      "output_tokens": 3114,
+      "elapsed_time": 37.560906171798706,
+      "cost": 0.0098192
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 350,
+      "output_tokens": 1399,
+      "elapsed_time": 25.717455625534058,
+      "cost": 0.0023784
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 350,
+      "output_tokens": 1399,
+      "elapsed_time": 26.863603115081787,
+      "cost": 0.0023784
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 6571,
+      "output_tokens": 539,
+      "elapsed_time": 8.12459421157837,
+      "cost": 0.0034908000000000005
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "8478 chars",
+      "timestamp": 37.48437809944153
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "8478 chars",
+      "timestamp": 75.04528427124023
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "26 constraints",
+      "timestamp": 75.04528427124023
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "56 varspecs",
+      "timestamp": 100.76273989677429
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "26 constraints",
+      "timestamp": 100.76874208450317
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 100.77474188804626
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 100.77474188804626
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "51 facts",
+      "timestamp": 135.7639298439026
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "51 constraints",
+      "timestamp": 135.76492881774902
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 135.77592992782593
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c76']",
+      "timestamp": 135.77592992782593
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 135.7889280319214
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 100.77474188804626
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "bank:inspection_authority",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:inspection_authority",
+        [
+          "OR",
+          [
+            "EQ",
+            "central_authority_dispatch",
+            true
+          ],
+          [
+            "EQ",
+            "central_authority_delegate",
+            true
+          ],
+          [
+            "EQ",
+            "local_authority_dispatch",
+            true
+          ],
+          [
+            "EQ",
+            "bank_report_requested",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_authority",
+        [
+          "OR",
+          [
+            "EQ",
+            "central_authority_dispatch",
+            true
+          ],
+          [
+            "EQ",
+            "central_authority_delegate",
+            true
+          ],
+          [
+            "EQ",
+            "local_authority_dispatch",
+            true
+          ],
+          [
+            "EQ",
+            "bank_report_requested",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:specialist_audit_assigned",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:specialist_audit_assigned",
+        [
+          "AND",
+          [
+            "EQ",
+            "specialist_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "specialist_report_submitted",
+            true
+          ],
+          [
+            "EQ",
+            "audit_fee_paid",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "specialist_audit_assigned",
+        [
+          "AND",
+          [
+            "EQ",
+            "specialist_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "specialist_report_submitted",
+            true
+          ],
+          [
+            "EQ",
+            "audit_fee_paid",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:internal_control_established",
+        [
+          "EQ",
+          "internal_control_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "EQ",
+          "internal_control_system_established",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:internal_handling_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:internal_handling_established",
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_handling_established",
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:internal_operation_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:internal_operation_established",
+        [
+          "EQ",
+          "internal_operation_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_operation_established",
+        [
+          "EQ",
+          "internal_operation_system_established",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:derivative_operation_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:derivative_operation_established",
+        [
+          "EQ",
+          "derivative_operation_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "derivative_operation_established",
+        [
+          "EQ",
+          "derivative_operation_system_established",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:internal_control_executed",
+        [
+          "EQ",
+          "internal_control_system_executed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_system_executed",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:internal_handling_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:internal_handling_executed",
+        [
+          "EQ",
+          "internal_handling_system_executed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_handling_executed",
+        [
+          "EQ",
+          "internal_handling_system_executed",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:internal_operation_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:internal_operation_executed",
+        [
+          "EQ",
+          "internal_operation_system_executed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_operation_executed",
+        [
+          "EQ",
+          "internal_operation_system_executed",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:inspection_violation_refuse_inspect",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:inspection_violation_refuse_inspect",
+        [
+          "EQ",
+          "refuse_inspection",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_violation_refuse_inspect",
+        [
+          "EQ",
+          "refuse_inspection",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:inspection_violation_hide_destroy",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:inspection_violation_hide_destroy",
+        [
+          "EQ",
+          "hide_or_destroy_documents",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_violation_hide_destroy",
+        [
+          "EQ",
+          "hide_or_destroy_documents",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:inspection_violation_no_answer",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:inspection_violation_no_answer",
+        [
+          "EQ",
+          "no_answer_or_false_answer",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_violation_no_answer",
+        [
+          "EQ",
+          "no_answer_or_false_answer",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:inspection_violation_late_or_false_report",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:inspection_violation_late_or_false_report",
+        [
+          "OR",
+          [
+            "EQ",
+            "late_report",
+            true
+          ],
+          [
+            "EQ",
+            "false_or_incomplete_report",
+            true
+          ],
+          [
+            "EQ",
+            "audit_fee_not_paid",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_violation_late_or_false_report",
+        [
+          "OR",
+          [
+            "EQ",
+            "late_report",
+            true
+          ],
+          [
+            "EQ",
+            "false_or_incomplete_report",
+            true
+          ],
+          [
+            "EQ",
+            "audit_fee_not_paid",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:inspection_violation_any",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:inspection_violation_any",
+        [
+          "OR",
+          [
+            "EQ",
+            "bank:inspection_violation_refuse_inspect",
+            true
+          ],
+          [
+            "EQ",
+            "bank:inspection_violation_hide_destroy",
+            true
+          ],
+          [
+            "EQ",
+            "bank:inspection_violation_no_answer",
+            true
+          ],
+          [
+            "EQ",
+            "bank:inspection_violation_late_or_false_report",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_violation_any",
+        [
+          "OR",
+          [
+            "EQ",
+            "inspection_violation_refuse_inspect",
+            true
+          ],
+          [
+            "EQ",
+            "inspection_violation_hide_destroy",
+            true
+          ],
+          [
+            "EQ",
+            "inspection_violation_no_answer",
+            true
+          ],
+          [
+            "EQ",
+            "inspection_violation_late_or_false_report",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:violation_internal_control",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation_internal_control",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "bank:internal_control_established",
+              true
+            ],
+            [
+              "EQ",
+              "bank:internal_control_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_internal_control",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ],
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:violation_internal_handling",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation_internal_handling",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "bank:internal_handling_established",
+              true
+            ],
+            [
+              "EQ",
+              "bank:internal_handling_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_internal_handling",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_handling_established",
+              true
+            ],
+            [
+              "EQ",
+              "internal_handling_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:violation_internal_operation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation_internal_operation",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "bank:internal_operation_established",
+              true
+            ],
+            [
+              "EQ",
+              "bank:internal_operation_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_internal_operation",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_operation_established",
+              true
+            ],
+            [
+              "EQ",
+              "internal_operation_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:violation_internal_control_or_handling_or_operation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation_internal_control_or_handling_or_operation",
+        [
+          "OR",
+          [
+            "EQ",
+            "bank:violation_internal_control",
+            true
+          ],
+          [
+            "EQ",
+            "bank:violation_internal_handling",
+            true
+          ],
+          [
+            "EQ",
+            "bank:violation_internal_operation",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_internal_control_or_handling_or_operation",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_internal_control",
+            true
+          ],
+          [
+            "EQ",
+            "violation_internal_handling",
+            true
+          ],
+          [
+            "EQ",
+            "violation_internal_operation",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:cloud_service_policy_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:cloud_service_policy_established",
+        [
+          "EQ",
+          "cloud_service_policy_defined",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "cloud_service_policy_established",
+        [
+          "EQ",
+          "cloud_service_policy_defined",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:cloud_service_supervision",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:cloud_service_supervision",
+        [
+          "EQ",
+          "cloud_service_supervision_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "cloud_service_supervision",
+        [
+          "EQ",
+          "cloud_service_supervision_implemented",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:cloud_service_third_party_audit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:cloud_service_third_party_audit",
+        [
+          "EQ",
+          "cloud_service_third_party_audit_done",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "cloud_service_third_party_audit",
+        [
+          "EQ",
+          "cloud_service_third_party_audit_done",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:cloud_service_data_protection",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:cloud_service_data_protection",
+        [
+          "EQ",
+          "cloud_service_data_encrypted",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "cloud_service_data_protection",
+        [
+          "EQ",
+          "cloud_service_data_encrypted",
+          true
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:cloud_service_data_ownership",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:cloud_service_data_ownership",
+        [
+          "AND",
+          [
+            "EQ",
+            "data_ownership_retained",
+            true
+          ],
+          [
+            "EQ",
+            "data_access_limited",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "cloud_service_data_ownership",
+        [
+          "AND",
+          [
+            "EQ",
+            "data_ownership_retained",
+            true
+          ],
+          [
+            "EQ",
+            "data_access_limited",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "bank:cloud_service_data_location_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:cloud_service_data_location_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "data_location_rights",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_data_protection_not_lower_than_domestic",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "customer_data_stored_domestically",
+              true
+            ],
+            [
+              "AND",
+              [
+                "EQ",
+                "foreign_storage_approved",
+                true
+              ],
+              [
+                "EQ",
+                "customer_data_backup_in_domestic",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "cloud_service_data_location_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "data_location_rights",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_data_protection_not_lower_than_domestic",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "customer_data_stored_domestically",
+              true
+            ],
+            [
+              "AND",
+              [
+                "EQ",
+                "foreign_storage_approved",
+                true
+              ],
+              [
+                "EQ",
+                "customer_data_backup_in_domestic",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "bank:inspection_violation_any",
+            true
+          ],
+          [
+            "EQ",
+            "bank:violation_internal_control_or_handling_or_operation",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "inspection_violation_any",
+            true
+          ],
+          [
+            "EQ",
+            "violation_internal_control_or_handling_or_operation",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.76
+    }
+  ]
+}

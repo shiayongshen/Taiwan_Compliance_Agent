@@ -1,0 +1,688 @@
+{
+  "case_id": "case_220",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 80.83,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 13212,
+  "total_output_tokens": 5857,
+  "total_tokens": 19069,
+  "total_cost_usd": 0.014656,
+  "timestamp": "2025-10-21T04:53:24.692823",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1871,
+      "output_tokens": 1870,
+      "elapsed_time": 29.692623615264893,
+      "cost": 0.0037404000000000005
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 5976,
+      "output_tokens": 1875,
+      "elapsed_time": 20.869255781173706,
+      "cost": 0.0053904
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 229,
+      "output_tokens": 939,
+      "elapsed_time": 12.21373701095581,
+      "cost": 0.0015940000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 229,
+      "output_tokens": 939,
+      "elapsed_time": 14.468936681747437,
+      "cost": 0.0015940000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4907,
+      "output_tokens": 234,
+      "elapsed_time": 3.550208330154419,
+      "cost": 0.0023372
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "4783 chars",
+      "timestamp": 29.692623615264893
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4805 chars",
+      "timestamp": 50.5618793964386
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 50.5618793964386
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "38 varspecs",
+      "timestamp": 62.77561640739441
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 62.77961707115173
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 62.783618450164795
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 62.783618450164795
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "24 facts",
+      "timestamp": 80.80476427078247
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "24 constraints",
+      "timestamp": 80.80476427078247
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 80.8117663860321
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_conditions', 'c34', 'fcp:consumer_info_violation', 'meta:penalty_default_false']",
+      "timestamp": 80.8117663860321
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 80.81976461410522
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 62.783618450164795
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "trust:violation_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "trust:violation_penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_mandatory_prohibition",
+            true
+          ],
+          [
+            "EQ",
+            "fail_required_action",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_mandatory_prohibition",
+            true
+          ],
+          [
+            "EQ",
+            "fail_required_action",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "trust:contract_disclosure_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "trust:contract_disclosure_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "operation_scope_disclosed",
+            true
+          ],
+          [
+            "EQ",
+            "beneficiary_transfer_limit_disclosed",
+            true
+          ],
+          [
+            "EQ",
+            "risk_disclosure_disclosed",
+            true
+          ],
+          [
+            "EQ",
+            "trustor_informed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "contract_disclosure_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "operation_scope_disclosed",
+            true
+          ],
+          [
+            "EQ",
+            "beneficiary_transfer_limit_disclosed",
+            true
+          ],
+          [
+            "EQ",
+            "risk_disclosure_disclosed",
+            true
+          ],
+          [
+            "EQ",
+            "trustor_informed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "aml:internal_control_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:control_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_established",
+            true
+          ],
+          [
+            "EQ",
+            "control_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "aml:control_content_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:control_content_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:procedure_anti_money_laundering",
+            true
+          ],
+          [
+            "EQ",
+            "aml:regular_training",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedure",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_designated_matters",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "control_content_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "procedure_anti_money_laundering",
+            true
+          ],
+          [
+            "EQ",
+            "regular_training",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedure",
+            true
+          ],
+          [
+            "EQ",
+            "other_designated_matters",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "aml:regulator_periodic_inspection",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:regulator_periodic_inspection",
+        [
+          "EQ",
+          "aml:periodic_inspection_done",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "regulator_periodic_inspection",
+        [
+          "EQ",
+          "periodic_inspection_done",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "aml:violation_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:violation_penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "aml:control_not_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:control_content_not_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "aml:control_not_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "control_not_established",
+            true
+          ],
+          [
+            "EQ",
+            "control_content_not_compliant",
+            true
+          ],
+          [
+            "EQ",
+            "control_not_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "aml:inspection_obstruction_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:inspection_obstruction_penalty",
+        [
+          "EQ",
+          "aml:inspection_obstructed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_obstruction_penalty",
+        [
+          "EQ",
+          "inspection_obstructed",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "fcp:advertising_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fcp:advertising_violation",
+        [
+          "EQ",
+          "fcp:violate_advertising_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "advertising_violation",
+        [
+          "EQ",
+          "violate_advertising_rules",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "fcp:consumer_info_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fcp:consumer_info_violation",
+        [
+          "EQ",
+          "fcp:violate_consumer_info_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "consumer_info_violation",
+        [
+          "EQ",
+          "violate_consumer_info_rules",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "fcp:disclosure_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fcp:disclosure_violation",
+        [
+          "EQ",
+          "fcp:violate_disclosure_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "disclosure_violation",
+        [
+          "EQ",
+          "violate_disclosure_rules",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "fcp:remuneration_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fcp:remuneration_violation",
+        [
+          "EQ",
+          "fcp:violate_remuneration_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "remuneration_violation",
+        [
+          "EQ",
+          "violate_remuneration_rules",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "fcp:formal_condition_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fcp:formal_condition_violation",
+        [
+          "EQ",
+          "fcp:assist_formal_condition_violation",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "formal_condition_violation",
+        [
+          "EQ",
+          "assist_formal_condition_violation",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "fcp:major_violation_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fcp:major_violation_penalty",
+        [
+          "EQ",
+          "fcp:violation_major",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "major_violation_penalty",
+        [
+          "EQ",
+          "violation_major",
+          true
+        ]
+      ],
+      "timestamp": 62.78
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "trust:violation_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "aml:violation_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "aml:inspection_obstruction_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "fcp:advertising_violation",
+            true
+          ],
+          [
+            "EQ",
+            "fcp:consumer_info_violation",
+            true
+          ],
+          [
+            "EQ",
+            "fcp:disclosure_violation",
+            true
+          ],
+          [
+            "EQ",
+            "fcp:remuneration_violation",
+            true
+          ],
+          [
+            "EQ",
+            "fcp:formal_condition_violation",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "violation_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "inspection_obstruction_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "advertising_violation",
+            true
+          ],
+          [
+            "EQ",
+            "consumer_info_violation",
+            true
+          ],
+          [
+            "EQ",
+            "disclosure_violation",
+            true
+          ],
+          [
+            "EQ",
+            "remuneration_violation",
+            true
+          ],
+          [
+            "EQ",
+            "formal_condition_violation",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 62.78
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "case_id": "case_200",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 40.67,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 15242,
+  "total_output_tokens": 2468,
+  "total_tokens": 17710,
+  "total_cost_usd": 0.010046,
+  "timestamp": "2025-10-21T04:22:30.585864",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3360,
+      "output_tokens": 1285,
+      "elapsed_time": 16.72981548309326,
+      "cost": 0.0034000000000000002
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 8369,
+      "output_tokens": 1,
+      "elapsed_time": 0.002998828887939453,
+      "cost": 0.0033492000000000005
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 136,
+      "output_tokens": 534,
+      "elapsed_time": 7.288835525512695,
+      "cost": 0.0009088000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 136,
+      "output_tokens": 534,
+      "elapsed_time": 14.288831233978271,
+      "cost": 0.0009088000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3241,
+      "output_tokens": 114,
+      "elapsed_time": 2.3290634155273438,
+      "cost": 0.0014788000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3500 chars",
+      "timestamp": 16.72981548309326
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4 chars",
+      "timestamp": 16.7328143119812
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 16.7328143119812
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "17 varspecs",
+      "timestamp": 24.021649837493896
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 24.02465009689331
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 24.02965021133423
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 24.02965021133423
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "9 facts",
+      "timestamp": 40.649545669555664
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 40.649545669555664
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 40.65554618835449
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:penalty_conditions', 'c10', 'insurance:capital_level', 'insurance:serious_insufficient_and_no_measures', 'insurance:severely_insufficient_measures_executed', 'c16', 'meta:penalty_default_false']",
+      "timestamp": 40.65554618835449
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 40.663546323776245
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 24.02965021133423
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:capital_level",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "net_worth",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "GE",
+                "capital_adequacy_ratio",
+                50.0
+              ],
+              [
+                "LT",
+                "capital_adequacy_ratio",
+                150.0
+              ]
+            ],
+            [
+              "AND",
+              [
+                "LT",
+                "net_worth_ratio_prev1",
+                3.0
+              ],
+              [
+                "LT",
+                "net_worth_ratio_prev2",
+                3.0
+              ],
+              [
+                "GE",
+                [
+                  "MAX",
+                  "net_worth_ratio_prev1",
+                  "net_worth_ratio_prev2"
+                ],
+                2.0
+              ]
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          2,
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          1,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "net_worth",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "GE",
+                "capital_adequacy_ratio",
+                50.0
+              ],
+              [
+                "LT",
+                "capital_adequacy_ratio",
+                150.0
+              ]
+            ],
+            [
+              "AND",
+              [
+                "LT",
+                "net_worth_ratio_prev1",
+                3.0
+              ],
+              [
+                "LT",
+                "net_worth_ratio_prev2",
+                3.0
+              ],
+              [
+                "GE",
+                [
+                  "CASE",
+                  [
+                    "GE",
+                    "net_worth_ratio_prev1",
+                    "net_worth_ratio_prev2"
+                  ],
+                  "net_worth_ratio_prev1",
+                  "net_worth_ratio_prev2"
+                ],
+                2.0
+              ]
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          2,
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          1,
+          0
+        ]
+      ],
+      "timestamp": 24.02
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 24.02
+    }
+  ]
+}

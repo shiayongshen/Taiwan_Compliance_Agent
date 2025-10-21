@@ -1,0 +1,126 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4592 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5444 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (12 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (35 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 1
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (12 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (24 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (24 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['insurance:violation_of_investment_regulations', 'insurance:penalty_default_false', 'insurance:penalty_conditions', 'c23'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['insurance:violation_of_investment_regulations', 'insurance:penalty_default_false', 'insurance:penalty_conditions', 'c23'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_93
+
+📊 Model (filtered):
+   capital_adequacy_ratio = 120
+   social_housing_only_rental = False
+   net_worth_ratio = 3/2
+   real_estate_total_investment = 400000000
+   self_use_real_estate_investment = 100000000
+   real_estate_in_use = False
+   net_worth = 500000000
+   level_4_measures_executed = False
+   capital_fund = 1000000000
+   real_estate_valuation_done = True
+   owner_equity_total = 300000000
+   improvement_plan_executed = False
+   level_3_measures_executed = True
+   improvement_plan_submitted = False
+   real_estate_has_income = False
+   self_use_real_estate_limit = 1
+   real_estate_investment_limit = 1
+   violation_of_investment_regulations = False
+   capital_level_2_measures_executed = False
+   capital_level = 3
+   social_housing_exemption = False
+   violate_146_8 = False
+   violate_146_2 = False
+   violate_146_9 = False
+   violate_146_4 = False
+   violate_146_3 = False
+   penalty = False
+   real_estate_investment_compliance = False
+   violate_146_1 = False
+   real_estate_valuation_required = True
+   violate_146_6 = False
+   violate_146_7 = False
+   capital_level_4_measures_executed = False
+   violate_146_5 = False
+   capital_level_3_measures_executed = True
+✅ Model saved to: outputs\case_93.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_93.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_93.smt2

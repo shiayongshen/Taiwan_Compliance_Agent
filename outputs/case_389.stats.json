@@ -1,0 +1,147 @@
+{
+  "case_id": "case_389",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 41.4,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 7980,
+  "total_output_tokens": 3775,
+  "total_tokens": 11755,
+  "total_cost_usd": 0.009232,
+  "timestamp": "2025-10-21T08:40:16.708382",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 634,
+      "output_tokens": 1249,
+      "elapsed_time": 8.717752695083618,
+      "cost": 0.002252
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 2881,
+      "output_tokens": 1290,
+      "elapsed_time": 9.924288511276245,
+      "cost": 0.0032164000000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 140,
+      "output_tokens": 624,
+      "elapsed_time": 9.576159000396729,
+      "cost": 0.0010544
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 140,
+      "output_tokens": 514,
+      "elapsed_time": 11.033016443252563,
+      "cost": 0.0008784000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4185,
+      "output_tokens": 98,
+      "elapsed_time": 2.123966932296753,
+      "cost": 0.0018308
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3263 chars",
+      "timestamp": 8.717752695083618
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "3439 chars",
+      "timestamp": 18.642041206359863
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 18.642041206359863
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "21 varspecs",
+      "timestamp": 28.218200206756592
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 28.221200466156006
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 28.226199865341187
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 28.226199865341187
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "9 facts",
+      "timestamp": 41.3831832408905
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 41.3831832408905
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 41.389182329177856
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:capital_info_reported_exemption', 'insurance:capital_info_reported_compliance', 'c13', 'c15', 'meta:penalty_default_false', 'insurance:capital_info_reported_annual', 'meta:penalty_conditions', 'insurance:capital_info_reported_semiannual', 'insurance:capital_info_reported_required', 'c18']",
+      "timestamp": 41.389182329177856
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 41.396180391311646
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 28.226199865341187
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 28.22
+    }
+  ]
+}

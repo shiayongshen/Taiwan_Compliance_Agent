@@ -1,0 +1,541 @@
+{
+  "case_id": "case_179",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 65.92,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 10717,
+  "total_output_tokens": 3995,
+  "total_tokens": 14712,
+  "total_cost_usd": 0.010679,
+  "timestamp": "2025-10-21T04:00:55.624808",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1687,
+      "output_tokens": 1263,
+      "elapsed_time": 17.876188278198242,
+      "cost": 0.0026956000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 5001,
+      "output_tokens": 1431,
+      "elapsed_time": 22.524054527282715,
+      "cost": 0.00429
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 163,
+      "output_tokens": 564,
+      "elapsed_time": 11.547680377960205,
+      "cost": 0.0009676
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 163,
+      "output_tokens": 564,
+      "elapsed_time": 10.672590017318726,
+      "cost": 0.0009676
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3703,
+      "output_tokens": 173,
+      "elapsed_time": 3.2806334495544434,
+      "cost": 0.0017580000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3331 chars",
+      "timestamp": 17.876188278198242
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "3782 chars",
+      "timestamp": 40.40024280548096
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "8 constraints",
+      "timestamp": 40.40024280548096
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "22 varspecs",
+      "timestamp": 51.94792318344116
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "8 constraints",
+      "timestamp": 51.950923204422
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 51.95492362976074
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 51.95492362976074
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "16 facts",
+      "timestamp": 65.90814709663391
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "16 constraints",
+      "timestamp": 65.90814709663391
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 65.91314768791199
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c23', 'meta:penalty_default_false']",
+      "timestamp": 65.91314768791199
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 65.9191484451294
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 51.95492362976074
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_designated_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_designated_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 51.95
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 51.95
+    },
+    {
+      "id": "aml:account_monitoring_policy_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:account_monitoring_policy_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:customer_data_integrated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:internal_control_procedures_for_data_access",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_based_monitoring_policy_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:monitoring_policy_includes_required_elements",
+            true
+          ],
+          [
+            "EQ",
+            "aml:monitoring_policy_written",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "account_monitoring_policy_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_data_integrated",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_procedures_for_data_access",
+            true
+          ],
+          [
+            "EQ",
+            "risk_based_monitoring_policy_established",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_policy_includes_required_elements",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_policy_written",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 51.95
+    },
+    {
+      "id": "aml:account_monitoring_policy_reviewed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:account_monitoring_policy_reviewed",
+        [
+          "EQ",
+          "aml:monitoring_policy_review_and_update_done",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "account_monitoring_policy_reviewed",
+        [
+          "EQ",
+          "monitoring_policy_review_and_update_done",
+          true
+        ]
+      ],
+      "timestamp": 51.95
+    },
+    {
+      "id": "aml:monitoring_records_kept",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:monitoring_records_kept",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:monitoring_execution_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "aml:monitoring_records_retained_within_period",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "monitoring_records_kept",
+        [
+          "AND",
+          [
+            "EQ",
+            "monitoring_execution_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_records_retained_within_period",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 51.95
+    },
+    {
+      "id": "aml:compliance_overall",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:compliance_overall",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:internal_control_executed",
+            true
+          ],
+          [
+            "EQ",
+            "aml:account_monitoring_policy_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:account_monitoring_policy_reviewed",
+            true
+          ],
+          [
+            "EQ",
+            "aml:monitoring_records_kept",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_overall",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ],
+          [
+            "EQ",
+            "account_monitoring_policy_established",
+            true
+          ],
+          [
+            "EQ",
+            "account_monitoring_policy_reviewed",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_records_kept",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 51.95
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:account_monitoring_policy_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:account_monitoring_policy_reviewed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:monitoring_records_kept",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "account_monitoring_policy_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "account_monitoring_policy_reviewed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "monitoring_records_kept",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 51.95
+    }
+  ]
+}

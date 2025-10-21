@@ -1,0 +1,333 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            50.0
+          ],
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev1",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev1",
+            2.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev2",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev2",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            150.0
+          ],
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            100.0
+          ],
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate",
+    "desc": "資本適足：資本等級為1",
+    "expr": [
+      "EQ",
+      "capital_adequate",
+      [
+        "EQ",
+        "capital_level",
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient",
+    "desc": "資本不足：資本等級為2",
+    "expr": [
+      "EQ",
+      "capital_insufficient",
+      [
+        "EQ",
+        "capital_level",
+        2
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient",
+    "desc": "資本顯著不足：資本等級為3",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient",
+      [
+        "EQ",
+        "capital_level",
+        3
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient",
+    "desc": "資本嚴重不足：資本等級為4",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient",
+      [
+        "EQ",
+        "capital_level",
+        4
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:level_2_measures_executed",
+    "desc": "資本不足等級措施執行完成（提出增資或改善計畫且確實執行）",
+    "expr": [
+      "EQ",
+      "level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_insufficient_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "capital_insufficient_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:level_3_measures_executed",
+    "desc": "資本顯著不足等級措施執行完成（包含資本不足措施及主管機關規定之其他措施）",
+    "expr": [
+      "EQ",
+      "level_3_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "level_2_measures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "capital_significantly_insufficient_additional_measures_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:level_4_measures_executed",
+    "desc": "資本嚴重不足等級措施執行完成（包含資本顯著不足措施及第一百四十九條第三項第一款規定之處分）",
+    "expr": [
+      "EQ",
+      "level_4_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "level_3_measures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "capital_severely_insufficient_additional_measures_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本不足等級且未執行對應措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_severely_insufficient",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_significantly_insufficient",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_insufficient",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "level_2_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

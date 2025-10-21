@@ -1,0 +1,259 @@
+[
+  {
+    "id": "audit:approval_required",
+    "desc": "會計師辦理查核簽證須經主管機關核准",
+    "expr": [
+      "EQ",
+      "approval_required",
+      [
+        "EQ",
+        "audit_engagement_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:follow_rules",
+    "desc": "會計師辦理查核簽證應依主管機關規定之查核簽證規則辦理",
+    "expr": [
+      "EQ",
+      "follow_rules",
+      [
+        "EQ",
+        "audit_follow_regulations",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:financial_report_available",
+    "desc": "第三十六條第一項財務報告應備置於公司及分支機構供查閱或抄錄",
+    "expr": [
+      "EQ",
+      "financial_report_available",
+      [
+        "EQ",
+        "financial_report_placed_at_company_and_branches",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:evidence_sufficient",
+    "desc": "會計師應依審計準則500號獲取足夠與適切之查核證據",
+    "expr": [
+      "EQ",
+      "evidence_sufficient",
+      [
+        "EQ",
+        "sufficient_and_appropriate_evidence_obtained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:documentation_updated",
+    "desc": "會計師應設置並持續更新查核相關檔案",
+    "expr": [
+      "EQ",
+      "documentation_updated",
+      [
+        "EQ",
+        "audit_documentation_established_and_updated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:management_informed_and_action_taken",
+    "desc": "管理階層及治理單位已被告知財務報表須修改且採取必要步驟",
+    "expr": [
+      "EQ",
+      "management_informed_and_action_taken",
+      [
+        "AND",
+        [
+          "EQ",
+          "management_informed_of_modifications",
+          true
+        ],
+        [
+          "EQ",
+          "governance_unit_informed",
+          true
+        ],
+        [
+          "EQ",
+          "necessary_steps_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:appropriate_action_taken",
+    "desc": "查核人員採取適當行動避免財務報表使用者信賴原查核報告",
+    "expr": [
+      "EQ",
+      "appropriate_action_taken",
+      [
+        "EQ",
+        "auditor_took_appropriate_action",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "audit:error_penalty_level",
+    "desc": "會計師查核簽證錯誤或疏漏處分等級（1=警告, 2=停止辦理2年內簽證, 3=撤銷核准）",
+    "expr": [
+      "EQ",
+      "error_penalty_level",
+      [
+        "CASE",
+        [
+          "EQ",
+          "audit_error",
+          false
+        ],
+        0,
+        [
+          "AND",
+          [
+            "EQ",
+            "audit_error",
+            true
+          ],
+          [
+            "EQ",
+            "error_severity",
+            1
+          ]
+        ],
+        1,
+        [
+          "AND",
+          [
+            "EQ",
+            "audit_error",
+            true
+          ],
+          [
+            "EQ",
+            "error_severity",
+            2
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "EQ",
+            "audit_error",
+            true
+          ],
+          [
+            "EQ",
+            "error_severity",
+            3
+          ]
+        ],
+        3,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "audit"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反查核簽證核准、規則遵循、財報備置、查核證據、檔案更新或錯誤處分時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "approval_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "follow_rules",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_report_available",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "evidence_sufficient",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "documentation_updated",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "audit_error",
+            true
+          ],
+          [
+            "GT",
+            "error_penalty_level",
+            0
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

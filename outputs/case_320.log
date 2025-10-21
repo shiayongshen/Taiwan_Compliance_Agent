@@ -1,0 +1,125 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5365 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7682 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (11 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (23 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 1
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL (Unsupported operator: NE)
+⚠️ Found 1 problematic constraints:
+  - [insurance:capital_severely_insufficient_plan_completed] Unsupported operator: NE
+⚠️ Constraints parse failed: Unsupported operator: NE
+🔄 Repair attempt 1
+📍 Found 1 problematic constraint(s):
+   [insurance:capital_severely_insufficient_plan_completed] Unsupported operator: NE
+
+🔧 修復 constraint [insurance:capital_severely_insufficient_plan_completed]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance:capital_severely_insufficient_plan_completed] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (12 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (12 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c22', 'insurance:capital_level', 'c11', 'meta:penalty_conditions', 'insurance:capital_severely_insufficient_penalty_condition', 'insurance:capital_severely_insufficient_plan_completed', 'c18', 'c20', 'c17', 'insurance:penalty_default_false', 'c19'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c22', 'insurance:capital_level', 'c11', 'meta:penalty_conditions', 'insurance:capital_severely_insufficient_penalty_condition', 'insurance:capital_severely_insufficient_plan_completed', 'c18', 'c20', 'c17', 'insurance:penalty_default_false', 'c19'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_320
+
+📊 Model (filtered):
+   capital_adequacy_ratio = 40
+   days_after_deadline = 0
+   capital_increase_completed = False
+   net_worth_ratio_prev = -10
+   merger_completed = False
+   net_worth_ratio = -10
+   profit_loss_accelerated_deterioration = False
+   net_worth = -1000000
+   financial_improvement_plan_completed = False
+   improvement_plan_executed = False
+   business_improvement_plan_completed = False
+   improvement_plan_submitted = False
+   capital_significantly_insufficient_plan_executed = False
+   capital_insufficient_plan_executed = False
+   penalty = False
+   capital_significantly_insufficient_penalty_condition = False
+   capital_insufficient_plan_submitted = False
+   capital_severely_insufficient_penalty_condition = False
+   capital_level = 4
+   capital_significantly_insufficient_plan_submitted = False
+   capital_significantly_worsened_condition = False
+   capital_severely_insufficient_plan_completed = False
+✅ Model saved to: outputs\case_320.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_320.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_320.smt2

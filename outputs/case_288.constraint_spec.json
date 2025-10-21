@@ -1,0 +1,100 @@
+[
+  {
+    "id": "trust:internal_control_and_audit_established",
+    "desc": "信託業建立內部控制及稽核制度並設置稽核單位",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_unit_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:violation_penalty_applicable",
+    "desc": "違反信託業法或命令者適用罰鍰",
+    "expr": [
+      "EQ",
+      "violation_penalty_applicable",
+      [
+        "EQ",
+        "violate_law_or_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:penalty_amount_range",
+    "desc": "罰鍰金額介於60萬至300萬新臺幣",
+    "expr": [
+      "EQ",
+      "penalty_amount_valid",
+      [
+        "AND",
+        [
+          "GE",
+          "penalty_amount",
+          600000
+        ],
+        [
+          "LE",
+          "penalty_amount",
+          3000000
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:penalty_conditions",
+    "desc": "處罰條件：違反本法或命令中強制或禁止規定者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violate_law_or_order",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "exempted_by_other_penalty",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "trust:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

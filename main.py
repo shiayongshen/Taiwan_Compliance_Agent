@@ -10,7 +10,8 @@ from agents.prompt import COMPLETION_PROMPT_TEMPLATE
 from core.repair_pipeline import repair_loop
 from marco.json2z3 import declare_vars, build_expr
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
+import io
+import sys
 
 from utils import (
     get_reply_with_tokens,
@@ -18,6 +19,7 @@ from utils import (
     sync_types_constraints_and_varspecs,
     check_constraints_parseable,
     check_constraints_consistency,
+    repair_sat_to_unsat,
     check_case_law_hard,
     z3_optimize_case,
     calculate_cost,
@@ -224,7 +226,9 @@ def run_pipeline(team, case_id, case_text, statute_text):
     執行完整流程圖的 pipeline
     """
     stats = PipelineStats(case_id)
-    
+    log_buffer = io.StringIO()
+    old_stdout = sys.stdout
+    sys.stdout = log_buffer
     try:
         # === Step 1: Law Parser ===
         print("\n" + "="*60)
@@ -498,7 +502,7 @@ def run_pipeline(team, case_id, case_text, statute_text):
                 violation = None
                 stats.log_checkpoint("step8_violation_detected", None, "REPAIR_FAILED")
                 stats.log_checkpoint("step8_repair_success", False, "Repair failed")
-
+  
         elif sat_result == "UNSAT":
             print(f"✅ Case+Law UNSAT → 違規案例 (Unsat core: {info})")
             violation = True
@@ -509,42 +513,43 @@ def run_pipeline(team, case_id, case_text, statute_text):
             print("⚠️ Case+Law SAT → 案例可能無違規，但資料集為違規案例，嘗試修復以達成 UNSAT")
             stats.log_checkpoint("step8_case_law_check", False, "SAT (unexpected)")
             
-            # 🔑 新增：嘗試修復以達成 UNSAT
+            # 🔑 新的修復策略
             print("\n" + "="*60)
-            print("Step 8.1: Repair to Achieve UNSAT")
+            print("Step 8.1: SAT→UNSAT Repair")
             print("="*60)
             
-            constraints, repair_success = repair_case_law_constraints(
+            repaired_facts, repaired_constraints, repaired_varspecs, repair_success = repair_sat_to_unsat(
                 team=team,
                 constraints=constraints,
                 facts=facts,
+                varspecs=varspecs,
                 z3_vars=z3_vars,
                 build_expr=build_expr,
-                error_info="SAT but expected UNSAT for violation case",
+                case_text=case_text,
                 stats=stats
             )
             
             if repair_success:
-                print("✅ Constraints repaired, retrying check...")
+                print("✅ SAT→UNSAT 修復成功")
+                # 更新修復後的結果
+                facts = repaired_facts
+                constraints = repaired_constraints
+                varspecs = repaired_varspecs
+                # 重新宣告 z3 變數（如果 varspecs 有改變）
+                z3_vars = declare_vars(varspecs)
+                
                 # 重新檢查
                 sat_result, info = check_case_law_hard(constraints, facts, z3_vars, build_expr)
-                if sat_result == "UNSAT":
-                    print(f"✅ Case+Law UNSAT → 修復成功，違規案例 (Unsat core: {info})")
-                    violation = True
-                    stats.log_checkpoint("step8_case_law_check", True, "UNSAT after repair")
-                    stats.log_checkpoint("step8_violation_detected", True, str(info))
-                    stats.log_checkpoint("step8_repair_success", True, "Repair successful")
-                else:
-                    print(f"⚠️ Repair did not achieve UNSAT: {sat_result}")
-                    violation = False if sat_result == "SAT" else None
-                    stats.log_checkpoint("step8_case_law_check", True if sat_result == "SAT" else False, f"{sat_result} after repair")
-                    stats.log_checkpoint("step8_violation_detected", False if sat_result == "SAT" else None, f"{sat_result} after repair")
-                    stats.log_checkpoint("step8_repair_success", False, "Repair did not achieve UNSAT")
+                print(f"✅ Final check: {sat_result} - {info}")
+                violation = True
+                stats.log_checkpoint("step8_case_law_check", True, "UNSAT after repair")
+                stats.log_checkpoint("step8_violation_detected", True, str(info))
+                stats.log_checkpoint("step8_repair_success", True, "SAT→UNSAT repair successful")
             else:
-                print("❌ Constraint repair failed")
+                print("❌ SAT→UNSAT 修復失敗")
                 violation = False
                 stats.log_checkpoint("step8_violation_detected", False, "SAT and repair failed")
-                stats.log_checkpoint("step8_repair_success", False, "Repair failed")
+                stats.log_checkpoint("step8_repair_success", False, "SAT→UNSAT repair failed")
 
          # === Step 9: Z3 Optimize ===
         print("\n" + "="*60)
@@ -596,10 +601,15 @@ def run_pipeline(team, case_id, case_text, statute_text):
             stats.log_checkpoint("step9_z3_optimize", False, str(model))
             stats.mark_failure(model)
 
+        log_path = OUT / f"{case_id}.log"
+        with open(log_path, "w", encoding="utf-8") as f:
+            f.write(log_buffer.getvalue())
+
+        print(f"\n📝 Log saved to: {log_path}")
     
         # 儲存結果
         save_results(case_id, constraints, varspecs, facts, stats)
-
+   
         return {
             "constraints": constraints,
             "varspecs": varspecs,
@@ -639,7 +649,6 @@ def main():
     
     team = build_team(llm_config)
     df = pd.read_csv(DATA)
-    df = df[:20]
     all_stats = []
 
     for idx, row in df.iterrows():

@@ -1,0 +1,324 @@
+[
+  {
+    "id": "fhc:non_credit_transaction_conditions_met",
+    "desc": "授信以外交易條件符合董事會出席及決議比例",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_conditions_met",
+      [
+        "AND",
+        [
+          "GE",
+          "board_attendance_ratio",
+          0.6666666667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_counterparty_type",
+    "desc": "授信以外交易對象類型符合規定",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_counterparty_type",
+      [
+        "OR",
+        [
+          "EQ",
+          "counterparty_is_fhc_and_responsible_or_major_shareholder",
+          true
+        ],
+        [
+          "EQ",
+          "counterparty_is_responsible_or_major_shareholder_business_or_enterprise",
+          true
+        ],
+        [
+          "EQ",
+          "counterparty_is_affiliated_company_and_responsible_or_major_shareholder",
+          true
+        ],
+        [
+          "EQ",
+          "counterparty_is_bank_insurance_securities_subsidiary_or_responsible",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_type",
+    "desc": "授信以外交易行為符合規定",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_type",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_is_invest_or_purchase_securities",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_purchase_real_estate_or_other_assets",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_sale_securities_real_estate_or_other_assets",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_contract_for_payment_or_service",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_agent_broker_or_commission_service",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_involves_related_third_party",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:excluded_securities",
+    "desc": "有價證券不包括銀行子公司發行之可轉讓定期存單",
+    "expr": [
+      "EQ",
+      "excluded_securities_ok",
+      [
+        "NOT",
+        [
+          "EQ",
+          "transaction_involves_bank_subsidiary_negotiable_certificate",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_related_party_limit_ok",
+    "desc": "銀行子公司與單一關係人交易金額不超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_related_party_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_single_related_party_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_related_parties_limit_ok",
+    "desc": "銀行子公司與所有利害關係人交易總額不超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_related_parties_limit_ok",
+      [
+        "LE",
+        "bank_subsidiary_all_related_parties_transaction_amount",
+        [
+          "MUL",
+          "bank_subsidiary_net_worth",
+          0.2
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_compliance",
+    "desc": "授信以外交易符合所有規定",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_credit_transaction_conditions_met",
+          true
+        ],
+        [
+          "EQ",
+          "non_credit_transaction_counterparty_type",
+          true
+        ],
+        [
+          "EQ",
+          "non_credit_transaction_type",
+          true
+        ],
+        [
+          "EQ",
+          "excluded_securities_ok",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_single_related_party_limit_ok",
+          true
+        ],
+        [
+          "EQ",
+          "bank_subsidiary_all_related_parties_limit_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_45",
+    "desc": "違反金融控股公司法第45條規定",
+    "expr": [
+      "EQ",
+      "violation_45",
+      [
+        "NOT",
+        [
+          "EQ",
+          "non_credit_transaction_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_14",
+    "desc": "違反第45條第一項交易條件限制或董事會決議方法",
+    "expr": [
+      "EQ",
+      "violation_60_14",
+      [
+        "EQ",
+        "violation_45",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_ok",
+    "desc": "保險業建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "保險業建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第45條或未建立或未執行保險業內部控制及處理制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_60_14",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

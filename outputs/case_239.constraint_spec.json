@@ -1,0 +1,897 @@
+[
+  {
+    "id": "financial_holding:violation_occurred",
+    "desc": "金融控股公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "financial_holding_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalties_applicable",
+    "desc": "主管機關得視情節輕重為下列處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_decision_made",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_types",
+    "desc": "金融控股公司可處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "revoke_statutory_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "suspend_subsidiary_business_part_or_all",
+            true
+          ],
+          [
+            "EQ",
+            "remove_manager_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "remove_or_suspend_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "dispose_subsidiary_shares",
+            true
+          ],
+          [
+            "EQ",
+            "revoke_permit",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:director_supervisor_removal_notify",
+    "desc": "解除董事、監察人職務時通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_removal_notify",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "remove_or_suspend_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "notify_ministry_of_economy",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:revoke_permit_requirements",
+    "desc": "廢止許可時處分股份及董事人數並禁止使用名稱",
+    "expr": [
+      "EQ",
+      "revoke_permit_requirements",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "revoke_permit",
+          true
+        ],
+        [
+          "AND",
+          [
+            "LE",
+            "subsidiary_shares_held",
+            "legal_limit_shares"
+          ],
+          [
+            "LE",
+            "subsidiary_directors_appointed",
+            "legal_limit_directors"
+          ],
+          [
+            "EQ",
+            "prohibit_use_financial_holding_name",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:revoke_permit_penalty",
+    "desc": "未於期限內完成處分者應解散清算",
+    "expr": [
+      "EQ",
+      "revoke_permit_penalty",
+      [
+        "IMPLIES",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "LE",
+              "subsidiary_shares_held",
+              "legal_limit_shares"
+            ],
+            [
+              "LE",
+              "subsidiary_directors_appointed",
+              "legal_limit_directors"
+            ],
+            [
+              "EQ",
+              "prohibit_use_financial_holding_name",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "dissolution_and_liquidation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "internal_control:consultation_channel_established",
+    "desc": "建立法令規章諮詢溝通管道",
+    "expr": [
+      "EQ",
+      "consultation_channel_established",
+      [
+        "EQ",
+        "consultation_channel",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "internal_control:report_to_board_includes_analysis",
+    "desc": "法令遵循單位提報董事會報告包含缺失分析及改善建議",
+    "expr": [
+      "EQ",
+      "report_to_board_includes_analysis",
+      [
+        "AND",
+        [
+          "EQ",
+          "report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "includes_deficiency_analysis",
+          true
+        ],
+        [
+          "EQ",
+          "includes_improvement_suggestions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "internal_control:compliance_unit_duties",
+    "desc": "法令遵循單位應辦理事項",
+    "expr": [
+      "EQ",
+      "compliance_unit_duties",
+      [
+        "AND",
+        [
+          "EQ",
+          "establish_clear_communication_system",
+          true
+        ],
+        [
+          "EQ",
+          "confirm_regulations_updated",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_supervisor_issues_opinion_before_new_business",
+          true
+        ],
+        [
+          "EQ",
+          "set_evaluation_procedures_and_supervise",
+          true
+        ],
+        [
+          "EQ",
+          "provide_appropriate_training",
+          true
+        ],
+        [
+          "EQ",
+          "supervise_implementation_of_internal_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "internal_control:internal_audit_exemption",
+    "desc": "內部稽核單位自行訂定評估程序不適用部分規定",
+    "expr": [
+      "EQ",
+      "internal_audit_exemption",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "unit_is_internal_audit",
+          true
+        ],
+        [
+          "EQ",
+          "exempt_from_compliance_unit_duties_4",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "internal_control:foreign_branch_compliance",
+    "desc": "國外營業單位法令遵循要求",
+    "expr": [
+      "EQ",
+      "foreign_branch_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "collect_local_financial_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "implement_self_assessment",
+          true
+        ],
+        [
+          "EQ",
+          "ensure_compliance_supervisor_qualification",
+          true
+        ],
+        [
+          "EQ",
+          "ensure_compliance_resources_adequate",
+          true
+        ],
+        [
+          "EQ",
+          "establish_risk_assessment_and_monitoring",
+          true
+        ],
+        [
+          "EQ",
+          "engage_external_expert_for_high_risk_verification",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "internal_control:self_assessment_frequency",
+    "desc": "法令遵循自行評估每半年至少辦理一次",
+    "expr": [
+      "EQ",
+      "self_assessment_frequency",
+      [
+        "GE",
+        "self_assessment_times_per_year",
+        2
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "internal_control:self_assessment_document_retention",
+    "desc": "自行評估工作底稿及資料保存至少五年",
+    "expr": [
+      "EQ",
+      "self_assessment_document_retention",
+      [
+        "GE",
+        "document_retention_years",
+        5
+      ]
+    ],
+    "weight": 1,
+    "domain": "internal_control"
+  },
+  {
+    "id": "bank:violation_occurred",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "bank_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalties_applicable",
+    "desc": "主管機關得視情節輕重為下列處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_decision_made",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_types",
+    "desc": "銀行可處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "revoke_statutory_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "suspend_partial_business",
+            true
+          ],
+          [
+            "EQ",
+            "restrict_investment",
+            true
+          ],
+          [
+            "EQ",
+            "order_or_prohibit_asset_disposition",
+            true
+          ],
+          [
+            "EQ",
+            "order_closure_of_branches_or_departments",
+            true
+          ],
+          [
+            "EQ",
+            "remove_manager_or_staff_or_suspend",
+            true
+          ],
+          [
+            "EQ",
+            "remove_or_suspend_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "order_provision_of_reserve_funds",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:director_supervisor_removal_notify",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關撤銷或廢止登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_removal_notify",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "remove_or_suspend_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "notify_company_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance",
+    "desc": "主管機關得指定機構辦理業務輔導",
+    "expr": [
+      "EQ",
+      "business_guidance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "operational_deficiency_exists",
+          true
+        ],
+        [
+          "EQ",
+          "designate_guidance_agency",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "e_payment:violation_occurred",
+    "desc": "專營電子支付機構違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "e_payment_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:penalties_applicable",
+    "desc": "主管機關得視情節輕重為下列處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_decision_made",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:penalty_types",
+    "desc": "專營電子支付機構可處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "revoke_shareholders_or_board_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "revoke_all_or_part_business_permit",
+            true
+          ],
+          [
+            "EQ",
+            "remove_manager_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "remove_or_suspend_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "order_provision_of_reserve_or_capital_increase",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:director_supervisor_removal_notify",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關廢止登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_removal_notify",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "remove_or_suspend_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "notify_company_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "e_payment:non_e_payment_business_violation",
+    "desc": "非電子支付機構經主管機關許可經營特定業務違反法令準用規定",
+    "expr": [
+      "EQ",
+      "non_e_payment_business_violation",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "non_e_payment_business_operated_with_permit",
+          true
+        ],
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "e_payment"
+  },
+  {
+    "id": "bill_finance:violation_occurred",
+    "desc": "票券金融公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "bill_finance_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "bill_finance:apply_bank_law_61_1",
+    "desc": "票券金融公司違反法令準用銀行法第61-1條規定",
+    "expr": [
+      "EQ",
+      "apply_bank_law_61_1",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "insurance_agent:violation_occurred",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "insurance_agent_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:penalties_applicable",
+    "desc": "主管機關得視情節輕重為下列處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_decision_made",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:penalty_types",
+    "desc": "保險代理人可處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "restrict_business_scope",
+            true
+          ],
+          [
+            "EQ",
+            "order_company_remove_manager_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "remove_or_suspend_company_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:director_supervisor_removal_notify",
+    "desc": "解除公司董事或監察人職務時通知主管機關註銷登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_removal_notify",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "remove_or_suspend_company_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "notify_company_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司、銀行、電子支付機構、票券金融公司、保險代理人相關法令規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalties_applicable",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalties_applicable",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalties_applicable",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "apply_bank_law_61_1",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "penalties_applicable",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

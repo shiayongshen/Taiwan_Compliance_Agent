@@ -1,0 +1,379 @@
+[
+  {
+    "id": "bank:credit_limit_natural_person_total",
+    "desc": "銀行對同一自然人授信總餘額不得超過淨值百分之三",
+    "expr": [
+      "EQ",
+      "credit_limit_natural_person_total",
+      [
+        "LE",
+        "credit_exposure_natural_person_total",
+        [
+          "MUL",
+          "net_worth",
+          0.03
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_natural_person_unsecured",
+    "desc": "銀行對同一自然人無擔保授信總餘額不得超過淨值百分之一",
+    "expr": [
+      "EQ",
+      "credit_limit_natural_person_unsecured",
+      [
+        "LE",
+        "credit_exposure_natural_person_unsecured",
+        [
+          "MUL",
+          "net_worth",
+          0.01
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_legal_person_total",
+    "desc": "銀行對同一法人授信總餘額不得超過淨值百分之十五",
+    "expr": [
+      "EQ",
+      "credit_limit_legal_person_total",
+      [
+        "LE",
+        "credit_exposure_legal_person_total",
+        [
+          "MUL",
+          "net_worth",
+          0.15
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_legal_person_unsecured",
+    "desc": "銀行對同一法人無擔保授信總餘額不得超過淨值百分之五",
+    "expr": [
+      "EQ",
+      "credit_limit_legal_person_unsecured",
+      [
+        "LE",
+        "credit_exposure_legal_person_unsecured",
+        [
+          "MUL",
+          "net_worth",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_public_enterprise_total",
+    "desc": "銀行對同一公營事業授信總餘額不得超過淨值",
+    "expr": [
+      "EQ",
+      "credit_limit_public_enterprise_total",
+      [
+        "LE",
+        "credit_exposure_public_enterprise_total",
+        "net_worth"
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_related_person_total",
+    "desc": "銀行對同一關係人授信總餘額不得超過淨值百分之四十",
+    "expr": [
+      "EQ",
+      "credit_limit_related_person_total",
+      [
+        "LE",
+        "credit_exposure_related_person_total",
+        [
+          "MUL",
+          "net_worth",
+          0.4
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_related_person_natural_total",
+    "desc": "銀行對同一關係人中自然人授信總餘額不得超過淨值百分之六",
+    "expr": [
+      "EQ",
+      "credit_limit_related_person_natural_total",
+      [
+        "LE",
+        "credit_exposure_related_person_natural_total",
+        [
+          "MUL",
+          "net_worth",
+          0.06
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_related_person_unsecured_total",
+    "desc": "銀行對同一關係人無擔保授信總餘額不得超過淨值百分之十",
+    "expr": [
+      "EQ",
+      "credit_limit_related_person_unsecured_total",
+      [
+        "LE",
+        "credit_exposure_related_person_unsecured_total",
+        [
+          "MUL",
+          "net_worth",
+          0.1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_related_person_natural_unsecured",
+    "desc": "銀行對同一關係人中自然人無擔保授信總餘額不得超過淨值百分之二",
+    "expr": [
+      "EQ",
+      "credit_limit_related_person_natural_unsecured",
+      [
+        "LE",
+        "credit_exposure_related_person_natural_unsecured",
+        [
+          "MUL",
+          "net_worth",
+          0.02
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_related_enterprise_total",
+    "desc": "銀行對同一關係企業授信總餘額不得超過淨值百分之四十",
+    "expr": [
+      "EQ",
+      "credit_limit_related_enterprise_total",
+      [
+        "LE",
+        "credit_exposure_related_enterprise_total",
+        [
+          "MUL",
+          "net_worth",
+          0.4
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_limit_related_enterprise_unsecured",
+    "desc": "銀行對同一關係企業無擔保授信總餘額不得超過淨值百分之十五",
+    "expr": [
+      "EQ",
+      "credit_limit_related_enterprise_unsecured",
+      [
+        "LE",
+        "credit_exposure_related_enterprise_unsecured",
+        [
+          "MUL",
+          "net_worth",
+          0.15
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_exclusion_policy_approved",
+    "desc": "配合政府政策經主管機關專案核准之專案授信不計入授信總餘額",
+    "expr": [
+      "EQ",
+      "credit_exclusion_policy_approved",
+      [
+        "EQ",
+        "credit_exposure_policy_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_exclusion_government",
+    "desc": "對政府機關之授信不計入授信總餘額",
+    "expr": [
+      "EQ",
+      "credit_exclusion_government",
+      [
+        "EQ",
+        "credit_exposure_government",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_exclusion_secured_bonds",
+    "desc": "以公債、國庫券、中央銀行儲蓄券、中央銀行可轉讓定期存單、本行存單或本行金融債券為擔保品授信不計入授信總餘額",
+    "expr": [
+      "EQ",
+      "credit_exclusion_secured_bonds",
+      [
+        "EQ",
+        "credit_exposure_secured_bonds",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_exclusion_small_loans",
+    "desc": "依小額放款業務要點辦理之新臺幣一百萬元以下授信不計入授信總餘額",
+    "expr": [
+      "EQ",
+      "credit_exclusion_small_loans",
+      [
+        "EQ",
+        "credit_exposure_small_loans",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反授信限額規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_natural_person_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_natural_person_unsecured",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_legal_person_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_legal_person_unsecured",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_public_enterprise_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_related_person_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_related_person_natural_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_related_person_unsecured_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_related_person_natural_unsecured",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_related_enterprise_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_limit_related_enterprise_unsecured",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,357 @@
+{
+  "case_id": "case_195",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 94.28,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 17834,
+  "total_output_tokens": 7643,
+  "total_tokens": 25477,
+  "total_cost_usd": 0.019362,
+  "timestamp": "2025-10-21T04:16:23.991671",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2413,
+      "output_tokens": 2902,
+      "elapsed_time": 27.150858402252197,
+      "cost": 0.0056084
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 8092,
+      "output_tokens": 2902,
+      "elapsed_time": 28.15756845474243,
+      "cost": 0.00788
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 216,
+      "output_tokens": 763,
+      "elapsed_time": 20.682815551757812,
+      "cost": 0.0013072000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 216,
+      "output_tokens": 763,
+      "elapsed_time": 11.906937837600708,
+      "cost": 0.0013072000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 6897,
+      "output_tokens": 313,
+      "elapsed_time": 6.339760780334473,
+      "cost": 0.0032596
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7770 chars",
+      "timestamp": 27.150858402252197
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7770 chars",
+      "timestamp": 55.30842685699463
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "28 constraints",
+      "timestamp": 55.30842685699463
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "30 varspecs",
+      "timestamp": 75.99124240875244
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "28 constraints",
+      "timestamp": 75.99523949623108
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 76.00124168395996
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 76.00124168395996
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "30 facts",
+      "timestamp": 94.24893975257874
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "30 constraints",
+      "timestamp": 94.24993991851807
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 94.25793886184692
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c50', 'meta:penalty_default_false']",
+      "timestamp": 94.25793886184692
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 94.26793646812439
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 76.00124168395996
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_designated_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_designated_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 75.99
+    },
+    {
+      "id": "aml:control_procedures_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:control_procedures_established",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "control_procedures_established",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ]
+      ],
+      "timestamp": 75.99
+    },
+    {
+      "id": "aml:training_held",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:training_held",
+        [
+          "EQ",
+          "training_held",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "training_held",
+        [
+          "EQ",
+          "training_held",
+          true
+        ]
+      ],
+      "timestamp": 75.99
+    },
+    {
+      "id": "aml:dedicated_personnel_assigned",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:dedicated_personnel_assigned",
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "dedicated_personnel_assigned",
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ]
+      ],
+      "timestamp": 75.99
+    },
+    {
+      "id": "aml:risk_assessment_report_updated",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:risk_assessment_report_updated",
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "risk_assessment_report_updated",
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ]
+      ],
+      "timestamp": 75.99
+    },
+    {
+      "id": "aml:audit_procedures_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:audit_procedures_established",
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "audit_procedures_established",
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ]
+      ],
+      "timestamp": 75.99
+    },
+    {
+      "id": "aml:other_designated_matters_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:other_designated_matters_established",
+        [
+          "EQ",
+          "other_designated_matters_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "other_designated_matters_established",
+        [
+          "EQ",
+          "other_designated_matters_established",
+          true
+        ]
+      ],
+      "timestamp": 75.99
+    }
+  ]
+}

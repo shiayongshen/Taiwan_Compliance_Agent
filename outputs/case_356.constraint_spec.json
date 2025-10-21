@@ -1,0 +1,1067 @@
+[
+  {
+    "id": "finance:outsourcing_approval_documents_submitted",
+    "desc": "金融機構辦理重大性消費金融業務資訊系統委外，已檢具申請核准所需書件",
+    "expr": [
+      "EQ",
+      "outsourcing_approval_documents_submitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "outsourcing_internal_operation_specification_submitted",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "board_resolution_submitted",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "is_foreign_branch",
+              true
+            ],
+            [
+              "EQ",
+              "head_office_authorized_consent_submitted",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "outsourcing_necessity_and_legality_analysis_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_consent_letter_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_no_fraud_statement_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_plan_content_compliant",
+    "desc": "作業委外計畫書內容符合規定",
+    "expr": [
+      "EQ",
+      "outsourcing_plan_content_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "risk_assessment_and_management_mechanism_included",
+          true
+        ],
+        [
+          "EQ",
+          "customer_info_protection_and_consent_included",
+          true
+        ],
+        [
+          "EQ",
+          "information_security_and_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "emergency_response_plan_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_post_approval_compliance",
+    "desc": "金融機構委外後符合後續規定",
+    "expr": [
+      "EQ",
+      "outsourcing_post_approval_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "outsourcing_customer_info_usage_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_cost_benefit_and_cost_sharing_approved",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_info_system_security_meets_standards",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_annual_general_and_special_audit_completed",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_service_interruption_backup_plan_established",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_contract_includes_transfer_and_compensation_clauses",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_foreign_branch_handling_compliance",
+    "desc": "外國金融機構在臺分支機構依規定辦理內部分工作業委託",
+    "expr": [
+      "EQ",
+      "outsourcing_foreign_branch_handling_compliance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "is_foreign_branch",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_post_approval_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_policy_and_risk_control",
+    "desc": "金融機構訂定使用雲端服務政策及採取適當風險管控措施",
+    "expr": [
+      "EQ",
+      "cloud_service_policy_and_risk_control",
+      [
+        "AND",
+        [
+          "EQ",
+          "cloud_service_policy_established",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_risk_control_measures_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_diversification_ensured",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_supervision",
+    "desc": "金融機構對雲端服務業者負有最終監督義務並具備專業技術及資源",
+    "expr": [
+      "EQ",
+      "cloud_service_supervision",
+      [
+        "AND",
+        [
+          "EQ",
+          "cloud_service_final_supervision_responsibility",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_supervision_technical_resources",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_third_party_audit_compliance",
+    "desc": "金融機構委託或聯合委託第三人查核雲端服務業者並符合規定",
+    "expr": [
+      "EQ",
+      "cloud_service_third_party_audit_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "third_party_audit_engaged",
+          true
+        ],
+        [
+          "EQ",
+          "audit_scope_covers_important_systems",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_qualification_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_meets_international_standards",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_covers_financial_institution_scope",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_customer_data_protection",
+    "desc": "金融機構對雲端服務業者傳輸及儲存客戶資料採有效保護措施",
+    "expr": [
+      "EQ",
+      "cloud_service_customer_data_protection",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_data_encryption_or_tokenization",
+          true
+        ],
+        [
+          "EQ",
+          "encryption_key_management_mechanism_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_data_ownership_and_access_control",
+    "desc": "金融機構保有資料所有權並限制雲端服務業者存取及利用權限",
+    "expr": [
+      "EQ",
+      "cloud_service_data_ownership_and_access_control",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_ownership_retained",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_access_restricted",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_no_unauthorized_use",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:cloud_service_data_storage_location_compliance",
+    "desc": "委託雲端服務業者處理之客戶資料及儲存地符合規定",
+    "expr": [
+      "EQ",
+      "cloud_service_data_storage_location_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_processing_and_storage_location_rights_held",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_data_protection_laws_not_lower_than_domestic",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "data_storage_location_domestic",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "data_storage_location_foreign",
+              true
+            ],
+            [
+              "EQ",
+              "regulatory_approval_obtained",
+              true
+            ],
+            [
+              "EQ",
+              "important_customer_data_backup_in_domestic",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "bank:internal_control_and_audit_system_established",
+    "desc": "銀行建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_system_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_system_established",
+    "desc": "銀行建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_system_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_system_established",
+    "desc": "銀行訂定內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_system_established",
+      [
+        "EQ",
+        "internal_operation_system_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_financial_products_internal_system_established",
+    "desc": "銀行訂定衍生性金融商品業務內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "derivative_financial_products_internal_system_established",
+      [
+        "EQ",
+        "derivative_financial_products_internal_system_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_of_internal_control_and_audit_system_penalty",
+    "desc": "違反未建立或未確實執行內部控制與稽核制度等規定處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_and_audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_operation_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "bank:risk_management_mechanism_compliance",
+    "desc": "銀行業風險控管機制符合規定",
+    "expr": [
+      "EQ",
+      "risk_management_mechanism_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_adequacy_monitoring_established",
+          true
+        ],
+        [
+          "EQ",
+          "liquidity_management_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "asset_allocation_and_risk_management_established",
+          true
+        ],
+        [
+          "EQ",
+          "asset_quality_and_loss_provisioning_established",
+          true
+        ],
+        [
+          "EQ",
+          "information_security_and_emergency_response_plan_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "securities:auto_investment_advisor_internal_control_established",
+    "desc": "提供自動化投資顧問服務者設置專責單位並訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "auto_investment_advisor_internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "dedicated_unit_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_or_management_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:auto_investment_advisor_internal_audit_performed",
+    "desc": "提供自動化投資顧問服務者配置內部稽核人員並定期稽核",
+    "expr": [
+      "EQ",
+      "auto_investment_advisor_internal_audit_performed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_audit_staff_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_reports_prepared",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:auto_investment_advisor_internal_control_minimum_requirements_met",
+    "desc": "自動化投資顧問服務內部控制制度至少包括法定九項事項",
+    "expr": [
+      "EQ",
+      "auto_investment_advisor_internal_control_minimum_requirements_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "know_your_customer_and_suitability_assessment_established",
+          true
+        ],
+        [
+          "EQ",
+          "algorithm_and_system_supervision_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "customer_personal_data_protection_and_security_measures_established",
+          true
+        ],
+        [
+          "EQ",
+          "product_information_accuracy_and_sufficiency_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "emergency_response_plan_and_control_measures_established",
+          true
+        ],
+        [
+          "EQ",
+          "consistent_operation_principles_established",
+          true
+        ],
+        [
+          "EQ",
+          "customer_dispute_resolution_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "investment_product_legality_and_risk_reward_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "conflict_of_interest_prevention_mechanism_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "insurance:derivative_financial_products_qualification_met",
+    "desc": "保險業符合衍生性金融商品交易資格",
+    "expr": [
+      "EQ",
+      "derivative_financial_products_qualification_met",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_to_risk_ratio",
+          [
+            "MUL",
+            1.25,
+            1.0
+          ]
+        ],
+        [
+          "EQ",
+          "risk_value_evaluation_and_daily_control_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "no_major_internal_control_deficiencies_last_year",
+          true
+        ],
+        [
+          "EQ",
+          "no_major_penalties_last_year",
+          true
+        ],
+        [
+          "EQ",
+          "other_regulatory_qualifications_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_financial_products_trading_plan_approved",
+    "desc": "保險業衍生性金融商品交易計畫書經董（理）事會通過並申請核准",
+    "expr": [
+      "EQ",
+      "derivative_financial_products_trading_plan_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "trading_plan_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "application_and_documents_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:derivative_financial_products_trading_plan_content_compliant",
+    "desc": "衍生性金融商品交易計畫書內容符合規定",
+    "expr": [
+      "EQ",
+      "derivative_financial_products_trading_plan_content_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "derivative_product_types_specified",
+          true
+        ],
+        [
+          "EQ",
+          "usage_restrictions_specified",
+          true
+        ],
+        [
+          "EQ",
+          "investment_benefit_goals_and_performance_measures_specified",
+          true
+        ],
+        [
+          "EQ",
+          "risk_limit_management_mechanism_specified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "personal_data_security_measures_compliant",
+    "desc": "非公務機關採取個人資料安全管理措施",
+    "expr": [
+      "EQ",
+      "personal_data_security_measures_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "equipment_and_storage_media_usage_specified",
+          true
+        ],
+        [
+          "EQ",
+          "encryption_measures_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "backup_data_protection_implemented",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "personal_data_protection_law_international_transfer_restriction",
+    "desc": "非公務機關國際傳輸個人資料受限制情形",
+    "expr": [
+      "EQ",
+      "international_transfer_restriction",
+      [
+        "OR",
+        [
+          "EQ",
+          "involves_national_important_interests",
+          true
+        ],
+        [
+          "EQ",
+          "international_treaty_special_provision",
+          true
+        ],
+        [
+          "EQ",
+          "recipient_country_data_protection_inadequate",
+          true
+        ],
+        [
+          "EQ",
+          "circumventing_law_by_transferring_to_third_country",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "electronic_payment_cloud_service_compliance",
+    "desc": "電子支付機構委託雲端服務符合規定",
+    "expr": [
+      "EQ",
+      "electronic_payment_cloud_service_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "cloud_service_policy_established",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_risk_control_measures_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_diversification_ensured",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_final_supervision_responsibility",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_supervision_technical_resources",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_audit_engaged",
+          true
+        ],
+        [
+          "EQ",
+          "audit_scope_covers_important_systems",
+          true
+        ],
+        [
+          "EQ",
+          "third_party_qualification_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_meets_international_standards",
+          true
+        ],
+        [
+          "EQ",
+          "audit_report_covers_electronic_payment_scope",
+          true
+        ],
+        [
+          "EQ",
+          "customer_data_encryption_or_tokenization",
+          true
+        ],
+        [
+          "EQ",
+          "encryption_key_management_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "data_ownership_retained",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_access_restricted",
+          true
+        ],
+        [
+          "EQ",
+          "cloud_service_provider_no_unauthorized_use",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "data_storage_location_domestic",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "data_storage_location_foreign",
+              true
+            ],
+            [
+              "EQ",
+              "regulatory_approval_obtained",
+              true
+            ],
+            [
+              "EQ",
+              "important_customer_data_backup_in_domestic",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "finance:outsourcing_compliance",
+    "desc": "金融機構作業委託他人處理內部作業制度及程序符合規定",
+    "expr": [
+      "EQ",
+      "outsourcing_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "outsourcing_approval_documents_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_plan_content_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "outsourcing_post_approval_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融機構作業委託他人處理內部作業制度及程序規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "outsourcing_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cloud_service_policy_and_risk_control",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cloud_service_supervision",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cloud_service_third_party_audit_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cloud_service_customer_data_protection",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cloud_service_data_ownership_and_access_control",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "cloud_service_data_storage_location_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "derivative_financial_products_internal_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "risk_management_mechanism_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "auto_investment_advisor_internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "auto_investment_advisor_internal_audit_performed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "auto_investment_advisor_internal_control_minimum_requirements_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "derivative_financial_products_qualification_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "derivative_financial_products_trading_plan_approved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "derivative_financial_products_trading_plan_content_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_data_security_measures_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "electronic_payment_cloud_service_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,442 @@
+[
+  {
+    "id": "securities:violation_penalty_level",
+    "desc": "證券商違反法令之處分等級（1=警告, 2=解除職務, 3=停業, 4=撤銷營業許可, 5=其他處置, 0=無處分）",
+    "expr": [
+      "EQ",
+      "violation_penalty_level",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation_warning",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "violation_dismiss_officer",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "violation_suspension",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "violation_license_revoked",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "violation_other_measures",
+          true
+        ],
+        5,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliance",
+    "desc": "證券商確實執行內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "EQ",
+        "internal_control_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:legal_violation",
+    "desc": "證券商違反證券交易法或主管機關命令",
+    "expr": [
+      "EQ",
+      "legal_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_securities_law",
+          true
+        ],
+        [
+          "EQ",
+          "violate_government_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_fine_applicable",
+    "desc": "證券商或相關事業違反規定應處罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_applicable",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_article_14_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_14_1_1",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_14_1_3",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_21_1_5",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_58",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_61",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_69_1",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_79",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_141",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_144",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_145_2",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_147",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_152",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_159",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_165_1",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_165_2",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_61_applied",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_141_applied",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_144_applied",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_145_2_applied",
+            true
+          ],
+          [
+            "EQ",
+            "violate_article_147_applied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_minor",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:refuse_or_obstruct_inspection",
+    "desc": "拒絕、規避或妨礙主管機關檢查",
+    "expr": [
+      "EQ",
+      "refuse_or_obstruct_inspection",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_submit_documents",
+          true
+        ],
+        [
+          "EQ",
+          "obstruct_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "refuse_inspection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:document_noncompliance",
+    "desc": "未依規定製作、申報、公告、備置或保存相關文件",
+    "expr": [
+      "EQ",
+      "document_noncompliance",
+      [
+        "EQ",
+        "not_comply_document_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_rule_violation",
+    "desc": "違反財務、業務或管理相關規定",
+    "expr": [
+      "EQ",
+      "business_rule_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_execute_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violate_finance_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_other_finance_business_management_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated",
+    "desc": "內部控制制度依主管機關通知變更且於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "internal_control_change_notified",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_completed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法令或主管機關命令且未限期改善者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "legal_violation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_fine_applicable",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "refuse_or_obstruct_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "document_noncompliance",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "business_rule_violation",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

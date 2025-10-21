@@ -1,0 +1,127 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5377 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5377 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (16 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (38 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (16 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (36 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (36 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c37'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c37'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_451
+
+📊 Model (filtered):
+   broker_fault = False
+   agent_rules_applied = False
+   duty_of_fidelity = False
+   agent_type = 2
+   deposit_amount = 0
+   liability_insurance = True
+   damage_to_insured = False
+   duty_of_care = False
+   minimum_deposit_amount = 1000000
+   bank_agent_business = False
+   broker_duty_ok = False
+   fee_charged = 0
+   bank_approved_by_authority = False
+   license_held = True
+   broker_rules_applied = False
+   approved_by_authority = True
+   written_report_provided = False
+   bank_broker_business = False
+   guarantee_insurance = True
+   fee_disclosed = False
+   violate_business_management = False
+   violate_broker_report_rule = False
+   violate_other_related_rules = False
+   violate_finance_management = False
+   violation_other_related_rules = False
+   liability_for_damage = False
+   correction_or_penalty_required = False
+   deposit_and_insurance_ok = False
+   insurance_coverage_ok = True
+   violation_any = False
+   bank_compliance_ok = False
+   violation_finance_or_business_management = False
+   broker_report_and_fee_ok = False
+   penalty = False
+   violation_broker_report_rule = False
+   bank_permission_ok = False
+   business_allowed = False
+   license_required = True
+✅ Model saved to: outputs\case_451.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_451.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_451.smt2

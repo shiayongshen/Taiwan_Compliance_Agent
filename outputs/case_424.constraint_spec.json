@@ -1,0 +1,228 @@
+[
+  {
+    "id": "insurance_agent:license_and_guarantee_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "license_and_guarantee_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "EQ",
+          "guarantee_deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_purchased",
+          true
+        ],
+        [
+          "EQ",
+          "practice_certificate_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:related_insurance_type",
+    "desc": "相關保險種類依身份區分：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "related_insurance_type",
+      [
+        "CASE",
+        [
+          "EQ",
+          "agent_type",
+          1
+        ],
+        [
+          "EQ",
+          "insurance_type",
+          1
+        ],
+        [
+          "EQ",
+          "agent_type",
+          2
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            2
+          ]
+        ],
+        [
+          "EQ",
+          "agent_type",
+          3
+        ],
+        [
+          "EQ",
+          "insurance_type",
+          1
+        ],
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:bank_permission_and_separate_application",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並應分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_and_separate_application",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_permission_granted",
+          true
+        ],
+        [
+          "EQ",
+          "separate_application_of_agent_and_broker_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_broker:duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂保險契約並負忠實義務",
+    "expr": [
+      "EQ",
+      "duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care_exercised",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_fidelity_exercised",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:written_report_and_fee_disclosure",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，應主動提供書面分析報告，向要保人或被保險人收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "written_report_and_fee_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_report_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosure_made",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未經主管機關許可、未繳存保證金、未投保相關保險、未領執業證照或保險經紀人未履行善良管理人注意義務及忠實義務，或未提供書面分析報告及報酬告知時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_guarantee_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "duty_of_care_and_fidelity",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "written_report_and_fee_disclosure",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "written_report_and_fee_disclosure",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

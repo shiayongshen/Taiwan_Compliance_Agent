@@ -1,0 +1,319 @@
+{
+  "case_id": "case_239",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 197.46,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 23583,
+  "total_output_tokens": 12246,
+  "total_tokens": 35829,
+  "total_cost_usd": 0.029027,
+  "timestamp": "2025-10-21T05:17:57.799658",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3020,
+      "output_tokens": 4087,
+      "elapsed_time": 61.54981732368469,
+      "cost": 0.0077472
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 10491,
+      "output_tokens": 4087,
+      "elapsed_time": 64.17232322692871,
+      "cost": 0.010735600000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 496,
+      "output_tokens": 1906,
+      "elapsed_time": 32.782512187957764,
+      "cost": 0.0032480000000000005
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 496,
+      "output_tokens": 1884,
+      "elapsed_time": 34.69989323616028,
+      "cost": 0.0032128000000000005
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 9080,
+      "output_tokens": 282,
+      "elapsed_time": 4.183446168899536,
+      "cost": 0.0040832
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "11801 chars",
+      "timestamp": 61.54981732368469
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "11801 chars",
+      "timestamp": 125.7221405506134
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "31 constraints",
+      "timestamp": 125.7221405506134
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "73 varspecs",
+      "timestamp": 158.50665974617004
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "31 constraints",
+      "timestamp": 158.51566004753113
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 158.52766060829163
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 158.52766060829163
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "27 facts",
+      "timestamp": 197.41200017929077
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "27 constraints",
+      "timestamp": 197.41200017929077
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 197.42600107192993
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c57']",
+      "timestamp": 197.42600107192993
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 197.44498872756958
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 158.52766060829163
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "financial_holding:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "financial_holding:penalties_applicable",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "bank:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "bank:penalties_applicable",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "e_payment:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "e_payment:penalties_applicable",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "bill_finance:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "bill_finance:apply_bank_law_61_1",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "insurance_agent:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance_agent:penalties_applicable",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "penalties_applicable",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "penalties_applicable",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "penalties_applicable",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "apply_bank_law_61_1",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "penalties_applicable",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 158.51
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (10639 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (10437 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (36 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (72 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (36 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (14 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (14 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c49'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c49'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_152
+
+📊 Model (filtered):
+   fail_to_fill_solicitation_report_truthfully = False
+   broker_misconduct_49_21 = False
+   insurance_purchased = True
+   broker_misconduct_49_6 = False
+   other_violation_of_rules_or_laws = False
+   authorize_others_or_use_others_name_to_operate = False
+   fail_to_cancel_license_in_time = False
+   coerce_or_induce_or_limit_contract_freedom_or_extra_fee = False
+   broker_misconduct_49_10 = False
+   broker_misconduct_49_4 = False
+   broker_misconduct_49_17 = False
+   misappropriate_or_embezzle_premiums_or_claims = False
+   broker_misconduct_49_20 = False
+   deposit_guarantee = True
+   pay_commission_to_non_actual_solicitor = False
+   broker_misconduct_49_30 = False
+   broker_misconduct_49_9 = False
+   broker_misconduct_49_5 = False
+   broker_misconduct_49_19 = False
+   false_or_incomplete_business_or_financial_report = False
+   induce_contract_termination_or_use_loan_to_pay_premium = False
+   broker_misconduct_49_12 = False
+   broker_misconduct_49_24 = False
+   broker_misconduct_49_7 = False
+   broker_misconduct_49_11 = False
+   broker_misconduct_49_26 = False
+   violate_165_1 = False
+   broker_misconduct_49_8 = False
+   broker_misconduct_49_3 = False
+   broker_misconduct_49_1 = False
+   broker_misconduct_49_14 = False
+   broker_misconduct_49_13 = False
+   broker_misconduct_49_18 = False
+   broker_misconduct_49_25 = False
+   broker_misconduct_49_22 = False
+   broker_misconduct_49_2 = False
+   use_unauthorized_insurance_advertisement = False
+   violation_167_2 = False
+   violate_163_7 = False
+   transfer_unassigned_policy_documents = False
+   convicted_of_embezzlement_fraud_breach_forgery = False
+   broker_misconduct_49_29 = False
+   broker_misconduct_49_28 = False
+   charge_improper_fees_or_third_party = False
+   license_permit_required = True
+   spread_false_statements_disturb_financial_order = False
+   violate_163_5_applied_165_1 = False
+   broker_misconduct_49_16 = False
+   violate_163_4_financial_or_business_management = False
+   fail_to_confirm_consumer_suitability = False
+   violate_license_permit = False
+   other_behavior_harm_insurance_image = False
+   hold_conflicting_positions = False
+   license_used_by_others_without_own_execution = False
+   sell_unapproved_foreign_policy_discount_benefit = False
+   fail_to_appoint_broker_after_resignation = False
+   broker_misconduct_49_15 = False
+   employ_unqualified_insurance_solicitor = False
+   permit_obtained = True
+   unauthorized_suspend_resume_or_terminate_business = False
+   broker_misconduct_49_27 = False
+   improperly_induce_policyholder_to_cancel_or_transfer_or_loan = False
+   false_report_on_license_application = False
+   exaggerate_or_mislead_or_improper_business_or_recruit = False
+   penalty = False
+   fail_to_report_to_broker_association = False
+   license_issued = True
+   operate_outside_license_scope = False
+   conceal_important_contract_info = False
+   contract_with_unapproved_insurer = False
+   broker_misconduct_49_23 = False
+   illegal_induce_improper_insurance_payment = False
+✅ Model saved to: outputs\case_152.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_152.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_152.smt2

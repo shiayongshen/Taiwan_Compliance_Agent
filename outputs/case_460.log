@@ -1,0 +1,162 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6307 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (9070 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (15 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (47 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [insurance:business_start_permit]
+   ✅ Removed prefixes in [insurance:foreign_business_start_permit]
+   ✅ Removed prefixes in [insurance:real_estate_investment_limit]
+   ✅ Removed prefixes in [insurance:real_estate_investment_use_and_income]
+   ✅ Removed prefixes in [insurance:loan_types_limit]
+   ✅ Removed prefixes in [insurance:single_loan_amount_limit]
+   ✅ Removed prefixes in [insurance:total_loan_amount_limit]
+   ✅ Removed prefixes in [insurance:related_party_loan_conditions]
+   ✅ Removed prefixes in [insurance:combined_investment_and_loan_limit]
+   ✅ Removed prefixes in [insurance:internal_control_and_audit_established]
+   ✅ Removed prefixes in [insurance:internal_handling_procedures_established]
+   ✅ Removed prefixes in [insurance:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 12
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 13
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL ('<' not supported between instances of 'BoolRef' and 'BoolRef')
+⚠️ Found 1 problematic constraints:
+  - [insurance:related_party_loan_conditions] '<' not supported between instances of 'BoolRef' and 'BoolRef'
+⚠️ Constraints parse failed: '<' not supported between instances of 'BoolRef' and 'BoolRef'
+🔄 Repair attempt 1
+📍 Found 1 problematic constraint(s):
+   [insurance:related_party_loan_conditions] '<' not supported between instances of 'BoolRef' and 'BoolRef'
+
+🔧 修復 constraint [insurance:related_party_loan_conditions]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance:related_party_loan_conditions] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (34 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (34 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c26', 'insurance:penalty_default_false', 'insurance:penalty_conditions', 'insurance:capital_level', 'c21'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c26', 'insurance:penalty_default_false', 'insurance:penalty_conditions', 'insurance:capital_level', 'c21'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_460
+
+📊 Model (filtered):
+   loan_secured_by_approved_securities = False
+   improvement_plan_submitted = True
+   authority_specified_amount = 1000000
+   real_estate_investment_use_and_income = False
+   net_worth_ratio = -10
+   other_similar_loans_conditions = True
+   improvement_plan_executed = True
+   net_worth = -1000000
+   total_loan_amount = 4000000
+   loan_guaranteed_by_bank_or_authority = False
+   loan_secured_by_life_insurance_policy = False
+   single_loan_amount = 600000
+   related_party_loan_amount = 2000000
+   board_meeting_approval_ratio = 3/5
+   capital_fund = 10000000
+   social_housing_rental = False
+   related_party_loan_conditions = False
+   investment_in_company_securities = 2000000
+   internal_control_and_audit_established = False
+   internal_handling_procedures_established = False
+   capital_adequacy_ratio = 40
+   self_use_real_estate_investment = 9000000
+   loan_secured_by_company_securities = False
+   loan_secured_by_movable_or_immovable = False
+   real_estate_investment_excluding_self_use = 4000000
+   company_owner_equity = 10000000
+   related_party_loan_fully_secured = False
+   owner_equity = 8000000
+   board_meeting_attendance_ratio = 1/2
+   improvement_plan_submitted_and_executed = True
+   real_estate_investment_limit = 0
+   business_start_permit = True
+   deposit_guarantee = True
+   registered_according_law = True
+   capital_level = 4
+   foreign_permit_granted = False
+   foreign_registered_according_law = False
+   foreign_deposit_guarantee = False
+   foreign_business_license_obtained = False
+   foreign_business_start_permit = False
+   total_loan_amount_limit = 0
+   loan_types_limit = 0
+   business_license_obtained = True
+   penalty = False
+   permit_granted = True
+   single_loan_amount_limit = 0
+   combined_investment_and_loan_limit = 0
+✅ Model saved to: outputs\case_460.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_460.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_460.smt2

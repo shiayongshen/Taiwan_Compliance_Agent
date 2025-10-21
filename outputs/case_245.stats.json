@@ -1,0 +1,516 @@
+{
+  "case_id": "case_245",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 66.73,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 10168,
+  "total_output_tokens": 3844,
+  "total_tokens": 14012,
+  "total_cost_usd": 0.010218,
+  "timestamp": "2025-10-21T05:24:30.395729",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1527,
+      "output_tokens": 1149,
+      "elapsed_time": 19.537592887878418,
+      "cost": 0.0024492000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 4567,
+      "output_tokens": 1318,
+      "elapsed_time": 20.578530073165894,
+      "cost": 0.0039356
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 163,
+      "output_tokens": 606,
+      "elapsed_time": 9.375362157821655,
+      "cost": 0.0010348
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 163,
+      "output_tokens": 606,
+      "elapsed_time": 11.844222784042358,
+      "cost": 0.0010348
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3748,
+      "output_tokens": 165,
+      "elapsed_time": 5.36897087097168,
+      "cost": 0.0017632000000000004
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3498 chars",
+      "timestamp": 19.537592887878418
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4003 chars",
+      "timestamp": 40.11612296104431
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "8 constraints",
+      "timestamp": 40.11612296104431
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "22 varspecs",
+      "timestamp": 49.49148511886597
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "8 constraints",
+      "timestamp": 49.49448347091675
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 49.49848294258118
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 49.49848294258118
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "15 facts",
+      "timestamp": 66.71167659759521
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 66.71267867088318
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 66.71767950057983
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c8', 'meta:penalty_default_false', 'aml:internal_control_established', 'meta:penalty_conditions']",
+      "timestamp": 66.71767950057983
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 66.72467875480652
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 49.49848294258118
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 49.49
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_implemented",
+          true
+        ]
+      ],
+      "timestamp": 49.49
+    },
+    {
+      "id": "aml:customer_identification_procedure_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "customer_identification_procedure_ok",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:customer_identification_procedure_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:beneficial_owner_reviewed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_procedure_ok",
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_identification_procedure_established",
+            true
+          ],
+          [
+            "EQ",
+            "beneficial_owner_reviewed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 49.49
+    },
+    {
+      "id": "aml:customer_identification_data_retained",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "customer_identification_data_retained",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:business_relationship_terminated",
+              true
+            ],
+            [
+              "GE",
+              "aml:customer_data_retention_years",
+              5.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:temporary_transaction_terminated",
+              true
+            ],
+            [
+              "GE",
+              "aml:customer_data_retention_years",
+              5.0
+            ]
+          ],
+          [
+            "GE",
+            "aml:customer_data_retention_years",
+            "aml:longer_legal_retention_years"
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_data_retained",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "business_relationship_terminated",
+              true
+            ],
+            [
+              "GE",
+              "customer_data_retention_years",
+              5.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "temporary_transaction_terminated",
+              true
+            ],
+            [
+              "GE",
+              "customer_data_retention_years",
+              5.0
+            ]
+          ],
+          [
+            "GE",
+            "customer_data_retention_years",
+            "longer_legal_retention_years"
+          ]
+        ]
+      ],
+      "timestamp": 49.49
+    },
+    {
+      "id": "aml:enhanced_customer_due_diligence_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "enhanced_customer_due_diligence_ok",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "aml:customer_is_politically_exposed_person_or_related",
+            true
+          ],
+          [
+            "EQ",
+            "aml:enhanced_due_diligence_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "enhanced_customer_due_diligence_ok",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "customer_is_politically_exposed_person_or_related",
+            true
+          ],
+          [
+            "EQ",
+            "enhanced_due_diligence_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 49.49
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "customer_identification_procedure_ok",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "customer_identification_data_retained",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:customer_is_politically_exposed_person_or_related",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "enhanced_customer_due_diligence_ok",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "customer_identification_procedure_ok",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "customer_identification_data_retained",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "customer_is_politically_exposed_person_or_related",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "enhanced_customer_due_diligence_ok",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 49.49
+    }
+  ]
+}

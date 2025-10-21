@@ -1,0 +1,232 @@
+[
+  {
+    "id": "insurance:fixed_office_and_account_book",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_account_book",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_account_book",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license",
+    "desc": "兼有保險代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license",
+      [
+        "EQ",
+        "number_of_licenses_held",
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
+    "desc": "保險代理人公司、經紀人公司為公開發行公司或具一定規模者應建立內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_required",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "保險代理人公司、經紀人公司內部控制、稽核制度及招攬處理制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_performed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_performed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_performed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_internal_control",
+    "desc": "違反未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序",
+    "expr": [
+      "EQ",
+      "violation_internal_control",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_performed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_performed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_performed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:solicitation_handling_exclusions",
+    "desc": "招攬處理制度第七款於招攬財產保險時不適用",
+    "expr": [
+      "EQ",
+      "solicitation_handling_7th_clause_applicable",
+      [
+        "NOT",
+        [
+          "EQ",
+          "is_property_insurance_solicitation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_internal_control",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

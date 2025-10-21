@@ -1,0 +1,230 @@
+[
+  {
+    "id": "bank:violation",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measures",
+    "desc": "銀行主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "financial_institution:violation",
+    "desc": "票券金融公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_institution"
+  },
+  {
+    "id": "financial_institution:penalty_measures",
+    "desc": "票券金融公司主管機關可採取之處分措施，準用銀行法第61-1條",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_institution"
+  },
+  {
+    "id": "financial_holding:violation",
+    "desc": "金融控股公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measures",
+    "desc": "金融控股公司主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "electronic_payment:violation",
+    "desc": "專營電子支付機構違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measures",
+    "desc": "專營電子支付機構主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：銀行、票券金融公司、金融控股公司或專營電子支付機構違反法令、章程或有礙健全經營且主管機關採取處分時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

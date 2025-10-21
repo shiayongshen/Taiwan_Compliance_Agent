@@ -1,0 +1,154 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (9751 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (9690 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (15 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (65 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (15 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (61 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (61 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c21', 'meta:penalty_conditions'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c21', 'meta:penalty_conditions'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_103
+
+📊 Model (filtered):
+   real_estate_investment_total_excluding_self_use = 1000000000
+   real_estate_investment_immediate_use_and_income = False
+   social_housing_only_rental = True
+   board_attendance_ratio_loan_approval = 70
+   loan_total_to_specific_purpose_investment = 100000000
+   capital_to_risk_ratio_latest = 200
+   board_approval_ratio_loan_approval = 80
+   foreign_real_estate_rental_rate = 80
+   legal_standard = True
+   owner_equity_total = 400000000
+   capital_fund = 500000000
+   board_approval_ratio = 70
+   self_use_real_estate_total = 200000000
+   board_attendance_ratio = 80
+   foreign_real_estate_investment_total = 1250000001
+   loan_total_to_related_parties = 100000000
+   major_financial_or_business_events_reported_within_7_days = True
+   no_external_borrowing_except_specified = True
+   foreign_real_estate_investment_internal_control = True
+   audit_plan_and_findings_reported_to_insurer = True
+   board_reported_according_to_regulations = False
+   audit_reports_reviewed_and_followed_up = True
+   independent_financial_and_business_information_system_established = True
+   disclosure_on_website = True
+   foreign_real_estate_investment_risk_control = True
+   responsible_person_assigned = True
+   foreign_real_estate_legal_use_and_benefit = True
+   risk_monitoring_measures_established = True
+   chief_risk_officer_appointed = True
+   foreign_real_estate_investment_board_report_filing = True
+   board_report_data_not_false = False
+   effective_communication_between_insurer_and_business = True
+   internal_control_special_purpose_real_estate = True
+   compliance_with_laws_and_timely_reporting = True
+   organization_control_structure_established = True
+   quarterly_management_reports_obtained_and_reviewed = True
+   foreign_real_estate_investment_compliance = True
+   investment_structure_change_reported_within_7_days = True
+   investment_evaluation_report_submitted = True
+   internal_audit_unit_reviews_and_follows_up = True
+   annual_income_repatriated_to_parent = True
+   foreign_real_estate_investment_board_approval = True
+   foreign_real_estate_investment_disclosure = True
+   real_estate_investment_legal_valuation = True
+   valuation_by_qualified_international_valuation_agency = True
+   foreign_real_estate_investment_report_to_authority = True
+   special_purpose_real_estate_investment_business_compliance = True
+   board_risk_management_committee_established = True
+   internal_audit_unit_established_and_supervised = True
+   foreign_real_estate_investment_responsible_person = True
+   accounting_and_business_policies_defined = True
+   business_strategy_and_risk_management_policies_defined = True
+   disclosure_in_annual_financial_report = True
+   foreign_real_estate_investment_valuation_and_management = True
+   business_scope_limited_to_real_estate_related = True
+   loan_conditions_not_better_than_local = True
+   funds_used_only_for_specified_purposes = True
+   real_estate_investment_compliance = True
+   foreign_real_estate_investment_loan_conditions_compliance = True
+   penalty = False
+   internal_risk_management_department_established = True
+   supervision_and_management_of_major_financial_and_business_matters = True
+   property_management_by_international_agency = True
+   foreign_real_estate_meets_local_economic_return = True
+   risk_level_control_mechanism_established = True
+✅ Model saved to: outputs\case_103.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_103.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_103.smt2

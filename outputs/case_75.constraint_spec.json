@@ -1,0 +1,524 @@
+[
+  {
+    "id": "insurance:violate_148_1_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_148_1_2",
+      [
+        "EQ",
+        "violate_148_1_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定（未提供說明文件、文件未依規定記載或記載不實）",
+    "expr": [
+      "EQ",
+      "violate_148_2_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_provided",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_truthful",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定（未依限報告或公開說明，或報告內容不實）",
+    "expr": [
+      "EQ",
+      "violate_148_2_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "reported_to_authority_on_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "public_explanation_made",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "report_content_truthful",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定（未建立或未執行內部控制或稽核制度）",
+    "expr": [
+      "EQ",
+      "violate_148_3_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定（未建立或未執行內部處理制度或程序）",
+    "expr": [
+      "EQ",
+      "violate_148_3_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_noncompliance",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_level_4_remedial_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_3_deterioration",
+    "desc": "資本等級非嚴重不足但財務或業務狀況顯著惡化且未改善",
+    "expr": [
+      "EQ",
+      "capital_level_2_3_deterioration",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "EQ",
+            "capital_level",
+            2
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_business_improvement_approved",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "financial_business_deterioration_accelerated",
+            true
+          ],
+          [
+            "EQ",
+            "financial_business_deterioration_unimproved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures_required",
+    "desc": "主管機關得為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "supervision_measures_required",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "EQ",
+          "capital_level_2_3_deterioration",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_ok",
+    "desc": "建立且執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "建立且執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:compliance_internal_control_and_handling",
+    "desc": "內部控制及稽核制度與內部處理制度均符合規定",
+    "expr": [
+      "EQ",
+      "compliance_internal_control_and_handling",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_and_audit_ok",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_conduct_compliance",
+    "desc": "招攬、核保及理賠制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "business_conduct_compliance",
+      [
+        "EQ",
+        "business_conduct_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_product_sales_recorded",
+    "desc": "六十五歲以上客戶投資型保險商品銷售過程錄音錄影或電子設備留存並覆審",
+    "expr": [
+      "EQ",
+      "investment_product_sales_recorded",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_age_over_65",
+          true
+        ],
+        [
+          "EQ",
+          "sales_process_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "sales_process_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_product_risk_assessed",
+    "desc": "六十五歲以上客戶投資型保險商品風險承受能力評估及分級",
+    "expr": [
+      "EQ",
+      "investment_product_risk_assessed",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_age_over_65",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_completed",
+          true
+        ],
+        [
+          "GE",
+          "risk_level",
+          1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:noncompliance_penalty_171_1",
+    "desc": "違反第171-1條規定之罰鍰條件",
+    "expr": [
+      "EQ",
+      "penalty_171_1",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_3_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第171-1條任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_171_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

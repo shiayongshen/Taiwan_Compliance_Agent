@@ -1,0 +1,431 @@
+{
+  "case_id": "case_177",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 64.45,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 17064,
+  "total_output_tokens": 4005,
+  "total_tokens": 21069,
+  "total_cost_usd": 0.013234,
+  "timestamp": "2025-10-21T03:59:03.564391",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3808,
+      "output_tokens": 1162,
+      "elapsed_time": 17.324970722198486,
+      "cost": 0.0033824000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9142,
+      "output_tokens": 1278,
+      "elapsed_time": 20.903878688812256,
+      "cost": 0.005701600000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 172,
+      "output_tokens": 695,
+      "elapsed_time": 11.449790716171265,
+      "cost": 0.0011808
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 172,
+      "output_tokens": 695,
+      "elapsed_time": 11.441009998321533,
+      "cost": 0.0011808
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3770,
+      "output_tokens": 175,
+      "elapsed_time": 3.3001437187194824,
+      "cost": 0.0017880000000000003
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3608 chars",
+      "timestamp": 17.324970722198486
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "3950 chars",
+      "timestamp": 38.22884941101074
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 38.22884941101074
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "25 varspecs",
+      "timestamp": 49.67864012718201
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "9 constraints",
+      "timestamp": 49.68263912200928
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 49.687639236450195
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 49.687639236450195
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "17 facts",
+      "timestamp": 64.42979454994202
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "17 constraints",
+      "timestamp": 64.42979454994202
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 64.43579626083374
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['aml:internal_control_executed', 'c15', 'meta:penalty_conditions', 'meta:penalty_default_false']",
+      "timestamp": 64.43579626083374
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 64.44279432296753
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 49.687639236450195
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_designated_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_designated_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 49.68
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 49.68
+    },
+    {
+      "id": "aml:customer_identification_procedure_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "customer_identification_procedure_ok",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:customer_identification_performed",
+            true
+          ],
+          [
+            "EQ",
+            "aml:customer_identification_data_retained",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_procedure_ok",
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_identification_performed",
+            true
+          ],
+          [
+            "EQ",
+            "customer_identification_data_retained",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 49.68
+    },
+    {
+      "id": "aml:customer_identification_data_retention_period_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "customer_identification_data_retention_period_ok",
+        [
+          "OR",
+          [
+            "GE",
+            [
+              "SUB",
+              "current_date",
+              "aml:business_relationship_end_date"
+            ],
+            1825
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:transaction_temporary",
+              true
+            ],
+            [
+              "GE",
+              [
+                "SUB",
+                "current_date",
+                "aml:temporary_transaction_end_date"
+              ],
+              1825
+            ]
+          ],
+          [
+            "GE",
+            "aml:legal_longer_retention_period",
+            1
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_data_retention_period_ok",
+        [
+          "OR",
+          [
+            "GE",
+            [
+              "SUB",
+              "current_date",
+              "business_relationship_end_date"
+            ],
+            1825
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "transaction_temporary",
+              true
+            ],
+            [
+              "GE",
+              [
+                "SUB",
+                "current_date",
+                "temporary_transaction_end_date"
+              ],
+              1825
+            ]
+          ],
+          [
+            "GE",
+            "legal_longer_retention_period",
+            1
+          ]
+        ]
+      ],
+      "timestamp": 49.68
+    },
+    {
+      "id": "aml:enhanced_customer_due_diligence_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "enhanced_customer_due_diligence_ok",
+        [
+          "EQ",
+          "aml:enhanced_due_diligence_performed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "enhanced_customer_due_diligence_ok",
+        [
+          "EQ",
+          "enhanced_due_diligence_performed",
+          true
+        ]
+      ],
+      "timestamp": 49.68
+    },
+    {
+      "id": "aml:transaction_reporting_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "transaction_reporting_ok",
+        [
+          "EQ",
+          "aml:transaction_reported",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "transaction_reporting_ok",
+        [
+          "EQ",
+          "transaction_reported",
+          true
+        ]
+      ],
+      "timestamp": 49.68
+    },
+    {
+      "id": "aml:suspicious_transaction_reporting_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "suspicious_transaction_reporting_ok",
+        [
+          "EQ",
+          "aml:suspicious_transaction_reported",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "suspicious_transaction_reporting_ok",
+        [
+          "EQ",
+          "suspicious_transaction_reported",
+          true
+        ]
+      ],
+      "timestamp": 49.68
+    }
+  ]
+}

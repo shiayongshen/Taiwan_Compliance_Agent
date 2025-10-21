@@ -1,0 +1,605 @@
+[
+  {
+    "id": "insurance:fixed_office_and_special_account_book",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_special_account_book",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_special_account_book",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_only",
+    "desc": "兼有保險代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_only",
+      [
+        "LE",
+        [
+          "SUM",
+          [
+            "IF",
+            [
+              "EQ",
+              "has_agent_license",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_broker_license",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_notary_license",
+              true
+            ],
+            1,
+            0
+          ]
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
+    "desc": "保險代理人公司、經紀人公司為公開發行公司或具一定規模者應建立內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_required",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_publicly_listed",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "違反內部控制、稽核制度、招攬處理制度或程序者應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance_required",
+    "desc": "違反第一百六十五條第三項或第一百六十三條第五項準用規定未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序",
+    "expr": [
+      "EQ",
+      "internal_control_compliance_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_elements_met",
+    "desc": "保險代理人公司、保險經紀人公司內部控制制度符合規定組成要素",
+    "expr": [
+      "EQ",
+      "internal_control_elements_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_environment_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_performed",
+          true
+        ],
+        [
+          "EQ",
+          "control_activities_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "information_and_communication_effective",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_activities_performed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_scale_requirement",
+    "desc": "年度營業收入未達五億元者仍應依規定辦理內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_scale_requirement",
+      [
+        "IMPLIES",
+        [
+          "LT",
+          "annual_revenue",
+          500000000.0
+        ],
+        [
+          "EQ",
+          "internal_control_elements_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_operating_procedures",
+    "desc": "內部控制作業程序應包括招攬處理制度及程序與內部控制作業程序並適時檢討修訂",
+    "expr": [
+      "EQ",
+      "internal_control_operating_procedures",
+      [
+        "AND",
+        [
+          "EQ",
+          "solicitation_handling_procedures_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_operating_procedures_defined",
+          true
+        ],
+        [
+          "EQ",
+          "operating_procedures_reviewed_and_updated",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_included",
+    "desc": "設置審計委員會者內部控制制度應包括審計委員會議事運作管理",
+    "expr": [
+      "EQ",
+      "audit_committee_included",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_committee_meeting_management_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_operating_procedures_items",
+    "desc": "內部控制作業程序至少應包括指定項目",
+    "expr": [
+      "EQ",
+      "internal_control_operating_procedures_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "accounting_information_personal_data_aml_terrorism_control",
+          true
+        ],
+        [
+          "EQ",
+          "financial_inspection_report_management",
+          true
+        ],
+        [
+          "EQ",
+          "major_incident_handling_mechanism",
+          true
+        ],
+        [
+          "EQ",
+          "other_matters_designated_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_company_service_procedures",
+    "desc": "保險經紀人公司提供風險規劃、再保險規劃及保險理賠申請服務須建立適當作業程序",
+    "expr": [
+      "EQ",
+      "broker_company_service_procedures",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "provides_risk_planning_reinsurance_claim_services",
+          true
+        ],
+        [
+          "EQ",
+          "appropriate_operating_procedures_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_broker_service_procedures",
+    "desc": "經主管機關許可兼營保險經紀人業務之銀行提供風險規劃及保險理賠申請服務須建立適當作業程序",
+    "expr": [
+      "EQ",
+      "bank_broker_service_procedures",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "bank_permitted_to_operate_broker_business",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "provides_risk_planning_claim_services",
+            true
+          ],
+          [
+            "EQ",
+            "appropriate_operating_procedures_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:separate_account_book_and_reporting",
+    "desc": "個人執業代理人、代理人公司及銀行應專設帳簿並定期彙報主管機關",
+    "expr": [
+      "EQ",
+      "separate_account_book_and_reporting",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_separate_account_book",
+          true
+        ],
+        [
+          "GE",
+          "reporting_period_start_month_day",
+          401
+        ],
+        [
+          "LE",
+          "reporting_period_end_month_day",
+          531
+        ],
+        [
+          "EQ",
+          "annual_reports_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:authority_inspection_and_correction",
+    "desc": "主管機關得隨時檢查並要求限期報告，並要求改善及持續追蹤覆查",
+    "expr": [
+      "EQ",
+      "authority_inspection_and_correction",
+      [
+        "AND",
+        [
+          "EQ",
+          "authority_inspection_conducted",
+          true
+        ],
+        [
+          "EQ",
+          "correction_of_deficiencies_done",
+          true
+        ],
+        [
+          "EQ",
+          "continuous_follow_up_done",
+          true
+        ],
+        [
+          "EQ",
+          "follow_up_reported_to_board_and_audit_committee",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:separate_account_book_and_reporting_broker",
+    "desc": "個人執業經紀人、經紀人公司及銀行應專設帳簿並定期彙報主管機關",
+    "expr": [
+      "EQ",
+      "separate_account_book_and_reporting_broker",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_separate_account_book",
+          true
+        ],
+        [
+          "GE",
+          "reporting_period_start_month_day",
+          401
+        ],
+        [
+          "LE",
+          "reporting_period_end_month_day",
+          531
+        ],
+        [
+          "EQ",
+          "annual_reports_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:authority_inspection_and_correction_broker",
+    "desc": "主管機關得隨時檢查並要求限期報告，並要求改善及持續追蹤覆查（經紀人）",
+    "expr": [
+      "EQ",
+      "authority_inspection_and_correction_broker",
+      [
+        "AND",
+        [
+          "EQ",
+          "authority_inspection_conducted",
+          true
+        ],
+        [
+          "EQ",
+          "correction_of_deficiencies_done",
+          true
+        ],
+        [
+          "EQ",
+          "continuous_follow_up_done",
+          true
+        ],
+        [
+          "EQ",
+          "follow_up_reported_to_board_and_audit_committee",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、稽核制度、招攬處理制度或程序未建立或未確實執行時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

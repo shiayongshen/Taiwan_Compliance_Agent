@@ -1,0 +1,183 @@
+[
+  {
+    "id": "insurance:license_required",
+    "desc": "必須經主管機關許可並領有執業證照",
+    "expr": [
+      "EQ",
+      "license_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "license_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:deposit_and_insurance_required",
+    "desc": "必須繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "deposit_and_insurance_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_type_correct",
+    "desc": "保險類型符合代理人、經紀人、公證人規定",
+    "expr": [
+      "EQ",
+      "insurance_type_correct",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              1
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              2
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "notary",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_allowed",
+    "desc": "領有執業證照且符合繳存保證金及投保要求，始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "business_allowed",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_required",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_and_insurance_required",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:illegal_operation",
+    "desc": "未領有執業證照而經營或執行保險代理人、經紀人、公證人業務",
+    "expr": [
+      "EQ",
+      "illegal_operation",
+      [
+        "AND",
+        [
+          "EQ",
+          "operating_business",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_held",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未領有執業證照而經營或執行業務時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "illegal_operation",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

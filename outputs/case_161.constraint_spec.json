@@ -1,0 +1,262 @@
+[
+  {
+    "id": "securities:prohibited_related_party_trading",
+    "desc": "負責人及關係人於基金持有期間不得從事該公司股票及具股權性質衍生商品交易",
+    "expr": [
+      "EQ",
+      "prohibited_related_party_trading",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "fund_holding_stock_or_equity_derivative",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "related_person_trading_stock_or_equity_derivative",
+              true
+            ],
+            [
+              "EQ",
+              "exemption_by_authority",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:related_party_trading_reported",
+    "desc": "負責人及關係人交易應依主管機關規定申報",
+    "expr": [
+      "EQ",
+      "related_party_trading_reported",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "related_person_trading_stock_or_equity_derivative",
+          true
+        ],
+        [
+          "EQ",
+          "trading_reported_to_fund",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:related_person_definition",
+    "desc": "關係人定義符合主管機關規定",
+    "expr": [
+      "EQ",
+      "related_person_definition_ok",
+      [
+        "EQ",
+        "related_person_definition_according_to_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:duty_of_care_and_loyalty",
+    "desc": "負責人及業務人員應以善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "duty_of_care_and_loyalty_met",
+      [
+        "EQ",
+        "duty_of_care_and_loyalty_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors",
+    "desc": "不得有法令禁止之不當行為",
+    "expr": [
+      "EQ",
+      "no_prohibited_behaviors",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "insider_trading_or_leakage",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "self_dealing_or_conflict_of_interest",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fraud_or_misleading_behavior",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "failure_to_return_commission_to_fund",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "providing_undue_benefits_for_promotion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "selling_proxy_votes_for_benefits",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manipulating_market_prices",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_account_transfers",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_public_recommendations",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unreasonable_commissions_to_nonprofessionals",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unauthorized_agent_trading",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_harmful_acts_to_investors_or_fund",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反禁止交易、申報義務、關係人定義或不當行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_related_party_trading",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_trading_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_person_definition_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "duty_of_care_and_loyalty_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "no_prohibited_behaviors",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

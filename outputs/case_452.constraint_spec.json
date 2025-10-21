@@ -1,0 +1,383 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_noncompliance",
+    "desc": "資本嚴重不足且未依規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_increase_or_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_penalty_period",
+    "desc": "資本嚴重不足且未完成改善計畫且期限屆滿超過90日",
+    "expr": [
+      "EQ",
+      "capital_level_4_penalty_period",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "GE",
+          "days_after_deadline",
+          90
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_deterioration",
+    "desc": "財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_deterioration",
+      [
+        "OR",
+        [
+          "EQ",
+          "financial_or_business_deteriorated",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_pay_debt",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_fulfill_contract",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_approved",
+    "desc": "提出財務或業務改善計畫並經主管機關核定",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accelerated_deterioration_and_no_improvement",
+    "desc": "損益、淨值加速惡化且經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_and_no_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "accelerated_loss_and_net_worth_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_after_guidance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:severe_financial_condition_penalty",
+    "desc": "財務狀況嚴重惡化且有接管、勒令停業清理或解散之虞",
+    "expr": [
+      "EQ",
+      "severe_financial_condition_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_submitted_and_approved",
+          true
+        ],
+        [
+          "EQ",
+          "accelerated_deterioration_and_no_improvement",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_authorized",
+    "desc": "主管機關得為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "supervisory_measures_authorized",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_penalty_period",
+          true
+        ],
+        [
+          "EQ",
+          "severe_financial_condition_penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_actions_without_supervisor_consent",
+    "desc": "監管處分期間未經監管人同意不得為特定行為",
+    "expr": [
+      "EQ",
+      "prohibited_actions_without_supervisor_consent",
+      [
+        "AND",
+        [
+          "EQ",
+          "under_supervisory_measures",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "supervisor_consent_payment_or_disposal",
+              true
+            ],
+            [
+              "EQ",
+              "supervisor_consent_contract_or_commitment",
+              true
+            ],
+            [
+              "EQ",
+              "supervisor_consent_other_major_financial_matters",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "建立洗錢防制內部控制與稽核制度且執行",
+    "expr": [
+      "EQ",
+      "aml_internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml_internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "aml_internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_for_noncompliance",
+    "desc": "違反洗錢防制法規定未建立或未依規定執行制度",
+    "expr": [
+      "EQ",
+      "aml_penalty_condition",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml_internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "aml_avoid_or_obstruct_inspection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成改善計畫期限屆滿90日以上，或財務狀況嚴重惡化且未改善，或違反洗錢防制法規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_penalty_period",
+          true
+        ],
+        [
+          "EQ",
+          "severe_financial_condition_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "aml_penalty_condition",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

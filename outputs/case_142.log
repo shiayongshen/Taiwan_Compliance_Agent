@@ -1,0 +1,127 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4432 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5452 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (10 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (20 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL ('<=' not supported between instances of 'BoolRef' and 'BoolRef')
+⚠️ Found 2 problematic constraints:
+  - [insurance_broker:capital_adjustment_after_transfer_met] '<=' not supported between instances of 'BoolRef' and 'BoolRef'
+  - [insurance_agent:capital_adjustment_after_transfer_met] '<=' not supported between instances of 'BoolRef' and 'BoolRef'
+⚠️ Constraints parse failed: '<=' not supported between instances of 'BoolRef' and 'BoolRef'
+🔄 Repair attempt 1
+📍 Found 2 problematic constraint(s):
+   [insurance_broker:capital_adjustment_after_transfer_met] '<=' not supported between instances of 'BoolRef' and 'BoolRef'
+   [insurance_agent:capital_adjustment_after_transfer_met] '<=' not supported between instances of 'BoolRef' and 'BoolRef'
+
+🔧 修復 constraint [insurance_broker:capital_adjustment_after_transfer_met]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance_broker:capital_adjustment_after_transfer_met] 修復成功
+
+🔧 修復 constraint [insurance_agent:capital_adjustment_after_transfer_met]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance_agent:capital_adjustment_after_transfer_met] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (20 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (20 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c23', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c23', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_142
+
+📊 Model (filtered):
+   transfer_due_to_inheritance_or_share = False
+   paid_in_capital = 20000000
+   application_date = 20180623
+   capital_adjustment_within_6_months = True
+   capital_adjustment_date = 20180623
+   business_type = 1
+   share_or_capital_transfer_ratio = 0
+   agent_paid_in_capital = 10000000
+   license_issue_date = 0
+   transfer_due_to_inheritance = False
+   agent_capital_requirement = 10000000
+   capital_requirement = 20000000
+   agent_capital_paid_in_cash = 1
+   capital_adjustment_deadline_met = True
+   penalty = False
+   capital_paid_in_cash_flag = True
+   agent_capital_adjustment_deadline_met = True
+   agent_capital_adjustment_after_transfer_met = True
+   capital_adjustment_after_transfer_met = True
+   capital_paid_in_cash = 1
+✅ Model saved to: outputs\case_142.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_142.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_142.smt2

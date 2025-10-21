@@ -1,0 +1,186 @@
+[
+  {
+    "id": "bank:violation_occurred",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_law",
+          true
+        ],
+        [
+          "EQ",
+          "violate_articles",
+          true
+        ],
+        [
+          "EQ",
+          "impede_sound_operation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:correction_ordered",
+    "desc": "主管機關已予以糾正並命其限期改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "AND",
+        [
+          "EQ",
+          "correction_given",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_deadline_given",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalties_applied",
+    "desc": "主管機關依情節輕重為下列處分之一",
+    "expr": [
+      "EQ",
+      "penalties_applied",
+      [
+        "OR",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "restrict_investment",
+          true
+        ],
+        [
+          "EQ",
+          "order_or_prohibit_asset_disposition",
+          true
+        ],
+        [
+          "EQ",
+          "order_branch_closure",
+          true
+        ],
+        [
+          "EQ",
+          "order_manager_staff_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "order_director_supervisor_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "order_reserve_provision",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:notify_registration_authority",
+    "desc": "依第七款解除董事、監察人職務時通知公司登記主管機關撤銷或廢止其登記",
+    "expr": [
+      "EQ",
+      "notify_registration_authority",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "order_director_supervisor_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "registration_authority_notified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_needed",
+    "desc": "為改善銀行營運缺失有業務輔導之必要",
+    "expr": [
+      "EQ",
+      "business_guidance_needed",
+      [
+        "EQ",
+        "business_guidance_designated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：銀行違反法令章程或有礙健全經營且未接受糾正改善或未執行處分時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_ordered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

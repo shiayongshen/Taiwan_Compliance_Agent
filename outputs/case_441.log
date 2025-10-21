@@ -1,0 +1,137 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6090 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6090 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (17 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (32 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [bank:credit_limit_natural_person_total]
+   ✅ Removed prefixes in [bank:credit_limit_natural_person_unsecured]
+   ✅ Removed prefixes in [bank:credit_limit_legal_person_total]
+   ✅ Removed prefixes in [bank:credit_limit_legal_person_unsecured]
+   ✅ Removed prefixes in [bank:credit_limit_public_enterprise_total]
+   ✅ Removed prefixes in [bank:credit_limit_related_person_total]
+   ✅ Removed prefixes in [bank:credit_limit_related_person_natural_total]
+   ✅ Removed prefixes in [bank:credit_limit_related_person_unsecured_total]
+   ✅ Removed prefixes in [bank:credit_limit_related_person_natural_unsecured]
+   ✅ Removed prefixes in [bank:credit_limit_related_enterprise_total]
+   ✅ Removed prefixes in [bank:credit_limit_related_enterprise_unsecured]
+   ✅ Removed prefixes in [bank:credit_exclusion_policy_approved]
+   ✅ Removed prefixes in [bank:credit_exclusion_government]
+   ✅ Removed prefixes in [bank:credit_exclusion_secured_bonds]
+   ✅ Removed prefixes in [bank:credit_exclusion_small_loans]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 16
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 16
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (17 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (31 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (31 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c47', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c47', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_441
+
+📊 Model (filtered):
+   credit_exposure_small_loans = 0
+   credit_exposure_related_person_total = 0
+   credit_exposure_related_enterprise_total = 0
+   credit_exposure_legal_person_total = 0
+   credit_exposure_related_person_natural_total = 1476000000
+   credit_exposure_related_person_unsecured_total = 0
+   net_worth = 24600000000
+   credit_exposure_government = 0
+   credit_exposure_natural_person_unsecured = 0
+   credit_exposure_related_person_natural_unsecured = 0
+   credit_exposure_public_enterprise_total = 0
+   credit_exposure_natural_person_total = 0
+   credit_exposure_legal_person_unsecured = 0
+   credit_exposure_policy_approved = 0
+   credit_exposure_related_enterprise_unsecured = 0
+   credit_exposure_secured_bonds = 0
+   credit_limit_natural_person_unsecured = 1
+   credit_limit_legal_person_unsecured = 1
+   credit_limit_related_enterprise_unsecured = 1
+   credit_exclusion_government = 0
+   credit_exclusion_small_loans = 0
+   credit_exclusion_policy_approved = 0
+   credit_limit_related_person_total = 1
+   credit_limit_legal_person_total = 1
+   credit_limit_related_person_unsecured_total = 1
+   penalty = False
+   credit_exclusion_secured_bonds = 0
+   credit_limit_related_person_natural_total = 1
+   credit_limit_public_enterprise_total = 1
+   credit_limit_natural_person_total = 1
+   credit_limit_related_enterprise_total = 1
+   credit_limit_related_person_natural_unsecured = 1
+✅ Model saved to: outputs\case_441.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_441.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_441.smt2

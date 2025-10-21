@@ -1,0 +1,151 @@
+{
+  "case_id": "case_109",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 135.45,
+  "repair_attempts": 2,
+  "total_agent_calls": 5,
+  "total_input_tokens": 68755,
+  "total_output_tokens": 8335,
+  "total_tokens": 77090,
+  "total_cost_usd": 0.040838,
+  "timestamp": "2025-10-21T01:54:13.449256",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "PASS",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 16631,
+      "output_tokens": 2446,
+      "elapsed_time": 32.899306535720825,
+      "cost": 0.010566
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 36072,
+      "output_tokens": 2601,
+      "elapsed_time": 41.87858510017395,
+      "cost": 0.018590400000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 350,
+      "output_tokens": 1424,
+      "elapsed_time": 20.944165468215942,
+      "cost": 0.0024184000000000002
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 350,
+      "output_tokens": 1424,
+      "elapsed_time": 24.0531108379364,
+      "cost": 0.0024184000000000002
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 15352,
+      "output_tokens": 440,
+      "elapsed_time": 12.628979682922363,
+      "cost": 0.006844800000000001
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7340 chars",
+      "timestamp": 32.899306535720825
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7825 chars",
+      "timestamp": 74.77789163589478
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "17 constraints",
+      "timestamp": 74.77789163589478
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "53 varspecs",
+      "timestamp": 95.72205710411072
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "'<=' not supported between instances of 'BoolRef' and 'BoolRef'",
+      "timestamp": 95.72505593299866
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": true,
+      "details": "1 rounds",
+      "timestamp": 98.70948767662048
+    },
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 98.7174882888794
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 98.7174882888794
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "39 facts",
+      "timestamp": 135.4005789756775
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "39 constraints",
+      "timestamp": 135.40157771110535
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 135.4135799407959
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c55', 'meta:penalty_default_false', 'meta:penalty_conditions']",
+      "timestamp": 135.4135799407959
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 135.4377658367157
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 98.7174882888794
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 95.72
+    }
+  ]
+}

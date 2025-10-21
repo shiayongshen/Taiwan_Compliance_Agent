@@ -1,0 +1,131 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5027 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5848 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (12 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (33 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [bank:investment_limit_stock_total]
+   ✅ Removed prefixes in [bank:investment_limit_otc_stock_and_others]
+   ✅ Removed prefixes in [bank:investment_limit_unrated_short_term_and_bonds]
+   ✅ Removed prefixes in [bank:investment_limit_unrated_short_term_and_bonds_total]
+   ✅ Removed prefixes in [bank:investment_limit_securities_held_over_one_year]
+   ✅ Removed prefixes in [bank:investment_limit_buy_sell_back_short_term_exclusion]
+   ✅ Removed prefixes in [bank:investment_limit_per_company_stock_and_bonds]
+   ✅ Removed prefixes in [bank:investment_limit_adjustable_by_authority]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 9
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 9
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (12 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (33 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (33 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c44', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c44', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_325
+
+📊 Model (filtered):
+   company_total_issued_shares = 100000000
+   investment_cost_otc_stock_and_others = 0
+   investment_cost_per_company_stock_and_bonds = 0
+   investment_cost_unrated_short_term_and_bonds_total = 192800000
+   post_office_transferred_deposits = 50000000
+   investment_cost_unrated_short_term_and_bonds = 136000000
+   total_deposits = 700000000
+   foreign_currency_deposits = 50000000
+   issuer_or_guarantor_has_credit_rating = True
+   investment_cost_stock_total = 0
+   cash_dividends_distributed = -1000000000
+   original_cost_long_term_bank_shares = 0
+   authority_adjusted_investment_limit = 0
+   time_deposits = 300000000
+   current_year_cash_capital_increase = 0
+   calculation_base = 1000000000
+   financial_bonds_issued_amount = 100000000
+   checking_deposits = 100000000
+   original_cost_non_bank_enterprise_investments = 0
+   investment_limit_stock_total = 1
+   securities_held_over_one_year_included_in_limits = True
+   net_worth_last_year_after_settlement = 0
+   investment_limit_securities_held_over_one_year = 1
+   investment_limit_otc_stock_and_others = 1
+   investment_limit_per_company_stock_and_bonds = 1
+   investment_limit_buy_sell_back_short_term_exclusion = True
+   investment_limit_unrated_short_term_and_bonds_total = 1
+   investment_limit_unrated_short_term_and_bonds = 1
+   demand_deposits = 200000000
+   investment_limit_adjustable_by_authority = 0
+   buy_back_condition_purchase_excluded = True
+   penalty = False
+   buy_back_condition_sale_included = True
+✅ Model saved to: outputs\case_325.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_325.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_325.smt2

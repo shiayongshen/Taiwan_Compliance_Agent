@@ -1,0 +1,160 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (9545 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (9545 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (16 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (69 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (16 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (46 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (46 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c49', 'meta:penalty_default_false', 'meta:penalty_conditions', 'fhc:prohibited_manager_roles'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c49', 'meta:penalty_default_false', 'meta:penalty_conditions', 'fhc:prohibited_manager_roles'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_256
+
+📊 Model (filtered):
+   investment_target_is_insurance = False
+   prohibit_use_fhc_name_and_change_registration = True
+   paid_in_capital_total = 0
+   investment_target_in_first_to_ninth_category = True
+   other_necessary_measures = False
+   remove_manager_or_officer = False
+   regulator_opposition = False
+   revoke_statutory_meeting_resolution = True
+   investment_target_is_other_financial_related = True
+   extension_applied = True
+   investment_approved = False
+   regulator_orders_disposal = True
+   investment_target_is_venture_capital = False
+   investment_target_is_securities = False
+   secured_credit_amount = 60000000
+   investment_target_is_bill_finance = False
+   order_dissolution_and_liquidation_if_not_completed = True
+   board_meeting_approval_ratio = 3/5
+   extension_times = 3
+   suspend_subsidiary_business = False
+   investment_target_is_fhc = False
+   subsidiary_capital_reduction = True
+   unsecured_credit_amount_to_related_enterprises = 50000000
+   investment_not_counted_in_total_shares = True
+   remove_director_or_supervisor_or_suspend_duties = True
+   each_extension_years = 3
+   notify_ministry_to_revoke_registration = True
+   capital_reduction_approved_by_regulator = True
+   regulator_defined_threshold = 60000001
+   days_since_application_received = 20
+   investment_target_is_bank = False
+   investment_has_no_voting_right = True
+   investment_target_in_tenth_or_eleventh_category = True
+   revoke_permit = True
+   investment_target_is_futures = False
+   investment_target_is_trust = False
+   order_disposal_of_subsidiary_shares = False
+   fhc_violation = True
+   order_dispose_shares_and_reduce_directors = True
+   board_meeting_attendance_ratio = 1/2
+   investment_target_is_credit_card = False
+   regulator_orders_adjustment = True
+   investment_target_is_foreign_financial_institution = False
+   secured_credit_amount_to_related_enterprises = 60000000
+   subsidiary_business_or_investment_exceeding = True
+   investment_without_approval_prohibited = True
+   consumer_loan_exempt_limit_ok = True
+   no_unsecured_credit_over_3_percent = True
+   collateral_conditions_not_better_than_similar = True
+   revoke_permit_consequences = True
+   business_is_investment = True
+   subsidiary_business_scope = True
+   full_collateral_provided = True
+   fhc_officer_is_manager_of_venture_investment = False
+   notify_ministry_on_director_removal = True
+   subsidiary_business_or_investment_exceeding_limits = True
+   subsidiary_capital_reduction_approval = True
+   investment_approval_timing = 1
+   penalty = False
+   approved_investment_targets = 1
+   secured_credit_over_5_percent_requirements = True
+   business_is_management_of_invested_companies = True
+   prohibited_manager_roles = True
+   regulator_measures_for_violation = True
+   adjustment_period_years = 0
+   adjustment_period_limit = 0
+   shareholding_percentage = 0
+   include_spouse_and_minor_children_shareholding = False
+   major_shareholder_definition = 0
+   /0 = [(60000000, 0) -> 3000000000/49999999999,
+ else -> -2500000000]
+✅ Model saved to: outputs\case_256.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_256.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_256.smt2

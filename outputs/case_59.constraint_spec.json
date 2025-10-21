@@ -1,0 +1,247 @@
+[
+  {
+    "id": "insurance:agent_license_and_guarantee",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "agent_license_and_guarantee",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "GE",
+          "guarantee_deposit_amount",
+          "guarantee_minimum_amount"
+        ],
+        [
+          "EQ",
+          "relevant_insurance_covered",
+          true
+        ],
+        [
+          "EQ",
+          "practice_certificate_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:relevant_insurance_type",
+    "desc": "相關保險類型依身份區分：代理人、公證人為責任保險；經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "relevant_insurance_type_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "is_agent",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            "liability_insurance"
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_notary",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            "liability_insurance"
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "is_broker",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              "liability_insurance"
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              "guarantee_insurance"
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並應分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_ok",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "bank_permission_granted",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_as_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_as_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂保險契約或提供服務，並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercised_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfilled_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_written_report_and_fee_disclosure",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂契約前，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_report_and_fee_disclosure_ok",
+      [
+        "AND",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "within_designated_scope",
+            true
+          ],
+          [
+            "EQ",
+            "written_analysis_report_provided",
+            true
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosure_made",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_financial_or_business_management",
+    "desc": "違反管理規則中財務或業務管理規定、書面分析報告規定或相關準用規定",
+    "expr": [
+      "EQ",
+      "violation_financial_or_business_management",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_management_rule",
+          true
+        ],
+        [
+          "EQ",
+          "violate_business_management_rule",
+          true
+        ],
+        [
+          "EQ",
+          "violate_written_report_rule",
+          true
+        ],
+        [
+          "EQ",
+          "violate_related_provisions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反管理規則財務或業務管理規定、書面分析報告規定或相關準用規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_financial_or_business_management",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

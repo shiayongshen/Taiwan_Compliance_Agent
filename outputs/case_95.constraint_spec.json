@@ -1,0 +1,605 @@
+[
+  {
+    "id": "insurance:license_and_guarantee_compliance",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，且領有執業證照",
+    "expr": [
+      "EQ",
+      "license_and_guarantee_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "licensed",
+          true
+        ],
+        [
+          "GE",
+          "guarantee_deposit_amount",
+          "minimum_guarantee_deposit"
+        ],
+        [
+          "EQ",
+          "insurance_policy_valid",
+          true
+        ],
+        [
+          "EQ",
+          "has_practice_certificate",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_policy_type_compliance",
+    "desc": "保險代理人、公證人投保責任保險，保險經紀人投保責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "insurance_policy_type_compliance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_or_notary",
+            true
+          ],
+          [
+            "EQ",
+            "has_liability_insurance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "broker",
+            true
+          ],
+          [
+            "EQ",
+            "has_liability_insurance",
+            true
+          ],
+          [
+            "EQ",
+            "has_guarantee_insurance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_practice_certificate",
+    "desc": "兼有代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_practice_certificate",
+      [
+        "LE",
+        [
+          "SUM",
+          [
+            "IF",
+            [
+              "EQ",
+              "has_agent_certificate",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_broker_certificate",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_notary_certificate",
+              true
+            ],
+            1,
+            0
+          ]
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:fixed_office_and_accounting",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所，並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_accounting",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_accounting_books",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_requirement",
+    "desc": "公開發行公司或具一定規模之代理人公司、經紀人公司應建立內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_requirement",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "is_publicly_listed_or_large_scale",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "is_agent_company",
+              true
+            ],
+            [
+              "EQ",
+              "is_broker_company",
+              true
+            ]
+          ]
+        ],
+        [
+          "EQ",
+          "has_internal_control_and_audit_and_handling_procedures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:good_faith_and_duty_of_loyalty",
+    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
+    "expr": [
+      "EQ",
+      "good_faith_and_duty_of_loyalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercises_diligence",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfills_loyalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:written_analysis_report_and_fee_disclosure",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂契約前，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "written_analysis_report_and_fee_disclosure",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "broker_in_specified_scope",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "provides_written_analysis_report",
+            true
+          ],
+          [
+            "IMPLIES",
+            [
+              "EQ",
+              "receives_fee",
+              true
+            ],
+            [
+              "EQ",
+              "discloses_fee_standard",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_operation_compliance",
+    "desc": "經紀人公司及銀行應依法令及主管機關規定訂定內部作業規範並落實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_internal_operation_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_regulations_implemented",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:understanding_customer_needs_and_documentation",
+    "desc": "經紀人應確實瞭解要保人需求及商品適合度，並留存相關文件",
+    "expr": [
+      "EQ",
+      "understanding_customer_needs_and_documentation",
+      [
+        "AND",
+        [
+          "EQ",
+          "understands_customer_needs",
+          true
+        ],
+        [
+          "EQ",
+          "documents_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:disclosure_of_shareholding",
+    "desc": "經紀人於洽訂保險契約前，應揭露單一保險公司或經紀人公司持股超過10%資訊",
+    "expr": [
+      "EQ",
+      "disclosure_of_shareholding",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GT",
+            "broker_company_shareholding_in_insurance_company",
+            10.0
+          ],
+          [
+            "GT",
+            "insurance_company_shareholding_in_broker_company",
+            10.0
+          ]
+        ],
+        [
+          "EQ",
+          "discloses_shareholding_info",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_acts",
+    "desc": "經紀人不得有保險經紀人管理規則第49條所列禁止行為",
+    "expr": [
+      "EQ",
+      "prohibited_acts",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "act_1_false_report_on_license_application",
+            true
+          ],
+          [
+            "EQ",
+            "act_2_contract_with_unapproved_insurer",
+            true
+          ],
+          [
+            "EQ",
+            "act_3_conceal_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "act_4_coerce_or_induce_unfair_contract",
+            true
+          ],
+          [
+            "EQ",
+            "act_5_false_or_misleading_promotion",
+            true
+          ],
+          [
+            "EQ",
+            "act_6_improper_inducement_to_cancel_or_loan",
+            true
+          ],
+          [
+            "EQ",
+            "act_7_misappropriation_of_funds",
+            true
+          ],
+          [
+            "EQ",
+            "act_8_unauthorized_use_of_license",
+            true
+          ],
+          [
+            "EQ",
+            "act_9_conviction_of_fraud_or_forgery",
+            true
+          ],
+          [
+            "EQ",
+            "act_10_operate_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "act_11_illegal_fee_collection",
+            true
+          ],
+          [
+            "EQ",
+            "act_12_illegal_insurance_payment",
+            true
+          ],
+          [
+            "EQ",
+            "act_13_spread_false_information",
+            true
+          ],
+          [
+            "EQ",
+            "act_14_authorize_others_to_operate",
+            true
+          ],
+          [
+            "EQ",
+            "act_15_illegal_transfer_of_application_documents",
+            true
+          ],
+          [
+            "EQ",
+            "act_16_employ_unqualified_personnel",
+            true
+          ],
+          [
+            "EQ",
+            "act_17_fail_to_cancel_license_in_time",
+            true
+          ],
+          [
+            "EQ",
+            "act_18_unauthorized_suspension_or_termination",
+            true
+          ],
+          [
+            "EQ",
+            "act_19_fail_to_appoint_replacement_broker",
+            true
+          ],
+          [
+            "EQ",
+            "act_20_fail_to_report_to_broker_association",
+            true
+          ],
+          [
+            "EQ",
+            "act_21_use_unapproved_advertisement",
+            true
+          ],
+          [
+            "EQ",
+            "act_22_pay_commission_to_non_actual_recruiter",
+            true
+          ],
+          [
+            "EQ",
+            "act_23_fail_to_confirm_suitability_for_elderly",
+            true
+          ],
+          [
+            "EQ",
+            "act_24_sell_unapproved_foreign_policy_discount_benefits",
+            true
+          ],
+          [
+            "EQ",
+            "act_25_false_or_incomplete_financial_reports",
+            true
+          ],
+          [
+            "EQ",
+            "act_26_conflict_of_interest_or_insurance_officer",
+            true
+          ],
+          [
+            "EQ",
+            "act_27_induce_contract_termination_or_loan",
+            true
+          ],
+          [
+            "EQ",
+            "act_28_fail_to_fill_recruitment_report_truthfully",
+            true
+          ],
+          [
+            "EQ",
+            "act_29_other_violations_of_rules_or_laws",
+            true
+          ],
+          [
+            "EQ",
+            "act_30_other_acts_damaging_insurance_image",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反許可、保證金、保險投保、執業證照、內部控制或禁止行為等規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_guarantee_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_policy_type_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "single_practice_certificate",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fixed_office_and_accounting",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_requirement",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "good_faith_and_duty_of_loyalty",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "written_analysis_report_and_fee_disclosure",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "understanding_customer_needs_and_documentation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_of_shareholding",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_acts",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

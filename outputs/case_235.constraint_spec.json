@@ -1,0 +1,568 @@
+[
+  {
+    "id": "securities:annual_report_compliance",
+    "desc": "年度財務報告於會計年度終了後三個月內公告申報，並經董事長、經理人及會計主管簽名或蓋章，會計師查核簽證，董事會通過及監察人承認",
+    "expr": [
+      "EQ",
+      "annual_report_compliance",
+      [
+        "AND",
+        [
+          "LE",
+          "annual_report_submission_days",
+          90
+        ],
+        [
+          "EQ",
+          "annual_report_signed_by_ceo_cfo_accounting",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_audited_by_cpa",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_approved_by_supervisors",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:quarterly_report_compliance",
+    "desc": "第一季、第二季及第三季財務報告於季終了後四十五日內公告申報，並經董事長、經理人及會計主管簽名或蓋章，會計師核閱及提報董事會",
+    "expr": [
+      "EQ",
+      "quarterly_report_compliance",
+      [
+        "AND",
+        [
+          "LE",
+          "quarterly_report_submission_days",
+          45
+        ],
+        [
+          "EQ",
+          "quarterly_report_signed_by_ceo_cfo_accounting",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_report_reviewed_by_cpa",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_report_reported_to_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:monthly_operating_report_compliance",
+    "desc": "每月十日以前公告申報上月份營運情形",
+    "expr": [
+      "EQ",
+      "monthly_operating_report_compliance",
+      [
+        "LE",
+        "monthly_operating_report_submission_day",
+        10
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:special_circumstances_exemption",
+    "desc": "情形特殊經主管機關另行規定者，公告申報期限及事項可變更",
+    "expr": [
+      "EQ",
+      "special_circumstances_exemption",
+      [
+        "EQ",
+        "special_circumstances_approved_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_report_inconsistency_reported",
+    "desc": "股東常會承認之年度財務報告與公告申報之年度財務報告不一致，應於事實發生日起二日內公告申報",
+    "expr": [
+      "EQ",
+      "annual_report_inconsistency_reported",
+      [
+        "EQ",
+        "annual_report_inconsistency_reported_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:material_event_reported",
+    "desc": "發生對股東權益或證券價格有重大影響事項，應於事實發生日起二日內公告申報",
+    "expr": [
+      "EQ",
+      "material_event_reported",
+      [
+        "EQ",
+        "material_event_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_meeting_held",
+    "desc": "股票已上市或於證券商營業處所買賣之公司股東常會，應於每會計年度終了後六個月內召開",
+    "expr": [
+      "EQ",
+      "annual_meeting_held",
+      [
+        "LE",
+        "annual_meeting_days_after_fiscal_year_end",
+        180
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:board_and_supervisors_dismissed_if_no_meeting",
+    "desc": "股票已上市或於證券商營業處所買賣之公司董事及監察人任期屆滿之年，董事會未依規定召開股東常會改選，主管機關限期召開屆期仍不召開者，董事及監察人解任",
+    "expr": [
+      "EQ",
+      "board_and_supervisors_dismissed",
+      [
+        "AND",
+        [
+          "EQ",
+          "stock_listed_or_traded",
+          true
+        ],
+        [
+          "EQ",
+          "board_supervisors_term_expired",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_meeting_held",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "authority_deadline_days_passed",
+          0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:reorganization_period_authority",
+    "desc": "公司重整期間董事會及監察人職權由重整人及重整監督人行使",
+    "expr": [
+      "EQ",
+      "reorganization_period_authority",
+      [
+        "EQ",
+        "company_in_reorganization",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:material_event_definition",
+    "desc": "重大影響事項定義依證券交易法施行細則第7條規定",
+    "expr": [
+      "EQ",
+      "material_event_definition",
+      [
+        "OR",
+        [
+          "EQ",
+          "insufficient_deposit_or_bounced_check",
+          true
+        ],
+        [
+          "EQ",
+          "litigation_or_administrative_action_impact",
+          true
+        ],
+        [
+          "EQ",
+          "severe_production_reduction_or_asset_lease",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_article_185_events",
+          true
+        ],
+        [
+          "EQ",
+          "court_prohibition_on_stock_transfer",
+          true
+        ],
+        [
+          "EQ",
+          "change_of_ceo_or_major_board_members",
+          true
+        ],
+        [
+          "EQ",
+          "change_of_auditor_not_internal",
+          true
+        ],
+        [
+          "EQ",
+          "significant_memo_or_business_change",
+          true
+        ],
+        [
+          "EQ",
+          "other_major_events_affecting_continuity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:special_extension_annual_report",
+    "desc": "未上市未上櫃公司因作業時間不足，年度財報公告申報期限可延長至四個月，且可免公告申報第一季及第三季合併財報",
+    "expr": [
+      "EQ",
+      "special_extension_annual_report",
+      [
+        "AND",
+        [
+          "EQ",
+          "unlisted_unot_taipei_stock_exchange",
+          true
+        ],
+        [
+          "LE",
+          "annual_report_submission_days",
+          120
+        ],
+        [
+          "EQ",
+          "exempt_first_and_third_quarter_reports",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:second_listing_company_report_rules",
+    "desc": "第二上市公司依註冊地國法令公告申報年度及期中合併財報，免公告申報每月營運情形，年度合併財報公告申報不得逾會計年度終了後六個月",
+    "expr": [
+      "EQ",
+      "second_listing_company_report_rules",
+      [
+        "AND",
+        [
+          "EQ",
+          "second_listing_company",
+          true
+        ],
+        [
+          "LE",
+          "annual_consolidated_report_submission_days",
+          180
+        ],
+        [
+          "EQ",
+          "exempt_monthly_operating_report",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:first_listing_second_quarter_report_rule",
+    "desc": "自110會計年度起，第一上市公司第二季財報應經會計師查核簽證、董事會通過及監察人承認，公告申報不得逾季終了後二個月",
+    "expr": [
+      "EQ",
+      "first_listing_second_quarter_report_rule",
+      [
+        "AND",
+        [
+          "GE",
+          "accounting_year",
+          110
+        ],
+        [
+          "EQ",
+          "first_listing_company",
+          true
+        ],
+        [
+          "EQ",
+          "second_quarter_report_audited",
+          true
+        ],
+        [
+          "EQ",
+          "second_quarter_report_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "second_quarter_report_approved_by_supervisors",
+          true
+        ],
+        [
+          "LE",
+          "second_quarter_report_submission_days",
+          60
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:large_capital_annual_report_deadline",
+    "desc": "自111會計年度起，實收資本額達100億元以上上市公司年度財報公告申報不得逾會計年度終了後75日",
+    "expr": [
+      "EQ",
+      "large_capital_annual_report_deadline",
+      [
+        "AND",
+        [
+          "GE",
+          "accounting_year",
+          111
+        ],
+        [
+          "GE",
+          "paid_in_capital",
+          100000000000
+        ],
+        [
+          "LE",
+          "annual_report_submission_days",
+          75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:extension_application_eligibility",
+    "desc": "發行人除第二上市公司外，因不可抗力等情形無法如期公告申報財報時，得申請延長公告申報期限",
+    "expr": [
+      "EQ",
+      "extension_application_eligibility",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "second_listing_company",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "force_majeure_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "financial_institution_taken_over",
+            true
+          ],
+          [
+            "EQ",
+            "auditor_suspended_and_no_successor",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:extension_application_requirements",
+    "desc": "申請延長公告申報期限應於事實發生日起15日內且公告申報期限屆至前，檢具理由證明及擬展延期限向主管機關申請核准",
+    "expr": [
+      "EQ",
+      "extension_application_requirements",
+      [
+        "AND",
+        [
+          "LE",
+          "days_since_event",
+          15
+        ],
+        [
+          "LE",
+          "days_until_report_deadline",
+          0
+        ],
+        [
+          "EQ",
+          "application_documents_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:extension_period_limit",
+    "desc": "公告申報期限延長以一個月為限，必要時得再延長",
+    "expr": [
+      "EQ",
+      "extension_period_limit",
+      [
+        "LE",
+        "extension_period_days",
+        31
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反公告申報規定或未依主管機關規定申報或公告，或未於期限內申報重大事項，或未召開股東常會，或董事監察人未依規定改選時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "quarterly_report_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "monthly_operating_report_compliance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "special_circumstances_exemption",
+              true
+            ]
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "annual_report_inconsistency_reported",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "material_event_reported",
+                true
+              ]
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_meeting_held",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "stock_listed_or_traded",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "board_and_supervisors_dismissed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

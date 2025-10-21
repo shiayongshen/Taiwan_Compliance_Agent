@@ -1,0 +1,633 @@
+[
+  {
+    "id": "insurance:same_person_definition",
+    "desc": "同一人定義為同一自然人或同一法人",
+    "expr": [
+      "EQ",
+      "same_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "natural_person_1",
+          "natural_person_2"
+        ],
+        [
+          "EQ",
+          "legal_person_1",
+          "legal_person_2"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_person_definition",
+    "desc": "同一關係人定義包含本人、配偶、二親等以內血親及以本人或配偶為負責人之事業",
+    "expr": [
+      "EQ",
+      "related_person",
+      [
+        "OR",
+        [
+          "EQ",
+          "person",
+          "self"
+        ],
+        [
+          "EQ",
+          "person",
+          "spouse"
+        ],
+        [
+          "LE",
+          "degree_of_kinship",
+          2
+        ],
+        [
+          "EQ",
+          "person_responsible_for_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_corporate_definition",
+    "desc": "同一關係企業範圍依公司法相關條文規定",
+    "expr": [
+      "EQ",
+      "related_corporate",
+      [
+        "OR",
+        [
+          "EQ",
+          "company_law_369_1_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_2_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_3_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_9_applied",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_11_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_and_other_transaction_limit",
+    "desc": "主管機關得限制保險業對同一人、同一關係人或同一關係企業之放款或其他交易",
+    "expr": [
+      "EQ",
+      "loan_and_other_transaction_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "loan_amount_to_same_person",
+          "loan_limit"
+        ],
+        [
+          "LE",
+          "loan_amount_to_related_person",
+          "loan_limit"
+        ],
+        [
+          "LE",
+          "loan_amount_to_related_corporate",
+          "loan_limit"
+        ],
+        [
+          "LE",
+          "other_transaction_amount_to_same_person",
+          "transaction_limit"
+        ],
+        [
+          "LE",
+          "other_transaction_amount_to_related_person",
+          "transaction_limit"
+        ],
+        [
+          "LE",
+          "other_transaction_amount_to_related_corporate",
+          "transaction_limit"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_other_transaction_limit_compliance",
+    "desc": "保險業遵守主管機關對放款及其他交易限額及範圍規定",
+    "expr": [
+      "EQ",
+      "loan_other_transaction_limit_compliance",
+      [
+        "EQ",
+        "loan_and_other_transaction_limit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_ok",
+    "desc": "建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_business_scope_rules",
+    "desc": "違反業務範圍相關規定",
+    "expr": [
+      "EQ",
+      "violation_of_business_scope_rules",
+      [
+        "EQ",
+        "business_scope_rules_complied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_reserve_rules",
+    "desc": "違反賠償準備金提存額度及方式規定",
+    "expr": [
+      "EQ",
+      "violation_of_reserve_rules",
+      [
+        "EQ",
+        "reserve_rules_complied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_article_143",
+    "desc": "違反第一百四十三條規定",
+    "expr": [
+      "EQ",
+      "violation_of_article_143",
+      [
+        "EQ",
+        "article_143_complied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_article_143_5_and_143_6_measures",
+    "desc": "違反第一百四十三條之五或主管機關依第一百四十三條之六規定所為措施",
+    "expr": [
+      "EQ",
+      "violation_of_article_143_5_and_143_6_measures",
+      [
+        "EQ",
+        "article_143_5_and_143_6_measures_complied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_fund_usage_rules",
+    "desc": "違反保險業資金運用相關規定",
+    "expr": [
+      "EQ",
+      "violation_of_fund_usage_rules",
+      [
+        "EQ",
+        "fund_usage_rules_complied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_without_sufficient_collateral",
+    "desc": "放款無十足擔保或條件優於其他同類放款對象",
+    "expr": [
+      "EQ",
+      "loan_without_sufficient_collateral",
+      [
+        "EQ",
+        "loan_sufficient_collateral",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_without_board_approval",
+    "desc": "擔保放款未經董事會三分之二以上董事出席及四分之三以上同意",
+    "expr": [
+      "EQ",
+      "loan_without_board_approval",
+      [
+        "OR",
+        [
+          "LT",
+          "board_attendance_ratio",
+          0.6666667
+        ],
+        [
+          "LT",
+          "board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_loan_and_transaction_limits",
+    "desc": "違反放款或其他交易限額及決議程序規定",
+    "expr": [
+      "EQ",
+      "violation_of_loan_and_transaction_limits",
+      [
+        "EQ",
+        "loan_and_transaction_limits_complied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reserve_calculation_and_recording",
+    "desc": "營業年度屆滿時計算應提存準備金並記載於特設帳簿",
+    "expr": [
+      "EQ",
+      "reserve_calculation_and_recording",
+      [
+        "AND",
+        [
+          "GE",
+          "business_year_end",
+          1
+        ],
+        [
+          "EQ",
+          "reserve_calculated",
+          true
+        ],
+        [
+          "EQ",
+          "reserve_recorded_in_special_ledger",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures",
+    "desc": "主管機關對違反法令或有礙健全經營保險業得為監管、接管等處分",
+    "expr": [
+      "EQ",
+      "supervision_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_severely_insufficient",
+          true
+        ],
+        [
+          "EQ",
+          "financial_or_business_condition_deteriorated",
+          true
+        ],
+        [
+          "EQ",
+          "unable_to_pay_debts_or_fulfill_contracts",
+          true
+        ],
+        [
+          "EQ",
+          "risk_to_insured_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severely_insufficient",
+    "desc": "資本等級為嚴重不足",
+    "expr": [
+      "EQ",
+      "capital_level_severely_insufficient",
+      [
+        "EQ",
+        "capital_level",
+        4
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_compliance",
+    "desc": "內部控制及稽核制度與內部處理制度及程序均已建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_and_audit_ok",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_internal_control_or_handling",
+    "desc": "違反內部控制、稽核或內部處理制度規定",
+    "expr": [
+      "EQ",
+      "violation_of_internal_control_or_handling",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_and_handling_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_investment_limit_compliance",
+    "desc": "國外投資總額不超過主管機關核定最高限額且符合投資規範",
+    "expr": [
+      "EQ",
+      "foreign_investment_limit_compliance",
+      [
+        "AND",
+        [
+          "LE",
+          "foreign_investment_total",
+          "foreign_investment_limit"
+        ],
+        [
+          "EQ",
+          "foreign_investment_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:exclusion_of_certain_shares_in_calculation",
+    "desc": "計算同一人或同一關係人持股時排除證券商承銷期間股份、金融機構承受擔保品未滿四年股份及繼承或遺贈未滿二年股份",
+    "expr": [
+      "EQ",
+      "exclusion_of_certain_shares_in_calculation",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "shares_held_during_underwriting_period",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shares_held_due_to_collateral_under_4_years",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shares_held_due_to_inheritance_under_2_years",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一保險法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_other_transaction_limit_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_handling_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_scope_rules_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reserve_rules_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "article_143_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "article_143_5_and_143_6_measures_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_usage_rules_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_sufficient_collateral",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_without_board_approval",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_and_transaction_limits_complied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reserve_calculation_and_recording",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_investment_limit_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "exclusion_of_certain_shares_in_calculation",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

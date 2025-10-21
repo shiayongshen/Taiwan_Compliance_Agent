@@ -1,0 +1,152 @@
+[
+  {
+    "id": "bank:investment_prohibited_securities",
+    "desc": "銀行不得投資於負責人擔任董事、監察人或經理人公司所發行之特定證券，除法定例外",
+    "expr": [
+      "EQ",
+      "investment_prohibited_securities",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "security_type",
+            "financial_bond"
+          ],
+          [
+            "EQ",
+            "security_type",
+            "subordinated_financial_bond"
+          ],
+          [
+            "EQ",
+            "security_type",
+            "other_bank_guaranteed_corporate_bond"
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "security_type",
+              "other_bank_guaranteed_or_accepted_short_term_note"
+            ],
+            [
+              "EQ",
+              "security_underwritten_or_traded_by_other_broker",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "security_type",
+            "transferable_time_deposit_certificate"
+          ],
+          [
+            "OR",
+            [
+              "LE",
+              "security_maturity_years",
+              1.0
+            ],
+            [
+              "EQ",
+              "security_type",
+              "asset_backed_security"
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "investment_relationship_approved_by_authority",
+              true
+            ],
+            [
+              "OR",
+              [
+                "EQ",
+                "security_type",
+                "stock"
+              ],
+              [
+                "EQ",
+                "security_type",
+                "new_equity_certificate"
+              ],
+              [
+                "EQ",
+                "security_type",
+                "bond_conversion_right_certificate"
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_of_investment_restrictions",
+    "desc": "違反銀行法第74條及相關規定投資有價證券",
+    "expr": [
+      "EQ",
+      "violation_of_investment_restrictions",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_article_74",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_89_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_115_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_article_123_apply_74",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法第74條及相關規定投資有價證券時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_of_investment_restrictions",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

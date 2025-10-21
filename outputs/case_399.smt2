@@ -1,0 +1,134 @@
+; SMT2 file generated from compliance case automatic
+; Case ID: case_399
+; Generated at: 2025-10-21T08:47:22.367845
+;
+; This file can be executed with Z3:
+;   z3 case_399.smt2
+;
+
+(set-logic ALL)
+
+; ============================================================
+; Variable Declarations
+; ============================================================
+
+(declare-const agent_type Int)
+(declare-const bank_operate_as_agent Bool)
+(declare-const bank_operate_as_broker Bool)
+(declare-const bank_permitted_by_authority Bool)
+(declare-const duty_of_care_and_fidelity Bool)
+(declare-const duty_of_care_observed Bool)
+(declare-const duty_of_fidelity_observed Bool)
+(declare-const fee_charged Real)
+(declare-const fee_disclosure_made Bool)
+(declare-const guarantee_deposit_paid Bool)
+(declare-const insurance_agent_or_broker_permitted Bool)
+(declare-const insurance_type Int)
+(declare-const license_and_insurance_compliance Bool)
+(declare-const license_permitted Bool)
+(declare-const management_rules_set_by_authority Bool)
+(declare-const minimum_amount_and_implementation Real)
+(declare-const minimum_amount_and_implementation_set_by_authority Bool)
+(declare-const penalty Bool)
+(declare-const practice_certificate_held Bool)
+(declare-const qualification_and_management_rules Bool)
+(declare-const related_insurance_purchased Bool)
+(declare-const related_insurance_type Int)
+(declare-const written_report_and_fee_disclosure Bool)
+(declare-const written_report_and_fee_standard_set_by_authority Bool)
+(declare-const written_report_provided Bool)
+(declare-const written_report_scope_and_fee_standard_set Bool)
+
+; ============================================================
+; Constraints (Legal Rules)
+; ============================================================
+
+; [insurance_agent:license_and_insurance_compliance] 保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務
+(assert (= license_and_insurance_compliance
+   (and license_permitted
+        guarantee_deposit_paid
+        related_insurance_purchased
+        practice_certificate_held)))
+
+; [insurance_agent:related_insurance_type] 相關保險種類依身份區分：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險
+(assert (let ((a!1 (or (and (= 1 agent_type) (= 1 insurance_type))
+               (and (= 3 agent_type) (= 1 insurance_type))
+               (and (= 2 agent_type)
+                    (or (= 1 insurance_type) (= 2 insurance_type))))))
+  (= related_insurance_type (ite a!1 1 0))))
+
+; [insurance_agent:minimum_amount_and_implementation] 主管機關定最低保證金及保險金額及實施方式，考量經營及執行業務範圍及規模
+(assert (= minimum_amount_and_implementation
+   (ite minimum_amount_and_implementation_set_by_authority 1.0 0.0)))
+
+; [insurance_agent:qualification_and_management_rules] 主管機關定資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則
+(assert (= qualification_and_management_rules management_rules_set_by_authority))
+
+; [bank:insurance_agent_or_broker_permitted] 銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定
+(assert (= insurance_agent_or_broker_permitted
+   (and bank_permitted_by_authority
+        (or bank_operate_as_agent bank_operate_as_broker))))
+
+; [insurance_broker:duty_of_care_and_fidelity] 保險經紀人應以善良管理人注意義務為被保險人洽訂保險契約或提供服務，並負忠實義務
+(assert (= duty_of_care_and_fidelity
+   (and duty_of_care_observed duty_of_fidelity_observed)))
+
+; [insurance_broker:written_report_and_fee_disclosure] 保險經紀人於主管機關指定範圍內洽訂保險契約前，應主動提供書面分析報告，向要保人或被保險人收取報酬者，應明確告知報酬標準
+(assert (let ((a!1 (and written_report_provided
+                (or fee_disclosure_made (not (= fee_charged 1.0))))))
+  (= written_report_and_fee_disclosure a!1)))
+
+; [insurance_broker:written_report_scope_and_fee_standard_set] 主管機關定書面分析報告適用範圍、內容及報酬收取標準範圍
+(assert (= written_report_scope_and_fee_standard_set
+   written_report_and_fee_standard_set_by_authority))
+
+; [meta:penalty_default_false] 預設不處罰
+(assert (not penalty))
+
+; [meta:penalty_conditions] 處罰條件：未經主管機關許可、未繳存保證金、未投保相關保險、未領執業證照或未遵守書面報告及告知義務時處罰
+(assert (= penalty
+   (or (not practice_certificate_held)
+       (not guarantee_deposit_paid)
+       (not related_insurance_purchased)
+       (not written_report_provided)
+       (and (= fee_charged 1.0) (not fee_disclosure_made))
+       (not license_permitted))))
+
+; ============================================================
+; Facts (Case Specific)
+; ============================================================
+
+(assert (= agent_type 2))
+(assert (= license_permitted true))
+(assert (= guarantee_deposit_paid false))
+(assert (= related_insurance_purchased true))
+(assert (= practice_certificate_held true))
+(assert (= related_insurance_type 1))
+(assert (= management_rules_set_by_authority true))
+(assert (= minimum_amount_and_implementation_set_by_authority true))
+(assert (= written_report_provided true))
+(assert (= fee_charged 0.0))
+(assert (= fee_disclosure_made true))
+(assert (= duty_of_care_observed true))
+(assert (= duty_of_fidelity_observed true))
+(assert (= bank_permitted_by_authority false))
+(assert (= bank_operate_as_agent false))
+(assert (= bank_operate_as_broker false))
+
+; ============================================================
+; Check Satisfiability
+; ============================================================
+
+(check-sat)
+(get-model)
+
+; ============================================================
+; Additional Information
+; ============================================================
+; Total constraints: 10
+; Total variables: 26
+; Total facts: 16
+;
+; Expected result:
+;   - If UNSAT: Case violates legal rules
+;   - If SAT: Case complies with legal rules (or error in constraints)

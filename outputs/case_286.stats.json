@@ -1,0 +1,1386 @@
+{
+  "case_id": "case_286",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 125.05,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 18810,
+  "total_output_tokens": 8455,
+  "total_tokens": 27265,
+  "total_cost_usd": 0.021052,
+  "timestamp": "2025-10-21T06:24:24.363485",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3034,
+      "output_tokens": 3058,
+      "elapsed_time": 43.4017379283905,
+      "cost": 0.0061064
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9490,
+      "output_tokens": 3377,
+      "elapsed_time": 48.62717366218567,
+      "cost": 0.009199200000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 226,
+      "output_tokens": 902,
+      "elapsed_time": 13.561962842941284,
+      "cost": 0.0015336000000000002
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 226,
+      "output_tokens": 902,
+      "elapsed_time": 14.81370759010315,
+      "cost": 0.0015336000000000002
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5834,
+      "output_tokens": 216,
+      "elapsed_time": 4.568845510482788,
+      "cost": 0.0026792000000000005
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "8602 chars",
+      "timestamp": 43.4017379283905
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "9371 chars",
+      "timestamp": 92.02891159057617
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 92.02891159057617
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "34 varspecs",
+      "timestamp": 105.59187436103821
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 105.60287308692932
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 105.61487317085266
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 105.61487317085266
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "20 facts",
+      "timestamp": 125.00043153762817
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 125.00043153762817
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 125.01443004608154
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c32', 'c35', 'insurance:penalty_types', 'c37', 'c33', 'c34', 'c31', 'bank:penalty_types', 'c36']",
+      "timestamp": 125.01443004608154
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 125.0334324836731
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 105.61487317085266
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "bank:violation_occurred",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation_occurred",
+        [
+          "EQ",
+          "bank:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "bank:penalties_applicable",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "bank:authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "bank:penalty_types",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "bank:revoke_statutory_meeting_resolution",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "bank:suspend_partial_business",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "bank:restrict_investment",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "bank:order_prohibit_asset_disposal",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "bank:order_close_branch_or_department",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "bank:order_remove_manager_staff",
+            true
+          ],
+          6,
+          [
+            "EQ",
+            "bank:remove_director_supervisor",
+            true
+          ],
+          7,
+          [
+            "EQ",
+            "bank:order_provision_reserve",
+            true
+          ],
+          8,
+          [
+            "EQ",
+            "bank:other_necessary_measures",
+            true
+          ],
+          9,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "revoke_statutory_meeting_resolution",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "suspend_partial_business",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "restrict_investment",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "order_prohibit_asset_disposal",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "order_close_branch_or_department",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "order_remove_manager_staff",
+            true
+          ],
+          6,
+          [
+            "EQ",
+            "remove_director_supervisor",
+            true
+          ],
+          7,
+          [
+            "EQ",
+            "order_provision_reserve",
+            true
+          ],
+          8,
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ],
+          9,
+          0
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "bill_finance:violation_occurred",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bill_finance:violation_occurred",
+        [
+          "EQ",
+          "bill_finance:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "bill_finance:penalties_applicable",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bill_finance:penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "bill_finance:violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "bill_finance:authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "financial_holdings:violation_occurred",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holdings:violation_occurred",
+        [
+          "EQ",
+          "financial_holdings:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "financial_holdings:penalties_applicable",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holdings:penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_holdings:violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "financial_holdings:authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "financial_holdings:penalty_types",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holdings:penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "financial_holdings:revoke_statutory_meeting_resolution",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "financial_holdings:suspend_subsidiary_business",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "financial_holdings:order_remove_manager_staff",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "financial_holdings:remove_director_supervisor",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "financial_holdings:order_dispose_subsidiary_shares",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "financial_holdings:revoke_license",
+            true
+          ],
+          6,
+          [
+            "EQ",
+            "financial_holdings:other_necessary_measures",
+            true
+          ],
+          7,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "revoke_statutory_meeting_resolution",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "suspend_subsidiary_business",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "order_remove_manager_staff",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "remove_director_supervisor",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "order_dispose_subsidiary_shares",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "revoke_license",
+            true
+          ],
+          6,
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ],
+          7,
+          0
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "electronic_payment:violation_occurred",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:violation_occurred",
+        [
+          "EQ",
+          "electronic_payment:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "electronic_payment:penalties_applicable",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "electronic_payment:violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "electronic_payment:authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "electronic_payment:penalty_types",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "electronic_payment:revoke_statutory_meeting_resolution",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "electronic_payment:revoke_all_or_partial_business_license",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "electronic_payment:order_remove_manager_staff",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "electronic_payment:remove_director_supervisor",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "electronic_payment:order_provision_reserve_or_capital_increase",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "electronic_payment:other_necessary_measures",
+            true
+          ],
+          6,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "revoke_statutory_meeting_resolution",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "revoke_all_or_partial_business_license",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "order_remove_manager_staff",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "remove_director_supervisor",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "order_provision_reserve_or_capital_increase",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ],
+          6,
+          0
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:violation_occurred",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:violation_occurred",
+        [
+          "EQ",
+          "insurance:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:penalties_applicable",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance:violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalties_applicable",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "authority_action_taken",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:penalty_types",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "insurance:restrict_business_or_fund_usage",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "insurance:order_stop_insurance_products",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "insurance:order_capital_increase",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "insurance:order_remove_manager_staff",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "insurance:revoke_statutory_meeting_resolution",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "insurance:remove_director_supervisor",
+            true
+          ],
+          6,
+          [
+            "EQ",
+            "insurance:other_necessary_measures",
+            true
+          ],
+          7,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_types",
+        [
+          "CASE",
+          [
+            "EQ",
+            "restrict_business_or_fund_usage",
+            true
+          ],
+          1,
+          [
+            "EQ",
+            "order_stop_insurance_products",
+            true
+          ],
+          2,
+          [
+            "EQ",
+            "order_capital_increase",
+            true
+          ],
+          3,
+          [
+            "EQ",
+            "order_remove_manager_staff",
+            true
+          ],
+          4,
+          [
+            "EQ",
+            "revoke_statutory_meeting_resolution",
+            true
+          ],
+          5,
+          [
+            "EQ",
+            "remove_director_supervisor",
+            true
+          ],
+          6,
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ],
+          7,
+          0
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:capital_level",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "insurance:net_worth",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "insurance:net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          2,
+          [
+            "GE",
+            "insurance:capital_adequacy_ratio",
+            200.0
+          ],
+          1,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "net_worth",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          2,
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          1,
+          0
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:capital_level_4_measures_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_level_4_measures_executed",
+        [
+          "EQ",
+          "insurance:capital_level_4_measures_executed_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level_4_measures_executed",
+        [
+          "EQ",
+          "capital_level_4_measures_executed_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:capital_level_3_measures_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_level_3_measures_executed",
+        [
+          "EQ",
+          "insurance:capital_level_3_measures_executed_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level_3_measures_executed",
+        [
+          "EQ",
+          "capital_level_3_measures_executed_flag",
+          true
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "insurance:capital_level_2_measures_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_level_2_measures_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "insurance:improvement_plan_submitted",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:improvement_plan_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level_2_measures_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "improvement_plan_submitted",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "bank:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "bank:authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "bill_finance:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "bill_finance:authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "financial_holdings:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "financial_holdings:authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "electronic_payment:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "electronic_payment:authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "insurance:violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance:authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "insurance:capital_level",
+              4
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance:capital_level_4_measures_executed",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "insurance:capital_level",
+              3
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance:capital_level_3_measures_executed",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "insurance:capital_level",
+              2
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "insurance:capital_level_2_measures_executed",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation_occurred",
+              true
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "authority_action_taken",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_level_4_measures_executed",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              3
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_level_3_measures_executed",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              2
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_level_2_measures_executed",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 105.59
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 105.59
+    }
+  ]
+}

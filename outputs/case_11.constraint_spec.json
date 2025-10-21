@@ -1,0 +1,511 @@
+[
+  {
+    "id": "insurance:violation_148_1_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violation_148_1_2",
+      [
+        "EQ",
+        "violate_148_1_2",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定，未提供說明文件供查閱、或所提供之說明文件未依規定記載、或所提供之說明文件記載不實",
+    "expr": [
+      "EQ",
+      "violation_148_2_1",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_provide_explanation_doc",
+          true
+        ],
+        [
+          "EQ",
+          "explanation_doc_not_according_to_rules",
+          true
+        ],
+        [
+          "EQ",
+          "explanation_doc_false",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定，未依限向主管機關報告或主動公開說明，或向主管機關報告或公開說明之內容不實",
+    "expr": [
+      "EQ",
+      "violation_148_2_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_report_to_authority_in_time",
+          true
+        ],
+        [
+          "EQ",
+          "not_proactively_disclose",
+          true
+        ],
+        [
+          "EQ",
+          "report_or_disclosure_false",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定，未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "violation_148_3_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定，未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violation_148_3_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_measures_executed",
+    "desc": "資本嚴重不足等級(4)應採取之措施已執行",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_measures_executed",
+      [
+        "EQ",
+        "level_4_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_measures_executed",
+    "desc": "資本顯著不足等級(3)應採取之措施已執行",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_measures_executed",
+      [
+        "EQ",
+        "level_3_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_measures_executed",
+    "desc": "資本不足等級(2)應採取之措施已執行",
+    "expr": [
+      "EQ",
+      "capital_insufficient_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_action_required",
+    "desc": "需主管機關監管、接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "supervisory_action_required",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_severely_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_significantly_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "LT",
+                "capital_level",
+                4
+              ],
+              [
+                "GT",
+                "capital_level",
+                0
+              ]
+            ],
+            [
+              "EQ",
+              "capital_level",
+              2
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_condition_deteriorated",
+            true
+          ],
+          [
+            "EQ",
+            "cannot_pay_debts",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_condition_deteriorated",
+            true
+          ],
+          [
+            "EQ",
+            "cannot_fulfill_contract",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_condition_deteriorated",
+            true
+          ],
+          [
+            "EQ",
+            "risk_to_insured_rights",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關條文或未執行資本不足等級措施或財務狀況惡化時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_148_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_2",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_severely_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_significantly_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_insufficient_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_condition_deteriorated",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "cannot_pay_debts",
+              true
+            ],
+            [
+              "EQ",
+              "cannot_fulfill_contract",
+              true
+            ],
+            [
+              "EQ",
+              "risk_to_insured_rights",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

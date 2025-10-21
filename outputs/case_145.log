@@ -1,0 +1,152 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4696 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5451 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (7 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (51 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (7 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (15 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (15 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law SAT → 案例可能無違規，但資料集為違規案例，嘗試修復以達成 UNSAT
+❌ Checkpoint [step8_case_law_check]: FAIL (SAT (unexpected))
+
+============================================================
+Step 8.1: SAT→UNSAT Repair
+============================================================
+🔧 Starting SAT→UNSAT repair process...
+
+--- Strategy 1: Repair Facts ---
+✅ Generated new aggressive facts: ['act_24_fail_to_confirm_suitability_for_elderly', 'act_29_fail_to_fill_solicitation_report', 'license_obtained', 'bond_deposited', 'insurance_purchased', 'has_agent_license', 'has_broker_license', 'has_notary_license', 'single_license_only', 'has_fixed_office', 'has_dedicated_accounting_books', 'fixed_office_and_accounting', 'is_public_company', 'has_certain_scale', 'internal_control_required', 'internal_control_established', 'audit_system_established', 'solicitation_handling_system_established', 'prohibited_acts', 'penalty']
+✅ Facts修復成功！UNSAT achieved: ['c26', 'meta:penalty_default_false']
+✅ SAT→UNSAT 修復成功
+✅ Final check: UNSAT - ['meta:penalty_default_false', 'c26']
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT after repair)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c26'])
+✅ Checkpoint [step8_repair_success]: PASS (SAT→UNSAT repair successful)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_145
+
+📊 Model (filtered):
+   act_21_fail_to_report_to_trade_association = False
+   act_11_outside_license_scope = False
+   act_22_use_unapproved_advertisement = False
+   act_5_force_or_induce_contract = False
+   solicitation_handling_system_established = False
+   has_fixed_office = True
+   act_25_sell_unapproved_foreign_policy_discount = False
+   act_14_spread_false_info = False
+   act_3_unapproved_insurance_business = False
+   act_10_convicted_fraud_or_forgery = False
+   is_public_company = False
+   act_16_transfer_application_documents = False
+   has_certain_scale = False
+   act_18_fail_to_cancel_license_in_time = False
+   has_notary_license = False
+   audit_system_established = False
+   act_19_unauthorized_suspend_or_terminate_business = False
+   act_23_pay_commission_to_non_actual_agent = True
+   act_31_damage_insurance_image = False
+   act_7_induce_policy_surrender_or_loan = False
+   act_9_unauthorized_use_license = False
+   act_24_fail_to_confirm_suitability_for_elderly = True
+   act_29_fail_to_fill_solicitation_report = True
+   act_4_hide_important_contract_info = False
+   act_20_fail_to_reappoint_agent_after_resignation = False
+   act_1_report_false = False
+   act_17_employ_unqualified_personnel = False
+   act_13_illegal_insurance_payment = False
+   has_agent_license = True
+   act_12_illegal_collection = False
+   has_dedicated_accounting_books = True
+   act_2_unapproved_agent_business = False
+   act_30_other_violations = False
+   act_6_false_advertisement = False
+   internal_control_established = False
+   act_8_misappropriate_funds = False
+   act_28_induce_contract_termination_or_loan_payment = False
+   act_26_false_financial_or_business_report = False
+   has_broker_license = False
+   act_15_authorize_others_to_operate = False
+   act_27_conflict_of_interest = False
+   license_and_bond_insurance_ok = True
+   fixed_office_and_accounting = True
+   single_license_only = True
+   prohibited_acts = False
+   insurance_purchased = True
+   license_obtained = True
+   penalty = False
+   bond_deposited = True
+   internal_control_required = True
+✅ Model saved to: outputs\case_145.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_145.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_145.smt2

@@ -1,0 +1,1119 @@
+{
+  "case_id": "case_8",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 136.43,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 16617,
+  "total_output_tokens": 9911,
+  "total_tokens": 26528,
+  "total_cost_usd": 0.022504,
+  "timestamp": "2025-10-20T22:55:37.801608",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1501,
+      "output_tokens": 3936,
+      "elapsed_time": 53.684330701828,
+      "cost": 0.0068980000000000005
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 7302,
+      "output_tokens": 4082,
+      "elapsed_time": 52.2442102432251,
+      "cost": 0.009452000000000002
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 224,
+      "output_tokens": 918,
+      "elapsed_time": 13.805890321731567,
+      "cost": 0.0015584000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 224,
+      "output_tokens": 918,
+      "elapsed_time": 14.950125217437744,
+      "cost": 0.0015584000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 7366,
+      "output_tokens": 57,
+      "elapsed_time": 1.7016239166259766,
+      "cost": 0.0030376
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "9784 chars",
+      "timestamp": 53.684330701828
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "10304 chars",
+      "timestamp": 105.9285409450531
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "38 constraints",
+      "timestamp": 105.9285409450531
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "37 varspecs",
+      "timestamp": 119.73443126678467
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "38 constraints",
+      "timestamp": 119.74043345451355
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 119.74743151664734
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 119.74743151664734
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "6 facts",
+      "timestamp": 136.40018892288208
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "6 constraints",
+      "timestamp": 136.40018892288208
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 136.40820741653442
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c40', 'meta:penalty_conditions', 'c39', 'meta:penalty_default_false']",
+      "timestamp": 136.40820741653442
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 136.4171953201294
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 119.74743151664734
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "bank:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation",
+        [
+          "EQ",
+          "bank:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:violation",
+            true
+          ],
+          [
+            "EQ",
+            "bank:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_1",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_1",
+        [
+          "EQ",
+          "bank:revoke_statutory_meeting_resolution",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_1",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_2",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_2",
+        [
+          "EQ",
+          "bank:suspend_partial_business",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_2",
+        [
+          "EQ",
+          "suspend_partial_business",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_3",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_3",
+        [
+          "EQ",
+          "bank:restrict_investment",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_3",
+        [
+          "EQ",
+          "restrict_investment",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_4",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_4",
+        [
+          "EQ",
+          "bank:order_prohibit_asset_disposition",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_4",
+        [
+          "EQ",
+          "order_prohibit_asset_disposition",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_5",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_5",
+        [
+          "EQ",
+          "bank:order_close_branch_or_department",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_5",
+        [
+          "EQ",
+          "order_close_branch_or_department",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_6",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_6",
+        [
+          "EQ",
+          "bank:order_remove_manager_staff",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_6",
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_7",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_7",
+        [
+          "EQ",
+          "bank:remove_director_supervisor",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_7",
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_8",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_8",
+        [
+          "EQ",
+          "bank:order_provision_amount",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_8",
+        [
+          "EQ",
+          "order_provision_amount",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:penalty_measure_9",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measure_9",
+        [
+          "EQ",
+          "bank:other_necessary_measures",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_9",
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:director_supervisor_registration_revoked",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:director_supervisor_registration_revoked",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:penalty_measure_7",
+            true
+          ],
+          [
+            "EQ",
+            "bank:notify_registration_authority",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "director_supervisor_registration_revoked",
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_measure_7",
+            true
+          ],
+          [
+            "EQ",
+            "notify_registration_authority",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bank:business_guidance_needed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:business_guidance_needed",
+        [
+          "EQ",
+          "bank:business_guidance_required",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "business_guidance_needed",
+        [
+          "EQ",
+          "business_guidance_required",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bill_finance:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bill_finance:violation",
+        [
+          "EQ",
+          "bill_finance:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "bill_finance:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bill_finance:penalty_measures",
+        [
+          "EQ",
+          "bank:penalty_measures",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "EQ",
+          "penalty_measures",
+          true
+        ]
+      ],
+      "timestamp": 119.73
+    },
+    {
+      "id": "financial_holding:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:violation",
+        [
+          "EQ",
+          "financial_holding:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_holding:violation",
+            true
+          ],
+          [
+            "EQ",
+            "financial_holding:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_1",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_1",
+        [
+          "EQ",
+          "financial_holding:revoke_statutory_meeting_resolution",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_1",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_2",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_2",
+        [
+          "EQ",
+          "financial_holding:suspend_subsidiary_business",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_2",
+        [
+          "EQ",
+          "suspend_subsidiary_business",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_3",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_3",
+        [
+          "EQ",
+          "financial_holding:order_remove_manager_staff",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_3",
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_4",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_4",
+        [
+          "EQ",
+          "financial_holding:remove_director_supervisor",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_4",
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_5",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_5",
+        [
+          "EQ",
+          "financial_holding:order_dispose_subsidiary_shares",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_5",
+        [
+          "EQ",
+          "order_dispose_subsidiary_shares",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_6",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_6",
+        [
+          "EQ",
+          "financial_holding:revoke_permit",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_6",
+        [
+          "EQ",
+          "revoke_permit",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:penalty_measure_7",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measure_7",
+        [
+          "EQ",
+          "financial_holding:other_necessary_measures",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_7",
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:director_supervisor_registration_revoked",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:director_supervisor_registration_revoked",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_holding:penalty_measure_4",
+            true
+          ],
+          [
+            "EQ",
+            "financial_holding:notify_economic_ministry",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "director_supervisor_registration_revoked",
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_measure_4",
+            true
+          ],
+          [
+            "EQ",
+            "notify_economic_ministry",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "financial_holding:revoke_permit_followup",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:revoke_permit_followup",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_holding:penalty_measure_6",
+            true
+          ],
+          [
+            "EQ",
+            "financial_holding:followup_completed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "revoke_permit_followup",
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_measure_6",
+            true
+          ],
+          [
+            "EQ",
+            "followup_completed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:violation",
+        [
+          "EQ",
+          "electronic_payment:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "electronic_payment:violation",
+            true
+          ],
+          [
+            "EQ",
+            "electronic_payment:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:penalty_measure_1",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measure_1",
+        [
+          "EQ",
+          "electronic_payment:revoke_statutory_meeting_resolution",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_1",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:penalty_measure_2",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measure_2",
+        [
+          "EQ",
+          "electronic_payment:revoke_permit",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_2",
+        [
+          "EQ",
+          "revoke_permit",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:penalty_measure_3",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measure_3",
+        [
+          "EQ",
+          "electronic_payment:order_remove_manager_staff",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_3",
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:penalty_measure_4",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measure_4",
+        [
+          "EQ",
+          "electronic_payment:remove_director_supervisor",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_4",
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:penalty_measure_5",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measure_5",
+        [
+          "EQ",
+          "electronic_payment:order_provision_or_capital_increase",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measure_5",
+        [
+          "EQ",
+          "order_provision_or_capital_increase",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:director_supervisor_registration_revoked",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:director_supervisor_registration_revoked",
+        [
+          "AND",
+          [
+            "EQ",
+            "electronic_payment:penalty_measure_4",
+            true
+          ],
+          [
+            "EQ",
+            "electronic_payment:notify_registration_authority",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "director_supervisor_registration_revoked",
+        [
+          "AND",
+          [
+            "EQ",
+            "penalty_measure_4",
+            true
+          ],
+          [
+            "EQ",
+            "notify_registration_authority",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:non_special_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:non_special_violation",
+        [
+          "EQ",
+          "electronic_payment:non_special_violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_special_violation",
+        [
+          "EQ",
+          "non_special_violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "electronic_payment:non_special_penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:non_special_penalty_measures",
+        [
+          "EQ",
+          "electronic_payment:penalty_measures",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_special_penalty_measures",
+        [
+          "EQ",
+          "penalty_measures",
+          true
+        ]
+      ],
+      "timestamp": 119.74
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:violation",
+            true
+          ],
+          [
+            "EQ",
+            "bank:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 119.74
+    }
+  ]
+}

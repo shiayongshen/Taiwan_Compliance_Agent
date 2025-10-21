@@ -1,0 +1,297 @@
+[
+  {
+    "id": "fhc:violation_exists",
+    "desc": "金融控股公司有違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_exists",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:correction_ordered",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "EQ",
+        "correction_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_revocation_resolution",
+    "desc": "主管機關撤銷法定會議之決議",
+    "expr": [
+      "EQ",
+      "penalty_revocation_resolution",
+      [
+        "EQ",
+        "revocation_resolution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_suspend_subsidiary_business",
+    "desc": "主管機關停止子公司一部或全部業務",
+    "expr": [
+      "EQ",
+      "penalty_suspend_subsidiary_business",
+      [
+        "EQ",
+        "suspend_subsidiary_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_remove_manager_staff",
+    "desc": "主管機關令其解除經理人或職員之職務",
+    "expr": [
+      "EQ",
+      "penalty_remove_manager_staff",
+      [
+        "EQ",
+        "remove_manager_staff",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_remove_director_supervisor",
+    "desc": "主管機關解除董事、監察人職務或停止其於一定期間內執行職務",
+    "expr": [
+      "EQ",
+      "penalty_remove_director_supervisor",
+      [
+        "EQ",
+        "remove_director_supervisor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:notify_economic_ministry",
+    "desc": "解除董事、監察人職務時通知經濟部廢止其登記",
+    "expr": [
+      "EQ",
+      "notify_economic_ministry",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_remove_director_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "notify_ministry_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_dispose_subsidiary_shares",
+    "desc": "主管機關令其處分持有子公司之股份",
+    "expr": [
+      "EQ",
+      "penalty_dispose_subsidiary_shares",
+      [
+        "EQ",
+        "dispose_subsidiary_shares",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_license_revoked",
+    "desc": "主管機關廢止許可",
+    "expr": [
+      "EQ",
+      "penalty_license_revoked",
+      [
+        "EQ",
+        "license_revoked",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:dispose_shares_within_deadline",
+    "desc": "廢止許可後於期限內處分銀行、保險公司或證券商持有之股份及董事人數符合規定",
+    "expr": [
+      "EQ",
+      "dispose_shares_within_deadline",
+      [
+        "AND",
+        [
+          "LE",
+          "dispose_deadline_days_left",
+          0
+        ],
+        [
+          "LE",
+          "subsidiary_shares_held_percent",
+          25.0
+        ],
+        [
+          "LE",
+          "subsidiary_directors_appointed_percent",
+          50.0
+        ],
+        [
+          "EQ",
+          "name_use_stopped",
+          true
+        ],
+        [
+          "EQ",
+          "company_registration_changed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_liquidation_ordered",
+    "desc": "未於期限內完成處分者，主管機關令其解散及清算",
+    "expr": [
+      "EQ",
+      "penalty_liquidation_ordered",
+      [
+        "AND",
+        [
+          "GT",
+          "dispose_deadline_days_left",
+          0
+        ],
+        [
+          "OR",
+          [
+            "GT",
+            "subsidiary_shares_held_percent",
+            25.0
+          ],
+          [
+            "GT",
+            "subsidiary_directors_appointed_percent",
+            50.0
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "name_use_stopped",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "company_registration_changed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：有違反且主管機關依情節輕重執行處分時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_exists",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "penalty_revocation_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_suspend_subsidiary_business",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_remove_manager_staff",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_remove_director_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_dispose_subsidiary_shares",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_license_revoked",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_liquidation_ordered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

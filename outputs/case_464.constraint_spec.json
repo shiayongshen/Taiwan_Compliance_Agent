@@ -1,0 +1,597 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_noncompliance",
+    "desc": "資本嚴重不足且未於期限內完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_increase_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_or_business_improvement_completed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "merger_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_3_deterioration",
+    "desc": "資本等級非嚴重不足但財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "capital_level_2_3_deterioration",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "EQ",
+            "capital_level",
+            1
+          ],
+          [
+            "EQ",
+            "capital_level",
+            0
+          ]
+        ],
+        [
+          "EQ",
+          "financial_or_business_deteriorated",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "unable_to_pay_debt",
+            true
+          ],
+          [
+            "EQ",
+            "unable_to_fulfill_contract",
+            true
+          ],
+          [
+            "EQ",
+            "risk_to_insured_rights",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_approved",
+    "desc": "保險業已提出並經主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_not_effective",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_not_effective",
+      [
+        "OR",
+        [
+          "EQ",
+          "profit_loss_accelerated_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "net_worth_accelerated_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_failed_after_guidance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_required",
+    "desc": "應為監管、接管、勒令停業清理或命令解散之處分",
+    "expr": [
+      "EQ",
+      "supervisory_measures_required",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level_2_3_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_not_effective",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_restrictions",
+    "desc": "監管處分限制保險業行為",
+    "expr": [
+      "EQ",
+      "supervisory_restrictions",
+      [
+        "AND",
+        [
+          "LE",
+          "payment_limit",
+          "supervisory_payment_limit"
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_or_major_commitment_made_without_supervisor_consent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_major_financial_impact_without_supervisor_consent",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_special_exam_passed",
+    "desc": "業務員通過特別測驗",
+    "expr": [
+      "EQ",
+      "agent_special_exam_passed",
+      [
+        "AND",
+        [
+          "EQ",
+          "special_exam_taken",
+          true
+        ],
+        [
+          "EQ",
+          "special_exam_passed",
+          true
+        ],
+        [
+          "EQ",
+          "company_registered_change_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_re_registration_required",
+    "desc": "業務員被撤銷登錄後需重新參加測驗並辦理變更登錄",
+    "expr": [
+      "EQ",
+      "agent_re_registration_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_registration_revoked",
+          true
+        ],
+        [
+          "EQ",
+          "agent_special_exam_passed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_improper_behavior",
+    "desc": "業務員有不當行為",
+    "expr": [
+      "EQ",
+      "agent_improper_behavior",
+      [
+        "OR",
+        [
+          "EQ",
+          "false_or_no_explanation_to_insured",
+          true
+        ],
+        [
+          "EQ",
+          "induce_insured_to_false_or_no_disclosure",
+          true
+        ],
+        [
+          "EQ",
+          "obstruct_insured_disclosure",
+          true
+        ],
+        [
+          "EQ",
+          "improper_discount_or_commission",
+          true
+        ],
+        [
+          "EQ",
+          "exaggerated_or_false_promotion",
+          true
+        ],
+        [
+          "EQ",
+          "recruit_without_company_consent",
+          true
+        ],
+        [
+          "EQ",
+          "sign_or_fill_contract_without_consent",
+          true
+        ],
+        [
+          "EQ",
+          "threat_or_deceive_to_terminate_contract",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_collection_or_misuse_of_premium",
+          true
+        ],
+        [
+          "EQ",
+          "use_or_loan_registration_certificate",
+          true
+        ],
+        [
+          "EQ",
+          "solicit_unapproved_insurance_or_financial_products",
+          true
+        ],
+        [
+          "EQ",
+          "solicit_unapproved_insurance_business_entity_or_person",
+          true
+        ],
+        [
+          "EQ",
+          "exaggerate_or_false_comparison_with_other_products",
+          true
+        ],
+        [
+          "EQ",
+          "spread_false_information_disturb_financial_order",
+          true
+        ],
+        [
+          "EQ",
+          "misappropriate_funds_or_documents",
+          true
+        ],
+        [
+          "EQ",
+          "violate_other_relevant_articles",
+          true
+        ],
+        [
+          "EQ",
+          "other_improper_business_behavior",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_company_dissolved",
+    "desc": "業務員所屬公司已解散或註銷執業證照",
+    "expr": [
+      "EQ",
+      "agent_company_dissolved",
+      [
+        "EQ",
+        "agent_company_dissolved_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_company_responsible_for_discipline",
+    "desc": "業務員所屬公司負責處分",
+    "expr": [
+      "EQ",
+      "agent_company_responsible_for_discipline",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_improper_behavior",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "agent_company_dissolved",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_improper_behavior",
+            true
+          ],
+          [
+            "EQ",
+            "agent_company_dissolved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_cumulative_suspension_over_2_years",
+    "desc": "最近五年內停止招攬行為處分期間累計達二年",
+    "expr": [
+      "EQ",
+      "agent_cumulative_suspension_over_2_years",
+      [
+        "GE",
+        "agent_suspension_cumulative_years",
+        2
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_registration_revoked_due_to_suspension",
+    "desc": "因停止招攬行為處分期間累計達二年，所屬公司應撤銷業務員登錄",
+    "expr": [
+      "EQ",
+      "agent_registration_revoked_due_to_suspension",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_cumulative_suspension_over_2_years",
+          true
+        ],
+        [
+          "EQ",
+          "agent_company_responsible_for_discipline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成增資或改善計畫，或財務業務顯著惡化且未改善，或業務員違規行為等情形",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_4_noncompliance",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level_2_3_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_not_effective",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "agent_improper_behavior",
+          true
+        ],
+        [
+          "EQ",
+          "agent_registration_revoked_due_to_suspension",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

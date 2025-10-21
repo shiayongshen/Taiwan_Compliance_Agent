@@ -1,0 +1,226 @@
+[
+  {
+    "id": "finance_consumer:understand_and_suitability",
+    "desc": "金融服務業充分瞭解金融消費者相關資料並確保適合度",
+    "expr": [
+      "EQ",
+      "understand_and_suitability",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_data_fully_understood",
+          true
+        ],
+        [
+          "EQ",
+          "product_service_suitable",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:insurance_consumer_data_complete",
+    "desc": "保險業充分瞭解金融消費者基本資料",
+    "expr": [
+      "EQ",
+      "insurance_consumer_data_complete",
+      [
+        "AND",
+        [
+          "EQ",
+          "insured_person_basic_data_complete",
+          true
+        ],
+        [
+          "EQ",
+          "insured_relationships_known",
+          true
+        ],
+        [
+          "EQ",
+          "other_regulatory_basic_data_complete",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:insurance_consumer_data_minimum_fields",
+    "desc": "保險業基本資料包含姓名、性別、出生年月日、身分證字號及聯絡方式（自然人）或法人名稱、代表人、地址、聯絡電話（法人）",
+    "expr": [
+      "EQ",
+      "insurance_consumer_data_minimum_fields",
+      [
+        "AND",
+        [
+          "EQ",
+          "natural_person_minimum_fields_complete",
+          true
+        ],
+        [
+          "EQ",
+          "legal_person_minimum_fields_complete",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:insurance_suitability_considerations_investment",
+    "desc": "保險業提供投資型保險商品前適合度考量事項",
+    "expr": [
+      "EQ",
+      "insurance_investment_suitability_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_type_amount_premium_match_needs",
+          true
+        ],
+        [
+          "EQ",
+          "consumer_investment_risk_understood",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_control_mechanism_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:insurance_suitability_considerations_non_investment",
+    "desc": "保險業提供財產保險及非投資型保險商品前適合度考量事項",
+    "expr": [
+      "EQ",
+      "insurance_non_investment_suitability_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_type_amount_premium_match_needs",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_product_foreign_currency",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "customer_foreign_exchange_risk_tolerance_known",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:violation_article_30_1_2",
+    "desc": "違反金融消費者保護法第9條第一項未充分瞭解及確保適合度",
+    "expr": [
+      "EQ",
+      "violation_article_30_1_2",
+      [
+        "NOT",
+        [
+          "EQ",
+          "understand_and_suitability",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:violation_article_30_1_2_insurance",
+    "desc": "違反金融消費者保護法第9條第一項及相關辦法保險業務適合度規定",
+    "expr": [
+      "EQ",
+      "violation_article_30_1_2_insurance",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_investment_suitability_ok",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_non_investment_suitability_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第9條未充分瞭解及確保適合度或保險業未符合適合度規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_article_30_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_article_30_1_2_insurance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

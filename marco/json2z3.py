@@ -94,6 +94,36 @@ def build_expr(expr, z3_vars):
             for _ in range(exp - 1):
                 result = result * base
             return result
+        
+        elif op == "IF":
+            # IF 結構: ["IF", condition, then_value, else_value]
+            if len(expr) != 4:
+                raise ValueError(f"IF must have exactly 3 arguments (condition, then, else), got {len(expr)-1}")
+            
+            condition = build_expr(expr[1], z3_vars)
+            then_value = build_expr(expr[2], z3_vars)
+            else_value = build_expr(expr[3], z3_vars)
+            
+            # 🔑 處理條件表達式（如果是數值，轉為布林）
+            if isinstance(condition, ArithRef):
+                condition = condition != 0
+            
+            # 🔑 統一 then/else 的類型（如果需要）
+            then_val = _to_z3_value(then_value)
+            else_val = _to_z3_value(else_value)
+            
+            # 檢查類型一致性，如果混用 Int/Real → 統一轉 Real
+            if (hasattr(then_val, 'sort') and hasattr(else_val, 'sort')):
+                then_sort = then_val.sort().name()
+                else_sort = else_val.sort().name()
+                
+                if then_sort == "Int" and else_sort == "Real":
+                    then_val = ToReal(then_val)
+                elif then_sort == "Real" and else_sort == "Int":
+                    else_val = ToReal(else_val)
+            
+            return If(condition, then_val, else_val)
+
 
         elif op == "TO_INT":
             val = build_expr(expr[1], z3_vars)

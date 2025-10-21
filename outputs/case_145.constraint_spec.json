@@ -1,0 +1,360 @@
+[
+  {
+    "id": "insurance:license_and_bond_insurance_ok",
+    "desc": "保險代理人、經紀人、公證人已取得許可、繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "license_and_bond_insurance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "bond_deposited",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_license_only",
+    "desc": "兼有代理人、經紀人、公證人資格者僅得擇一申領執業證照",
+    "expr": [
+      "EQ",
+      "single_license_only",
+      [
+        "LE",
+        [
+          "SUM",
+          [
+            "IF",
+            [
+              "EQ",
+              "has_agent_license",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_broker_license",
+              true
+            ],
+            1,
+            0
+          ],
+          [
+            "IF",
+            [
+              "EQ",
+              "has_notary_license",
+              true
+            ],
+            1,
+            0
+          ]
+        ],
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:fixed_office_and_accounting",
+    "desc": "保險代理人、經紀人、公證人有固定業務處所並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_accounting",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_accounting_books",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
+    "desc": "公開發行公司或具一定規模之代理人公司、經紀人公司建立內部控制、稽核及招攬處理制度與程序",
+    "expr": [
+      "EQ",
+      "internal_control_required",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_public_company",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_acts",
+    "desc": "代理人違反代理人管理規則第49條禁止行為",
+    "expr": [
+      "EQ",
+      "prohibited_acts",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "act_1_report_false",
+            true
+          ],
+          [
+            "EQ",
+            "act_2_unapproved_agent_business",
+            true
+          ],
+          [
+            "EQ",
+            "act_3_unapproved_insurance_business",
+            true
+          ],
+          [
+            "EQ",
+            "act_4_hide_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "act_5_force_or_induce_contract",
+            true
+          ],
+          [
+            "EQ",
+            "act_6_false_advertisement",
+            true
+          ],
+          [
+            "EQ",
+            "act_7_induce_policy_surrender_or_loan",
+            true
+          ],
+          [
+            "EQ",
+            "act_8_misappropriate_funds",
+            true
+          ],
+          [
+            "EQ",
+            "act_9_unauthorized_use_license",
+            true
+          ],
+          [
+            "EQ",
+            "act_10_convicted_fraud_or_forgery",
+            true
+          ],
+          [
+            "EQ",
+            "act_11_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "act_12_illegal_collection",
+            true
+          ],
+          [
+            "EQ",
+            "act_13_illegal_insurance_payment",
+            true
+          ],
+          [
+            "EQ",
+            "act_14_spread_false_info",
+            true
+          ],
+          [
+            "EQ",
+            "act_15_authorize_others_to_operate",
+            true
+          ],
+          [
+            "EQ",
+            "act_16_transfer_application_documents",
+            true
+          ],
+          [
+            "EQ",
+            "act_17_employ_unqualified_personnel",
+            true
+          ],
+          [
+            "EQ",
+            "act_18_fail_to_cancel_license_in_time",
+            true
+          ],
+          [
+            "EQ",
+            "act_19_unauthorized_suspend_or_terminate_business",
+            true
+          ],
+          [
+            "EQ",
+            "act_20_fail_to_reappoint_agent_after_resignation",
+            true
+          ],
+          [
+            "EQ",
+            "act_21_fail_to_report_to_trade_association",
+            true
+          ],
+          [
+            "EQ",
+            "act_22_use_unapproved_advertisement",
+            true
+          ],
+          [
+            "EQ",
+            "act_23_pay_commission_to_non_actual_agent",
+            true
+          ],
+          [
+            "EQ",
+            "act_24_fail_to_confirm_suitability_for_elderly",
+            true
+          ],
+          [
+            "EQ",
+            "act_25_sell_unapproved_foreign_policy_discount",
+            true
+          ],
+          [
+            "EQ",
+            "act_26_false_financial_or_business_report",
+            true
+          ],
+          [
+            "EQ",
+            "act_27_conflict_of_interest",
+            true
+          ],
+          [
+            "EQ",
+            "act_28_induce_contract_termination_or_loan_payment",
+            true
+          ],
+          [
+            "EQ",
+            "act_29_fail_to_fill_solicitation_report",
+            true
+          ],
+          [
+            "EQ",
+            "act_30_other_violations",
+            true
+          ],
+          [
+            "EQ",
+            "act_31_damage_insurance_image",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反代理人管理規則第49條禁止行為或未取得許可、保證金、保險，或違反內部控制規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "prohibited_acts",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_bond_insurance_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_required",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

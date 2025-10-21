@@ -1,0 +1,295 @@
+[
+  {
+    "id": "securities:asset_transaction_procedure_compliance",
+    "desc": "公開發行公司取得或處分資產處理程序符合規定",
+    "expr": [
+      "EQ",
+      "asset_transaction_procedure_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_scope_defined",
+          true
+        ],
+        [
+          "EQ",
+          "evaluation_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "operation_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "announcement_and_declaration_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "non_operating_real_estate_and_securities_limits_defined",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_asset_control_procedure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_for_violation_defined",
+          true
+        ],
+        [
+          "EQ",
+          "other_important_matters_defined",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_asset_procedure_supervised",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:derivative_transaction_risk_management_compliance",
+    "desc": "公開發行公司從事衍生性商品交易風險管理及稽核事項符合規定",
+    "expr": [
+      "EQ",
+      "derivative_transaction_risk_management_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "transaction_principles_and_policies_defined",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_measures_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "regular_evaluation_and_exception_handling_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:derivative_transaction_risk_management_measures_compliance",
+    "desc": "公開發行公司從事衍生性商品交易風險管理措施符合規定",
+    "expr": [
+      "EQ",
+      "derivative_transaction_risk_management_measures_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "risk_management_scope_includes_credit_market_liquidity_cashflow_operational_legal",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_trading_and_settlement_personnel_separated",
+          true
+        ],
+        [
+          "EQ",
+          "risk_measurement_supervision_control_separated_and_reported",
+          true
+        ],
+        [
+          "EQ",
+          "positions_evaluated_weekly_or_hedging_bi_monthly_and_reported",
+          true
+        ],
+        [
+          "EQ",
+          "other_important_risk_management_measures_implemented",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:major_financial_business_compliance",
+    "desc": "公開發行公司重大財務業務行為符合主管機關定之處理準則",
+    "expr": [
+      "EQ",
+      "major_financial_business_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_transaction_procedure_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_transaction_risk_management_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "derivative_transaction_risk_management_measures_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "disclosure_of_financial_forecast_information_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_178_conditions",
+    "desc": "違反證券交易法第178條規定之情事",
+    "expr": [
+      "EQ",
+      "violation_178_conditions",
+      [
+        "OR",
+        "violate_22_2_1_or_2_or_26_1_or_165_1_applied_22_2_1_or_2",
+        "violate_14_3_or_14_1_1_or_14_1_3_or_14_2_1_or_14_2_3_or_14_2_6_or_14_3_or_14_5_1_to_3_or_21_1_5_or_25_1_or_25_2_or_25_4_or_31_1_or_36_5_or_36_7_or_41_or_43_1_1_or_43_4_1_or_43_6_5_to_7_or_165_1_or_165_2_applied_14_3_31_1_36_5_43_4_1",
+        "fail_to_submit_or_obstruct_inspection_documents",
+        "fail_to_prepare_report_or_announce_or_store_documents",
+        "violate_14_4_1_or_2_or_165_1_applied_14_4_1_or_2_or_14_4_5_or_165_1_applied_14_4_5",
+        "violate_14_6_1_or_165_1_applied_14_6_1_or_fail_to_establish_compensation_committee_or_qualifications_etc",
+        "violate_25_1_or_165_1_applied_25_1_rules_on_qualification_and_documents",
+        "violate_26_2_rules_on_directors_and_supervisors_shareholding_and_audit",
+        "violate_26_3_1_or_7_or_8_or_165_1_applied_26_3_1_or_7_or_8_or_26_3_8_later_or_165_1_applied_26_3_8_later",
+        "violate_28_2_2_or_4_to_7_or_165_1_applied_28_2_2_or_4_to_7_or_28_2_3_or_165_1_applied_28_2_3",
+        "violate_36_1_or_165_1_applied_36_1_rules_on_major_financial_business",
+        "violate_43_2_1_or_43_3_1_or_43_5_1_or_165_1_or_165_2_applied_43_2_1_or_43_3_1_or_43_5_1_or_43_1_4_or_5_or_165_1_or_165_2_applied_43_1_4"
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:foreign_company_violation_178_3_or_4",
+    "desc": "外國公司違反第178條第三款或第四款規定",
+    "expr": [
+      "EQ",
+      "foreign_company_violation_178_3_or_4",
+      [
+        "AND",
+        [
+          "EQ",
+          "is_foreign_company",
+          true
+        ],
+        [
+          "OR",
+          "fail_to_submit_or_obstruct_inspection_documents",
+          "fail_to_prepare_report_or_announce_or_store_documents"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_exemption_for_minor_cases",
+    "desc": "情節輕微者得免予處罰或先限期改善，已改善完成者免罰",
+    "expr": [
+      "EQ",
+      "penalty_exemption_for_minor_cases",
+      [
+        "OR",
+        [
+          "EQ",
+          "case_is_minor",
+          true
+        ],
+        [
+          "EQ",
+          "case_improved_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_conditions",
+    "desc": "處罰條件：違反第178條規定且非輕微或未改善者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_178_conditions",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "penalty_exemption_for_minor_cases",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "securities:responsible_person_penalty",
+    "desc": "法人及外國公司違反本法規定，負責人應受處罰",
+    "expr": [
+      "EQ",
+      "responsible_person_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "is_legal_entity_or_foreign_company",
+          true
+        ],
+        [
+          "EQ",
+          "violation_178_conditions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

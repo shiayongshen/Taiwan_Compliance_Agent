@@ -1,0 +1,428 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              150.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ]
+          ]
+        ],
+        3,
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              2.0
+            ]
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio_prev",
+              3.0
+            ]
+          ]
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_plan_submitted",
+    "desc": "資本不足者已提出增資或改善計畫",
+    "expr": [
+      "EQ",
+      "capital_insufficient_plan_submitted",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level",
+          1
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient_plan_executed",
+    "desc": "資本不足者已執行增資或改善計畫",
+    "expr": [
+      "EQ",
+      "capital_insufficient_plan_executed",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level",
+          1
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "EQ",
+            "improvement_plan_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_plan_submitted",
+    "desc": "資本顯著不足者已提出增資或改善計畫",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_plan_submitted",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level",
+          1
+        ],
+        [
+          "EQ",
+          "capital_level",
+          2
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "EQ",
+            "improvement_plan_submitted",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_plan_executed",
+    "desc": "資本顯著不足者已執行增資或改善計畫",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_plan_executed",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level",
+          1
+        ],
+        [
+          "EQ",
+          "capital_level",
+          2
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "EQ",
+            "improvement_plan_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_plan_completed",
+    "desc": "資本嚴重不足者已完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_plan_completed",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "capital_increase_completed",
+              true
+            ],
+            [
+              "EQ",
+              "financial_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "business_improvement_plan_completed",
+              true
+            ],
+            [
+              "EQ",
+              "merger_completed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient_penalty_condition",
+    "desc": "資本嚴重不足且未於期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient_penalty_condition",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_severely_insufficient_plan_completed",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "days_after_deadline",
+          1
+        ],
+        [
+          "LE",
+          "days_after_deadline",
+          90
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_worsened_condition",
+    "desc": "資本顯著不足且損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "capital_significantly_worsened_condition",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          3
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "profit_loss_accelerated_deterioration",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient_penalty_condition",
+    "desc": "資本顯著不足且未改善致有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient_penalty_condition",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          3
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_significantly_worsened_condition",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未於期限完成增資、改善計畫或合併，或資本顯著不足且未改善致有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_severely_insufficient_penalty_condition",
+          true
+        ],
+        [
+          "EQ",
+          "capital_significantly_insufficient_penalty_condition",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

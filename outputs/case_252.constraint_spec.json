@@ -1,0 +1,452 @@
+[
+  {
+    "id": "securities:falsehood_prohibited",
+    "desc": "不得有虛偽行為",
+    "expr": [
+      "EQ",
+      "falsehood_prohibited",
+      [
+        "EQ",
+        "has_falsehood",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:fraud_prohibited",
+    "desc": "不得有詐欺行為",
+    "expr": [
+      "EQ",
+      "fraud_prohibited",
+      [
+        "EQ",
+        "has_fraud",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:misleading_prohibited",
+    "desc": "不得有其他足致他人誤信之行為",
+    "expr": [
+      "EQ",
+      "misleading_prohibited",
+      [
+        "EQ",
+        "has_misleading",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:financial_report_truthful",
+    "desc": "財務報告及相關業務文件內容不得有虛偽或隱匿",
+    "expr": [
+      "EQ",
+      "financial_report_truthful",
+      [
+        "EQ",
+        "financial_report_false_or_hidden",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:beneficiary_compensation_responsibility",
+    "desc": "違反虛偽、詐欺或誤信規定者應負賠償責任",
+    "expr": [
+      "EQ",
+      "compensation_responsibility",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "falsehood_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fraud_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "misleading_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_report_truthful",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:capital_use_compliance",
+    "desc": "資金運用符合規定限制",
+    "expr": [
+      "EQ",
+      "capital_use_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_loan_to_others",
+          true
+        ],
+        [
+          "EQ",
+          "no_purchase_non_operating_real_estate",
+          true
+        ],
+        [
+          "EQ",
+          "no_other_non_business_use",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "use_bank_deposits",
+            true
+          ],
+          [
+            "EQ",
+            "use_government_bonds",
+            true
+          ],
+          [
+            "EQ",
+            "use_treasury_bills_or_commercial_papers",
+            true
+          ],
+          [
+            "EQ",
+            "use_approved_securities_investment_trust_fund",
+            true
+          ],
+          [
+            "EQ",
+            "use_other_approved_uses",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:guarantee_and_pledge_prohibition",
+    "desc": "不得為保證、票據背書或提供財產擔保，除非符合公司法第16條第1項且經核准",
+    "expr": [
+      "EQ",
+      "guarantee_and_pledge_prohibition",
+      [
+        "OR",
+        [
+          "EQ",
+          "complies_company_law_16_1",
+          true
+        ],
+        [
+          "EQ",
+          "approved_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:beneficiary_certificate_issuance",
+    "desc": "受益憑證應依主管機關格式載明應記載事項並簽署後發行",
+    "expr": [
+      "EQ",
+      "beneficiary_certificate_issuance",
+      [
+        "AND",
+        [
+          "EQ",
+          "certificate_format_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "certificate_signed_by_custodian",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:beneficiary_certificate_mandatory_items",
+    "desc": "受益憑證應記載主管機關規定之事項",
+    "expr": [
+      "EQ",
+      "beneficiary_certificate_mandatory_items",
+      [
+        "AND",
+        [
+          "EQ",
+          "includes_fund_name_and_units_and_dates",
+          true
+        ],
+        [
+          "EQ",
+          "includes_trustee_and_custodian_info",
+          true
+        ],
+        [
+          "EQ",
+          "includes_beneficiary_name",
+          true
+        ],
+        [
+          "EQ",
+          "includes_beneficiary_units",
+          true
+        ],
+        [
+          "EQ",
+          "includes_purchase_price_and_fees",
+          true
+        ],
+        [
+          "EQ",
+          "includes_management_and_custody_fee_methods",
+          true
+        ],
+        [
+          "EQ",
+          "includes_redemption_procedures_and_fees",
+          true
+        ],
+        [
+          "EQ",
+          "includes_nav_calculation_and_announcement",
+          true
+        ],
+        [
+          "EQ",
+          "includes_transfer_restrictions_and_effects",
+          true
+        ],
+        [
+          "EQ",
+          "includes_other_mandatory_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:beneficiary_certificate_audit",
+    "desc": "發行受益憑證應經簽證，準用公開發行公司股票及公司債簽證規則",
+    "expr": [
+      "EQ",
+      "beneficiary_certificate_audit",
+      [
+        "EQ",
+        "certificate_audited",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:executive_violation_affecting_business",
+    "desc": "董事、監察人、經理人或受僱人違反法令足以影響業務正常執行",
+    "expr": [
+      "EQ",
+      "executive_violation_affecting_business",
+      [
+        "EQ",
+        "has_executive_violation_affecting_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:executive_sanction_ordered",
+    "desc": "主管機關得命令停止一年以下執行業務或解除職務",
+    "expr": [
+      "EQ",
+      "executive_sanction_ordered",
+      [
+        "EQ",
+        "executive_sanction_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_sanctions",
+    "desc": "主管機關對違法事業得為警告、解除職務、停止募集、停業、廢止許可等處分",
+    "expr": [
+      "EQ",
+      "business_sanctions",
+      [
+        "EQ",
+        "business_sanctions_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反虛偽、詐欺、誤信、財報虛偽或資金運用規定，或違反保證擔保禁止，或未依規定發行受益憑證，或高階人員違法影響業務且未受處分時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "falsehood_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fraud_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "misleading_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_report_truthful",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_use_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "guarantee_and_pledge_prohibition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "beneficiary_certificate_issuance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "beneficiary_certificate_mandatory_items",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "beneficiary_certificate_audit",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "executive_violation_affecting_business",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "executive_sanction_ordered",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "business_sanctions",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

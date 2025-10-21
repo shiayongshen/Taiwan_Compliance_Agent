@@ -1,0 +1,260 @@
+[
+  {
+    "id": "bank:permission_required",
+    "desc": "經營貨幣市場業務或信用卡業務須經中央主管機關許可",
+    "expr": [
+      "EQ",
+      "permission_required",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "engage_money_market_business",
+            true
+          ],
+          [
+            "EQ",
+            "engage_credit_card_business",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "central_authority_permission_granted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_card_interest_rate_limit",
+    "desc": "信用卡循環信用利率不得超過年利率15%",
+    "expr": [
+      "EQ",
+      "credit_card_interest_rate_limit",
+      [
+        "LE",
+        "credit_card_revolving_annual_interest_rate",
+        15.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "credit_card:disclosure_required",
+    "desc": "發卡機構應以書面或電子文件告知申請人規定事項",
+    "expr": [
+      "EQ",
+      "disclosure_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "disclosed_annual_fee",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_fees_and_charges",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_revolving_interest_rate",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_revolving_interest_calculation",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_penalty_calculation",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_usage_and_loss_handling",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_cardholder_rights",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_dispute_handling",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_benefits_and_conditions",
+          true
+        ],
+        [
+          "EQ",
+          "disclosed_other_regulatory_items",
+          true
+        ],
+        [
+          "EQ",
+          "disclosure_plain_and_prominent",
+          true
+        ],
+        [
+          "EQ",
+          "contract_includes_adjustment_frequency",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "credit_card:no_compound_interest",
+    "desc": "信用卡循環信用不得以複利計息",
+    "expr": [
+      "EQ",
+      "no_compound_interest",
+      [
+        "EQ",
+        "compound_interest_applied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "credit_card:interest_start_date",
+    "desc": "起息日不得早於實際撥款日",
+    "expr": [
+      "EQ",
+      "interest_start_date",
+      [
+        "GE",
+        "interest_start_date",
+        "actual_disbursement_date"
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "credit_card:no_fee_in_principal",
+    "desc": "不得將各項費用計入循環信用本金",
+    "expr": [
+      "EQ",
+      "no_fee_in_principal",
+      [
+        "EQ",
+        "fees_included_in_revolving_principal",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "credit_card:no_current_consumption_in_principal",
+    "desc": "不得將當期消費帳款計入當期本金計算循環信用利息",
+    "expr": [
+      "EQ",
+      "no_current_consumption_in_principal",
+      [
+        "EQ",
+        "current_consumption_included_in_principal",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "credit_card:allowed_interest_principal",
+    "desc": "得計入循環信用利息本金之帳款依主管機關規定辦理",
+    "expr": [
+      "EQ",
+      "allowed_interest_principal",
+      [
+        "EQ",
+        "interest_principal_accounts_compliant",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "credit_card:penalty_charge_method",
+    "desc": "違約金收取方式依主管機關規定辦理",
+    "expr": [
+      "EQ",
+      "penalty_charge_method",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "penalty_charged",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_charge_method_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "credit_card"
+  },
+  {
+    "id": "bank:law_violation",
+    "desc": "違反銀行法或授權命令中強制或禁止規定",
+    "expr": [
+      "EQ",
+      "law_violation",
+      [
+        "EQ",
+        "violated_mandatory_or_prohibitory_provisions",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法強制或禁止規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "law_violation",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,541 @@
+[
+  {
+    "id": "bank:inspection_authority",
+    "desc": "中央主管機關得隨時派員或委託機構檢查銀行業務財務及相關事項，並可要求限期提報資料",
+    "expr": [
+      "EQ",
+      "inspection_authority",
+      [
+        "OR",
+        [
+          "EQ",
+          "central_authority_dispatch",
+          true
+        ],
+        [
+          "EQ",
+          "central_authority_delegate",
+          true
+        ],
+        [
+          "EQ",
+          "local_authority_dispatch",
+          true
+        ],
+        [
+          "EQ",
+          "bank_report_requested",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:specialist_audit_assigned",
+    "desc": "中央主管機關得指定專門職業及技術人員查核並提出報告，費用由銀行負擔",
+    "expr": [
+      "EQ",
+      "specialist_audit_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "specialist_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "specialist_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "audit_fee_paid",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_established",
+    "desc": "銀行建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "銀行建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "銀行建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:derivative_operation_established",
+    "desc": "銀行訂定衍生性金融商品業務內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "derivative_operation_established",
+      [
+        "EQ",
+        "derivative_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "銀行內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "銀行內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "銀行內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:inspection_violation_refuse_inspect",
+    "desc": "拒絕檢查或拒絕開啟金庫或其他庫房",
+    "expr": [
+      "EQ",
+      "inspection_violation_refuse_inspect",
+      [
+        "EQ",
+        "refuse_inspection",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:inspection_violation_hide_destroy",
+    "desc": "隱匿或毀損有關業務或財務狀況之帳冊文件",
+    "expr": [
+      "EQ",
+      "inspection_violation_hide_destroy",
+      [
+        "EQ",
+        "hide_or_destroy_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:inspection_violation_no_answer",
+    "desc": "對檢查人員詢問無正當理由不為答復或答復不實",
+    "expr": [
+      "EQ",
+      "inspection_violation_no_answer",
+      [
+        "EQ",
+        "no_answer_or_false_answer",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:inspection_violation_late_or_false_report",
+    "desc": "逾期提報財務報告、財產目錄或其他有關資料及報告，或提報不實、不全或未繳納查核費用",
+    "expr": [
+      "EQ",
+      "inspection_violation_late_or_false_report",
+      [
+        "OR",
+        [
+          "EQ",
+          "late_report",
+          true
+        ],
+        [
+          "EQ",
+          "false_or_incomplete_report",
+          true
+        ],
+        [
+          "EQ",
+          "audit_fee_not_paid",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:inspection_violation_any",
+    "desc": "違反檢查規定任一情事",
+    "expr": [
+      "EQ",
+      "inspection_violation_any",
+      [
+        "OR",
+        [
+          "EQ",
+          "inspection_violation_refuse_inspect",
+          true
+        ],
+        [
+          "EQ",
+          "inspection_violation_hide_destroy",
+          true
+        ],
+        [
+          "EQ",
+          "inspection_violation_no_answer",
+          true
+        ],
+        [
+          "EQ",
+          "inspection_violation_late_or_false_report",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_internal_control",
+    "desc": "未依規定建立或執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "violation_internal_control",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_internal_handling",
+    "desc": "未依規定建立或執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "violation_internal_handling",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_internal_operation",
+    "desc": "未依規定建立或執行內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "violation_internal_operation",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_operation_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_operation_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_internal_control_or_handling_or_operation",
+    "desc": "未依規定建立或執行內部控制、處理或作業制度之一",
+    "expr": [
+      "EQ",
+      "violation_internal_control_or_handling_or_operation",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_handling",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_operation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cloud_service_policy_established",
+    "desc": "金融機構訂定使用雲端服務政策及原則，採取適當風險管控措施",
+    "expr": [
+      "EQ",
+      "cloud_service_policy_established",
+      [
+        "EQ",
+        "cloud_service_policy_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cloud_service_supervision",
+    "desc": "金融機構對雲端服務業者負有最終監督義務並具專業技術及資源",
+    "expr": [
+      "EQ",
+      "cloud_service_supervision",
+      [
+        "EQ",
+        "cloud_service_supervision_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cloud_service_third_party_audit",
+    "desc": "金融機構委託或聯合委託第三人查核雲端服務業者並符合規定",
+    "expr": [
+      "EQ",
+      "cloud_service_third_party_audit",
+      [
+        "EQ",
+        "cloud_service_third_party_audit_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cloud_service_data_protection",
+    "desc": "金融機構對雲端服務業者處理客戶資料採行加密或代碼化等有效保護措施",
+    "expr": [
+      "EQ",
+      "cloud_service_data_protection",
+      [
+        "EQ",
+        "cloud_service_data_encrypted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cloud_service_data_ownership",
+    "desc": "金融機構保有委託資料所有權，雲端服務業者不得存取或利用超出委託範圍資料",
+    "expr": [
+      "EQ",
+      "cloud_service_data_ownership",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_ownership_retained",
+          true
+        ],
+        [
+          "EQ",
+          "data_access_limited",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:cloud_service_data_location_compliance",
+    "desc": "金融機構委託雲端服務資料處理及儲存地符合規定",
+    "expr": [
+      "EQ",
+      "cloud_service_data_location_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "data_location_rights",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_data_protection_not_lower_than_domestic",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "customer_data_stored_domestically",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "foreign_storage_approved",
+              true
+            ],
+            [
+              "EQ",
+              "customer_data_backup_in_domestic",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反檢查規定或未建立或執行內部控制制度或未依規定執行雲端服務管理時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "inspection_violation_any",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_control_or_handling_or_operation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

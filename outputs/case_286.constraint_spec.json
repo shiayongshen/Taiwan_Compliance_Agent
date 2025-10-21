@@ -1,0 +1,699 @@
+[
+  {
+    "id": "bank:violation_occurred",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalties_applicable",
+    "desc": "銀行主管機關可視情節輕重採取處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "authority_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_types",
+    "desc": "銀行可採取之處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "CASE",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "suspend_partial_business",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "restrict_investment",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "order_prohibit_asset_disposal",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "order_close_branch_or_department",
+          true
+        ],
+        5,
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ],
+        6,
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ],
+        7,
+        [
+          "EQ",
+          "order_provision_reserve",
+          true
+        ],
+        8,
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ],
+        9,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bill_finance:violation_occurred",
+    "desc": "票券金融公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "bill_finance:penalties_applicable",
+    "desc": "票券金融公司主管機關可視情節輕重採取處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "authority_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "financial_holdings:violation_occurred",
+    "desc": "金融控股公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holdings"
+  },
+  {
+    "id": "financial_holdings:penalties_applicable",
+    "desc": "金融控股公司主管機關可視情節輕重採取處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "authority_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holdings"
+  },
+  {
+    "id": "financial_holdings:penalty_types",
+    "desc": "金融控股公司可採取之處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "CASE",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "suspend_subsidiary_business",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "order_dispose_subsidiary_shares",
+          true
+        ],
+        5,
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        6,
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ],
+        7,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holdings"
+  },
+  {
+    "id": "electronic_payment:violation_occurred",
+    "desc": "專營電子支付機構違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalties_applicable",
+    "desc": "專營電子支付機構主管機關可視情節輕重採取處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "authority_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_types",
+    "desc": "專營電子支付機構可採取之處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "CASE",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "revoke_all_or_partial_business_license",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "order_provision_reserve_or_capital_increase",
+          true
+        ],
+        5,
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ],
+        6,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "insurance:violation_occurred",
+    "desc": "保險業違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalties_applicable",
+    "desc": "保險業主管機關可視情況採取處分",
+    "expr": [
+      "EQ",
+      "penalties_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "authority_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_types",
+    "desc": "保險業可採取之處分類型",
+    "expr": [
+      "EQ",
+      "penalty_types",
+      [
+        "CASE",
+        [
+          "EQ",
+          "restrict_business_or_fund_usage",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "order_stop_insurance_products",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "order_capital_increase",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "order_remove_manager_staff",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        5,
+        [
+          "EQ",
+          "remove_director_supervisor",
+          true
+        ],
+        6,
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ],
+        7,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級(4)措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_executed",
+      [
+        "EQ",
+        "capital_level_4_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著不足等級(3)措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_executed",
+      [
+        "EQ",
+        "capital_level_3_measures_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級(2)措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行、票券金融、金融控股、電子支付、保險業相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "authority_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "authority_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "authority_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "authority_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "authority_action_taken",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_2_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

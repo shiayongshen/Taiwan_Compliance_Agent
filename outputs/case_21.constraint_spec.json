@@ -1,0 +1,491 @@
+[
+  {
+    "id": "securities:personnel_qualification_rules_set",
+    "desc": "主管機關定證券投資信託及顧問事業應備置人員資格條件等規則",
+    "expr": [
+      "EQ",
+      "personnel_qualification_rules_set",
+      [
+        "EQ",
+        "competent_authority_rules_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_affecting_business",
+    "desc": "董事、監察人、經理人或受僱人有違反法令且影響業務正常執行",
+    "expr": [
+      "EQ",
+      "violation_affecting_business",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law",
+          true
+        ],
+        [
+          "EQ",
+          "affects_normal_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_authority_action_allowed",
+    "desc": "主管機關得命令停止執行業務或解除職務，並視情節輕重處分",
+    "expr": [
+      "EQ",
+      "penalty_authority_action_allowed",
+      [
+        "EQ",
+        "violation_affecting_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_items",
+    "desc": "證券投資信託及顧問事業違反法條事項",
+    "expr": [
+      "EQ",
+      "violation_items",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_business_without_approval",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_scope_limit_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_scope_limit_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_other_law_violations",
+          true
+        ],
+        [
+          "EQ",
+          "violation_investment_diversification_ratio",
+          true
+        ],
+        [
+          "EQ",
+          "violation_business_without_license",
+          true
+        ],
+        [
+          "EQ",
+          "violation_behavior_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_restriction_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violation_branch_establishment_rules",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personnel_qualification_analyst",
+    "desc": "證券投資分析人員資格符合任一規定",
+    "expr": [
+      "EQ",
+      "analyst_qualification_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "passed_analyst_exam",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "foreign_analyst_qualification",
+            true
+          ],
+          [
+            "GE",
+            "foreign_experience_years",
+            2
+          ],
+          [
+            "EQ",
+            "passed_regulation_exam",
+            true
+          ],
+          [
+            "EQ",
+            "association_recognized",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "qualified_before_2004_10_31",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personnel_qualification_business_staff",
+    "desc": "證券投資顧問事業業務人員資格符合任一規定",
+    "expr": [
+      "EQ",
+      "business_staff_qualification_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "analyst_qualification_ok",
+          true
+        ],
+        [
+          "EQ",
+          "passed_business_staff_exam",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "passed_senior_broker_exam",
+            true
+          ],
+          [
+            "EQ",
+            "has_senior_broker_certificate",
+            true
+          ]
+        ],
+        [
+          "GE",
+          "fund_manager_experience_years",
+          1
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "passed_trust_business_exam",
+            true
+          ],
+          [
+            "EQ",
+            "passed_regulation_exam",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "university_degree_recognized",
+            true
+          ],
+          [
+            "GE",
+            "years_business_experience",
+            3
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:media_analyst_qualification",
+    "desc": "證券投資顧問事業於各種傳播媒體從事證券投資分析人員資格符合",
+    "expr": [
+      "EQ",
+      "media_analyst_qualification_ok",
+      [
+        "EQ",
+        "analyst_qualification_ok",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:media_analyst_correction_required",
+    "desc": "本規則訂定發布前不符資格者須於三年內補正",
+    "expr": [
+      "EQ",
+      "media_analyst_correction_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "before_rule_enactment",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "media_analyst_qualification_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:media_analyst_correction_completed",
+    "desc": "已於三年內完成補正",
+    "expr": [
+      "EQ",
+      "media_analyst_correction_completed",
+      [
+        "EQ",
+        "media_analyst_correction_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:media_analyst_correction_overdue",
+    "desc": "未於三年內完成補正",
+    "expr": [
+      "EQ",
+      "media_analyst_correction_overdue",
+      [
+        "AND",
+        [
+          "EQ",
+          "media_analyst_correction_required",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "media_analyst_correction_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_manager_qualification_correction_required",
+    "desc": "本規則修正發布前未符合資格之投資經理人須於二年內補正",
+    "expr": [
+      "EQ",
+      "investment_manager_correction_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "before_rule_amendment",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_manager_qualification_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_manager_correction_completed",
+    "desc": "已於二年內完成補正",
+    "expr": [
+      "EQ",
+      "investment_manager_correction_completed",
+      [
+        "EQ",
+        "investment_manager_correction_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_manager_correction_overdue",
+    "desc": "未於二年內完成補正",
+    "expr": [
+      "EQ",
+      "investment_manager_correction_overdue",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_manager_correction_required",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_manager_correction_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_requirements_met",
+    "desc": "服務事業內部控制制度符合明確組織結構、呈報體系及權責等要求",
+    "expr": [
+      "EQ",
+      "internal_control_requirements_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_organization_structure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "reporting_system_defined",
+          true
+        ],
+        [
+          "EQ",
+          "appropriate_authority_and_responsibility_defined",
+          true
+        ],
+        [
+          "EQ",
+          "manager_setup_and_policies_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_execution_and_review",
+    "desc": "服務事業及子公司設計並確實執行內部控制制度，並隨時檢討",
+    "expr": [
+      "EQ",
+      "internal_control_execution_and_review",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_designed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法令事項或未完成資格補正或內部控制不符規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_items",
+          true
+        ],
+        [
+          "EQ",
+          "media_analyst_correction_overdue",
+          true
+        ],
+        [
+          "EQ",
+          "investment_manager_correction_overdue",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_requirements_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_execution_and_review",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

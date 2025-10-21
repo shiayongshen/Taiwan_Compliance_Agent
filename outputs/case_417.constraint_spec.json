@@ -1,0 +1,565 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "內部作業制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:control_environment_ok",
+    "desc": "控制環境符合要求",
+    "expr": [
+      "EQ",
+      "control_environment_ok",
+      [
+        "EQ",
+        "control_environment_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_assessment_ok",
+    "desc": "風險評估符合要求",
+    "expr": [
+      "EQ",
+      "risk_assessment_ok",
+      [
+        "EQ",
+        "risk_assessment_performed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:control_activities_ok",
+    "desc": "控制作業符合要求",
+    "expr": [
+      "EQ",
+      "control_activities_ok",
+      [
+        "EQ",
+        "control_activities_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:information_communication_ok",
+    "desc": "資訊與溝通符合要求",
+    "expr": [
+      "EQ",
+      "information_communication_ok",
+      [
+        "EQ",
+        "information_communication_effective",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:monitoring_activities_ok",
+    "desc": "監督作業符合要求",
+    "expr": [
+      "EQ",
+      "monitoring_activities_ok",
+      [
+        "EQ",
+        "monitoring_activities_performed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_comprehensive_ok",
+    "desc": "內部控制制度包含五大組成要素且符合要求",
+    "expr": [
+      "EQ",
+      "internal_control_comprehensive_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_environment_ok",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_ok",
+          true
+        ],
+        [
+          "EQ",
+          "control_activities_ok",
+          true
+        ],
+        [
+          "EQ",
+          "information_communication_ok",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_activities_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:compliance_unit_established",
+    "desc": "法令遵循單位建立並執行法令遵循事項",
+    "expr": [
+      "EQ",
+      "compliance_unit_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "compliance_communication_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_regulations_updated",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_opinion_signed",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_evaluation_defined",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_training_provided",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_supervision_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:compliance_foreign_unit_supervised",
+    "desc": "法令遵循單位督導國外營業單位法令遵循",
+    "expr": [
+      "EQ",
+      "compliance_foreign_unit_supervised",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_financial_regulations_collected",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_self_assessment_performed",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_resources_adequate",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_risk_monitoring_established",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_compliance_risk_monitoring_verified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:compliance_self_assessment_performed",
+    "desc": "法令遵循自行評估每半年至少辦理一次",
+    "expr": [
+      "EQ",
+      "compliance_self_assessment_performed",
+      [
+        "AND",
+        [
+          "GE",
+          "compliance_self_assessment_frequency_per_year",
+          2
+        ],
+        [
+          "EQ",
+          "compliance_self_assessment_results_reported",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_self_assessment_records_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_management_policy_established",
+    "desc": "訂定風險管理政策與程序並經董（理）事會通過",
+    "expr": [
+      "EQ",
+      "risk_management_policy_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "risk_management_policy_defined",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_policy_approved_by_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:organization_regulations_defined",
+    "desc": "訂定組織規程或管理章則",
+    "expr": [
+      "EQ",
+      "organization_regulations_defined",
+      [
+        "EQ",
+        "organization_regulations_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_specifications_defined",
+    "desc": "訂定相關業務規範及處理手冊",
+    "expr": [
+      "EQ",
+      "business_specifications_defined",
+      [
+        "EQ",
+        "business_specifications_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_policies_defined",
+    "desc": "內部控制制度訂定適當政策及作業程序並適時檢討修訂",
+    "expr": [
+      "EQ",
+      "internal_control_policies_defined",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_policies_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_policies_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:subsidiary_control_defined",
+    "desc": "對子公司必要控制作業訂定並督促建立內部控制制度",
+    "expr": [
+      "EQ",
+      "subsidiary_control_defined",
+      [
+        "AND",
+        [
+          "EQ",
+          "subsidiary_control_policies_established",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_internal_control_supervised",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:anti_money_laundering_program_established",
+    "desc": "建立集團整體性防制洗錢及打擊資恐計畫",
+    "expr": [
+      "EQ",
+      "anti_money_laundering_program_established",
+      [
+        "EQ",
+        "aml_ctf_program_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_participation_compliance_audit_risk",
+    "desc": "法令遵循、內部稽核及風險管理單位參與作業及管理規章訂定、修訂或廢止",
+    "expr": [
+      "EQ",
+      "internal_control_participation_compliance_audit_risk",
+      [
+        "EQ",
+        "compliance_audit_risk_units_participated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定建立或執行內部控制、內部處理、內部作業制度及程序時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,142 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7178 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7146 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (19 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (53 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (19 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (46 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (46 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c56', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c56', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_227
+
+📊 Model (filtered):
+   improvement_within_two_months = False
+   has_major_disciplinary_record = True
+   control_activities_executed = False
+   financial_report_audited_by_cpa = False
+   professional_experience_years = 0
+   audit_supervision_performed = False
+   risk_assessment_performed = False
+   internal_control_audit_by_cpa = False
+   special_audit_by_cpa_performed = False
+   information_and_communication_effective = False
+   passed_cia_exam = False
+   internal_control_deficiencies_communicated = False
+   monitoring_activities_performed = False
+   annual_audit_plan_prepared = False
+   control_environment_established = False
+   college_graduate = False
+   passed_high_exam = False
+   self_audit_reports_reviewed = 1
+   audit_organization_planned = False
+   financial_experience_years = 0
+   internal_audit_experience_years = 0
+   improvement_followed_up = False
+   audit_leader_experience_years = 0
+   received_financial_training = False
+   passed_equivalent_exam = False
+   audit_staff_ratio = 1/2
+   audit_manual_and_workpapers_prepared = False
+   internal_operation_executed = True
+   internal_derivative_operation_established = True
+   internal_handling_established = True
+   internal_handling_system_established = True
+   internal_derivative_operation_executed = True
+   derivative_operation_ok = True
+   internal_audit_staff_qualified = False
+   internal_control_executed = True
+   internal_handling_executed = True
+   personal_data_and_aml_audit_performed = False
+   internal_control_compliance = False
+   internal_operation_established = True
+   internal_control_established = True
+   internal_operation_system_executed = True
+   internal_control_system_executed = True
+   internal_audit_reports_reviewed = 0
+   internal_derivative_operation_system_established = True
+   internal_audit_staff_compliance = False
+   internal_derivative_operation_system_executed = True
+   internal_operation_system_established = True
+   internal_audit_unit_duties_performed = False
+   penalty = False
+   internal_handling_system_executed = True
+   internal_control_and_handling_and_operation_ok = True
+   annual_financial_report_audit_performed = False
+   internal_control_system_established = True
+✅ Model saved to: outputs\case_227.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_227.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_227.smt2

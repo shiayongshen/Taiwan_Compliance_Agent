@@ -1,0 +1,131 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5358 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5358 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (20 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (31 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [aml:internal_control_established]
+   ✅ Removed prefixes in [aml:internal_control_executed]
+   ✅ Removed prefixes in [bank:internal_control_established]
+   ✅ Removed prefixes in [bank:internal_handling_established]
+   ✅ Removed prefixes in [bank:internal_operation_established]
+   ✅ Removed prefixes in [bank:internal_control_executed]
+   ✅ Removed prefixes in [bank:internal_handling_executed]
+   ✅ Removed prefixes in [bank:internal_operation_executed]
+   ✅ Removed prefixes in [aml:improvement_ordered]
+   ✅ Removed prefixes in [aml:improvement_completed]
+   ✅ Removed prefixes in [aml:penalty_due_to_obstruction]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 11
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 11
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (20 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (27 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (27 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c46', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c46', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_313
+
+📊 Model (filtered):
+   improvement_completed = True
+   other_required_matters_established = False
+   audit_procedures_established = False
+   control_procedures_established = False
+   dedicated_personnel_assigned = False
+   bank_internal_control_executed = False
+   training_held = False
+   risk_assessment_report_updated = False
+   improvement_ordered = True
+   internal_operation_established = False
+   internal_operation_implemented = False
+   internal_handling_established = False
+   internal_handling_implemented = False
+   bank_internal_operation_ok = False
+   internal_control_implemented = False
+   aml_penalty_due_to_obstruction = False
+   bank_internal_operation_established = False
+   bank_internal_handling_executed = False
+   aml_penalty_due_to_violation = False
+   bank_internal_operation_executed = False
+   bank_internal_control_ok = False
+   internal_control_executed = False
+   aml_penalty_after_improvement = False
+   bank_internal_control_established = False
+   penalty = False
+   aml_violation = True
+   aml_internal_control_compliance = False
+   internal_control_established = False
+   bank_internal_handling_established = False
+   bank_internal_handling_ok = False
+   inspection_obstruction = False
+✅ Model saved to: outputs\case_313.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_313.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_313.smt2

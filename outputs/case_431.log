@@ -1,0 +1,139 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7722 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7722 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (22 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (48 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 1
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (22 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (45 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (45 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c48'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c48'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_431
+
+📊 Model (filtered):
+   unable_to_fulfill_contract = False
+   capital_adequacy_ratio = 45
+   financial_or_business_deterioration = False
+   risk_to_insured_interest = False
+   net_worth_ratio = 3/2
+   other_major_financial_impact = False
+   improvement_plan_approved = False
+   net_worth = -10
+   capital_level_4_measures_executed = True
+   payment_exceeding_limit = False
+   improvement_plan_effective = False
+   profit_loss_accelerated_deterioration = False
+   contract_or_major_commitment_made = False
+   improvement_plan_submitted = False
+   unable_to_pay_debt = False
+   violation_internal_control_execution = False
+   internal_handling_established = True
+   violation_143_5_or_143_6 = False
+   violation_138_2_etc = False
+   violation_loan_approval = False
+   violation_article_143_5_or_143_6_measures = False
+   violation_article_143 = False
+   violation_business_scope = False
+   violation_143 = False
+   capital_level_4_compliance = True
+   violation_internal_handling_execution = False
+   internal_control_executed = True
+   violation_138 = False
+   prohibited_acts_without_supervisor_consent = False
+   internal_handling_executed = True
+   internal_control_established = True
+   significant_deterioration = False
+   violation_loan_limit_decision = False
+   violation_internal_handling = False
+   violation_loan_approval_flag = False
+   supervisory_measures_applicable = False
+   capital_level_4_noncompliance = False
+   violation_loan_guarantee_criminal_flag = False
+   improvement_plan_accelerated_deterioration = False
+   violation_loan_guarantee_criminal = False
+   capital_level = 4
+   violation_fund_management = False
+   violation_reserve_requirements = False
+   violation_loan_limit_decision_flag = False
+   improvement_plan_submitted_and_approved = False
+   violation_fund_management_rules = False
+   penalty = False
+   violation_internal_control = False
+✅ Model saved to: outputs\case_431.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_431.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_431.smt2

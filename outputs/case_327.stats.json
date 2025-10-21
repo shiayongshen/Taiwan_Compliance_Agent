@@ -1,0 +1,1734 @@
+{
+  "case_id": "case_327",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 183.4,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 43288,
+  "total_output_tokens": 14517,
+  "total_tokens": 57805,
+  "total_cost_usd": 0.040542,
+  "timestamp": "2025-10-21T07:24:00.638937",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 8779,
+      "output_tokens": 4374,
+      "elapsed_time": 44.19010829925537,
+      "cost": 0.010510000000000002
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 22296,
+      "output_tokens": 4374,
+      "elapsed_time": 50.33177137374878,
+      "cost": 0.015916800000000002
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 712,
+      "output_tokens": 2340,
+      "elapsed_time": 36.834120750427246,
+      "cost": 0.004028800000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 712,
+      "output_tokens": 2340,
+      "elapsed_time": 35.977591037750244,
+      "cost": 0.004028800000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 10789,
+      "output_tokens": 1089,
+      "elapsed_time": 15.98018193244934,
+      "cost": 0.006058
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "12648 chars",
+      "timestamp": 44.19010829925537
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "12648 chars",
+      "timestamp": 94.52187967300415
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "27 constraints",
+      "timestamp": 94.52187967300415
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "85 varspecs",
+      "timestamp": 131.3560004234314
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "27 constraints",
+      "timestamp": 131.36600041389465
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 131.37800073623657
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 131.37800073623657
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "85 facts",
+      "timestamp": 183.33777356147766
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "85 constraints",
+      "timestamp": 183.33977127075195
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 183.35877394676208
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c111']",
+      "timestamp": 183.35877394676208
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 183.38577389717102
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 131.37800073623657
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:act_144_actuarial_staff_assigned",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_144_actuarial_staff_assigned",
+        [
+          "AND",
+          [
+            "EQ",
+            "actuarial_staff_hired",
+            true
+          ],
+          [
+            "EQ",
+            "signing_actuarial_staff_assigned",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_144_actuarial_staff_assigned",
+        [
+          "AND",
+          [
+            "EQ",
+            "actuarial_staff_hired",
+            true
+          ],
+          [
+            "EQ",
+            "signing_actuarial_staff_assigned",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_144_external_review_hired",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_144_external_review_hired",
+        [
+          "EQ",
+          "external_review_actuarial_staff_hired",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_144_external_review_hired",
+        [
+          "EQ",
+          "external_review_actuarial_staff_hired",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_144_board_approval_obtained",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_144_board_approval_obtained",
+        [
+          "AND",
+          [
+            "EQ",
+            "signing_actuarial_staff_board_approved",
+            true
+          ],
+          [
+            "EQ",
+            "external_review_actuarial_staff_board_approved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_144_board_approval_obtained",
+        [
+          "AND",
+          [
+            "EQ",
+            "signing_actuarial_staff_board_approved",
+            true
+          ],
+          [
+            "EQ",
+            "external_review_actuarial_staff_board_approved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_144_reports_fair_and_true",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_144_reports_fair_and_true",
+        [
+          "AND",
+          [
+            "EQ",
+            "signing_report_fair_and_true",
+            true
+          ],
+          [
+            "EQ",
+            "external_review_report_fair_and_true",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_144_reports_fair_and_true",
+        [
+          "AND",
+          [
+            "EQ",
+            "signing_report_fair_and_true",
+            true
+          ],
+          [
+            "EQ",
+            "external_review_report_fair_and_true",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_146_7_limitations_defined",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_146_7_limitations_defined",
+        [
+          "EQ",
+          "regulatory_limits_defined",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_146_7_limitations_defined",
+        [
+          "EQ",
+          "regulatory_limits_defined",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_146_fund_usage_limited",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_146_fund_usage_limited",
+        [
+          "OR",
+          [
+            "EQ",
+            "fund_usage_securities",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_real_estate",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_loans",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_special_approved_projects",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_foreign_investment",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_insurance_related_business",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_derivative_transactions",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_other_approved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_146_fund_usage_limited",
+        [
+          "OR",
+          [
+            "EQ",
+            "fund_usage_securities",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_real_estate",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_loans",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_special_approved_projects",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_foreign_investment",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_insurance_related_business",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_derivative_transactions",
+            true
+          ],
+          [
+            "EQ",
+            "fund_usage_other_approved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_146_deposit_limit_respected",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_146_deposit_limit_respected",
+        [
+          "OR",
+          [
+            "LE",
+            "deposit_per_financial_institution_percentage",
+            10.0
+          ],
+          [
+            "EQ",
+            "deposit_limit_approved_by_authority",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_146_deposit_limit_respected",
+        [
+          "OR",
+          [
+            "LE",
+            "deposit_per_financial_institution_percentage",
+            10.0
+          ],
+          [
+            "EQ",
+            "deposit_limit_approved_by_authority",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_146_insurance_related_business_defined",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_146_insurance_related_business_defined",
+        [
+          "EQ",
+          "insurance_related_business_defined_by_authority",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_146_insurance_related_business_defined",
+        [
+          "EQ",
+          "insurance_related_business_defined_by_authority",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_146_investment_accounting_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_146_investment_accounting_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "investment_accounting_book_established",
+            true
+          ],
+          [
+            "EQ",
+            "investment_accounting_book_managed_per_rules",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_146_investment_accounting_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "investment_accounting_book_established",
+            true
+          ],
+          [
+            "EQ",
+            "investment_accounting_book_managed_per_rules",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_146_derivative_trading_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_146_derivative_trading_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "derivative_trading_conditions_met",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_trading_scope_limited",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_trading_limit_respected",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_trading_internal_procedures_followed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_146_derivative_trading_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "derivative_trading_conditions_met",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_trading_scope_limited",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_trading_limit_respected",
+            true
+          ],
+          [
+            "EQ",
+            "derivative_trading_internal_procedures_followed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_148_3_internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_148_3_internal_control_established",
+        [
+          "EQ",
+          "internal_control_and_audit_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_148_3_internal_control_established",
+        [
+          "EQ",
+          "internal_control_and_audit_system_established",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_148_3_internal_handling_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_148_3_internal_handling_established",
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_148_3_internal_handling_established",
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_149_violation_penalties",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_149_violation_penalties",
+        [
+          "OR",
+          [
+            "EQ",
+            "business_restriction_imposed",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_product_sales_stopped",
+            true
+          ],
+          [
+            "EQ",
+            "capital_increase_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "manager_dismissal_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "statutory_meeting_resolution_revoked",
+            true
+          ],
+          [
+            "EQ",
+            "director_supervisor_dismissal_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures_taken",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_149_violation_penalties",
+        [
+          "OR",
+          [
+            "EQ",
+            "business_restriction_imposed",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_product_sales_stopped",
+            true
+          ],
+          [
+            "EQ",
+            "capital_increase_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "manager_dismissal_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "statutory_meeting_resolution_revoked",
+            true
+          ],
+          [
+            "EQ",
+            "director_supervisor_dismissal_ordered",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures_taken",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_149_capital_level_severe_and_no_improvement",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_149_capital_level_severe_and_no_improvement",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_149_capital_level_severe_and_no_improvement",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_149_financial_deterioration_and_no_improvement",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_149_financial_deterioration_and_no_improvement",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_condition_deteriorated",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial_or_business_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_149_financial_deterioration_and_no_improvement",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_condition_deteriorated",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial_or_business_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_violation_144_145_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_violation_144_145_penalty",
+        [
+          "EQ",
+          "violation_144_145",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_violation_144_145_penalty",
+        [
+          "EQ",
+          "violation_144_145",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_violation_144_5_144_6_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_violation_144_5_144_6_penalty",
+        [
+          "EQ",
+          "violation_144_5_or_144_6_measures",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_violation_144_5_144_6_penalty",
+        [
+          "EQ",
+          "violation_144_5_or_144_6_measures",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_1_violation_148_1_2_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_1_violation_148_1_2_penalty",
+        [
+          "EQ",
+          "violation_148_1_1_or_2",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_1_violation_148_1_2_penalty",
+        [
+          "EQ",
+          "violation_148_1_1_or_2",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_1_violation_148_2_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_1_violation_148_2_penalty",
+        [
+          "EQ",
+          "violation_148_2_1",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_1_violation_148_2_penalty",
+        [
+          "EQ",
+          "violation_148_2_1",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_1_violation_148_2_2_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_1_violation_148_2_2_penalty",
+        [
+          "EQ",
+          "violation_148_2_2",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_1_violation_148_2_2_penalty",
+        [
+          "EQ",
+          "violation_148_2_2",
+          true
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_1_violation_148_3_1_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_1_violation_148_3_1_penalty",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_system_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_1_violation_148_3_1_penalty",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_system_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_171_1_violation_148_3_2_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_171_1_violation_148_3_2_penalty",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_171_1_violation_148_3_2_penalty",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_system_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:qualified_signing_personnel_human_insurance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:qualified_signing_personnel_human_insurance",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "underwriting_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "underwriting_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "claims_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "claims_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "actuarial_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "actuarial_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "legal_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "legal_experience_years",
+              5
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "investment_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "investment_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "policy_service_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "policy_service_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "risk_management_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "risk_management_experience_years",
+              3
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "qualified_signing_personnel_human_insurance",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "underwriting_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "underwriting_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "claims_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "claims_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "actuarial_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "actuarial_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "legal_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "legal_experience_years",
+              5
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "investment_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "investment_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "policy_service_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "policy_service_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "risk_management_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "risk_management_experience_years",
+              3
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:qualified_signing_personnel_property_insurance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:qualified_signing_personnel_property_insurance",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "underwriting_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "underwriting_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "claims_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "claims_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "actuarial_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "actuarial_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "legal_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "legal_experience_years",
+              5
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "investment_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "investment_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "risk_management_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "risk_management_experience_years",
+              3
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "qualified_signing_personnel_property_insurance",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "underwriting_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "underwriting_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "claims_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "claims_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "actuarial_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "actuarial_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "legal_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "legal_experience_years",
+              5
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "investment_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "investment_experience_years",
+              3
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "risk_management_personnel_qualified",
+              true
+            ],
+            [
+              "GE",
+              "risk_management_experience_years",
+              3
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "insurance:act_145_reserve_calculated_and_recorded",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:act_145_reserve_calculated_and_recorded",
+        [
+          "AND",
+          [
+            "EQ",
+            "reserves_calculated_per_insurance_type",
+            true
+          ],
+          [
+            "EQ",
+            "reserves_recorded_in_special_books",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "act_145_reserve_calculated_and_recorded",
+        [
+          "AND",
+          [
+            "EQ",
+            "reserves_calculated_per_insurance_type",
+            true
+          ],
+          [
+            "EQ",
+            "reserves_recorded_in_special_books",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_144_actuarial_staff_assigned",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_144_external_review_hired",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_144_board_approval_obtained",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_144_reports_fair_and_true",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_146_7_limitations_defined",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_146_fund_usage_limited",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_146_deposit_limit_respected",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_146_insurance_related_business_defined",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_146_investment_accounting_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_146_derivative_trading_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_148_3_internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_148_3_internal_handling_established",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "insurance:act_149_violation_penalties",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_149_capital_level_severe_and_no_improvement",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_149_financial_deterioration_and_no_improvement",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_violation_144_145_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_violation_144_5_144_6_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_1_violation_148_1_2_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_1_violation_148_2_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_1_violation_148_2_2_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_1_violation_148_3_1_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:act_171_1_violation_148_3_2_penalty",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:qualified_signing_personnel_human_insurance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:qualified_signing_personnel_property_insurance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:act_145_reserve_calculated_and_recorded",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_144_actuarial_staff_assigned",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_144_external_review_hired",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_144_board_approval_obtained",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_144_reports_fair_and_true",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_146_7_limitations_defined",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_146_fund_usage_limited",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_146_deposit_limit_respected",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_146_insurance_related_business_defined",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_146_investment_accounting_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_146_derivative_trading_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_148_3_internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_148_3_internal_handling_established",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "act_149_violation_penalties",
+            true
+          ],
+          [
+            "EQ",
+            "act_149_capital_level_severe_and_no_improvement",
+            true
+          ],
+          [
+            "EQ",
+            "act_149_financial_deterioration_and_no_improvement",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_violation_144_145_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_violation_144_5_144_6_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_1_violation_148_1_2_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_1_violation_148_2_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_1_violation_148_2_2_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_1_violation_148_3_1_penalty",
+            true
+          ],
+          [
+            "EQ",
+            "act_171_1_violation_148_3_2_penalty",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "qualified_signing_personnel_human_insurance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "qualified_signing_personnel_property_insurance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "act_145_reserve_calculated_and_recorded",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 131.36
+    }
+  ]
+}

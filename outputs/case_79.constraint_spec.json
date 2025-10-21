@@ -1,0 +1,450 @@
+[
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "建立且確實執行內部控制、稽核制度及招攬處理制度與程序",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_approval",
+    "desc": "內部控制、稽核制度與招攬處理制度及程序經董（理）事會通過",
+    "expr": [
+      "EQ",
+      "internal_control_approval",
+      [
+        "EQ",
+        "board_of_directors_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_approval",
+    "desc": "設置審計委員會者，內部控制、稽核制度與招攬處理制度及程序經審計委員會同意",
+    "expr": [
+      "EQ",
+      "audit_committee_approval",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_established",
+          true
+        ],
+        [
+          "OR",
+          [
+            "GE",
+            "audit_committee_approval_votes",
+            [
+              "MUL",
+              [
+                "DIV",
+                "audit_committee_total_members",
+                2
+              ],
+              1
+            ]
+          ],
+          [
+            "GE",
+            "board_of_directors_votes",
+            [
+              "MUL",
+              [
+                "DIV",
+                "board_of_directors_total",
+                3
+              ],
+              2
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance_full",
+    "desc": "內部控制制度完整且經適當程序通過",
+    "expr": [
+      "EQ",
+      "internal_control_compliance_full",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_approval",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "audit_committee_established",
+            true
+          ],
+          [
+            "EQ",
+            "audit_committee_approval",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_consumer_protection_violation",
+    "desc": "違反金融消費者保護法相關規定",
+    "expr": [
+      "EQ",
+      "financial_consumer_protection_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_advertising_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_consumer_data_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_disclosure_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_compensation_system_rules",
+          true
+        ],
+        [
+          "EQ",
+          "assist_formal_appearance_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "insurance:financial_consumer_suitability_violation",
+    "desc": "未充分瞭解金融消費者資料或未確保適合度",
+    "expr": [
+      "EQ",
+      "financial_consumer_suitability_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_fully_understand_consumer_data",
+          true
+        ],
+        [
+          "EQ",
+          "not_ensure_suitability",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance"
+  },
+  {
+    "id": "insurance:insurance_agent_misconduct",
+    "desc": "保險代理人公司及代理人違反管理規則行為",
+    "expr": [
+      "EQ",
+      "insurance_agent_misconduct",
+      [
+        "OR",
+        [
+          "EQ",
+          "false_license_application",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_insurance_business",
+          true
+        ],
+        [
+          "EQ",
+          "conceal_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "coerce_or_induce_clients",
+          true
+        ],
+        [
+          "EQ",
+          "misleading_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "induce_policy_surrender",
+          true
+        ],
+        [
+          "EQ",
+          "embezzle_insurance_funds",
+          true
+        ],
+        [
+          "EQ",
+          "license_lending",
+          true
+        ],
+        [
+          "EQ",
+          "criminal_conviction",
+          true
+        ],
+        [
+          "EQ",
+          "operate_outside_license_scope",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_commission_collection",
+          true
+        ],
+        [
+          "EQ",
+          "improper_insurance_payment",
+          true
+        ],
+        [
+          "EQ",
+          "disrupt_financial_order",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_third_party_operation",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_document_transfer",
+          true
+        ],
+        [
+          "EQ",
+          "hire_unqualified_solicitors",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_cancel_license_on_resignation",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_business_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_report_agent_changes",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_use_of_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "pay_commission_to_non_solicitors",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_confirm_consumer_suitability",
+          true
+        ],
+        [
+          "EQ",
+          "sell_unapproved_foreign_policies",
+          true
+        ],
+        [
+          "EQ",
+          "false_financial_reports",
+          true
+        ],
+        [
+          "EQ",
+          "conflict_of_interest",
+          true
+        ],
+        [
+          "EQ",
+          "induce_contract_termination",
+          true
+        ],
+        [
+          "EQ",
+          "fail_to_fill_solicitation_report",
+          true
+        ],
+        [
+          "EQ",
+          "other_violations",
+          true
+        ],
+        [
+          "EQ",
+          "damage_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_report_compliance",
+    "desc": "代理人公司及銀行依規定申報及報備",
+    "expr": [
+      "EQ",
+      "agent_report_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_resignation_reported_within_15_days",
+          true
+        ],
+        [
+          "EQ",
+          "agent_license_revoked_within_15_days",
+          true
+        ],
+        [
+          "EQ",
+          "agent_add_or_change_reported_within_7_days",
+          true
+        ],
+        [
+          "EQ",
+          "reporting_guidelines_followed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、稽核、招攬處理制度或程序，或違反金融消費者保護法相關規定，或保險代理人公司及代理人違反管理規則，或未依規定申報者",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance_full",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "financial_consumer_protection_violation",
+          true
+        ],
+        [
+          "EQ",
+          "financial_consumer_suitability_violation",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_agent_misconduct",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_report_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

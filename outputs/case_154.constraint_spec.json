@@ -1,0 +1,319 @@
+[
+  {
+    "id": "insurance:violation_163_4_7_165_1_163_5",
+    "desc": "違反保險法第163條第4項、第7項、第165條第1項及第163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_163_4_7_165_1_163_5",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:correction_order_issued",
+    "desc": "已限期改正違規事項",
+    "expr": [
+      "EQ",
+      "correction_order_issued",
+      [
+        "EQ",
+        "violation_163_4_7_165_1_163_5",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_fine_applicable",
+    "desc": "違反規定且處以罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_163_4_7_165_1_163_5",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_order_issued",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:severe_violation",
+    "desc": "情節重大違反",
+    "expr": [
+      "EQ",
+      "severe_violation",
+      [
+        "EQ",
+        "violation_163_4_7_165_1_163_5",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_revoked",
+    "desc": "因情節重大而廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "license_revoked",
+      [
+        "AND",
+        [
+          "EQ",
+          "severe_violation",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "correction_order_issued",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_misconduct",
+    "desc": "代理人違反保險代理人管理規則第49條任一款行為",
+    "expr": [
+      "EQ",
+      "agent_misconduct",
+      [
+        "OR",
+        [
+          "EQ",
+          "false_report_on_license_application",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_insurance_agency_operation",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_insurance_business_execution",
+          true
+        ],
+        [
+          "EQ",
+          "intentional_concealment_of_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "coercion_or_illegal_inducement_or_restriction",
+          true
+        ],
+        [
+          "EQ",
+          "false_or_misleading_promotion_or_recruitment",
+          true
+        ],
+        [
+          "EQ",
+          "improper_inducement_of_policyholder_to_cancel_or_transfer_or_loan",
+          true
+        ],
+        [
+          "EQ",
+          "misappropriation_or_embezzlement_of_premiums_or_claims",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_use_of_license_by_others",
+          true
+        ],
+        [
+          "EQ",
+          "conviction_of_fraud_or_breach_of_trust_or_forgery",
+          true
+        ],
+        [
+          "EQ",
+          "operation_outside_license_scope",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_collection_of_money_or_goods_or_other_benefits",
+          true
+        ],
+        [
+          "EQ",
+          "illegal_insurance_claims",
+          true
+        ],
+        [
+          "EQ",
+          "spreading_false_information_disturbing_financial_order",
+          true
+        ],
+        [
+          "EQ",
+          "authorization_of_others_to_operate_or_use_others_name",
+          true
+        ],
+        [
+          "EQ",
+          "transfer_of_policy_documents_to_unauthorized_agents_or_brokers",
+          true
+        ],
+        [
+          "EQ",
+          "employing_unqualified_insurance_salespersons",
+          true
+        ],
+        [
+          "EQ",
+          "failure_to_cancel_license_within_specified_period",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_suspension_or_resumption_or_termination_of_business",
+          true
+        ],
+        [
+          "EQ",
+          "failure_to_report_to_agent_trade_association",
+          true
+        ],
+        [
+          "EQ",
+          "unauthorized_use_of_insurance_advertisement_or_promotion",
+          true
+        ],
+        [
+          "EQ",
+          "payment_of_commission_to_non_actual_salespersons",
+          true
+        ],
+        [
+          "EQ",
+          "failure_to_confirm_suitability_of_insurance_products_for_consumers",
+          true
+        ],
+        [
+          "EQ",
+          "sale_of_unapproved_foreign_policy_discount_benefit_certificates",
+          true
+        ],
+        [
+          "EQ",
+          "submission_of_false_or_incomplete_business_or_financial_reports",
+          true
+        ],
+        [
+          "EQ",
+          "holding_positions_in_insurance_or_association_or_registered_salesperson",
+          true
+        ],
+        [
+          "EQ",
+          "inducement_to_terminate_contract_or_use_loan_or_deposit_to_pay_premiums",
+          true
+        ],
+        [
+          "EQ",
+          "failure_to_fill_out_sales_report_truthfully",
+          true
+        ],
+        [
+          "EQ",
+          "other_violations_of_rules_or_laws",
+          true
+        ],
+        [
+          "EQ",
+          "other_behaviors_damaging_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關管理規則或代理人管理規則第49條任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_fine_applicable",
+          true
+        ],
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ],
+        [
+          "EQ",
+          "agent_misconduct",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

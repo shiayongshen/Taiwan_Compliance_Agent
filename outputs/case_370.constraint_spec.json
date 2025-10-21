@@ -1,0 +1,454 @@
+[
+  {
+    "id": "insurance:reserve_calculation_recorded",
+    "desc": "保險業於營業年度屆滿時，應分別保險種類計算並記載各種準備金",
+    "expr": [
+      "EQ",
+      "reserve_calculation_recorded",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_year_end",
+          true
+        ],
+        [
+          "EQ",
+          "reserve_calculated_by_insurance_type",
+          true
+        ],
+        [
+          "EQ",
+          "reserve_recorded_in_special_ledger",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_limit_compliance",
+    "desc": "保險業對同一人、同一關係人或同一關係企業放款或其他交易符合主管機關限制",
+    "expr": [
+      "EQ",
+      "related_party_loan_limit_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "loan_limit_complied",
+          true
+        ],
+        [
+          "EQ",
+          "other_transaction_limit_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_person_classification",
+    "desc": "同一關係人分類（本人=1，配偶=2，二親等血親=3，負責人之事業=4，非關係人=0）",
+    "expr": [
+      "EQ",
+      "related_person_classification",
+      [
+        "CASE",
+        [
+          "EQ",
+          "is_self",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "is_spouse",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "is_second_degree_relative",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "is_responsible_person_business",
+          true
+        ],
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_compliance",
+    "desc": "保險業投資各類有價證券及總額符合主管機關規定百分比限制",
+    "expr": [
+      "EQ",
+      "investment_limit_compliance",
+      [
+        "AND",
+        [
+          "LE",
+          "government_bonds_amount",
+          "insurance_funds"
+        ],
+        [
+          "LE",
+          "government_bonds_amount",
+          "insurance_funds"
+        ],
+        [
+          "LE",
+          "financial_bonds_amount",
+          [
+            "MUL",
+            "insurance_funds",
+            0.35
+          ]
+        ],
+        [
+          "LE",
+          "stocks_per_company_amount",
+          [
+            "MUL",
+            "insurance_funds",
+            0.05
+          ]
+        ],
+        [
+          "LE",
+          "stocks_per_company_percentage",
+          10
+        ],
+        [
+          "LE",
+          "corporate_bonds_per_company_amount",
+          [
+            "MUL",
+            "insurance_funds",
+            0.05
+          ]
+        ],
+        [
+          "LE",
+          "corporate_bonds_per_company_equity_percentage",
+          10
+        ],
+        [
+          "LE",
+          "investment_trust_funds_total_amount",
+          [
+            "MUL",
+            "insurance_funds",
+            0.1
+          ]
+        ],
+        [
+          "LE",
+          "investment_trust_funds_per_fund_percentage",
+          10
+        ],
+        [
+          "LE",
+          "securitized_products_and_others_amount",
+          [
+            "MUL",
+            "insurance_funds",
+            0.1
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "stocks_per_company_amount",
+            "corporate_bonds_per_company_amount"
+          ],
+          [
+            "MUL",
+            "insurance_funds",
+            0.35
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_prohibited_conditions",
+    "desc": "保險業依規定投資不得有擔任董事、監察人、行使表決權、指派經理人、擔任信託監察人或參與經營等情事",
+    "expr": [
+      "EQ",
+      "investment_prohibited_conditions",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_or_representative_is_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "exercise_voting_rights_on_director_or_supervisor_election",
+            true
+          ],
+          [
+            "EQ",
+            "appoint_person_as_manager",
+            true
+          ],
+          [
+            "EQ",
+            "serve_as_trust_supervisor_of_securitized_products",
+            true
+          ],
+          [
+            "EQ",
+            "participate_in_management_by_agreement_or_authorization",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員，負責費率釐訂及準備金核算簽證",
+    "expr": [
+      "EQ",
+      "actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuary_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:external_actuarial_review_assigned",
+    "desc": "保險業聘請外部複核精算人員，負責主管機關指定之精算簽證報告複核",
+    "expr": [
+      "EQ",
+      "external_actuarial_review_assigned",
+      [
+        "EQ",
+        "external_actuarial_reviewer_hired",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:actuarial_staff_and_external_reviewer_approved",
+    "desc": "簽證精算人員指派及外部複核精算人員聘請經董（理）事會同意並報主管機關備查",
+    "expr": [
+      "EQ",
+      "actuarial_staff_and_external_reviewer_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuary_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "external_reviewer_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "reported_to_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:actuarial_reports_fair_and_true",
+    "desc": "簽證報告及複核報告內容不得有虛偽、隱匿、遺漏或錯誤",
+    "expr": [
+      "EQ",
+      "actuarial_reports_fair_and_true",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "signing_report_false_or_omitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_report_false_or_omitted",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_penalty",
+    "desc": "違反內部控制及稽核制度或內部處理制度規定處罰",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、稽核制度或內部處理制度規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

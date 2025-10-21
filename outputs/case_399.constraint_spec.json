@@ -1,0 +1,305 @@
+[
+  {
+    "id": "insurance_agent:license_and_insurance_compliance",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
+    "expr": [
+      "EQ",
+      "license_and_insurance_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "EQ",
+          "guarantee_deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_purchased",
+          true
+        ],
+        [
+          "EQ",
+          "practice_certificate_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:related_insurance_type",
+    "desc": "相關保險種類依身份區分：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "related_insurance_type",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            1
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            2
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              1
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              2
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            3
+          ],
+          [
+            "EQ",
+            "insurance_type",
+            1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:minimum_amount_and_implementation",
+    "desc": "主管機關定最低保證金及保險金額及實施方式，考量經營及執行業務範圍及規模",
+    "expr": [
+      "EQ",
+      "minimum_amount_and_implementation",
+      [
+        "EQ",
+        "minimum_amount_and_implementation_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:qualification_and_management_rules",
+    "desc": "主管機關定資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則",
+    "expr": [
+      "EQ",
+      "qualification_and_management_rules",
+      [
+        "EQ",
+        "management_rules_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "bank:insurance_agent_or_broker_permitted",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "insurance_agent_or_broker_permitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_permitted_by_authority",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_operate_as_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_operate_as_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "insurance_broker:duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂保險契約或提供服務，並負忠實義務",
+    "expr": [
+      "EQ",
+      "duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care_observed",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_fidelity_observed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:written_report_and_fee_disclosure",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，應主動提供書面分析報告，向要保人或被保險人收取報酬者，應明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "written_report_and_fee_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_report_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosure_made",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:written_report_scope_and_fee_standard_set",
+    "desc": "主管機關定書面分析報告適用範圍、內容及報酬收取標準範圍",
+    "expr": [
+      "EQ",
+      "written_report_scope_and_fee_standard_set",
+      [
+        "EQ",
+        "written_report_and_fee_standard_set_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未經主管機關許可、未繳存保證金、未投保相關保險、未領執業證照或未遵守書面報告及告知義務時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_permitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "practice_certificate_held",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "written_report_provided",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "fee_disclosure_made",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

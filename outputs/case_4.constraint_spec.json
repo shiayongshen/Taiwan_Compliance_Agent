@@ -1,0 +1,685 @@
+[
+  {
+    "id": "securities:fiduciary_duty_compliance",
+    "desc": "證券投資信託及顧問事業等依善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "fiduciary_duty_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_loyalty",
+          true
+        ],
+        [
+          "EQ",
+          "good_faith_principle",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:confidentiality_compliance",
+    "desc": "保守受益人或客戶個人資料及交易資料秘密",
+    "expr": [
+      "EQ",
+      "confidentiality_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "personal_data_confidential",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_data_confidential",
+          true
+        ],
+        [
+          "EQ",
+          "other_related_data_confidential",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:fiduciary_and_confidentiality_compliance",
+    "desc": "善良管理人義務及保密義務均符合",
+    "expr": [
+      "EQ",
+      "fiduciary_and_confidentiality_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "fiduciary_duty_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "confidentiality_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_1",
+    "desc": "不得利用職務資訊為自己或客戶以外之人交易有價證券",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_1",
+      [
+        "NOT",
+        [
+          "EQ",
+          "use_insider_info_for_others",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_2",
+    "desc": "不得從事損害客戶權益之有價證券交易",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_2",
+      [
+        "NOT",
+        [
+          "EQ",
+          "detrimental_trading",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_3",
+    "desc": "不得與客戶約定收益共享或損失分擔（主管機關另有規定者除外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_3",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "profit_loss_sharing_agreement",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "regulator_exemption_for_performance_fee",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_4",
+    "desc": "不得與自己資金或其他客戶資產為相對委託交易（非故意發生者除外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_4",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "matched_principal_trading",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "trading_through_exchange",
+            true
+          ],
+          [
+            "EQ",
+            "not_intentional_matched_principal",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_5",
+    "desc": "不得利用客戶帳戶為自己或他人買賣有價證券",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_5",
+      [
+        "NOT",
+        [
+          "EQ",
+          "use_client_account_for_own_trading",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_6",
+    "desc": "不得將全權委託投資契約全部或部分複委任或轉讓他人（主管機關另有規定者除外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_6",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "subdelegate_or_assign_contract",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "regulator_exemption_for_subdelegate",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_7",
+    "desc": "不得無正當理由將已成交買賣委託帳戶轉換（主管機關另有規定者除外）",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_7",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_order_account_transfer",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "regulator_exemption_for_order_transfer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_8",
+    "desc": "投資決策應依投資分析報告，合理解釋者不違反",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_8",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_decision_based_on_analysis_report",
+          true
+        ],
+        [
+          "EQ",
+          "reasonable_explanation_provided",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behavior_9",
+    "desc": "不得有其他影響事業經營或客戶權益之行為",
+    "expr": [
+      "EQ",
+      "prohibited_behavior_9",
+      [
+        "NOT",
+        [
+          "EQ",
+          "other_detrimental_behavior",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:all_prohibited_behaviors_compliance",
+    "desc": "所有禁止行為均未違反",
+    "expr": [
+      "EQ",
+      "all_prohibited_behaviors_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "prohibited_behavior_1",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_2",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_3",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_4",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_5",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_6",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_7",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_8",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_behavior_9",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personnel_qualification_compliance",
+    "desc": "人員資格條件、行為規範、訓練、登記期限及程序符合主管機關規定",
+    "expr": [
+      "EQ",
+      "personnel_qualification_compliance",
+      [
+        "EQ",
+        "personnel_qualification_meets_regulation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_personnel_behavior_compliance",
+    "desc": "負責人、業務人員及受僱人不得為法令或契約禁止之行為",
+    "expr": [
+      "EQ",
+      "prohibited_personnel_behavior_compliance",
+      [
+        "NOT",
+        [
+          "EQ",
+          "personnel_prohibited_behavior",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:authorized_behavior_presumption",
+    "desc": "負責人、業務人員及受僱人從事特定業務行為涉及民事責任者，推定為授權範圍內行為",
+    "expr": [
+      "EQ",
+      "authorized_behavior_presumption",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "personnel_civil_liability_in_specific_business",
+          true
+        ],
+        [
+          "EQ",
+          "behavior_within_authorized_scope",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_penalty_applicable",
+    "desc": "違反本法或命令者，主管機關得依情節輕重處分",
+    "expr": [
+      "EQ",
+      "violation_penalty_applicable",
+      [
+        "EQ",
+        "violation_of_law_or_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:serious_violation_penalty",
+    "desc": "董事、監察人、經理人或受僱人違反法令影響業務正常執行，主管機關得停止執行或解除職務",
+    "expr": [
+      "EQ",
+      "serious_violation_penalty",
+      [
+        "EQ",
+        "serious_violation_affecting_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_personnel_behavior_and_serious_violation",
+    "desc": "負責人、監察人、經理人或受僱人違反法令且影響業務正常執行",
+    "expr": [
+      "EQ",
+      "prohibited_personnel_behavior_and_serious_violation",
+      [
+        "AND",
+        [
+          "EQ",
+          "personnel_prohibited_behavior",
+          true
+        ],
+        [
+          "EQ",
+          "serious_violation_affecting_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:insider_trading_restriction",
+    "desc": "負責人等及其關係人不得從事特定公司股票及衍生商品交易",
+    "expr": [
+      "EQ",
+      "insider_trading_restriction",
+      [
+        "NOT",
+        [
+          "EQ",
+          "prohibited_related_party_trading",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:insider_trading_reporting",
+    "desc": "負責人等及其關係人應申報特定公司股票及衍生商品交易情形",
+    "expr": [
+      "EQ",
+      "insider_trading_reporting",
+      [
+        "EQ",
+        "required_reporting_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券投資信託事業建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_operated_according_law",
+    "desc": "業務經營依內部控制制度及法令章程執行",
+    "expr": [
+      "EQ",
+      "internal_control_operated_according_law",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_change_approved",
+    "desc": "內部控制制度訂定或變更經董事會同意並留存備查",
+    "expr": [
+      "EQ",
+      "internal_control_change_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_change_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_recorded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_change_complied_with_regulator",
+    "desc": "內部控制制度變更依本會通知限期內完成",
+    "expr": [
+      "EQ",
+      "internal_control_change_complied_with_regulator",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "regulator_notified_change",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_completed_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliance",
+    "desc": "內部控制制度符合訂定、變更及執行要求",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_operated_according_law",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_approved",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_complied_with_regulator",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反善良管理人義務、保密義務、禁止行為、人員資格、內部控制或其他法令規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "fiduciary_duty_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "confidentiality_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "all_prohibited_behaviors_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_qualification_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_personnel_behavior_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_penalty_applicable",
+            false
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,215 @@
+[
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established_by_financial_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_established_by_exchange_and_related_institutions",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_operated_according_to_law_and_internal_control",
+    "desc": "證券商業務依法令、章程及內部控制制度經營",
+    "expr": [
+      "EQ",
+      "business_operated_according_to_law_and_internal_control",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated_after_change_notice",
+    "desc": "內部控制制度變更後於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated_after_change_notice",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "internal_control_change_notice_received",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_updated_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_of_law_or_orders",
+    "desc": "證券商違反證券交易法或依本法發布之命令",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_orders",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_of_securities_law",
+          true
+        ],
+        [
+          "EQ",
+          "violation_of_orders_issued_under_law",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_warning",
+    "desc": "主管機關可對違反者處以警告",
+    "expr": [
+      "EQ",
+      "penalty_warning",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law_or_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_dismiss_officer",
+    "desc": "主管機關可命違反者解除董事、監察人或經理人職務",
+    "expr": [
+      "EQ",
+      "penalty_dismiss_officer",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law_or_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_suspension",
+    "desc": "主管機關可對違反者公司或分支機構停業六個月以內",
+    "expr": [
+      "EQ",
+      "penalty_suspension",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law_or_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_revoke_license",
+    "desc": "主管機關可撤銷或廢止違反者公司或分支機構營業許可",
+    "expr": [
+      "EQ",
+      "penalty_revoke_license",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law_or_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_other_measures",
+    "desc": "主管機關可對違反者採取其他必要處置",
+    "expr": [
+      "EQ",
+      "penalty_other_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_of_law_or_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：證券商違反證券交易法或依本法發布之命令時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_of_law_or_orders",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

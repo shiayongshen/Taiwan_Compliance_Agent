@@ -1,0 +1,144 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (8602 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (9371 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (20 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (34 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [bank:violation_occurred]
+   ✅ Removed prefixes in [bank:penalties_applicable]
+   ✅ Removed prefixes in [bank:penalty_types]
+   ✅ Removed prefixes in [bill_finance:violation_occurred]
+   ✅ Removed prefixes in [bill_finance:penalties_applicable]
+   ✅ Removed prefixes in [financial_holdings:violation_occurred]
+   ✅ Removed prefixes in [financial_holdings:penalties_applicable]
+   ✅ Removed prefixes in [financial_holdings:penalty_types]
+   ✅ Removed prefixes in [electronic_payment:violation_occurred]
+   ✅ Removed prefixes in [electronic_payment:penalties_applicable]
+   ✅ Removed prefixes in [electronic_payment:penalty_types]
+   ✅ Removed prefixes in [insurance:violation_occurred]
+   ✅ Removed prefixes in [insurance:penalties_applicable]
+   ✅ Removed prefixes in [insurance:penalty_types]
+   ✅ Removed prefixes in [insurance:capital_level]
+   ✅ Removed prefixes in [insurance:capital_level_4_measures_executed]
+   ✅ Removed prefixes in [insurance:capital_level_3_measures_executed]
+   ✅ Removed prefixes in [insurance:capital_level_2_measures_executed]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 19
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 20
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (20 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (20 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (20 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c32', 'c35', 'insurance:penalty_types', 'c37', 'c33', 'c34', 'c31', 'bank:penalty_types', 'c36'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c32', 'c35', 'insurance:penalty_types', 'c37', 'c33', 'c34', 'c31', 'bank:penalty_types', 'c36'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_286
+
+📊 Model (filtered):
+   other_necessary_measures = False
+   revoke_statutory_meeting_resolution = False
+   restrict_business_or_fund_usage = False
+   net_worth_ratio = 5
+   net_worth = 1000000
+   capital_level_3_measures_executed_flag = False
+   order_provision_reserve_or_capital_increase = False
+   remove_director_supervisor = False
+   capital_level_4_measures_executed_flag = False
+   order_capital_increase = False
+   suspend_subsidiary_business = False
+   authority_action_taken = True
+   order_close_branch_or_department = False
+   order_dispose_subsidiary_shares = False
+   order_stop_insurance_products = False
+   capital_adequacy_ratio = 100
+   order_remove_manager_staff = False
+   penalty_types = False
+   suspend_partial_business = False
+   order_provision_reserve = False
+   revoke_license = False
+   revoke_all_or_partial_business_license = False
+   violation_flag = True
+   order_prohibit_asset_disposal = False
+   improvement_plan_executed = False
+   restrict_investment = False
+   improvement_plan_submitted = False
+   capital_level_2_measures_executed = False
+   capital_level = 0
+   penalties_applicable = True
+   capital_level_4_measures_executed = False
+   violation_occurred = True
+   penalty = False
+   capital_level_3_measures_executed = False
+✅ Model saved to: outputs\case_286.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_286.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_286.smt2

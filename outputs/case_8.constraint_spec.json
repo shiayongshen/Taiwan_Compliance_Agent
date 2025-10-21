@@ -1,0 +1,632 @@
+[
+  {
+    "id": "bank:violation",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measures",
+    "desc": "銀行主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_1",
+    "desc": "撤銷法定會議之決議",
+    "expr": [
+      "EQ",
+      "penalty_measure_1",
+      [
+        "EQ",
+        "revoke_statutory_meeting_resolution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_2",
+    "desc": "停止銀行部分業務",
+    "expr": [
+      "EQ",
+      "penalty_measure_2",
+      [
+        "EQ",
+        "suspend_partial_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_3",
+    "desc": "限制投資",
+    "expr": [
+      "EQ",
+      "penalty_measure_3",
+      [
+        "EQ",
+        "restrict_investment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_4",
+    "desc": "命令或禁止特定資產之處分或移轉",
+    "expr": [
+      "EQ",
+      "penalty_measure_4",
+      [
+        "EQ",
+        "order_prohibit_asset_disposition",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_5",
+    "desc": "命令限期裁撤分支機構或部門",
+    "expr": [
+      "EQ",
+      "penalty_measure_5",
+      [
+        "EQ",
+        "order_close_branch_or_department",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_6",
+    "desc": "命令銀行解除經理人、職員之職務或停止其於一定期間內執行職務",
+    "expr": [
+      "EQ",
+      "penalty_measure_6",
+      [
+        "EQ",
+        "order_remove_manager_staff",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_7",
+    "desc": "解除董事、監察人職務或停止其於一定期間內執行職務",
+    "expr": [
+      "EQ",
+      "penalty_measure_7",
+      [
+        "EQ",
+        "remove_director_supervisor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_8",
+    "desc": "命令提撥一定金額之準備",
+    "expr": [
+      "EQ",
+      "penalty_measure_8",
+      [
+        "EQ",
+        "order_provision_amount",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measure_9",
+    "desc": "其他必要之處置",
+    "expr": [
+      "EQ",
+      "penalty_measure_9",
+      [
+        "EQ",
+        "other_necessary_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:director_supervisor_registration_revoked",
+    "desc": "解除董事、監察人職務時，通知公司登記主管機關撤銷或廢止其董事、監察人登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_registration_revoked",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_measure_7",
+          true
+        ],
+        [
+          "EQ",
+          "notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_needed",
+    "desc": "為改善銀行營運缺失而有業務輔導之必要",
+    "expr": [
+      "EQ",
+      "business_guidance_needed",
+      [
+        "EQ",
+        "business_guidance_required",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bill_finance:violation",
+    "desc": "票券金融公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "bill_finance:penalty_measures",
+    "desc": "票券金融公司主管機關可採取之處分措施，準用銀行法第61-1條",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "EQ",
+        "penalty_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bill_finance"
+  },
+  {
+    "id": "financial_holding:violation",
+    "desc": "金融控股公司違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measures",
+    "desc": "金融控股公司主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_1",
+    "desc": "撤銷法定會議之決議",
+    "expr": [
+      "EQ",
+      "penalty_measure_1",
+      [
+        "EQ",
+        "revoke_statutory_meeting_resolution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_2",
+    "desc": "停止其子公司一部或全部業務",
+    "expr": [
+      "EQ",
+      "penalty_measure_2",
+      [
+        "EQ",
+        "suspend_subsidiary_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_3",
+    "desc": "令其解除經理人或職員之職務",
+    "expr": [
+      "EQ",
+      "penalty_measure_3",
+      [
+        "EQ",
+        "order_remove_manager_staff",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_4",
+    "desc": "解除董事、監察人職務或停止其於一定期間內執行職務",
+    "expr": [
+      "EQ",
+      "penalty_measure_4",
+      [
+        "EQ",
+        "remove_director_supervisor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_5",
+    "desc": "令其處分持有子公司之股份",
+    "expr": [
+      "EQ",
+      "penalty_measure_5",
+      [
+        "EQ",
+        "order_dispose_subsidiary_shares",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_6",
+    "desc": "廢止許可",
+    "expr": [
+      "EQ",
+      "penalty_measure_6",
+      [
+        "EQ",
+        "revoke_permit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:penalty_measure_7",
+    "desc": "其他必要之處置",
+    "expr": [
+      "EQ",
+      "penalty_measure_7",
+      [
+        "EQ",
+        "other_necessary_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:director_supervisor_registration_revoked",
+    "desc": "解除董事、監察人職務時，通知經濟部廢止其董事或監察人登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_registration_revoked",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_measure_4",
+          true
+        ],
+        [
+          "EQ",
+          "notify_economic_ministry",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "financial_holding:revoke_permit_followup",
+    "desc": "廢止許可時，限期處分持股及禁止使用名稱，未完成者應解散清算",
+    "expr": [
+      "EQ",
+      "revoke_permit_followup",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_measure_6",
+          true
+        ],
+        [
+          "EQ",
+          "followup_completed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial_holding"
+  },
+  {
+    "id": "electronic_payment:violation",
+    "desc": "專營電子支付機構違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measures",
+    "desc": "專營電子支付機構主管機關可採取之處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measure_1",
+    "desc": "撤銷股東會或董事會等法定會議之決議",
+    "expr": [
+      "EQ",
+      "penalty_measure_1",
+      [
+        "EQ",
+        "revoke_statutory_meeting_resolution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measure_2",
+    "desc": "廢止專營電子支付機構全部或部分業務之許可",
+    "expr": [
+      "EQ",
+      "penalty_measure_2",
+      [
+        "EQ",
+        "revoke_permit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measure_3",
+    "desc": "命令專營電子支付機構解除經理人或職員之職務",
+    "expr": [
+      "EQ",
+      "penalty_measure_3",
+      [
+        "EQ",
+        "order_remove_manager_staff",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measure_4",
+    "desc": "解除董事、監察人職務或停止其於一定期間內執行職務",
+    "expr": [
+      "EQ",
+      "penalty_measure_4",
+      [
+        "EQ",
+        "remove_director_supervisor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:penalty_measure_5",
+    "desc": "命令提撥一定金額之準備或令其增資",
+    "expr": [
+      "EQ",
+      "penalty_measure_5",
+      [
+        "EQ",
+        "order_provision_or_capital_increase",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:director_supervisor_registration_revoked",
+    "desc": "解除董事、監察人職務時，通知公司登記主管機關廢止其董事、監察人登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_registration_revoked",
+      [
+        "AND",
+        [
+          "EQ",
+          "penalty_measure_4",
+          true
+        ],
+        [
+          "EQ",
+          "notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:non_special_violation",
+    "desc": "非電子支付機構經主管機關許可經營國外小額匯兌及買賣外幣業務違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "non_special_violation",
+      [
+        "EQ",
+        "non_special_violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "electronic_payment:non_special_penalty_measures",
+    "desc": "非電子支付機構違反規定時，準用專營電子支付機構處分規定",
+    "expr": [
+      "EQ",
+      "non_special_penalty_measures",
+      [
+        "EQ",
+        "penalty_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "electronic_payment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：銀行違反法令、章程或有礙健全經營之虞且主管機關已採取處分措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

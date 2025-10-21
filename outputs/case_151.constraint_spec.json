@@ -1,0 +1,300 @@
+[
+  {
+    "id": "insurance:violation_163_4_7_165_1_163_5",
+    "desc": "違反保險法第163條第4項、第7項及第165條第1項或第163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_163_4_7_165_1_163_5",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1_or_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:correction_ordered",
+    "desc": "已限期改正違規事項",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "EQ",
+        "correction_ordered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_fine_range",
+    "desc": "罰鍰金額介於新臺幣十萬元以上三百萬元以下",
+    "expr": [
+      "EQ",
+      "penalty_fine_range",
+      [
+        "AND",
+        [
+          "GE",
+          "penalty_fine_amount",
+          100000
+        ],
+        [
+          "LE",
+          "penalty_fine_amount",
+          3000000
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:major_violation",
+    "desc": "情節重大",
+    "expr": [
+      "EQ",
+      "major_violation",
+      [
+        "EQ",
+        "major_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_revoked",
+    "desc": "廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "license_revoked",
+      [
+        "EQ",
+        "license_revoked",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_misconduct",
+    "desc": "代理人違反保險代理人管理規則第49條各款行為",
+    "expr": [
+      "EQ",
+      "agent_misconduct",
+      [
+        "OR",
+        [
+          "EQ",
+          "misconduct_1_false_report",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_2_unapproved_agent_business",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_3_unapproved_insurance_business",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_4_hide_important_contract_info",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_5_force_or_induce_contract",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_6_false_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_7_induce_policy_surrender_or_loan",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_8_misappropriate_premium_or_claim",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_9_unauthorized_use_license",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_10_convicted_fraud_or_forgery",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_11_outside_license_scope",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_12_illegal_collection_of_money_or_benefits",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_13_illegal_insurance_payment",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_14_spread_false_information",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_15_authorize_others_to_operate",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_16_transfer_unassigned_policy_documents",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_17_employ_unqualified_recruiters",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_18_fail_to_cancel_license_in_time",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_19_unauthorized_suspend_or_terminate_business",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_20_fail_to_reappoint_agent_after_resignation",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_21_fail_to_report_to_trade_association",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_22_use_unapproved_advertisement",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_23_pay_commission_to_non_actual_recruiters",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_24_fail_to_confirm_consumer_suitability",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_25_sell_unapproved_foreign_policy_discount_products",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_26_submit_false_or_incomplete_reports",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_27_hold_positions_in_insurance_or_association",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_28_induce_contract_termination_or_loan_payment",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_29_fail_to_fill_recruitment_report_truthfully",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_30_other_violations_of_rules_or_laws",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_31_other_damaging_insurance_image",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反管理規則或保險代理人管理規則第49條任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_163_4_7_165_1_163_5",
+          true
+        ],
+        [
+          "EQ",
+          "agent_misconduct",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

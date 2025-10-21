@@ -1,0 +1,573 @@
+{
+  "case_id": "case_254",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 82.55,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 11040,
+  "total_output_tokens": 4544,
+  "total_tokens": 15584,
+  "total_cost_usd": 0.011686,
+  "timestamp": "2025-10-21T05:35:47.801538",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1543,
+      "output_tokens": 1235,
+      "elapsed_time": 19.55624270439148,
+      "cost": 0.0025932000000000004
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 4685,
+      "output_tokens": 1584,
+      "elapsed_time": 33.9518039226532,
+      "cost": 0.0044084
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 188,
+      "output_tokens": 720,
+      "elapsed_time": 12.188895225524902,
+      "cost": 0.0012272000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 188,
+      "output_tokens": 720,
+      "elapsed_time": 9.850266695022583,
+      "cost": 0.0012272000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4436,
+      "output_tokens": 285,
+      "elapsed_time": 6.978355646133423,
+      "cost": 0.0022304000000000004
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3337 chars",
+      "timestamp": 19.55624270439148
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4204 chars",
+      "timestamp": 53.50804662704468
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 53.50804662704468
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "29 varspecs",
+      "timestamp": 65.69694185256958
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 65.69994044303894
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 65.70394086837769
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 65.70394086837769
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "29 facts",
+      "timestamp": 82.53256320953369
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "29 constraints",
+      "timestamp": 82.53356170654297
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 82.53956294059753
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c37']",
+      "timestamp": 82.53956294059753
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 82.5475549697876
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 65.70394086837769
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures",
+            true
+          ],
+          [
+            "EQ",
+            "training_held",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_implemented",
+          true
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "aml:compliance_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:compliance_ok",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_ok",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "trust:contract_requirements_met",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "contract_requirements_met",
+        [
+          "AND",
+          [
+            "EQ",
+            "trust:operation_scope_specified",
+            true
+          ],
+          [
+            "EQ",
+            "trust:beneficiary_transfer_restriction_specified",
+            true
+          ],
+          [
+            "EQ",
+            "trust:risk_disclosure_specified",
+            true
+          ],
+          [
+            "EQ",
+            "trust:client_informed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "contract_requirements_met",
+        [
+          "AND",
+          [
+            "EQ",
+            "operation_scope_specified",
+            true
+          ],
+          [
+            "EQ",
+            "beneficiary_transfer_restriction_specified",
+            true
+          ],
+          [
+            "EQ",
+            "risk_disclosure_specified",
+            true
+          ],
+          [
+            "EQ",
+            "client_informed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "trust:compliance_ok",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "trust:compliance_ok",
+        [
+          "EQ",
+          "contract_requirements_met",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_ok",
+        [
+          "EQ",
+          "contract_requirements_met",
+          true
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "trust:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "trust:violation",
+        [
+          "EQ",
+          "trust:law_or_order_violated",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "law_or_order_violated",
+          true
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "bank:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation",
+        [
+          "EQ",
+          "bank:law_or_regulation_violated",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "law_or_regulation_violated",
+          true
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "bank:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measures",
+        [
+          "OR",
+          [
+            "EQ",
+            "bank:revoke_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "bank:suspend_partial_business",
+            true
+          ],
+          [
+            "EQ",
+            "bank:restrict_investment",
+            true
+          ],
+          [
+            "EQ",
+            "bank:order_asset_disposal_or_transfer",
+            true
+          ],
+          [
+            "EQ",
+            "bank:order_branch_closure",
+            true
+          ],
+          [
+            "EQ",
+            "bank:order_manager_dismissal_or_suspension",
+            true
+          ],
+          [
+            "EQ",
+            "bank:order_director_supervisor_dismissal_or_suspension",
+            true
+          ],
+          [
+            "EQ",
+            "bank:order_reserve_provision",
+            true
+          ],
+          [
+            "EQ",
+            "bank:other_necessary_measures",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "OR",
+          [
+            "EQ",
+            "revoke_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "suspend_partial_business",
+            true
+          ],
+          [
+            "EQ",
+            "restrict_investment",
+            true
+          ],
+          [
+            "EQ",
+            "order_asset_disposal_or_transfer",
+            true
+          ],
+          [
+            "EQ",
+            "order_branch_closure",
+            true
+          ],
+          [
+            "EQ",
+            "order_manager_dismissal_or_suspension",
+            true
+          ],
+          [
+            "EQ",
+            "order_director_supervisor_dismissal_or_suspension",
+            true
+          ],
+          [
+            "EQ",
+            "order_reserve_provision",
+            true
+          ],
+          [
+            "EQ",
+            "other_necessary_measures",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.7
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:compliance_ok",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "trust:violation",
+            true
+          ],
+          [
+            "EQ",
+            "bank:violation",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "compliance_ok",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "violation",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 65.7
+    }
+  ]
+}

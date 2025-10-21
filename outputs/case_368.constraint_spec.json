@@ -1,0 +1,317 @@
+[
+  {
+    "id": "bank:credit_card_interest_rate_limit",
+    "desc": "信用卡業務循環信用利率不得超過年利率15%",
+    "expr": [
+      "EQ",
+      "credit_card_interest_rate_ok",
+      [
+        "LE",
+        "credit_card_annual_interest_rate",
+        15.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_card_reporting_compliance",
+    "desc": "信用卡業務機構依主管機關及中央銀行規定定期申報及揭露資料且資料正確",
+    "expr": [
+      "EQ",
+      "credit_card_reporting_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "reporting_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "reporting_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "reporting_data_correct",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_card_bad_debt_provision_level",
+    "desc": "逾期帳款備抵呆帳提列等級（1=正常,2=1-3月逾期,3=3-6月逾期,4=超過6月逾期）",
+    "expr": [
+      "EQ",
+      "bad_debt_provision_level",
+      [
+        "CASE",
+        [
+          "AND",
+          [
+            "GE",
+            "overdue_months",
+            1
+          ],
+          [
+            "LT",
+            "overdue_months",
+            3
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "GE",
+            "overdue_months",
+            3
+          ],
+          [
+            "LT",
+            "overdue_months",
+            6
+          ]
+        ],
+        3,
+        [
+          "GE",
+          "overdue_months",
+          6
+        ],
+        4,
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:bad_debt_provision_rate_correct",
+    "desc": "備抵呆帳提列比率符合逾期月份規定",
+    "expr": [
+      "EQ",
+      "bad_debt_provision_rate_correct",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "bad_debt_provision_level",
+            2
+          ],
+          [
+            "EQ",
+            "bad_debt_provision_rate",
+            2.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "bad_debt_provision_level",
+            3
+          ],
+          [
+            "EQ",
+            "bad_debt_provision_rate",
+            50.0
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "bad_debt_provision_level",
+            4
+          ],
+          [
+            "EQ",
+            "bad_debt_provision_rate",
+            100.0
+          ]
+        ],
+        [
+          "EQ",
+          "bad_debt_provision_level",
+          1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:bad_debt_write_off_timing_correct",
+    "desc": "逾期帳款轉銷時間符合規定",
+    "expr": [
+      "EQ",
+      "bad_debt_write_off_timing_correct",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "bad_debt_provision_level",
+            4
+          ],
+          [
+            "LE",
+            "write_off_months_after_overdue",
+            3
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bad_debt_provision_level",
+            4
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:bad_debt_write_off_approval",
+    "desc": "逾期帳款轉銷經董（理）事會授權及核准",
+    "expr": [
+      "EQ",
+      "bad_debt_write_off_approved",
+      [
+        "OR",
+        [
+          "EQ",
+          "write_off_approved_by_authorized_personnel",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_card_company_authorized",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_established",
+    "desc": "信用卡業務機構建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:credit_card_business_permitted",
+    "desc": "經營信用卡業務須經中央主管機關許可",
+    "expr": [
+      "EQ",
+      "credit_card_business_permitted",
+      [
+        "EQ",
+        "central_authority_permit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反信用卡利率限制、申報揭露規定、備抵呆帳提列及轉銷規定、內部控制制度建立或未經許可經營信用卡業務時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_card_interest_rate_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_card_reporting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bad_debt_provision_rate_correct",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bad_debt_write_off_timing_correct",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bad_debt_write_off_approved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "credit_card_business_permitted",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

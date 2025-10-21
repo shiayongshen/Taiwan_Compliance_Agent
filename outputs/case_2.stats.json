@@ -1,0 +1,1087 @@
+{
+  "case_id": "case_2",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 114.2,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 18130,
+  "total_output_tokens": 8516,
+  "total_tokens": 26646,
+  "total_cost_usd": 0.020878,
+  "timestamp": "2025-10-20T22:43:59.142766",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2197,
+      "output_tokens": 3002,
+      "elapsed_time": 39.38114523887634,
+      "cost": 0.005682
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 7760,
+      "output_tokens": 2669,
+      "elapsed_time": 32.12211608886719,
+      "cost": 0.0073744000000000014
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 315,
+      "output_tokens": 1237,
+      "elapsed_time": 18.1265766620636,
+      "cost": 0.0021051999999999998
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 315,
+      "output_tokens": 1237,
+      "elapsed_time": 17.895481824874878,
+      "cost": 0.0021051999999999998
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 7543,
+      "output_tokens": 371,
+      "elapsed_time": 6.604365587234497,
+      "cost": 0.0036108000000000004
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7863 chars",
+      "timestamp": 39.38114523887634
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "6859 chars",
+      "timestamp": 71.50326132774353
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 71.50326132774353
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "44 varspecs",
+      "timestamp": 89.62983798980713
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "19 constraints",
+      "timestamp": 89.63684010505676
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 89.64584040641785
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 89.64584040641785
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "31 facts",
+      "timestamp": 114.14668655395508
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "31 constraints",
+      "timestamp": 114.14769077301025
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 114.15968680381775
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c46']",
+      "timestamp": 114.15968680381775
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 114.18469262123108
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 89.64584040641785
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "fhc:capital_increase_funding",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:capital_increase_funding",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "capital_increase_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "funding_raised_within_share_ratio",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_increase_funding",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "capital_increase_occurred",
+            true
+          ],
+          [
+            "EQ",
+            "funding_raised_within_share_ratio",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:accumulated_loss_exceeds_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:accumulated_loss_exceeds_limit",
+        [
+          "GT",
+          [
+            "DIV",
+            "accumulated_loss",
+            "paid_in_capital"
+          ],
+          0.3333333333
+        ]
+      ],
+      "after": [
+        "EQ",
+        "accumulated_loss_exceeds_limit",
+        [
+          "GT",
+          [
+            "DIV",
+            "accumulated_loss",
+            "paid_in_capital"
+          ],
+          0.3333333333
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:board_meeting_held_and_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:board_meeting_held_and_reported",
+        [
+          "AND",
+          [
+            "EQ",
+            "fhc:accumulated_loss_exceeds_limit",
+            true
+          ],
+          [
+            "EQ",
+            "board_meeting_held",
+            true
+          ],
+          [
+            "EQ",
+            "supervisors_notified",
+            true
+          ],
+          [
+            "EQ",
+            "report_to_authority_submitted",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "board_meeting_held_and_reported",
+        [
+          "AND",
+          [
+            "EQ",
+            "accumulated_loss_exceeds_limit",
+            true
+          ],
+          [
+            "EQ",
+            "board_meeting_held",
+            true
+          ],
+          [
+            "EQ",
+            "supervisors_notified",
+            true
+          ],
+          [
+            "EQ",
+            "report_to_authority_submitted",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:authority_orders_capital_replenishment",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:authority_orders_capital_replenishment",
+        [
+          "EQ",
+          "fhc:accumulated_loss_exceeds_limit",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "authority_orders_capital_replenishment",
+        [
+          "EQ",
+          "accumulated_loss_exceeds_limit",
+          true
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:capital_replenishment_approved_and_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:capital_replenishment_approved_and_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_replenishment_approved",
+            true
+          ],
+          [
+            "EQ",
+            "capital_replenishment_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_replenishment_approved_and_executed",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_replenishment_approved",
+            true
+          ],
+          [
+            "EQ",
+            "capital_replenishment_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:violation_occurred",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_occurred",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:authority_imposes_sanctions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:authority_imposes_sanctions",
+        [
+          "OR",
+          [
+            "EQ",
+            "sanction_revoke_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_suspend_subsidiary_business",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_remove_manager_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_remove_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_dispose_subsidiary_shares",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_revoke_license",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_other_measures",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "authority_imposes_sanctions",
+        [
+          "OR",
+          [
+            "EQ",
+            "sanction_revoke_meeting_resolution",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_suspend_subsidiary_business",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_remove_manager_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_remove_director_or_supervisor",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_dispose_subsidiary_shares",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_revoke_license",
+            true
+          ],
+          [
+            "EQ",
+            "sanction_other_measures",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:authority_notifies_economic_ministry",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:authority_notifies_economic_ministry",
+        [
+          "EQ",
+          "sanction_remove_director_or_supervisor",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "authority_notifies_economic_ministry",
+        [
+          "EQ",
+          "sanction_remove_director_or_supervisor",
+          true
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:license_revoked_disposal_and_dissolution",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:license_revoked_disposal_and_dissolution",
+        [
+          "AND",
+          [
+            "EQ",
+            "sanction_revoke_license",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "shares_disposed_within_deadline",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "dissolution_and_liquidation_ordered",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "license_revoked_disposal_and_dissolution",
+        [
+          "AND",
+          [
+            "EQ",
+            "sanction_revoke_license",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "shares_disposed_within_deadline",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "dissolution_and_liquidation_ordered",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:subsidiary_capital_adequacy_below_minimum",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:subsidiary_capital_adequacy_below_minimum",
+        [
+          "LT",
+          "subsidiary_capital_adequacy_ratio",
+          "authority_minimum_capital_adequacy_ratio"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "subsidiary_capital_adequacy_below_minimum",
+        [
+          "LT",
+          "subsidiary_capital_adequacy_ratio",
+          "authority_minimum_capital_adequacy_ratio"
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:subsidiary_financial_condition_deteriorated",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:subsidiary_financial_condition_deteriorated",
+        [
+          "EQ",
+          "subsidiary_financial_condition_bad",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "subsidiary_financial_condition_deteriorated",
+        [
+          "EQ",
+          "subsidiary_financial_condition_bad",
+          true
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:fhc_assists_subsidiary_recovery",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:fhc_assists_subsidiary_recovery",
+        [
+          "OR",
+          [
+            "EQ",
+            "fhc:subsidiary_capital_adequacy_below_minimum",
+            true
+          ],
+          [
+            "EQ",
+            "fhc:subsidiary_financial_condition_deteriorated",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "fhc_assists_subsidiary_recovery",
+        [
+          "OR",
+          [
+            "EQ",
+            "subsidiary_capital_adequacy_below_minimum",
+            true
+          ],
+          [
+            "EQ",
+            "subsidiary_financial_condition_deteriorated",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "fhc:authority_orders_fhc_to_assist_or_dispose",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:authority_orders_fhc_to_assist_or_dispose",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "fhc:subsidiary_capital_adequacy_below_minimum",
+              true
+            ],
+            [
+              "EQ",
+              "fhc:subsidiary_financial_condition_deteriorated",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "authority_order_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "authority_orders_fhc_to_assist_or_dispose",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "subsidiary_capital_adequacy_below_minimum",
+              true
+            ],
+            [
+              "EQ",
+              "subsidiary_financial_condition_deteriorated",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "authority_order_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "insurance:capital_adequacy_ratio",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_adequacy_ratio",
+        [
+          "MUL",
+          [
+            "DIV",
+            "own_capital",
+            "risk_capital"
+          ],
+          100.0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_adequacy_ratio",
+        [
+          "MUL",
+          [
+            "DIV",
+            "own_capital",
+            "risk_capital"
+          ],
+          100.0
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "insurance:net_worth_ratio",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:net_worth_ratio",
+        [
+          "MUL",
+          [
+            "DIV",
+            "owner_equity",
+            "total_assets_excluding_investment_type"
+          ],
+          100.0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "net_worth_ratio",
+        [
+          "MUL",
+          [
+            "DIV",
+            "owner_equity",
+            "total_assets_excluding_investment_type"
+          ],
+          100.0
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "insurance:capital_level",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "owner_equity",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "insurance:net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "OR",
+              [
+                "GE",
+                "insurance:capital_adequacy_ratio",
+                150.0
+              ],
+              [
+                "LT",
+                "insurance:capital_adequacy_ratio",
+                200.0
+              ]
+            ]
+          ],
+          2,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              200.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio",
+              3.0
+            ]
+          ],
+          1,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "owner_equity",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "OR",
+              [
+                "GE",
+                "capital_adequacy_ratio",
+                150.0
+              ],
+              [
+                "LT",
+                "capital_adequacy_ratio",
+                200.0
+              ]
+            ]
+          ],
+          2,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              200.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              3.0
+            ]
+          ],
+          1,
+          0
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "insurance:capital_level_corrected",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "owner_equity",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "insurance:net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "insurance:capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          2,
+          [
+            "AND",
+            [
+              "GE",
+              "insurance:capital_adequacy_ratio",
+              200.0
+            ],
+            [
+              "GE",
+              "insurance:net_worth_ratio",
+              3.0
+            ]
+          ],
+          1,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "capital_level",
+        [
+          "CASE",
+          [
+            "OR",
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "owner_equity",
+              0.0
+            ]
+          ],
+          4,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              50.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              0.0
+            ],
+            [
+              "LT",
+              "net_worth_ratio",
+              2.0
+            ]
+          ],
+          3,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              150.0
+            ],
+            [
+              "LT",
+              "capital_adequacy_ratio",
+              200.0
+            ]
+          ],
+          2,
+          [
+            "AND",
+            [
+              "GE",
+              "capital_adequacy_ratio",
+              200.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio",
+              3.0
+            ]
+          ],
+          1,
+          0
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "fhc:violation_occurred",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "fhc:license_revoked_disposal_and_dissolution",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_occurred",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "license_revoked_disposal_and_dissolution",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 89.63
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 89.63
+    }
+  ]
+}

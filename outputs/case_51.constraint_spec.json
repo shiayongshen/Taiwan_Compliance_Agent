@@ -1,0 +1,495 @@
+[
+  {
+    "id": "financial:consumer_data_understood",
+    "desc": "金融服務業充分瞭解金融消費者相關資料",
+    "expr": [
+      "EQ",
+      "consumer_data_understood",
+      [
+        "EQ",
+        "consumer_data_fully_understood",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:suitability_ensured",
+    "desc": "金融服務業確保商品或服務對金融消費者之適合度",
+    "expr": [
+      "EQ",
+      "suitability_ensured",
+      [
+        "EQ",
+        "product_service_suitability_ensured",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:compliance_with_ad_rules",
+    "desc": "遵守第八條第二項辦法中廣告、業務招攬、營業促銷方式及內容規定",
+    "expr": [
+      "EQ",
+      "compliance_with_ad_rules",
+      [
+        "EQ",
+        "ad_and_promotion_rules_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:compliance_with_suitability_rules",
+    "desc": "遵守第九條第一項及第二項辦法中適合度相關規定",
+    "expr": [
+      "EQ",
+      "compliance_with_suitability_rules",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_data_understood",
+          true
+        ],
+        [
+          "EQ",
+          "suitability_ensured",
+          true
+        ],
+        [
+          "EQ",
+          "suitability_related_rules_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:compliance_with_disclosure_rules",
+    "desc": "遵守第十條第一項及第三項辦法中說明、揭露規定",
+    "expr": [
+      "EQ",
+      "compliance_with_disclosure_rules",
+      [
+        "AND",
+        [
+          "EQ",
+          "disclosure_fully_explained",
+          true
+        ],
+        [
+          "EQ",
+          "disclosure_rules_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:compliance_with_compensation_rules",
+    "desc": "遵守第十一條之一規定，訂定並確實執行酬金制度",
+    "expr": [
+      "EQ",
+      "compliance_with_compensation_rules",
+      [
+        "AND",
+        [
+          "EQ",
+          "compensation_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "compensation_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "insurance:agent_license_and_insurance",
+    "desc": "保險代理人、經紀人、公證人經主管機關許可，繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "agent_license_and_insurance",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "guarantee_deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care",
+    "desc": "保險經紀人以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care_observed",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_loyalty_observed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_written_report_and_fee_disclosure",
+    "desc": "保險經紀人於主管機關指定範圍內提供書面分析報告並明確告知報酬收取標準",
+    "expr": [
+      "EQ",
+      "broker_written_report_and_fee_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_report_provided",
+          true
+        ],
+        [
+          "EQ",
+          "fee_disclosure_made",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "financial:bank_securities_consumer_data_compliance",
+    "desc": "銀行業及證券期貨業充分瞭解金融消費者相關資料並留存基本資料",
+    "expr": [
+      "EQ",
+      "bank_securities_consumer_data_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_identity_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "financial_background_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "income_and_fund_source_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "risk_preference_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "investment_experience_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "contract_purpose_and_needs_recorded",
+          true
+        ],
+        [
+          "EQ",
+          "consumer_confirmation_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:bank_securities_investment_ability_assessed",
+    "desc": "銀行業及證券期貨業綜合考量資料評估金融消費者投資能力",
+    "expr": [
+      "EQ",
+      "bank_securities_investment_ability_assessed",
+      [
+        "AND",
+        [
+          "EQ",
+          "fund_operation_status_considered",
+          true
+        ],
+        [
+          "EQ",
+          "professional_ability_considered",
+          true
+        ],
+        [
+          "EQ",
+          "investment_attributes_considered",
+          true
+        ],
+        [
+          "EQ",
+          "risk_understanding_considered",
+          true
+        ],
+        [
+          "EQ",
+          "risk_tolerance_considered",
+          true
+        ],
+        [
+          "EQ",
+          "service_suitability_considered",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:bank_product_suitability_evaluated",
+    "desc": "銀行業及證券期貨業依商品特性評估商品或服務適合度，銀行設立商品審查小組",
+    "expr": [
+      "EQ",
+      "bank_product_suitability_evaluated",
+      [
+        "AND",
+        [
+          "EQ",
+          "product_characteristics_evaluated",
+          true
+        ],
+        [
+          "EQ",
+          "product_suitability_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "bank_product_review_committee_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:consumer_risk_and_product_risk_classified",
+    "desc": "金融消費者風險承受等級及金融商品或服務風險等級分類",
+    "expr": [
+      "EQ",
+      "consumer_risk_and_product_risk_classified",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_risk_level_classified",
+          true
+        ],
+        [
+          "EQ",
+          "product_risk_level_classified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "insurance:insurance_product_suitability_considered",
+    "desc": "保險業提供投資型保險商品前考量適合度事項",
+    "expr": [
+      "EQ",
+      "insurance_product_suitability_considered",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_type_amount_and_premium_match_needs",
+          true
+        ],
+        [
+          "EQ",
+          "investment_attributes_and_risk_tolerance_considered",
+          true
+        ],
+        [
+          "EQ",
+          "consumer_understands_investment_risk_borne",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_control_mechanism_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融消費者保護法及相關辦法規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_with_ad_rules",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_with_suitability_rules",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_with_disclosure_rules",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_with_compensation_rules",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_license_and_insurance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_duty_of_care",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_written_report_and_fee_disclosure",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_securities_consumer_data_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_securities_investment_ability_assessed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_product_suitability_evaluated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "consumer_risk_and_product_risk_classified",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_product_suitability_considered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

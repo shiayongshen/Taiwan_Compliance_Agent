@@ -1,0 +1,212 @@
+{
+  "case_id": "case_147",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 125.56,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 12709,
+  "total_output_tokens": 7775,
+  "total_tokens": 20484,
+  "total_cost_usd": 0.017524,
+  "timestamp": "2025-10-21T03:10:20.966182",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1193,
+      "output_tokens": 2652,
+      "elapsed_time": 37.683167934417725,
+      "cost": 0.0047204000000000005
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 5402,
+      "output_tokens": 2538,
+      "elapsed_time": 34.303478717803955,
+      "cost": 0.006221600000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 311,
+      "output_tokens": 1106,
+      "elapsed_time": 17.705803394317627,
+      "cost": 0.001894
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 311,
+      "output_tokens": 1106,
+      "elapsed_time": 28.400721788406372,
+      "cost": 0.001894
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5492,
+      "output_tokens": 373,
+      "elapsed_time": 7.419896364212036,
+      "cost": 0.0027936000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "6756 chars",
+      "timestamp": 37.683167934417725
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "6466 chars",
+      "timestamp": 71.98664665222168
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "21 constraints",
+      "timestamp": 71.98664665222168
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "42 varspecs",
+      "timestamp": 89.6924500465393
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "21 constraints",
+      "timestamp": 89.69744849205017
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 89.7054500579834
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 89.7054500579834
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "35 facts",
+      "timestamp": 125.52705764770508
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "35 constraints",
+      "timestamp": 125.52705764770508
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 125.53705978393555
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c42']",
+      "timestamp": 125.53705978393555
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 125.55005979537964
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 89.7054500579834
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:agent_broker_penalty_scope",
+      "rule": "Fix CASE structure/type",
+      "before": [
+        "EQ",
+        "agent_broker_penalty_scope",
+        [
+          "CASE",
+          [
+            "EQ",
+            "agent_broker_not_compliant",
+            true
+          ],
+          1,
+          false,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "agent_broker_penalty_scope",
+        [
+          "CASE",
+          [
+            "EQ",
+            "agent_broker_not_compliant",
+            true
+          ],
+          1,
+          false,
+          0,
+          0.0
+        ]
+      ],
+      "timestamp": 89.69
+    },
+    {
+      "id": "finance_consumer:penalty_fine_range",
+      "rule": "Fix CASE structure/type",
+      "before": [
+        "EQ",
+        "penalty_fine_range",
+        [
+          "CASE",
+          [
+            "EQ",
+            "violate_any_finance_consumer_rule",
+            true
+          ],
+          1,
+          false,
+          0
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_fine_range",
+        [
+          "CASE",
+          [
+            "EQ",
+            "violate_any_finance_consumer_rule",
+            true
+          ],
+          1,
+          false,
+          0,
+          0.0
+        ]
+      ],
+      "timestamp": 89.69
+    }
+  ]
+}

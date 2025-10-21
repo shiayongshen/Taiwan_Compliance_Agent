@@ -1,0 +1,261 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_required_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:compliance_ok",
+    "desc": "洗錢防制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "compliance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "trust:contract_requirements_met",
+    "desc": "信託契約載明營運範圍、受益權轉讓限制及風險揭露並告知委託人",
+    "expr": [
+      "EQ",
+      "contract_requirements_met",
+      [
+        "AND",
+        [
+          "EQ",
+          "operation_scope_specified",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_transfer_restriction_specified",
+          true
+        ],
+        [
+          "EQ",
+          "risk_disclosure_specified",
+          true
+        ],
+        [
+          "EQ",
+          "client_informed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:compliance_ok",
+    "desc": "信託業契約要求符合",
+    "expr": [
+      "EQ",
+      "compliance_ok",
+      [
+        "EQ",
+        "contract_requirements_met",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:violation",
+    "desc": "違反信託業法或授權命令中強制或禁止規定",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "law_or_order_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "bank:violation",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation",
+      [
+        "EQ",
+        "law_or_regulation_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measures",
+    "desc": "主管機關可對銀行採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "revoke_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "restrict_investment",
+          true
+        ],
+        [
+          "EQ",
+          "order_asset_disposal_or_transfer",
+          true
+        ],
+        [
+          "EQ",
+          "order_branch_closure",
+          true
+        ],
+        [
+          "EQ",
+          "order_manager_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "order_director_supervisor_dismissal_or_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "order_reserve_provision",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第7條規定或信託業法第57條規定或銀行法第61-1條規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_ok",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation",
+          true
+        ],
+        [
+          "EQ",
+          "violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

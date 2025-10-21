@@ -1,0 +1,252 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_execution_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_procedure_ok",
+    "desc": "完成確認客戶身分程序並留存資料",
+    "expr": [
+      "EQ",
+      "customer_identification_procedure_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_identification_performed",
+          true
+        ],
+        [
+          "EQ",
+          "customer_identification_data_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_data_retention_period_ok",
+    "desc": "確認客戶身分資料保存期限符合規定",
+    "expr": [
+      "EQ",
+      "customer_identification_data_retention_period_ok",
+      [
+        "OR",
+        [
+          "GE",
+          [
+            "SUB",
+            "current_date",
+            "business_relationship_end_date"
+          ],
+          1825
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_temporary",
+            true
+          ],
+          [
+            "GE",
+            [
+              "SUB",
+              "current_date",
+              "temporary_transaction_end_date"
+            ],
+            1825
+          ]
+        ],
+        [
+          "GE",
+          "legal_longer_retention_period",
+          1
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_customer_due_diligence_ok",
+    "desc": "對重要政治性職務客戶及其關係人執行加強審查程序",
+    "expr": [
+      "EQ",
+      "enhanced_customer_due_diligence_ok",
+      [
+        "EQ",
+        "enhanced_due_diligence_performed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:transaction_reporting_ok",
+    "desc": "對達一定金額之通貨交易依法申報",
+    "expr": [
+      "EQ",
+      "transaction_reporting_ok",
+      [
+        "EQ",
+        "transaction_reported",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:suspicious_transaction_reporting_ok",
+    "desc": "對疑似犯罪交易依法申報",
+    "expr": [
+      "EQ",
+      "suspicious_transaction_reporting_ok",
+      [
+        "EQ",
+        "suspicious_transaction_reported",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第7條、8條、12條、13條規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ],
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_identification_procedure_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_identification_data_retention_period_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "enhanced_customer_due_diligence_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_reporting_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "suspicious_transaction_reporting_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

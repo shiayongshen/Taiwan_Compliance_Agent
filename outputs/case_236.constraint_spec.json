@@ -1,0 +1,436 @@
+[
+  {
+    "id": "securities:violation_of_law",
+    "desc": "證券商董事、監察人及受僱人違反證券交易法或相關法令，影響業務正常執行",
+    "expr": [
+      "EQ",
+      "violation_of_law",
+      [
+        "EQ",
+        "violation_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:stop_business_order",
+    "desc": "主管機關命令證券商停止一年以下業務執行",
+    "expr": [
+      "EQ",
+      "stop_business_order",
+      [
+        "EQ",
+        "stop_order_issued",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:remove_officer_order",
+    "desc": "主管機關命令證券商解除董事、監察人或經理人職務",
+    "expr": [
+      "EQ",
+      "remove_officer_order",
+      [
+        "EQ",
+        "remove_order_issued",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_imposed",
+    "desc": "主管機關依證券交易法第66條視情節輕重對證券商處分",
+    "expr": [
+      "EQ",
+      "penalty_imposed",
+      [
+        "EQ",
+        "penalty_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券商依金融監督管理委員會及相關機構規範訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_compliant",
+    "desc": "證券商業務經營依法令、章程及內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_articles",
+          true
+        ],
+        [
+          "EQ",
+          "business_operated_according_to_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_updated",
+    "desc": "內部控制制度變更後於限期內完成變更",
+    "expr": [
+      "EQ",
+      "internal_control_updated",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "internal_control_change_notified",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_change_completed_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:underwriting_fair_and_reasonable",
+    "desc": "證券商承銷有價證券以公平合理方式，不得以其他方式補償或退還",
+    "expr": [
+      "EQ",
+      "underwriting_fair_and_reasonable",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_fees_fair",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_fees_compensated_otherwise",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fees_returned_to_issuer_or_related",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:underwriting_handling_according_to_rules",
+    "desc": "證券商承銷或再行銷售有價證券依證券商同業公會處理辦法處理",
+    "expr": [
+      "EQ",
+      "underwriting_handling_according_to_rules",
+      [
+        "EQ",
+        "handling_according_to_association_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:stabilization_operations_allowed",
+    "desc": "證券商辦理上市有價證券承銷或再行銷售得視必要進行安定操作交易",
+    "expr": [
+      "EQ",
+      "stabilization_operations_allowed",
+      [
+        "EQ",
+        "stabilization_operations_permitted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:honesty_and_credit_principle",
+    "desc": "證券商負責人及業務人員執行業務應本誠實及信用原則",
+    "expr": [
+      "EQ",
+      "honesty_and_credit_principle",
+      [
+        "EQ",
+        "honesty_and_credit_observed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors",
+    "desc": "證券商負責人及業務人員不得有證券交易法及相關規定禁止之行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "speculation_using_insider_info",
+            true
+          ],
+          [
+            "EQ",
+            "illegal_disclosure_of_client_info",
+            true
+          ],
+          [
+            "EQ",
+            "full_power_delegation_to_client",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_profit_or_share_profit",
+            true
+          ],
+          [
+            "EQ",
+            "joint_risk_sharing_with_client",
+            true
+          ],
+          [
+            "EQ",
+            "self_dealing_with_client_orders",
+            true
+          ],
+          [
+            "EQ",
+            "use_client_name_or_account_for_trading",
+            true
+          ],
+          [
+            "EQ",
+            "use_others_or_relatives_name_for_client_trading",
+            true
+          ],
+          [
+            "EQ",
+            "loan_or_mediation_with_client",
+            true
+          ],
+          [
+            "EQ",
+            "fraud_or_misleading_in_underwriting_or_trading",
+            true
+          ],
+          [
+            "EQ",
+            "misappropriation_of_client_assets",
+            true
+          ],
+          [
+            "EQ",
+            "accept_trades_without_proper_contract",
+            true
+          ],
+          [
+            "EQ",
+            "not_follow_client_instructions",
+            true
+          ],
+          [
+            "EQ",
+            "provide_market_forecast_to_induce_trading",
+            true
+          ],
+          [
+            "EQ",
+            "promote_specific_stocks_to_public",
+            true
+          ],
+          [
+            "EQ",
+            "client_account_offsetting_without_legal_basis",
+            true
+          ],
+          [
+            "EQ",
+            "agent_open_account_or_trade_for_others_illegally",
+            true
+          ],
+          [
+            "EQ",
+            "accept_agent_trades_for_board_members_or_employees",
+            true
+          ],
+          [
+            "EQ",
+            "accept_non_client_account",
+            true
+          ],
+          [
+            "EQ",
+            "accept_trades_without_client_authorization",
+            true
+          ],
+          [
+            "EQ",
+            "accept_trades_by_investment_advisor_auto_rebalancing",
+            false
+          ],
+          [
+            "EQ",
+            "accept_trades_while_aware_of_market_manipulation_intent",
+            true
+          ],
+          [
+            "EQ",
+            "underwriting_personnel_receive_improper_benefits",
+            true
+          ],
+          [
+            "EQ",
+            "solicit_unapproved_securities_or_derivatives",
+            true
+          ],
+          [
+            "EQ",
+            "other_violations_of_securities_laws_or_regulations",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法或相關法令，或未依規定建立內部控制制度，或有禁止行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_of_law",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_updated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_fair_and_reasonable",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_handling_according_to_rules",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "honesty_and_credit_principle",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_behaviors",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

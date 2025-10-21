@@ -1,0 +1,570 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_lowest",
+    "desc": "資本等級以較低等級為準（最近二期淨值比率與資本適足率綜合判定）",
+    "expr": [
+      "EQ",
+      "capital_level_lowest",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severely_insufficient",
+    "desc": "資本嚴重不足（等級4）",
+    "expr": [
+      "EQ",
+      "capital_severely_insufficient",
+      [
+        "OR",
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "net_worth",
+          0.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_significantly_insufficient",
+    "desc": "資本顯著不足（等級3）",
+    "expr": [
+      "EQ",
+      "capital_significantly_insufficient",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "GE",
+          "net_worth_ratio",
+          0.0
+        ],
+        [
+          "LT",
+          "net_worth_ratio",
+          2.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_insufficient",
+    "desc": "資本不足（等級2）",
+    "expr": [
+      "EQ",
+      "capital_insufficient",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          200.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequate",
+    "desc": "資本適足（等級1）",
+    "expr": [
+      "EQ",
+      "capital_adequate",
+      [
+        "GE",
+        "capital_adequacy_ratio",
+        200.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_completed",
+    "desc": "增資、財務或業務改善計畫或合併於主管機關規定期限內完成",
+    "expr": [
+      "EQ",
+      "improvement_plan_completed",
+      [
+        "EQ",
+        "improvement_plan_submitted_and_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_severe_penalty_condition",
+    "desc": "資本嚴重不足且未於期限完成增資或改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_severe_penalty_condition",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_severely_insufficient",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration",
+    "desc": "財務或業務狀況顯著惡化，不能支付債務或無法履行契約責任或有損及被保險人權益之虞",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration",
+      [
+        "EQ",
+        "financial_or_business_deterioration_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_approved",
+    "desc": "主管機關核定財務或業務改善計畫",
+    "expr": [
+      "EQ",
+      "improvement_plan_approved",
+      [
+        "EQ",
+        "improvement_plan_approved_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_accelerated_deterioration",
+    "desc": "損益、淨值加速惡化或經輔導仍未改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_accelerated_deterioration",
+      [
+        "EQ",
+        "accelerated_deterioration_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervisory_measures_needed",
+    "desc": "因財務或業務惡化，主管機關得為監管、接管、勒令停業清理或命令解散",
+    "expr": [
+      "EQ",
+      "supervisory_measures_needed",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_severe_penalty_condition",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_or_business_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "improvement_plan_accelerated_deterioration",
+              true
+            ],
+            [
+              "EQ",
+              "supervisory_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_ok",
+    "desc": "建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_ok",
+    "desc": "建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_measures_ok",
+    "desc": "資本等級對應措施執行完成",
+    "expr": [
+      "EQ",
+      "capital_level_measures_ok",
+      [
+        "CASE",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "EQ",
+          "capital_severe_measures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "capital_level",
+          3
+        ],
+        [
+          "EQ",
+          "capital_significant_measures_executed",
+          true
+        ],
+        [
+          "EQ",
+          "capital_level",
+          2
+        ],
+        [
+          "EQ",
+          "capital_insufficient_measures_executed",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "capital_level",
+            1
+          ],
+          [
+            "EQ",
+            "capital_level",
+            0
+          ]
+        ],
+        true,
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:business_restriction_compliance",
+    "desc": "保險業未違反主管機關限制營業或資金運用範圍等處分",
+    "expr": [
+      "EQ",
+      "business_restriction_compliance",
+      [
+        "EQ",
+        "business_restriction_violated",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_penalty",
+    "desc": "違反內部控制及稽核制度規定",
+    "expr": [
+      "EQ",
+      "internal_control_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_penalty",
+    "desc": "違反內部處理制度及程序規定",
+    "expr": [
+      "EQ",
+      "internal_handling_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_handling_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反資本嚴重不足未改善、違反內部控制或內部處理制度規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_severe_penalty_condition",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

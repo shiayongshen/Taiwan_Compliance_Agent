@@ -1,0 +1,451 @@
+[
+  {
+    "id": "insurance:business_start_permit",
+    "desc": "保險業非經主管機關許可、依法設立登記、繳存保證金及領得營業執照後，始得開始營業",
+    "expr": [
+      "EQ",
+      "business_start_permit",
+      [
+        "AND",
+        [
+          "EQ",
+          "permit_granted",
+          true
+        ],
+        [
+          "EQ",
+          "registered_according_law",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_guarantee",
+          true
+        ],
+        [
+          "EQ",
+          "business_license_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_business_start_permit",
+    "desc": "外國保險業非經主管機關許可、依法設立登記、繳存保證金及領得營業執照後，始得開始營業",
+    "expr": [
+      "EQ",
+      "foreign_business_start_permit",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_permit_granted",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_registered_according_law",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_deposit_guarantee",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_business_license_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_limit",
+    "desc": "保險業不動產投資總額除自用不動產外不得超過資金30%，自用不動產總額不得超過業主權益總額",
+    "expr": [
+      "EQ",
+      "real_estate_investment_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "real_estate_investment_excluding_self_use",
+          [
+            "MUL",
+            "capital_fund",
+            0.3
+          ]
+        ],
+        [
+          "LE",
+          "self_use_real_estate_investment",
+          "owner_equity"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_use_and_income",
+    "desc": "保險業不動產投資以即時利用並有收益者為限（住宅法社會住宅租賃除外）",
+    "expr": [
+      "EQ",
+      "real_estate_investment_use_and_income",
+      [
+        "OR",
+        [
+          "EQ",
+          "social_housing_rental",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_investment_use_and_income",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_types_limit",
+    "desc": "保險業辦理放款限銀行或主管機關認可信用保證機構保證、以動產不動產擔保、有價證券質押、人壽保險單質押",
+    "expr": [
+      "EQ",
+      "loan_types_limit",
+      [
+        "OR",
+        [
+          "EQ",
+          "loan_guaranteed_by_bank_or_authority",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_movable_or_immovable",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_approved_securities",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_life_insurance_policy",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:single_loan_amount_limit",
+    "desc": "每一單位放款金額不得超過資金5%",
+    "expr": [
+      "EQ",
+      "single_loan_amount_limit",
+      [
+        "LE",
+        "single_loan_amount",
+        [
+          "MUL",
+          "capital_fund",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:total_loan_amount_limit",
+    "desc": "放款總額不得超過資金35%",
+    "expr": [
+      "EQ",
+      "total_loan_amount_limit",
+      [
+        "LE",
+        "total_loan_amount",
+        [
+          "MUL",
+          "capital_fund",
+          0.35
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_loan_conditions",
+    "desc": "對負責人、職員、主要股東或利害關係人擔保放款應有十足擔保且條件不得優於其他同類放款，達一定金額須董事會同意",
+    "expr": [
+      "EQ",
+      "related_party_loan_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "related_party_loan_fully_secured",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "AND",
+            "related_party_loan_conditions",
+            [
+              "NOT",
+              "other_similar_loans_conditions"
+            ]
+          ]
+        ],
+        [
+          "IMPLIES",
+          [
+            "GE",
+            "related_party_loan_amount",
+            "authority_specified_amount"
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "board_meeting_attendance_ratio",
+              0.6666667
+            ],
+            [
+              "GE",
+              "board_meeting_approval_ratio",
+              0.75
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:combined_investment_and_loan_limit",
+    "desc": "有價證券投資與以該公司發行有價證券為質之放款合併計算不得超過資金10%及該公司業主權益10%",
+    "expr": [
+      "EQ",
+      "combined_investment_and_loan_limit",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "loan_secured_by_company_securities"
+          ],
+          [
+            "MUL",
+            "capital_fund",
+            0.1
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "loan_secured_by_company_securities"
+          ],
+          [
+            "MUL",
+            "company_owner_equity",
+            0.1
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "保險業應建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_and_audit_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_procedures_established",
+    "desc": "保險業應建立資產品質評估、準備金提存、逾期放款、催收款清理、呆帳轉銷及保單招攬核保理賠之內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_procedures_established",
+      [
+        "EQ",
+        "internal_handling_procedures_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:improvement_plan_submitted_and_executed",
+    "desc": "改善計畫已提交且執行",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：未依規定取得許可開始營業或資本嚴重不足且未完成改善計畫時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_start_permit",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_submitted_and_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

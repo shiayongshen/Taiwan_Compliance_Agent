@@ -1,0 +1,336 @@
+[
+  {
+    "id": "trust:violation_penalty",
+    "desc": "違反信託業法強制或禁止規定之處罰",
+    "expr": [
+      "EQ",
+      "violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_mandatory_prohibition",
+          true
+        ],
+        [
+          "EQ",
+          "fail_required_action",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:contract_disclosure_compliance",
+    "desc": "信託契約載明營運範圍、受益權轉讓限制及風險揭露且告知委託人",
+    "expr": [
+      "EQ",
+      "contract_disclosure_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "operation_scope_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_transfer_limit_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "risk_disclosure_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "trustor_informed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "建立洗錢防制內部控制與稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_established",
+          true
+        ],
+        [
+          "EQ",
+          "control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:control_content_compliance",
+    "desc": "洗錢防制制度內容符合六項規定",
+    "expr": [
+      "EQ",
+      "control_content_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "procedure_anti_money_laundering",
+          true
+        ],
+        [
+          "EQ",
+          "regular_training",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedure",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:regulator_periodic_inspection",
+    "desc": "主管機關定期查核洗錢防制制度執行情形",
+    "expr": [
+      "EQ",
+      "regulator_periodic_inspection",
+      [
+        "EQ",
+        "periodic_inspection_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:violation_penalty",
+    "desc": "違反洗錢防制法未建立或未依規定執行制度之處罰",
+    "expr": [
+      "EQ",
+      "violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "control_not_established",
+          true
+        ],
+        [
+          "EQ",
+          "control_content_not_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "control_not_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:inspection_obstruction_penalty",
+    "desc": "規避、拒絕或妨礙查核之處罰",
+    "expr": [
+      "EQ",
+      "inspection_obstruction_penalty",
+      [
+        "EQ",
+        "inspection_obstructed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "fcp:advertising_violation",
+    "desc": "違反金融消費者保護法第八條第二項辦法中廣告、招攬、促銷規定",
+    "expr": [
+      "EQ",
+      "advertising_violation",
+      [
+        "EQ",
+        "violate_advertising_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:consumer_info_violation",
+    "desc": "違反第九條第一項未充分瞭解消費者資料或適合度規定",
+    "expr": [
+      "EQ",
+      "consumer_info_violation",
+      [
+        "EQ",
+        "violate_consumer_info_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:disclosure_violation",
+    "desc": "違反第十條第一項未充分說明或揭露風險規定",
+    "expr": [
+      "EQ",
+      "disclosure_violation",
+      [
+        "EQ",
+        "violate_disclosure_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:remuneration_violation",
+    "desc": "違反第十一條之一未訂定或未依核定原則訂定酬金制度或未確實執行",
+    "expr": [
+      "EQ",
+      "remuneration_violation",
+      [
+        "EQ",
+        "violate_remuneration_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:formal_condition_violation",
+    "desc": "協助創造形式上外觀條件不符第四條第二項規定",
+    "expr": [
+      "EQ",
+      "formal_condition_violation",
+      [
+        "EQ",
+        "assist_formal_condition_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:major_violation_penalty",
+    "desc": "情節重大者得加重罰鍰不受最高額限制",
+    "expr": [
+      "EQ",
+      "major_violation_penalty",
+      [
+        "EQ",
+        "violation_major",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反信託業法、洗錢防制法或金融消費者保護法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "violation_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "inspection_obstruction_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_violation",
+          true
+        ],
+        [
+          "EQ",
+          "consumer_info_violation",
+          true
+        ],
+        [
+          "EQ",
+          "disclosure_violation",
+          true
+        ],
+        [
+          "EQ",
+          "remuneration_violation",
+          true
+        ],
+        [
+          "EQ",
+          "formal_condition_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

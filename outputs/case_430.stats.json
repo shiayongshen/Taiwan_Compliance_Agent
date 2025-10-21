@@ -1,0 +1,163 @@
+{
+  "case_id": "case_430",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 262.64,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 30056,
+  "total_output_tokens": 12341,
+  "total_tokens": 42397,
+  "total_cost_usd": 0.031768,
+  "timestamp": "2025-10-21T09:37:09.799625",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "FAIL",
+  "step8_repair_success": "FAIL",
+  "step8_violation_detected": "SKIP",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "case_law_repair_start": "PASS",
+  "case_law_repair": "FAIL",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 5290,
+      "output_tokens": 3601,
+      "elapsed_time": 59.22811436653137,
+      "cost": 0.0078776
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 14545,
+      "output_tokens": 3648,
+      "elapsed_time": 53.347460985183716,
+      "cost": 0.0116548
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 540,
+      "output_tokens": 2174,
+      "elapsed_time": 34.5787570476532,
+      "cost": 0.0036944000000000005
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 540,
+      "output_tokens": 2174,
+      "elapsed_time": 39.779064416885376,
+      "cost": 0.0036944000000000005
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 9141,
+      "output_tokens": 744,
+      "elapsed_time": 13.62293529510498,
+      "cost": 0.0048468
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "10010 chars",
+      "timestamp": 59.22811436653137
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "10206 chars",
+      "timestamp": 112.57557535171509
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "29 constraints",
+      "timestamp": 174.5985176563263
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "73 varspecs",
+      "timestamp": 209.1772747039795
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "29 constraints",
+      "timestamp": 209.18627452850342
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "ERROR",
+      "timestamp": 209.1882758140564
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 209.1882758140564
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "63 facts",
+      "timestamp": 262.5922758579254
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "63 constraints",
+      "timestamp": 262.59427642822266
+    },
+    "step8_case_law_check": {
+      "passed": false,
+      "details": "Failed to build constraint {'id': 'insurance:capital_level_severe_insufficient', 'desc': '資本等級為嚴重不足（等級4）', 'expr': ['EQ', 'capital_level_severe_insufficient', ['EQ', 'capital_level', 4]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice'",
+      "timestamp": 262.59627652168274
+    },
+    "step8_repair_success": {
+      "passed": false,
+      "details": "Repair failed",
+      "timestamp": 262.60227632522583
+    },
+    "step8_violation_detected": {
+      "passed": null,
+      "details": "REPAIR_FAILED",
+      "timestamp": 262.60227632522583
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 262.62727761268616
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 209.1882758140564
+    },
+    "case_law_repair_start": {
+      "passed": true,
+      "details": "Starting repair with 29 constraints",
+      "timestamp": 262.59627652168274
+    },
+    "case_law_repair": {
+      "passed": false,
+      "details": "No problematic constraints found",
+      "timestamp": 262.60227632522583
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 209.18
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (12609 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (12599 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (24 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (118 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL ('>=' not supported between instances of 'BoolRef' and 'BoolRef')
+⚠️ Found 2 problematic constraints:
+  - [insurance:accounting_and_reporting] '>=' not supported between instances of 'BoolRef' and 'BoolRef'
+  - [insurance:electronic_policy_contact_info] Unsupported operator: NEQ
+⚠️ Constraints parse failed: '>=' not supported between instances of 'BoolRef' and 'BoolRef'
+🔄 Repair attempt 1
+📍 Found 2 problematic constraint(s):
+   [insurance:accounting_and_reporting] '>=' not supported between instances of 'BoolRef' and 'BoolRef'
+   [insurance:electronic_policy_contact_info] Unsupported operator: NEQ
+
+🔧 修復 constraint [insurance:accounting_and_reporting]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance:accounting_and_reporting] 修復成功
+
+🔧 修復 constraint [insurance:electronic_policy_contact_info]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance:electronic_policy_contact_info] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (104 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (104 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c127', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c127', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_48
+
+📊 Model (filtered):
+   dissolve_reported_and_approved = True
+   stop_period_expiring = False
+   duty_of_loyalty = True
+   correction_reported = False
+   handling_system_established = False
+   applicant_phone = True
+   insured_email = True
+   internal_control_established = False
+   license_revoked = True
+   resume_reported_and_approved = False
+   company_stopped = True
+   audit_system_established = False
+   broker = True
+   separate_accounting_books = True
+   large_scale = False
+   publicly_listed = False
+   stop_period_expired = True
+   broker_or_agent_or_bank = True
+   shareholding_disclosed = False
+   within_designated_scope = True
+   written_analysis_report_provided = False
+   fee_disclosure_provided = False
+   needs_and_risk_assessed = False
+   days_since_event = 31
+   contact_info_provided_to_insurer = True
+   internal_operation_regulation_established = False
+   elderly_consumer_protection_included = False
+   electronic_policy_issued = False
+   notary = False
+   broker_appointed_as_required = True
+   insured_phone = True
+   applicant_email = True
+   company_dissolved = False
+   insurance_type_responsibility = True
+   stop_period_days = 365
+   extension_request_days_before_expiry = 0
+   basic_info_understood = False
+   correction_followed_up = False
+   duty_of_care = True
+   documents_retained = False
+   extension_requested = False
+   insurance_type_guarantee = True
+   fixed_office = True
+   annual_report_submitted = False
+   agent = False
+   internal_operation_regulation_implemented = False
+   inspection_conducted = True
+   resume_applied = False
+   stop_reported_and_approved = False
+   extension_count = 0
+   broker_license_canceled = False
+   document_retention = False
+   broker_shareholding_disclosure = False
+   fail_to_confirm_suitability_for_elderly = False
+   single_license = True
+   spread_false_information = False
+   insurance_insured = True
+   authorize_others_to_operate = False
+   misleading_promotion = False
+   fail_to_cancel_license_in_time = False
+   broker_company_no_license_cancellation = False
+   broker_company_stop_period_limit = True
+   internal_control_required = True
+   damage_insurance_image = False
+   coerce_or_induce_contract = False
+   unauthorized_advertisement = False
+   broker_company_stop_resume_dissolve = True
+   broker_company_license_revoked_for_no_resume = False
+   employ_unqualified_recruiters = False
+   criminal_conviction_for_fraud = False
+   internal_operation_regulation = False
+   violation_financial_or_business_management = False
+   sell_unapproved_foreign_policies = False
+   broker_duty_of_care = True
+   permit_others_to_use_license = False
+   electronic_policy_contact_info = True
+   fail_to_appoint_broker_after_employment = False
+   broker_report_and_fee_disclosure = False
+   unauthorized_stop_resume_dissolve = False
+   fail_to_report_to_trade_association = False
+   insurance_brokerage_stopped = False
+   reinsurance_brokerage_stopped = False
+   days_since_stop = 0
+   broker_company_report_stop_reinsurance_stop = True
+   violate_financial_management = False
+   embezzle_insurance_funds = False
+   inspection_and_correction = False
+   broker_duty_of_care_and_loyalty = True
+   April_1 = False
+   May_31 = False
+   non_calendar_fiscal_year = False
+   accounting_and_reporting = False
+   pay_commission_to_non_actual_recruiters = False
+   other_violations = False
+   broker_understanding_and_report = False
+   permit_granted = True
+   illegal_insurance_payments = False
+   license_required = True
+   charge_illegal_fees = False
+   fail_to_fill_recruitment_report = False
+   fixed_office_and_accounting = True
+   transfer_documents_without_consent = False
+   hold_conflicting_positions = False
+   false_or_incomplete_report = False
+   prohibited_behaviors = True
+   violate_business_management = False
+   false_report_on_license_application = False
+   induce_policy_surrender_or_loan = False
+   penalty = False
+   bond_deposited = True
+   conceal_important_contract_info = False
+   operate_outside_license_scope = False
+   contract_with_unapproved_insurer = False
+   induce_contract_termination_or_loan = False
+   license_issued = True
+✅ Model saved to: outputs\case_48.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_48.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_48.smt2

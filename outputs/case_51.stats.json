@@ -1,0 +1,999 @@
+{
+  "case_id": "case_51",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 144.5,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 21947,
+  "total_output_tokens": 8463,
+  "total_tokens": 30410,
+  "total_cost_usd": 0.02232,
+  "timestamp": "2025-10-21T00:15:01.408747",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4082,
+      "output_tokens": 2473,
+      "elapsed_time": 34.01974058151245,
+      "cost": 0.005589600000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 11001,
+      "output_tokens": 2624,
+      "elapsed_time": 42.54518461227417,
+      "cost": 0.0085988
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 391,
+      "output_tokens": 1387,
+      "elapsed_time": 23.444597721099854,
+      "cost": 0.0023756000000000003
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 391,
+      "output_tokens": 1387,
+      "elapsed_time": 35.47645044326782,
+      "cost": 0.0023756000000000003
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 6082,
+      "output_tokens": 592,
+      "elapsed_time": 8.96834111213684,
+      "cost": 0.00338
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7201 chars",
+      "timestamp": 34.01974058151245
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7589 chars",
+      "timestamp": 76.56492519378662
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "16 constraints",
+      "timestamp": 76.56492519378662
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "53 varspecs",
+      "timestamp": 100.01052451133728
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "16 constraints",
+      "timestamp": 100.01652359962463
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 100.02352666854858
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 100.02352666854858
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "53 facts",
+      "timestamp": 144.47031593322754
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "53 constraints",
+      "timestamp": 144.47131752967834
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 144.48131799697876
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c54', 'meta:penalty_default_false']",
+      "timestamp": 144.48131799697876
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 144.49331784248352
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 100.02352666854858
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "financial:consumer_data_understood",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:consumer_data_understood",
+        [
+          "EQ",
+          "consumer_data_fully_understood",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "consumer_data_understood",
+        [
+          "EQ",
+          "consumer_data_fully_understood",
+          true
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:suitability_ensured",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:suitability_ensured",
+        [
+          "EQ",
+          "product_service_suitability_ensured",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "suitability_ensured",
+        [
+          "EQ",
+          "product_service_suitability_ensured",
+          true
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:compliance_with_ad_rules",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:compliance_with_ad_rules",
+        [
+          "EQ",
+          "ad_and_promotion_rules_complied",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_with_ad_rules",
+        [
+          "EQ",
+          "ad_and_promotion_rules_complied",
+          true
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:compliance_with_suitability_rules",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:compliance_with_suitability_rules",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial:consumer_data_understood",
+            true
+          ],
+          [
+            "EQ",
+            "financial:suitability_ensured",
+            true
+          ],
+          [
+            "EQ",
+            "suitability_related_rules_complied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_with_suitability_rules",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_data_understood",
+            true
+          ],
+          [
+            "EQ",
+            "suitability_ensured",
+            true
+          ],
+          [
+            "EQ",
+            "suitability_related_rules_complied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:compliance_with_disclosure_rules",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:compliance_with_disclosure_rules",
+        [
+          "AND",
+          [
+            "EQ",
+            "disclosure_fully_explained",
+            true
+          ],
+          [
+            "EQ",
+            "disclosure_rules_complied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_with_disclosure_rules",
+        [
+          "AND",
+          [
+            "EQ",
+            "disclosure_fully_explained",
+            true
+          ],
+          [
+            "EQ",
+            "disclosure_rules_complied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:compliance_with_compensation_rules",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:compliance_with_compensation_rules",
+        [
+          "AND",
+          [
+            "EQ",
+            "compensation_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "compensation_system_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "compliance_with_compensation_rules",
+        [
+          "AND",
+          [
+            "EQ",
+            "compensation_system_established",
+            true
+          ],
+          [
+            "EQ",
+            "compensation_system_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "insurance:agent_license_and_insurance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:agent_license_and_insurance",
+        [
+          "AND",
+          [
+            "EQ",
+            "license_permitted_by_authority",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ],
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "agent_license_and_insurance",
+        [
+          "AND",
+          [
+            "EQ",
+            "license_permitted_by_authority",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ],
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "insurance:broker_duty_of_care",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:broker_duty_of_care",
+        [
+          "AND",
+          [
+            "EQ",
+            "duty_of_care_observed",
+            true
+          ],
+          [
+            "EQ",
+            "duty_of_loyalty_observed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "broker_duty_of_care",
+        [
+          "AND",
+          [
+            "EQ",
+            "duty_of_care_observed",
+            true
+          ],
+          [
+            "EQ",
+            "duty_of_loyalty_observed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "insurance:broker_written_report_and_fee_disclosure",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:broker_written_report_and_fee_disclosure",
+        [
+          "AND",
+          [
+            "EQ",
+            "written_analysis_report_provided",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosure_made",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "broker_written_report_and_fee_disclosure",
+        [
+          "AND",
+          [
+            "EQ",
+            "written_analysis_report_provided",
+            true
+          ],
+          [
+            "EQ",
+            "fee_disclosure_made",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:bank_securities_consumer_data_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:bank_securities_consumer_data_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_identity_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "financial_background_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "income_and_fund_source_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "risk_preference_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "investment_experience_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "contract_purpose_and_needs_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "consumer_confirmation_obtained",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_securities_consumer_data_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_identity_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "financial_background_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "income_and_fund_source_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "risk_preference_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "investment_experience_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "contract_purpose_and_needs_recorded",
+            true
+          ],
+          [
+            "EQ",
+            "consumer_confirmation_obtained",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:bank_securities_investment_ability_assessed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:bank_securities_investment_ability_assessed",
+        [
+          "AND",
+          [
+            "EQ",
+            "fund_operation_status_considered",
+            true
+          ],
+          [
+            "EQ",
+            "professional_ability_considered",
+            true
+          ],
+          [
+            "EQ",
+            "investment_attributes_considered",
+            true
+          ],
+          [
+            "EQ",
+            "risk_understanding_considered",
+            true
+          ],
+          [
+            "EQ",
+            "risk_tolerance_considered",
+            true
+          ],
+          [
+            "EQ",
+            "service_suitability_considered",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_securities_investment_ability_assessed",
+        [
+          "AND",
+          [
+            "EQ",
+            "fund_operation_status_considered",
+            true
+          ],
+          [
+            "EQ",
+            "professional_ability_considered",
+            true
+          ],
+          [
+            "EQ",
+            "investment_attributes_considered",
+            true
+          ],
+          [
+            "EQ",
+            "risk_understanding_considered",
+            true
+          ],
+          [
+            "EQ",
+            "risk_tolerance_considered",
+            true
+          ],
+          [
+            "EQ",
+            "service_suitability_considered",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:bank_product_suitability_evaluated",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:bank_product_suitability_evaluated",
+        [
+          "AND",
+          [
+            "EQ",
+            "product_characteristics_evaluated",
+            true
+          ],
+          [
+            "EQ",
+            "product_suitability_confirmed",
+            true
+          ],
+          [
+            "EQ",
+            "bank_product_review_committee_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_product_suitability_evaluated",
+        [
+          "AND",
+          [
+            "EQ",
+            "product_characteristics_evaluated",
+            true
+          ],
+          [
+            "EQ",
+            "product_suitability_confirmed",
+            true
+          ],
+          [
+            "EQ",
+            "bank_product_review_committee_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "financial:consumer_risk_and_product_risk_classified",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial:consumer_risk_and_product_risk_classified",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_risk_level_classified",
+            true
+          ],
+          [
+            "EQ",
+            "product_risk_level_classified",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "consumer_risk_and_product_risk_classified",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_risk_level_classified",
+            true
+          ],
+          [
+            "EQ",
+            "product_risk_level_classified",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "insurance:insurance_product_suitability_considered",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:insurance_product_suitability_considered",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_understands_premium_usage",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type_amount_and_premium_match_needs",
+            true
+          ],
+          [
+            "EQ",
+            "investment_attributes_and_risk_tolerance_considered",
+            true
+          ],
+          [
+            "EQ",
+            "consumer_understands_investment_risk_borne",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_control_mechanism_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "insurance_product_suitability_considered",
+        [
+          "AND",
+          [
+            "EQ",
+            "consumer_understands_premium_usage",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type_amount_and_premium_match_needs",
+            true
+          ],
+          [
+            "EQ",
+            "investment_attributes_and_risk_tolerance_considered",
+            true
+          ],
+          [
+            "EQ",
+            "consumer_understands_investment_risk_borne",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_control_mechanism_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:compliance_with_ad_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:compliance_with_suitability_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:compliance_with_disclosure_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:compliance_with_compensation_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:agent_license_and_insurance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:broker_duty_of_care",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:broker_written_report_and_fee_disclosure",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:bank_securities_consumer_data_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:bank_securities_investment_ability_assessed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:bank_product_suitability_evaluated",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "financial:consumer_risk_and_product_risk_classified",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:insurance_product_suitability_considered",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "compliance_with_ad_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "compliance_with_suitability_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "compliance_with_disclosure_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "compliance_with_compensation_rules",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "agent_license_and_insurance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "broker_duty_of_care",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "broker_written_report_and_fee_disclosure",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank_securities_consumer_data_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank_securities_investment_ability_assessed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank_product_suitability_evaluated",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "consumer_risk_and_product_risk_classified",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_product_suitability_considered",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 100.01
+    }
+  ]
+}

@@ -1,0 +1,303 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度且包含法定六項內容",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedure_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held_regularly",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedure_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implementation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:report_media_method",
+    "desc": "通貨交易申報以媒體方式申報",
+    "expr": [
+      "EQ",
+      "report_media_method",
+      [
+        "OR",
+        [
+          "EQ",
+          "media_reported",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "media_reported",
+            false
+          ],
+          [
+            "EQ",
+            "has_justified_reason",
+            true
+          ],
+          [
+            "EQ",
+            "written_report_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:transaction_amount_threshold_met",
+    "desc": "通貨交易達一定金額以上",
+    "expr": [
+      "EQ",
+      "transaction_amount_threshold_met",
+      [
+        "GE",
+        "transaction_amount",
+        500000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:currency_transaction_definition",
+    "desc": "通貨交易定義符合現金收付或換鈔交易",
+    "expr": [
+      "EQ",
+      "currency_transaction",
+      [
+        "OR",
+        [
+          "EQ",
+          "cash_receipt",
+          true
+        ],
+        [
+          "EQ",
+          "cash_payment",
+          true
+        ],
+        [
+          "EQ",
+          "currency_exchange",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:exemption_condition",
+    "desc": "符合免申報通貨交易條件",
+    "expr": [
+      "EQ",
+      "exemption_condition",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "counterparty_government_agency",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_due_to_law_or_contract",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "interbank_transaction",
+          true
+        ],
+        [
+          "EQ",
+          "public_welfare_lottery_dealer_purchase",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "collection_transaction",
+            true
+          ],
+          [
+            "EQ",
+            "payment_notice_contains_required_info",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:reporting_required",
+    "desc": "通貨交易達一定金額且不符合免申報條件，應申報",
+    "expr": [
+      "EQ",
+      "reporting_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "transaction_amount_threshold_met",
+          true
+        ],
+        [
+          "EQ",
+          "currency_transaction",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "exemption_condition",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未執行洗錢防制內部控制制度，或規避查核，或未依規定申報通貨交易時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "inspection_evaded",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "reporting_required",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "report_submitted",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

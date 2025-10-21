@@ -1,0 +1,167 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (10498 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (10083 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (24 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (63 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+        🔄 MIN(['MUL', 'funds', 0.01], 5000000000.0) → CASE
+        🔄 MIN(['MUL', 'funds', 0.02], 10000000000.0) → CASE
+   ✅ Replaced MIN/MAX in [insurance:real_estate_investment_limits_compliant]
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 1
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 2
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (24 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (ERROR)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (57 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (57 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law check error: Failed to build constraint {'id': 'insurance:capital_level_severe_insufficiency', 'desc': '資本等級為嚴重不足', 'expr': ['EQ', 'capital_level_severe_insufficiency', ['EQ', 'capital_level', 4]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice'
+❌ Checkpoint [step8_case_law_check]: FAIL (Failed to build constraint {'id': 'insurance:capital_level_severe_insufficiency', 'desc': '資本等級為嚴重不足', 'expr': ['EQ', 'capital_level_severe_insufficiency', ['EQ', 'capital_level', 4]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice')
+
+============================================================
+Step 8.1: Repair Problematic Constraints
+============================================================
+🔧 Attempting to repair constraints (max 2 retries)
+✅ Checkpoint [case_law_repair_start]: PASS (Starting repair with 24 constraints)
+⚠️ 無法定位問題 constraint
+❌ Checkpoint [case_law_repair]: FAIL (No problematic constraints found)
+❌ Constraint repair failed
+⚠️ Checkpoint [step8_violation_detected]: SKIP (REPAIR_FAILED)
+❌ Checkpoint [step8_repair_success]: FAIL (Repair failed)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_371
+
+📊 Model (filtered):
+   regulator_consent_contract_commitment = False
+   total_transaction_balance = 700000000
+   regulator_consent_payment_exceed_limit = False
+   improvement_plan_approved_flag = False
+   net_worth_ratio = -5
+   regulator_consent_other_major_financial_matters = False
+   board_decision_documents_complete = False
+   no_improvement_after_guidance = True
+   risk_to_insured = True
+   capital_increase_plan_submitted = False
+   net_worth = 0
+   internal_audit_frequency_per_year = 1
+   legal_compliance_evaluation_frequency_per_half_year = 1
+   statutory_standard = False
+   unable_to_pay_debt = False
+   total_real_estate_transaction_amount = 0
+   single_transaction_amount = 0
+   improvement_plan_executed_flag = False
+   public_tender_or_auction = False
+   funds = 10000000000
+   financial_or_business_deterioration = True
+   capital_adequacy_ratio = 150
+   profit_loss_accelerated_deterioration = True
+   improvement_plan_submitted = False
+   single_real_estate_transaction_amount = 0
+   owner_equity = 1000000000
+   real_estate_transaction_procedures_compliant = False
+   internal_handling_system_established = True
+   required_documents_submitted = True
+   legal_compliance_evaluation_performed = True
+   internal_control_and_audit_established = True
+   legal_compliance_evaluation_results_reported = True
+   application_submitted = True
+   legal_compliance_evaluation_plan_established = True
+   capital_level_insufficient = True
+   accelerated_deterioration_or_no_improvement = True
+   significant_deterioration_condition = True
+   capital_level_significant_insufficiency = False
+   improvement_plan_completed = False
+   audit_report_retained_5_years = True
+   capital_level_adequate = False
+   internal_handling_system_established_flag = True
+   improvement_plan_executed = False
+   legal_compliance_evaluation_data_retained_5_years = True
+   internal_audit_system_established = True
+   internal_procedures_established = True
+   loan_and_other_transaction_limits_compliant = True
+   risk_management_policies_established = True
+   improvement_plan_approved = False
+   capital_level_severe_insufficiency = False
+   board_approval_obtained = True
+   regulatory_action_condition = False
+   derivative_financial_product_management_compliant = True
+   capital_level = 2
+   internal_audit_system_implemented = True
+   internal_control_and_audit_system_established = True
+   real_estate_investment_limits_compliant = True
+   regulatory_action_taken = True
+   penalty = False
+   prohibited_acts_without_regulator_consent = True
+   regulatory_action_executed = True
+   severe_insufficiency_penalty_condition = False
+   audit_training_plan_established = True
+✅ Model saved to: outputs\case_371.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_371.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_371.smt2

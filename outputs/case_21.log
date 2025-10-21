@@ -1,0 +1,142 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6966 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7250 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (17 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (53 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (17 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (46 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (46 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c56', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c56', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_21
+
+📊 Model (filtered):
+   before_rule_amendment = False
+   competent_authority_rules_defined = True
+   foreign_experience_years = 0
+   investment_manager_correction_done = False
+   association_recognized = False
+   passed_senior_broker_exam = False
+   has_senior_broker_certificate = False
+   qualified_before_2004_10_31 = False
+   foreign_analyst_qualification = False
+   before_rule_enactment = False
+   violation_of_law = True
+   affects_normal_business = True
+   passed_trust_business_exam = False
+   university_degree_recognized = False
+   passed_regulation_exam = False
+   fund_manager_experience_years = 0
+   passed_business_staff_exam = False
+   media_analyst_correction_done = False
+   years_business_experience = 0
+   investment_manager_qualification_ok = False
+   passed_analyst_exam = False
+   media_analyst_correction_completed = False
+   violation_investment_diversification_ratio = False
+   media_analyst_correction_overdue = False
+   reporting_system_defined = True
+   internal_control_requirements_met = True
+   media_analyst_qualification_ok = False
+   business_staff_qualification_ok = False
+   internal_control_designed = True
+   internal_control_executed = True
+   internal_organization_structure_defined = True
+   violation_investment_scope_limit_2 = False
+   investment_manager_correction_overdue = False
+   media_analyst_correction_required = False
+   penalty_authority_action_allowed = True
+   investment_manager_correction_completed = False
+   internal_control_reviewed = True
+   violation_business_without_license = False
+   investment_manager_correction_required = False
+   violation_branch_establishment_rules = False
+   appropriate_authority_and_responsibility_defined = True
+   violation_other_law_violations = False
+   violation_business_without_approval = False
+   analyst_qualification_ok = False
+   violation_investment_scope_limit_1 = False
+   internal_control_execution_and_review = True
+   violation_affecting_business = True
+   violation_behavior_rules = False
+   violation_restriction_rules = False
+   personnel_qualification_rules_set = True
+   penalty = False
+   violation_items = False
+   manager_setup_and_policies_defined = True
+✅ Model saved to: outputs\case_21.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_21.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_21.smt2

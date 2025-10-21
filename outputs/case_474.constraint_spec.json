@@ -1,0 +1,210 @@
+[
+  {
+    "id": "forex:declaration_required",
+    "desc": "新臺幣五十萬元以上等值外匯收支或交易須申報",
+    "expr": [
+      "EQ",
+      "declaration_required",
+      [
+        "GE",
+        "forex_amount_ntd",
+        500000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_made",
+    "desc": "依規定申報",
+    "expr": [
+      "EQ",
+      "declaration_made",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "declaration_required",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_truthful",
+    "desc": "申報內容無不實",
+    "expr": [
+      "EQ",
+      "declaration_truthful",
+      [
+        "NOT",
+        [
+          "EQ",
+          "declaration_falsehood_suspected",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:query_response_ok",
+    "desc": "受查詢者據實說明",
+    "expr": [
+      "EQ",
+      "query_response_ok",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "query_received",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "query_response_truthful",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_compliance",
+    "desc": "申報義務合規",
+    "expr": [
+      "EQ",
+      "declaration_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "declaration_made",
+          true
+        ],
+        [
+          "EQ",
+          "declaration_truthful",
+          true
+        ],
+        [
+          "EQ",
+          "query_response_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:sale_or_deposit_compliance",
+    "desc": "外匯結售或存入中央銀行或指定銀行",
+    "expr": [
+      "EQ",
+      "sale_or_deposit_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "foreign_exchange_sold",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_exchange_deposited",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反申報義務或查詢說明義務，或違反外匯結售或存入規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "declaration_required",
+            true
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "declaration_submitted",
+                true
+              ]
+            ],
+            [
+              "EQ",
+              "declaration_falsehood_suspected",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "query_received",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "query_response_truthful",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "sale_or_deposit_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

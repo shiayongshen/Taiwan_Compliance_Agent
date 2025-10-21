@@ -1,0 +1,415 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "保險業已建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "保險業已執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "保險業已建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "保險業已執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "保險業內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_compliance",
+    "desc": "保險業內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_limit_compliance",
+    "desc": "保險業對同一人、同一關係人或同一關係企業放款及其他交易符合主管機關限制",
+    "expr": [
+      "EQ",
+      "loan_limit_compliance",
+      [
+        "EQ",
+        "loan_and_transaction_limit_followed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_party_transaction_compliance",
+    "desc": "保險業與利害關係人從事放款以外其他交易符合主管機關限制",
+    "expr": [
+      "EQ",
+      "related_party_transaction_compliance",
+      [
+        "EQ",
+        "related_party_other_transaction_limit_followed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:inspection_refusal",
+    "desc": "保險業負責人或職員拒絕檢查或拒絕開啟金庫或其他庫房",
+    "expr": [
+      "EQ",
+      "inspection_refusal",
+      [
+        "EQ",
+        "refused_inspection_or_opening",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:document_concealment",
+    "desc": "保險業負責人或職員隱匿或毀損有關業務或財務狀況帳冊文件",
+    "expr": [
+      "EQ",
+      "document_concealment",
+      [
+        "EQ",
+        "concealed_or_destroyed_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:uncooperative_response",
+    "desc": "保險業負責人或職員無故不答復或答復不實檢查人員詢問",
+    "expr": [
+      "EQ",
+      "uncooperative_response",
+      [
+        "EQ",
+        "uncooperative_or_false_response",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:late_or_false_report",
+    "desc": "保險業負責人或職員逾期提報或提報不實、不全財務報告、財產目錄或其他資料及報告，或未於規定期限繳納查核費用",
+    "expr": [
+      "EQ",
+      "late_or_false_report",
+      [
+        "EQ",
+        "late_or_false_financial_report",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_entity_report_failure",
+    "desc": "保險業關係企業或其他金融機構怠於提供財務報告、帳冊、文件或相關交易資料",
+    "expr": [
+      "EQ",
+      "related_entity_report_failure",
+      [
+        "EQ",
+        "related_entity_failed_to_provide_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_violation",
+    "desc": "違反內部控制或稽核制度規定",
+    "expr": [
+      "EQ",
+      "internal_control_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_violation",
+    "desc": "違反內部處理制度或程序規定",
+    "expr": [
+      "EQ",
+      "internal_handling_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_disclosure_compliance",
+    "desc": "保險業依規定據實編製說明文件並公開查閱",
+    "expr": [
+      "EQ",
+      "financial_disclosure_compliance",
+      [
+        "EQ",
+        "financial_disclosure_provided_and_true",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:timely_report_compliance",
+    "desc": "保險業於重大訊息發生時二日內書面報告主管機關並主動公開說明",
+    "expr": [
+      "EQ",
+      "timely_report_compliance",
+      [
+        "EQ",
+        "timely_report_and_disclosure",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:contract_insurance_truthful",
+    "desc": "要保人對保險人書面詢問據實說明",
+    "expr": [
+      "EQ",
+      "contract_insurance_truthful",
+      [
+        "EQ",
+        "applicant_truthful_disclosure",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、內部處理制度或檢查規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "inspection_refusal",
+          true
+        ],
+        [
+          "EQ",
+          "document_concealment",
+          true
+        ],
+        [
+          "EQ",
+          "uncooperative_response",
+          true
+        ],
+        [
+          "EQ",
+          "late_or_false_report",
+          true
+        ],
+        [
+          "EQ",
+          "related_entity_report_failure",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_violation",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_violation",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_disclosure_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "timely_report_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_insurance_truthful",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_limit_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_transaction_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

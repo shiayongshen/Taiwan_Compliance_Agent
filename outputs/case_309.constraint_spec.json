@@ -1,0 +1,472 @@
+[
+  {
+    "id": "futures:violation_any",
+    "desc": "違反期貨交易法第119條所列任一規定",
+    "expr": [
+      "EQ",
+      "violation_any",
+      [
+        "OR",
+        "violate_article_5",
+        "violate_article_10_1",
+        "violate_article_18",
+        "violate_article_45_2_pre",
+        "violate_article_56_4",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_67",
+        "violate_article_70_1",
+        "violate_article_72_1",
+        "violate_article_73",
+        "violate_article_74",
+        "violate_article_78_1",
+        "violate_article_80_3",
+        "violate_article_82_2",
+        "violate_article_84_2_pre",
+        "violate_article_85_1",
+        "violate_article_87_1",
+        "violate_article_97_1_1",
+        "violate_article_97_1_3",
+        "violate_article_104_2",
+        "violate_article_105"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_order",
+    "desc": "違反依第8條第2項、第45條第2項後段、第56條第5項、第80條第4項、第82條第3項、第85條第2項或第93條所發布之命令",
+    "expr": [
+      "EQ",
+      "violation_order",
+      [
+        "OR",
+        "violate_order_article_8_2",
+        "violate_order_article_45_2_post",
+        "violate_order_article_56_5",
+        "violate_order_article_80_4",
+        "violate_order_article_82_3",
+        "violate_order_article_85_2",
+        "violate_order_article_93"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_clearing_mandate",
+    "desc": "違反第三條第二項但書未依主管機關規定於指定期貨結算機構集中結算，或期貨結算機構違反第五十五條準用第十八條規定",
+    "expr": [
+      "EQ",
+      "violation_clearing_mandate",
+      [
+        "OR",
+        "violate_article_3_2_clause",
+        "violate_clearing_entity_article_55_18"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_futures_broker",
+    "desc": "期貨商違反第七十九條準用第十八條規定",
+    "expr": [
+      "EQ",
+      "violation_futures_broker",
+      "violate_article_79_18"
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_leverage_trader",
+    "desc": "槓桿交易商違反第八十一條準用第十八條、第五十七條第一項、第六十四條、第六十五條第一項、第六十六條第一項、第六十七條、第七十條第一項、第七十二條第一項、第七十三條、第七十四條或第七十八條第一項規定",
+    "expr": [
+      "EQ",
+      "violation_leverage_trader",
+      [
+        "OR",
+        "violate_article_81_18",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_67",
+        "violate_article_70_1",
+        "violate_article_72_1",
+        "violate_article_73",
+        "violate_article_74",
+        "violate_article_78_1"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_futures_service",
+    "desc": "期貨服務事業違反第八十八條準用第十八條、第五十七條第一項、第六十四條、第六十五條第一項、第六十六條第一項或第七十四條規定",
+    "expr": [
+      "EQ",
+      "violation_futures_service",
+      [
+        "OR",
+        "violate_article_88_18",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_74"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_non_submission_or_obstruction",
+    "desc": "逾期不提出主管機關命令之帳簿、書類或其他有關物件或報告資料，或規避、妨礙、拒絕主管機關檢查",
+    "expr": [
+      "EQ",
+      "violation_non_submission_or_obstruction",
+      [
+        "OR",
+        "overdue_non_submission",
+        "obstruct_inspection",
+        "refuse_inspection"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_document_noncompliance",
+    "desc": "期貨交易所、期貨結算機構、期貨業、同業公會未依法或主管機關命令製作、申報、公告、備置或保存帳簿、文據、財務報告或其他業務文件",
+    "expr": [
+      "EQ",
+      "violation_document_noncompliance",
+      [
+        "OR",
+        "not_produce_books",
+        "not_report_documents",
+        "not_announce_reports",
+        "not_store_records",
+        "not_preserve_files"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_obstruct_investigation",
+    "desc": "規避、妨礙或拒絕主管機關調查，或拒不提供資料文件，或無正當理由拒不到達辦公處所備詢",
+    "expr": [
+      "EQ",
+      "violation_obstruct_investigation",
+      [
+        "OR",
+        "obstruct_investigation",
+        "refuse_provide_documents",
+        "unjustified_absence"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:internal_control_system_established",
+    "desc": "期貨交易輔助人依規定訂定內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_system_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_system_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_reported_to_board",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_recorded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:internal_control_system_updated",
+    "desc": "內部控制制度變更經董事會同意並於期限內變更",
+    "expr": [
+      "EQ",
+      "internal_control_system_updated",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_system_change_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_change_reported",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_change_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:business_managed_by_dedicated_department",
+    "desc": "證券商期貨交易輔助業務由專責部門辦理並指派專人管理",
+    "expr": [
+      "EQ",
+      "business_managed_by_dedicated_department",
+      [
+        "AND",
+        [
+          "EQ",
+          "dedicated_department_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_person_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:business_executed_by_registered_salesperson",
+    "desc": "證券商期貨交易輔助業務由登記合格業務員執行",
+    "expr": [
+      "EQ",
+      "business_executed_by_registered_salesperson",
+      [
+        "EQ",
+        "registered_salesperson_executing",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:personnel_registration_valid",
+    "desc": "期貨交易輔助人負責人、經理人及業務員登記有效且無撤銷情事",
+    "expr": [
+      "EQ",
+      "personnel_registration_valid",
+      [
+        "AND",
+        [
+          "EQ",
+          "personnel_registered",
+          true
+        ],
+        [
+          "NOT",
+          "personnel_registration_revoked"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:personnel_registration_revoked_conditions",
+    "desc": "期貨交易輔助人負責人、經理人及業務員登記撤銷條件",
+    "expr": [
+      "EQ",
+      "personnel_registration_revoked_conditions",
+      [
+        "OR",
+        "violate_article_28_1",
+        "not_meet_qualification_article_26_3",
+        "violate_article_29",
+        "not_completed_training",
+        "involved_in_untrustworthy_activities"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:personnel_change_reported_timely",
+    "desc": "期貨交易輔助人負責人、經理人及業務員異動於五日內申報並辦理工作證換發或繳回",
+    "expr": [
+      "EQ",
+      "personnel_change_reported_timely",
+      [
+        "AND",
+        [
+          "EQ",
+          "personnel_change_reported_within_5_days",
+          true
+        ],
+        [
+          "EQ",
+          "work_permit_reissued_or_returned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:personnel_responsibility_before_registration",
+    "desc": "期貨交易輔助人辦理異動登記前，對該人員行為仍不能免責",
+    "expr": [
+      "EQ",
+      "personnel_responsibility_before_registration",
+      [
+        "EQ",
+        "responsible_for_personnel_before_registration",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "futures:penalty_conditions",
+    "desc": "處罰條件：違反期貨交易法第119條任一規定或相關命令，或未依規定辦理期貨交易輔助業務管理規則者",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_any",
+          true
+        ],
+        [
+          "EQ",
+          "violation_order",
+          true
+        ],
+        [
+          "EQ",
+          "violation_clearing_mandate",
+          true
+        ],
+        [
+          "EQ",
+          "violation_futures_broker",
+          true
+        ],
+        [
+          "EQ",
+          "violation_leverage_trader",
+          true
+        ],
+        [
+          "EQ",
+          "violation_futures_service",
+          true
+        ],
+        [
+          "EQ",
+          "violation_non_submission_or_obstruction",
+          true
+        ],
+        [
+          "EQ",
+          "violation_document_noncompliance",
+          true
+        ],
+        [
+          "EQ",
+          "violation_obstruct_investigation",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_system_updated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_managed_by_dedicated_department",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "business_executed_by_registered_salesperson",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_registration_valid",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "personnel_registration_revoked_conditions",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personnel_change_reported_timely",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

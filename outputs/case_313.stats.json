@@ -1,0 +1,449 @@
+{
+  "case_id": "case_313",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 99.86,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 14271,
+  "total_output_tokens": 5719,
+  "total_tokens": 19990,
+  "total_cost_usd": 0.014859,
+  "timestamp": "2025-10-21T07:02:49.166648",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2354,
+      "output_tokens": 1939,
+      "elapsed_time": 33.54843878746033,
+      "cost": 0.004044000000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 7011,
+      "output_tokens": 1939,
+      "elapsed_time": 32.27165222167969,
+      "cost": 0.0059068
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 206,
+      "output_tokens": 771,
+      "elapsed_time": 14.504424095153809,
+      "cost": 0.0013160000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 206,
+      "output_tokens": 771,
+      "elapsed_time": 14.596067190170288,
+      "cost": 0.0013160000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4494,
+      "output_tokens": 299,
+      "elapsed_time": 4.902741432189941,
+      "cost": 0.0022760000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "5358 chars",
+      "timestamp": 33.54843878746033
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "5358 chars",
+      "timestamp": 65.82009100914001
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 65.82009100914001
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "31 varspecs",
+      "timestamp": 80.32451510429382
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "20 constraints",
+      "timestamp": 80.3285174369812
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 80.33351731300354
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 80.33351731300354
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "27 facts",
+      "timestamp": 99.83332443237305
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "27 constraints",
+      "timestamp": 99.83332443237305
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 99.840322971344
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c46', 'meta:penalty_default_false']",
+      "timestamp": 99.840322971344
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 99.85132193565369
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 80.33351731300354
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_implemented",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "bank:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_internal_control_established",
+        [
+          "EQ",
+          "bank:internal_control_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_internal_control_established",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "bank:internal_handling_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_internal_handling_established",
+        [
+          "EQ",
+          "bank:internal_handling_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_internal_handling_established",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "bank:internal_operation_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_internal_operation_established",
+        [
+          "EQ",
+          "bank:internal_operation_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_internal_operation_established",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "bank:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_internal_control_executed",
+        [
+          "EQ",
+          "bank:internal_control_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_internal_control_executed",
+        [
+          "EQ",
+          "internal_control_implemented",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "bank:internal_handling_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_internal_handling_executed",
+        [
+          "EQ",
+          "bank:internal_handling_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_internal_handling_executed",
+        [
+          "EQ",
+          "internal_handling_implemented",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "bank:internal_operation_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_internal_operation_executed",
+        [
+          "EQ",
+          "bank:internal_operation_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_internal_operation_executed",
+        [
+          "EQ",
+          "internal_operation_implemented",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "aml:improvement_ordered",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "improvement_ordered",
+        [
+          "EQ",
+          "aml:improvement_ordered",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "improvement_ordered",
+        [
+          "EQ",
+          "improvement_ordered",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "aml:improvement_completed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "improvement_completed",
+        [
+          "EQ",
+          "aml:improvement_completed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "improvement_completed",
+        [
+          "EQ",
+          "improvement_completed",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    },
+    {
+      "id": "aml:penalty_due_to_obstruction",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml_penalty_due_to_obstruction",
+        [
+          "EQ",
+          "aml:inspection_obstruction",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "aml_penalty_due_to_obstruction",
+        [
+          "EQ",
+          "inspection_obstruction",
+          true
+        ]
+      ],
+      "timestamp": 80.33
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+[
+  {
+    "id": "insurance:management_rule_compliance",
+    "desc": "遵守第一百六十三條第四項及第七項、第一百六十五條第一項及第五項準用規定之財務或業務管理規則",
+    "expr": [
+      "EQ",
+      "management_rule_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "compliance_163_4_financial_business",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_163_5_applied_165_1",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "建立且確實執行內部控制、稽核制度及招攬處理制度或程序",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:advertisement_approval",
+    "desc": "經紀人公司或銀行所任用經紀人及業務員使用之宣傳及廣告內容經所屬公司或銀行核可",
+    "expr": [
+      "EQ",
+      "advertisement_approved",
+      [
+        "EQ",
+        "advertisement_content_approved_by_company_or_bank",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:license_and_insurance_compliance",
+    "desc": "保險代理人、經紀人、公證人依法取得許可、繳存保證金並投保相關保險",
+    "expr": [
+      "EQ",
+      "license_and_insurance_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "guarantee_deposit_paid",
+          true
+        ],
+        [
+          "EQ",
+          "related_insurance_purchased",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_audit_solicitation_compliance",
+    "desc": "依第一百六十五條第三項及第一百六十三條第五項準用規定建立且確實執行內部控制、稽核制度及招攬處理制度或程序",
+    "expr": [
+      "EQ",
+      "internal_control_audit_solicitation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反管理規則或未建立或未確實執行內部控制、稽核制度及招攬處理制度或程序時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "management_rule_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_audit_solicitation_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

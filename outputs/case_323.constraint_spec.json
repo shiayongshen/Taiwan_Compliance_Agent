@@ -1,0 +1,394 @@
+[
+  {
+    "id": "insurance:act_144_actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員",
+    "expr": [
+      "EQ",
+      "act_144_actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuary_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_review_engaged",
+    "desc": "保險業聘請外部複核精算人員",
+    "expr": [
+      "EQ",
+      "act_144_external_review_engaged",
+      [
+        "EQ",
+        "external_review_actuary_hired",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_board_approval_obtained",
+    "desc": "簽證精算人員指派及外部複核精算人員聘請經董（理）事會同意",
+    "expr": [
+      "EQ",
+      "act_144_board_approval_obtained",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuary_board_approved",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_board_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_reports_fair_and_true",
+    "desc": "簽證報告及複核報告內容公正且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "act_144_reports_fair_and_true",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuary_report_fair",
+          true
+        ],
+        [
+          "EQ",
+          "external_review_report_fair",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_control_established",
+    "desc": "保險業建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_control_established",
+      [
+        "EQ",
+        "internal_control_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_handling_established",
+    "desc": "保險業建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_internal_control",
+    "desc": "違反第148-3條第一項規定，未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_internal_control",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_171_1_violation_internal_handling",
+    "desc": "違反第148-3條第二項規定，未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "act_171_1_violation_internal_handling",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:product_sales_review_responsibilities",
+    "desc": "保險商品銷售前各職務負責檢視及審核事項",
+    "expr": [
+      "EQ",
+      "product_sales_review_responsibilities",
+      [
+        "AND",
+        [
+          "EQ",
+          "general_manager_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_staff_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "claims_staff_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "actuarial_staff_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "policy_service_staff_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "legal_staff_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "investment_staff_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_staff_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_procedure_compliance",
+    "desc": "保險業訂定核保處理制度及程序並符合規定",
+    "expr": [
+      "EQ",
+      "underwriting_procedure_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_evaluation_performed",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_signature_valid",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_documents_retained",
+          true
+        ],
+        [
+          "EQ",
+          "financial_underwriting_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_reporting_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "personal_data_protection_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "no_unfair_treatment",
+          true
+        ],
+        [
+          "EQ",
+          "no_prohibited_practices",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internet_only_insurer_restrictions",
+    "desc": "純網路保險公司不得有保險業務員及相關限制",
+    "expr": [
+      "EQ",
+      "internet_only_insurer_restrictions",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_insurance_agents",
+          true
+        ],
+        [
+          "EQ",
+          "no_brokers",
+          true
+        ],
+        [
+          "EQ",
+          "internal_business_procedures_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "no_misleading_sales_practices",
+          true
+        ],
+        [
+          "EQ",
+          "customer_appropriateness_confirmed",
+          true
+        ],
+        [
+          "EQ",
+          "recording_and_review_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法定內部控制、內部處理制度或程序、簽證報告不實、核保程序不符規定、純網路保險公司違規等情形時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_external_review_engaged",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_board_approval_obtained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_144_reports_fair_and_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "act_148_3_internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_procedure_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internet_only_insurer_restrictions",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

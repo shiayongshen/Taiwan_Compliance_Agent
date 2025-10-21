@@ -1,0 +1,258 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            0.25
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            0.25
+          ],
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.0
+          ],
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.5
+          ]
+        ],
+        2,
+        [
+          "GE",
+          [
+            "DIV",
+            "own_capital",
+            "risk_capital"
+          ],
+          1.5
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_ratio_minimum",
+    "desc": "自有資本與風險資本比率不得低於一定比率",
+    "expr": [
+      "EQ",
+      "capital_ratio_minimum",
+      [
+        "GE",
+        [
+          "DIV",
+          "own_capital",
+          "risk_capital"
+        ],
+        "minimum_ratio"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_ratio_minimum",
+    "desc": "淨值比率不得低於一定比率",
+    "expr": [
+      "EQ",
+      "net_worth_ratio_minimum",
+      [
+        "GE",
+        "net_worth_ratio",
+        "minimum_net_worth_ratio"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_info_reported_annual",
+    "desc": "每營業年度終了後三個月內申報經會計師查核之資本適足率及淨值比率",
+    "expr": [
+      "EQ",
+      "capital_info_reported_annual",
+      [
+        "AND",
+        [
+          "EQ",
+          "annual_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_audited",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_info_reported_semiannual",
+    "desc": "每半營業年度終了後二個月內申報經會計師核閱之資本適足率及經會計師查核之淨值比率",
+    "expr": [
+      "EQ",
+      "capital_info_reported_semiannual",
+      [
+        "AND",
+        [
+          "EQ",
+          "semiannual_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "semiannual_report_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "semiannual_report_audited",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_info_reported_required",
+    "desc": "依規定申報資本等級相關資訊",
+    "expr": [
+      "EQ",
+      "capital_info_reported_required",
+      [
+        "OR",
+        "capital_info_reported_annual",
+        "capital_info_reported_semiannual"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_info_reported_exemption",
+    "desc": "依法接管之保險業不適用申報規定",
+    "expr": [
+      "EQ",
+      "capital_info_reported_exemption",
+      [
+        "EQ",
+        "under_government_takeover",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_info_reported_compliance",
+    "desc": "申報資本等級相關資訊合規",
+    "expr": [
+      "EQ",
+      "capital_info_reported_compliance",
+      [
+        "OR",
+        "capital_info_reported_exemption",
+        "capital_info_reported_required"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未依規定申報資本等級相關資訊且非依法接管保險業時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_info_reported_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "under_government_takeover",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

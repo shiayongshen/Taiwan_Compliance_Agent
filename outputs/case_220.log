@@ -1,0 +1,141 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4783 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (4805 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (15 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (38 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [trust:violation_penalty]
+   ✅ Removed prefixes in [trust:contract_disclosure_compliance]
+   ✅ Removed prefixes in [aml:internal_control_compliance]
+   ✅ Removed prefixes in [aml:control_content_compliance]
+   ✅ Removed prefixes in [aml:regulator_periodic_inspection]
+   ✅ Removed prefixes in [aml:violation_penalty]
+   ✅ Removed prefixes in [aml:inspection_obstruction_penalty]
+   ✅ Removed prefixes in [fcp:advertising_violation]
+   ✅ Removed prefixes in [fcp:consumer_info_violation]
+   ✅ Removed prefixes in [fcp:disclosure_violation]
+   ✅ Removed prefixes in [fcp:remuneration_violation]
+   ✅ Removed prefixes in [fcp:formal_condition_violation]
+   ✅ Removed prefixes in [fcp:major_violation_penalty]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 14
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 14
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (15 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (24 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (24 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_conditions', 'c34', 'fcp:consumer_info_violation', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_conditions', 'c34', 'fcp:consumer_info_violation', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_220
+
+📊 Model (filtered):
+   operation_scope_disclosed = False
+   beneficiary_transfer_limit_disclosed = False
+   risk_disclosure_disclosed = False
+   trustor_informed = False
+   control_established = False
+   control_executed = False
+   procedure_anti_money_laundering = False
+   regular_training = False
+   dedicated_personnel_assigned = False
+   risk_assessment_report_updated = False
+   audit_procedure = False
+   other_designated_matters = False
+   periodic_inspection_done = False
+   violation_major = False
+   regulator_periodic_inspection = False
+   remuneration_violation = False
+   inspection_obstructed = False
+   violate_advertising_rules = False
+   violation_penalty = False
+   consumer_info_violation = False
+   inspection_obstruction_penalty = False
+   control_content_compliance = False
+   formal_condition_violation = False
+   violate_remuneration_rules = False
+   violate_disclosure_rules = False
+   fail_required_action = False
+   advertising_violation = False
+   major_violation_penalty = False
+   assist_formal_condition_violation = False
+   control_not_executed = False
+   contract_disclosure_compliance = False
+   penalty = False
+   internal_control_compliance = False
+   disclosure_violation = False
+   violate_mandatory_prohibition = False
+   control_not_established = False
+   control_content_not_compliant = False
+   violate_consumer_info_rules = False
+✅ Model saved to: outputs\case_220.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_220.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_220.smt2

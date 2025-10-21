@@ -1,0 +1,183 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (13037 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (13228 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (37 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (82 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL (Unsupported operator: is_transaction_between_parent_subsidiaries)
+⚠️ Found 1 problematic constraints:
+  - [public_company:asset_transaction_shareholder_approval_required] Unsupported operator: is_transaction_between_parent_subsidiaries
+⚠️ Constraints parse failed: Unsupported operator: is_transaction_between_parent_subsidiaries
+🔄 Repair attempt 1
+📍 Found 1 problematic constraint(s):
+   [public_company:asset_transaction_shareholder_approval_required] Unsupported operator: is_transaction_between_parent_subsidiaries
+
+🔧 修復 constraint [public_company:asset_transaction_shareholder_approval_required]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [public_company:asset_transaction_shareholder_approval_required] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (11 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (11 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c47', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c47', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_211
+
+📊 Model (filtered):
+   non_credit_transaction_party = True
+   repo_bond = True
+   asset_transaction_exclusion = False
+   is_fhc_and_responsible_or_major_shareholder = True
+   bank_subsidiary_net_worth = 0
+   domestic_government_bond = False
+   board_attendance_ratio = 6666666667/10000000000
+   transaction_type = True
+   bank_subsidiary_single_related_party_transaction_amount = 0
+   is_fhc_responsible_or_major_shareholder_sole_proprietor_or_partner_or_enterprise_or_representative = True
+   is_fhc_bank_insurance_securities_subsidiary_or_subsidiary_responsible = True
+   board_approval_ratio = 3/4
+   is_fhc_affiliated_company_and_responsible_or_major_shareholder = True
+   money_market_fund = False
+   bank_subsidiary_all_related_party_transaction_amount = 0
+   transaction_condition_not_better_than_others = True
+   violation_article_60_4 = False
+   article_55_1_compliance = True
+   article_42_1_compliance = True
+   violation_article_60_2 = False
+   non_credit_transaction_condition_met = True
+   violation_article_60_19 = False
+   bank_subsidiary_single_related_party_limit_ok = True
+   violation_article_60_10 = False
+   internal_operation_rules_authorized = False
+   non_loan_transaction_authorized = False
+   article_16_10_compliance = True
+   article_16_1_2_9_7_compliance = True
+   single_corporate_shareholder = False
+   board_member_recusal = False
+   no_proxy_vote = False
+   non_loan_transaction_single_related_party_amount = 0
+   insurance_owner_equity = 0
+   non_loan_transaction_all_related_party_amount = 0
+   non_loan_transaction_compliance = False
+   violation_article_60_15 = False
+   violation_article_60_3 = False
+   article_46_1_compliance = True
+   violation_article_60_9 = False
+   non_loan_transaction_condition_met = True
+   transaction_amount = 0
+   total_assets = 0
+   paid_in_capital = 0
+   board_approval = False
+   supervisor_approval = False
+   asset_transaction_approval_required = False
+   violation_article_60_17 = False
+   article_40_41_compliance = True
+   article_53_1_2_compliance = True
+   violation_article_45 = False
+   violation_article_60_13 = False
+   article_16_3_compliance = True
+   article_16_6_compliance = True
+   violation_article_60_1 = False
+   violation_article_60_6 = False
+   is_transaction_between_parent_subsidiaries = False
+   asset_transaction_shareholder_approval_required = False
+   article_56_1_compliance = True
+   bank_subsidiary_all_related_party_limit_ok = True
+   article_51_compliance = True
+   non_credit_transaction_compliance = True
+   article_38_compliance = True
+   violation_article_60_16 = False
+   violation_article_60_14 = False
+   asset_transaction_reporting_required = True
+   violation_article_60_12 = False
+   non_loan_transaction_limit_all_related_party_ok = True
+   article_39_3_compliance = True
+   article_18_1_compliance = True
+   board_member_recusal_compliance = False
+   article_43_1_2_4_compliance = True
+   non_loan_transaction_limit_single_related_party_ok = True
+   article_6_1_compliance = True
+   violation_article_60_8 = False
+   article_16_5_compliance = True
+   article_45_1_4_compliance = True
+   violation_article_60_11 = False
+   violation_article_60_7 = False
+   article_39_1_2_compliance = True
+   violation_article_60_18 = False
+   penalty = False
+   violation_article_60_5 = False
+✅ Model saved to: outputs\case_211.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_211.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_211.smt2

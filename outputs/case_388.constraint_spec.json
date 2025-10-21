@@ -1,0 +1,231 @@
+[
+  {
+    "id": "insurance:capital_adequacy_ratio",
+    "desc": "自有資本與風險資本之比率",
+    "expr": [
+      "EQ",
+      "capital_adequacy_ratio",
+      [
+        "DIV",
+        "own_capital",
+        "risk_capital"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_ratio",
+    "desc": "淨值比率",
+    "expr": [
+      "EQ",
+      "net_worth_ratio",
+      "net_worth_ratio_value"
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            [
+              "MUL",
+              [
+                "DIV",
+                "required_ratio",
+                100.0
+              ],
+              25.0
+            ]
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          "required_ratio"
+        ],
+        3,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          "required_ratio"
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequacy_minimum_met",
+    "desc": "自有資本與風險資本比率及淨值比率均不低於一定比率",
+    "expr": [
+      "EQ",
+      "capital_adequacy_minimum_met",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          "required_ratio"
+        ],
+        [
+          "GE",
+          "net_worth_ratio",
+          "required_net_worth_ratio"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reporting_annual_compliance",
+    "desc": "每營業年度終了後三個月內申報經會計師查核之資本適足率及淨值比率",
+    "expr": [
+      "EQ",
+      "reporting_annual_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "annual_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_audited",
+          true
+        ],
+        [
+          "LE",
+          "annual_report_submission_days",
+          90
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reporting_semiannual_compliance",
+    "desc": "每半營業年度終了後二個月內申報經會計師核閱之資本適足率及經會計師查核之淨值比率",
+    "expr": [
+      "EQ",
+      "reporting_semiannual_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "semiannual_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "semiannual_report_reviewed",
+          true
+        ],
+        [
+          "EQ",
+          "semiannual_report_audited",
+          true
+        ],
+        [
+          "LE",
+          "semiannual_report_submission_days",
+          60
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reporting_compliance",
+    "desc": "保險業依規定申報資本等級相關資訊",
+    "expr": [
+      "EQ",
+      "reporting_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "under_supervision",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "reporting_annual_compliance",
+            true
+          ],
+          [
+            "EQ",
+            "reporting_semiannual_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本比率或淨值比率低於規定或未依規定申報時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_adequacy_minimum_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reporting_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

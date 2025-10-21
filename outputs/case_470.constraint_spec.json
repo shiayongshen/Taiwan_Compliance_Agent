@@ -1,0 +1,207 @@
+[
+  {
+    "id": "forex:declaration_required",
+    "desc": "新臺幣五十萬元以上等值外匯收支或交易應申報",
+    "expr": [
+      "EQ",
+      "declaration_required",
+      [
+        "GE",
+        "forex_amount_ntd_equivalent",
+        500000.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_made",
+    "desc": "依規定申報",
+    "expr": [
+      "EQ",
+      "declaration_made",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "declaration_required",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:declaration_truthful",
+    "desc": "申報內容無不實",
+    "expr": [
+      "EQ",
+      "declaration_truthful",
+      [
+        "NOT",
+        [
+          "EQ",
+          "declaration_false_suspected",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:query_response_ok",
+    "desc": "受查詢者據實說明",
+    "expr": [
+      "EQ",
+      "query_response_ok",
+      [
+        "EQ",
+        "query_response_truthful",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:violation_declaration",
+    "desc": "違反第6-1條故意不申報或申報不實",
+    "expr": [
+      "EQ",
+      "violation_declaration",
+      [
+        "AND",
+        [
+          "EQ",
+          "declaration_required",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "declaration_submitted",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "declaration_false_suspected",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:violation_query_response",
+    "desc": "受查詢未於限期內提出說明或為虛偽說明",
+    "expr": [
+      "EQ",
+      "violation_query_response",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "query_response_submitted_in_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "query_response_truthful",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "forex:violation_forex_settlement",
+    "desc": "違反第7條規定不結售或不存入外匯",
+    "expr": [
+      "EQ",
+      "violation_forex_settlement",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "forex_sold_settled",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "forex_deposited",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "forex"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反申報義務、查詢說明義務或外匯結售存入規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_declaration",
+          true
+        ],
+        [
+          "EQ",
+          "violation_query_response",
+          true
+        ],
+        [
+          "EQ",
+          "violation_forex_settlement",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

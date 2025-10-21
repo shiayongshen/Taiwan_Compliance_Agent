@@ -1,0 +1,829 @@
+{
+  "case_id": "case_305",
+  "success": false,
+  "error_message": "Fact 'loan_secured_by_company_securities' should be bool, got int",
+  "total_time_sec": 127.03,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 30663,
+  "total_output_tokens": 8461,
+  "total_tokens": 39124,
+  "total_cost_usd": 0.025803,
+  "timestamp": "2025-10-21T06:48:49.042020",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "FAIL",
+  "step8_case_law_check": "NOT_RUN",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "NOT_RUN",
+  "step9_z3_optimize": "NOT_RUN",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 7079,
+      "output_tokens": 2645,
+      "elapsed_time": 39.10177493095398,
+      "cost": 0.007063600000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 17167,
+      "output_tokens": 3139,
+      "elapsed_time": 46.5721173286438,
+      "cost": 0.011889200000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 280,
+      "output_tokens": 1128,
+      "elapsed_time": 18.4511775970459,
+      "cost": 0.0019168000000000002
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 280,
+      "output_tokens": 1128,
+      "elapsed_time": 16.52228093147278,
+      "cost": 0.0019168000000000002
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5857,
+      "output_tokens": 421,
+      "elapsed_time": 6.357915878295898,
+      "cost": 0.0030164000000000007
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7414 chars",
+      "timestamp": 39.10177493095398
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "8924 chars",
+      "timestamp": 85.67389225959778
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "16 constraints",
+      "timestamp": 85.67389225959778
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "39 varspecs",
+      "timestamp": 104.12506985664368
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "16 constraints",
+      "timestamp": 104.13306999206543
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 104.14307165145874
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 104.14307165145874
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "33 facts",
+      "timestamp": 127.02426886558533
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": false,
+      "details": "Fact 'loan_secured_by_company_securities' should be bool, got int",
+      "timestamp": 127.02527070045471
+    },
+    "step8_case_law_check": null,
+    "step8_repair_success": null,
+    "step8_violation_detected": null,
+    "step9_z3_optimize": null,
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 104.14307165145874
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:loan_type_1_to_4",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_type_1_to_4",
+        [
+          "OR",
+          [
+            "EQ",
+            "loan_guaranteed_by_bank_or_authority",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_movable_or_immovable_property",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_qualified_securities",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_life_insurance_policy",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_type_1_to_4",
+        [
+          "OR",
+          [
+            "EQ",
+            "loan_guaranteed_by_bank_or_authority",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_movable_or_immovable_property",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_qualified_securities",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_life_insurance_policy",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_amount_limit_per_unit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_amount_limit_per_unit",
+        [
+          "LE",
+          "loan_amount_per_unit",
+          [
+            "MUL",
+            "insurance_funds",
+            5.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_amount_limit_per_unit",
+        [
+          "LE",
+          "loan_amount_per_unit",
+          [
+            "MUL",
+            "insurance_funds",
+            5.0
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_total_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_total_limit",
+        [
+          "LE",
+          "loan_total_amount_1_to_3",
+          [
+            "MUL",
+            "insurance_funds",
+            35.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_total_limit",
+        [
+          "LE",
+          "loan_total_amount_1_to_3",
+          [
+            "MUL",
+            "insurance_funds",
+            35.0
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_related_party_guarantee",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_related_party_guarantee",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "EQ",
+            "full_collateral_provided",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_conditions_better_than_others",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_related_party_guarantee",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "EQ",
+            "full_collateral_provided",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_conditions_better_than_others",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_related_party_board_approval",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_related_party_board_approval",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "EQ",
+              "loan_to_related_party",
+              true
+            ],
+            [
+              "GE",
+              "loan_amount_to_related_party",
+              "authority_specified_amount"
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "board_attendance_ratio",
+              0.6667
+            ],
+            [
+              "GE",
+              "board_approval_ratio",
+              0.75
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_related_party_board_approval",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "EQ",
+              "loan_to_related_party",
+              true
+            ],
+            [
+              "GE",
+              "loan_amount_to_related_party",
+              "authority_specified_amount"
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "board_attendance_ratio",
+              0.6667
+            ],
+            [
+              "GE",
+              "board_approval_ratio",
+              0.75
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_investment_limit_combined",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_investment_limit_combined",
+        [
+          "AND",
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "insurance_funds",
+              10.0
+            ]
+          ],
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "company_owner_equity",
+              10.0
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_investment_limit_combined",
+        [
+          "AND",
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "insurance_funds",
+              10.0
+            ]
+          ],
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "company_owner_equity",
+              10.0
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_related_party_full_collateral_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_related_party_full_collateral_violation",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "full_collateral_provided",
+                true
+              ]
+            ],
+            [
+              "EQ",
+              "loan_conditions_better_than_others",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_related_party_full_collateral_violation",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "full_collateral_provided",
+                true
+              ]
+            ],
+            [
+              "EQ",
+              "loan_conditions_better_than_others",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_related_party_board_approval_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_related_party_board_approval_violation",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "GE",
+            "loan_amount_to_related_party",
+            "authority_specified_amount"
+          ],
+          [
+            "OR",
+            [
+              "LT",
+              "board_attendance_ratio",
+              0.6667
+            ],
+            [
+              "LT",
+              "board_approval_ratio",
+              0.75
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_related_party_board_approval_violation",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "GE",
+            "loan_amount_to_related_party",
+            "authority_specified_amount"
+          ],
+          [
+            "OR",
+            [
+              "LT",
+              "board_attendance_ratio",
+              0.6667
+            ],
+            [
+              "LT",
+              "board_approval_ratio",
+              0.75
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_amount_limit_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_amount_limit_violation",
+        [
+          "GT",
+          "loan_amount_per_unit",
+          [
+            "MUL",
+            "insurance_funds",
+            5.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_amount_limit_violation",
+        [
+          "GT",
+          "loan_amount_per_unit",
+          [
+            "MUL",
+            "insurance_funds",
+            5.0
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_total_limit_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_total_limit_violation",
+        [
+          "GT",
+          "loan_total_amount_1_to_3",
+          [
+            "MUL",
+            "insurance_funds",
+            35.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_total_limit_violation",
+        [
+          "GT",
+          "loan_total_amount_1_to_3",
+          [
+            "MUL",
+            "insurance_funds",
+            35.0
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "insurance:loan_investment_limit_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_investment_limit_violation",
+        [
+          "OR",
+          [
+            "GT",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "insurance_funds",
+              10.0
+            ]
+          ],
+          [
+            "GT",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "company_owner_equity",
+              10.0
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_investment_limit_violation",
+        [
+          "OR",
+          [
+            "GT",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "insurance_funds",
+              10.0
+            ]
+          ],
+          [
+            "GT",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "company_owner_equity",
+              10.0
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:loan_type_1_to_4",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:loan_related_party_guarantee",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:loan_related_party_board_approval",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "insurance:loan_related_party_full_collateral_violation",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:loan_related_party_board_approval_violation",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:loan_amount_limit_violation",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:loan_total_limit_violation",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:loan_investment_limit_violation",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_type_1_to_4",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_related_party_guarantee",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "loan_related_party_board_approval",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "loan_related_party_full_collateral_violation",
+            true
+          ],
+          [
+            "EQ",
+            "loan_related_party_board_approval_violation",
+            true
+          ],
+          [
+            "EQ",
+            "loan_amount_limit_violation",
+            true
+          ],
+          [
+            "EQ",
+            "loan_total_limit_violation",
+            true
+          ],
+          [
+            "EQ",
+            "loan_investment_limit_violation",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 104.13
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 104.13
+    }
+  ]
+}

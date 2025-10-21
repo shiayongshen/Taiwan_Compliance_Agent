@@ -1,0 +1,276 @@
+[
+  {
+    "id": "insurance:compliance_financial_business_management",
+    "desc": "遵守保險法第163條第4項及第7項及第165條第1項相關財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "compliance_financial_business_management",
+      [
+        "AND",
+        [
+          "EQ",
+          "compliance_163_4_financial_business",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_165_1_and_163_5",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_duty_of_care",
+    "desc": "代理人盡善良管理人注意義務，充分說明及揭露保險商品重要內容與權利義務",
+    "expr": [
+      "EQ",
+      "agent_duty_of_care",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "agent_provide_professional_explanation",
+          true
+        ],
+        [
+          "EQ",
+          "agent_fully_disclose_information",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_follow_laws_and_document_retention",
+    "desc": "代理人遵循相關法令規定並留存文件備查",
+    "expr": [
+      "EQ",
+      "agent_follow_laws_and_document_retention",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_follow_laws",
+          true
+        ],
+        [
+          "EQ",
+          "agent_document_retention",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_obtain_contact_info_for_e_policy",
+    "desc": "電子保單出單時取得要保人及被保險人有效聯絡方式並提供保險人",
+    "expr": [
+      "EQ",
+      "agent_obtain_contact_info_for_e_policy",
+      [
+        "AND",
+        [
+          "EQ",
+          "e_policy_issued",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "insured_mobile_phone_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "insured_email_obtained",
+            true
+          ],
+          [
+            "EQ",
+            "insured_other_approved_contact_obtained",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "contact_info_provided_to_insurer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_internal_operation_specification",
+    "desc": "代理人公司及銀行依法令及主管機關規定訂定並落實內部作業規範",
+    "expr": [
+      "EQ",
+      "agent_internal_operation_specification",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_specification_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_specification_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_specification_include_elderly_protection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_document_preservation",
+    "desc": "代理人保存招攬、收費、簽單、批改、理賠及契約終止等文件副本",
+    "expr": [
+      "EQ",
+      "agent_document_preservation",
+      [
+        "AND",
+        [
+          "EQ",
+          "document_preservation_scope_complete",
+          true
+        ],
+        [
+          "GE",
+          "document_preservation_period_years",
+          5
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_fee_collection_record_preservation",
+    "desc": "代理人保存收費紀錄及收取保險費證明文件",
+    "expr": [
+      "EQ",
+      "agent_fee_collection_record_preservation",
+      [
+        "AND",
+        [
+          "EQ",
+          "fee_collection_record_saved",
+          true
+        ],
+        [
+          "EQ",
+          "fee_collection_proof_saved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反財務或業務管理規定、代理人義務、內部作業規範或文件保存規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_financial_business_management",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_duty_of_care",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_follow_laws_and_document_retention",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_obtain_contact_info_for_e_policy",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_internal_operation_specification",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_document_preservation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_fee_collection_record_preservation",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

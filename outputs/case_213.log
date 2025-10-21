@@ -1,0 +1,143 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (8014 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (8939 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (19 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (54 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (19 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (39 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (39 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c56', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c56', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_213
+
+📊 Model (filtered):
+   days_after_fiscal_year_end = 76
+   company_in_reorganization = False
+   regulator_called_meeting_deadline_passed = False
+   paid_in_capital = 50000000
+   days_after_quarter_end = 0
+   days_after_second_quarter_end = 0
+   accounting_year = 110
+   stock_listed_or_traded = False
+   board_failed_to_call_meeting_for_election = False
+   duties_exercised_by_reorganizer = False
+   day_of_month = 0
+   annual_report_shareholders_meeting_approved = True
+   comply_registered_or_listed_country_laws = True
+   monthly_report_includes_guarantee_amount = True
+   second_quarter_report_approved_by_board = True
+   exempt_first_and_third_quarter_reports = True
+   second_quarter_report_audited = True
+   monthly_report_includes_other_required_items = True
+   first_listing_company = True
+   second_listing_company = True
+   exempt_monthly_operation_report = True
+   quarterly_report_reported_to_board = True
+   annual_report_approved_by_board = True
+   monthly_report_includes_consolidated_revenue = True
+   second_quarter_report_approved_by_supervisor = True
+   annual_report_audited_by_accountant = True
+   quarterly_report_signed_by_ceo_manager_accountant = True
+   annual_report_signed_by_ceo_manager_accountant = True
+   not_listed_nor_over_the_counter = True
+   annual_report_approved_by_supervisor = True
+   quarterly_report_reviewed_by_accountant = True
+   significant_event_reported_flag = True
+   annual_report_prepared_and_distributed = True
+   board_and_supervisor_duties_reorganization = True
+   annual_report_distributed = True
+   significant_event_reported = True
+   second_listing_report_requirements = True
+   quarterly_report_compliance = True
+   monthly_operation_report_content_ok = True
+   quarterly_report_timing = 1
+   annual_report_compliance = True
+   annual_report_timing = 1
+   annual_report_consistency = True
+   first_listing_second_quarter_report_requirements = True
+   board_and_supervisor_dismissal_due_to_no_meeting = True
+   violation_36_report_penalty = False
+   board_and_supervisor_dismissed = False
+   board_supervisor_dismissal_due_to_no_meeting = True
+   penalty = False
+   annual_shareholders_meeting_timing = 1
+   large_capital_annual_report_deadline = 1
+   monthly_operation_report_compliance = True
+   special_circumstances_annual_report_extension = True
+   board_supervisor_duties_reorganization = True
+✅ Model saved to: outputs\case_213.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_213.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_213.smt2

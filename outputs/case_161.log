@@ -1,0 +1,113 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (3170 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (3170 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (7 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (24 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (7 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (24 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (24 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c30'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c30'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_161
+
+📊 Model (filtered):
+   related_person_trading_stock_or_equity_derivative = False
+   exemption_by_authority = False
+   fund_holding_stock_or_equity_derivative = True
+   trading_reported_to_fund = False
+   duty_of_care_and_loyalty_met = True
+   prohibited_related_party_trading = True
+   other_harmful_acts_to_investors_or_fund = False
+   improper_public_recommendations = False
+   selling_proxy_votes_for_benefits = False
+   no_prohibited_behaviors = True
+   failure_to_return_commission_to_fund = False
+   fraud_or_misleading_behavior = False
+   related_person_definition_ok = True
+   related_person_definition_according_to_authority = True
+   unauthorized_agent_trading = False
+   unreasonable_commissions_to_nonprofessionals = False
+   improper_account_transfers = False
+   insider_trading_or_leakage = False
+   self_dealing_or_conflict_of_interest = False
+   penalty = False
+   manipulating_market_prices = False
+   providing_undue_benefits_for_promotion = False
+   related_party_trading_reported = True
+   duty_of_care_and_loyalty_executed = True
+✅ Model saved to: outputs\case_161.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_161.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_161.smt2

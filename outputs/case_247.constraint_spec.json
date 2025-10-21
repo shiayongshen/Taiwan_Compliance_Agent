@@ -1,0 +1,432 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度且包含法定六項內容",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held_regularly",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_procedure_established",
+    "desc": "建立確認客戶身分程序且包含風險基礎及實質受益人審查",
+    "expr": [
+      "EQ",
+      "customer_identification_procedure_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_identification_procedure_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "risk_based_approach_applied",
+          true
+        ],
+        [
+          "EQ",
+          "beneficial_owner_reviewed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_data_retained",
+    "desc": "確認客戶身分程序所得資料保存期限符合規定",
+    "expr": [
+      "EQ",
+      "customer_identification_data_retained",
+      [
+        "OR",
+        [
+          "GE",
+          "customer_identification_data_retention_years",
+          5.0
+        ],
+        [
+          "GE",
+          "temporary_transaction_data_retention_years",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:enhanced_customer_due_diligence_applied",
+    "desc": "對重要政治性職務客戶及其關係人執行加強客戶審查程序",
+    "expr": [
+      "EQ",
+      "enhanced_customer_due_diligence_applied",
+      [
+        "EQ",
+        "enhanced_due_diligence_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:customer_identification_compliance",
+    "desc": "確認客戶身分程序建立、資料保存及加強審查均符合規定",
+    "expr": [
+      "EQ",
+      "customer_identification_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "customer_identification_procedure_established",
+          true
+        ],
+        [
+          "EQ",
+          "customer_identification_data_retained",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_customer_due_diligence_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:currency_transaction_reported",
+    "desc": "金融機構於交易完成後五個營業日內以媒體或書面方式申報達一定金額以上通貨交易",
+    "expr": [
+      "EQ",
+      "currency_transaction_reported",
+      [
+        "OR",
+        [
+          "EQ",
+          "media_report_submitted",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "media_report_not_possible",
+            true
+          ],
+          [
+            "EQ",
+            "written_report_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:suspicious_transaction_report_required",
+    "desc": "符合疑似洗錢交易條件應申報疑似洗錢交易",
+    "expr": [
+      "EQ",
+      "suspicious_transaction_report_required",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "GE",
+            "same_account_daily_cash_deposit",
+            500000.0
+          ],
+          [
+            "GE",
+            "same_account_daily_cash_withdrawal",
+            500000.0
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_matches_customer_income",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_related_to_business_nature",
+                true
+              ]
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "same_customer_multiple_cash_transactions",
+            500000.0
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_matches_customer_income",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_related_to_business_nature",
+                true
+              ]
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "same_customer_cash_multiple_remittances",
+            500000.0
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reasonable_purpose_explained",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "transaction_from_high_risk_country",
+            true
+          ],
+          [
+            "OR",
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_matches_customer_income",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_related_to_business_nature",
+                true
+              ]
+            ]
+          ]
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "transaction_beneficial_owner_is_terrorist",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_involves_terrorist_organization",
+            true
+          ],
+          [
+            "EQ",
+            "transaction_funds_suspected_terrorism_related",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "transaction_identified_as_suspicious_by_internal_procedure",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:suspicious_transaction_reported",
+    "desc": "疑似洗錢交易已向法務部調查局申報",
+    "expr": [
+      "EQ",
+      "suspicious_transaction_reported",
+      [
+        "EQ",
+        "suspicious_transaction_report_submitted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:suspicious_transaction_reporting_compliance",
+    "desc": "疑似洗錢交易申報符合規定",
+    "expr": [
+      "EQ",
+      "suspicious_transaction_reporting_compliance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "suspicious_transaction_report_required",
+          true
+        ],
+        [
+          "EQ",
+          "suspicious_transaction_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制內部控制制度建立與執行、確認客戶身分程序及疑似洗錢交易申報規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "customer_identification_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "suspicious_transaction_reporting_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

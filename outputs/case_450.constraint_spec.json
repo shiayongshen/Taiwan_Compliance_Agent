@@ -1,0 +1,238 @@
+[
+  {
+    "id": "fhc:violation_exists",
+    "desc": "金融控股公司有違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_exists",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:correction_ordered",
+    "desc": "主管機關已予以糾正並限期改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "EQ",
+        "correction_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:penalty_measures",
+    "desc": "主管機關依情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "revoke_statutory_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_subsidiary_business_partial",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_subsidiary_business_all",
+          true
+        ],
+        [
+          "EQ",
+          "remove_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "remove_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_director_or_supervisor_duty",
+          true
+        ],
+        [
+          "EQ",
+          "dispose_subsidiary_shares",
+          true
+        ],
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:notify_economic_ministry",
+    "desc": "依第四款解除董事、監察人職務時通知經濟部廢止登記",
+    "expr": [
+      "EQ",
+      "notify_economic_ministry",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "remove_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "economic_ministry_notified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:dispose_shares_within_deadline",
+    "desc": "依第六款廢止許可時，於期限內處分子公司股份及董事人數不符規定",
+    "expr": [
+      "EQ",
+      "dispose_shares_within_deadline",
+      [
+        "AND",
+        [
+          "EQ",
+          "revoke_license",
+          true
+        ],
+        [
+          "LE",
+          "dispose_deadline_days_left",
+          0
+        ],
+        [
+          "OR",
+          [
+            "GT",
+            "subsidiary_shares_held",
+            0
+          ],
+          [
+            "GT",
+            "subsidiary_direct_or_indirect_directors",
+            0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:prohibit_use_name_and_change_registration",
+    "desc": "不得再使用金融控股公司名稱及辦理公司變更登記",
+    "expr": [
+      "EQ",
+      "prohibit_use_name_and_change_registration",
+      [
+        "EQ",
+        "revoke_license",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:liquidation_ordered",
+    "desc": "未於期限內處分完成者，應令解散及清算",
+    "expr": [
+      "EQ",
+      "liquidation_ordered",
+      [
+        "AND",
+        [
+          "EQ",
+          "dispose_shares_within_deadline",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反法令且未依規定處分股份或未解散清算時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation_exists",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "correction_ordered",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "dispose_shares_within_deadline",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "liquidation_ordered",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

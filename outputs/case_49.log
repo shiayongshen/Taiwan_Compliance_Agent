@@ -1,0 +1,176 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (9009 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+
+>>>>>>>> TERMINATING RUN (862f7e53-0c79-4b2e-8aa3-7da95f5cddad): Maximum number of consecutive auto-replies reached
+✅ Checkpoint [step2_completion]: PASS (4 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (14 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (85 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (14 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (75 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (75 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c88'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c88'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_49
+
+📊 Model (filtered):
+   is_notary = False
+   bank_approved_by_authority = False
+   qualification_requirements_met = True
+   guarantee_deposit_amount = 500000
+   guarantee_insurance_covered = True
+   broker_receives_compensation = False
+   application_procedures_followed = True
+   continuous_follow_up_done = False
+   liability_insurance_covered = True
+   other_mandatory_requirements_complied = True
+   broker_provides_written_report = True
+   bank_operates_as_agent = False
+   financial_and_business_management_compliant = False
+   license_revocation_procedures_complied = False
+   inspection_reports_improvements_done = False
+   broker_discloses_compensation_standard = True
+   required_documents_submitted = True
+   is_agent = False
+   special_account_books_maintained = True
+   branch_establishment_conditions_met = True
+   dismissal_reasons_complied = True
+   annual_reports_submitted_on_time = False
+   board_and_supervisor_qualifications_met = True
+   bank_operates_as_broker = False
+   broker_exercises_duty_of_care = True
+   improvement_reports_submitted_to_board_and_audit_committee = False
+   is_broker = True
+   holding_practice_license = False
+   authority_defined_minimum_guarantee_deposit = 500000
+   approved_by_authority = True
+   application_conditions_met = True
+   broker_fulfills_fiduciary_duty = True
+   education_and_training_compliant = True
+   broker_company_fails_to_apply_resume_and_employ_broker = False
+   broker_company_fails_to_report_stop_of_insurance_or_reinsurance_brokerage = False
+   violate_business_management_rules = False
+   broker_company_fails_to_cancel_broker_license_after_license_revocation = False
+   broker_company_fails_to_report_stop_or_resume = False
+   violate_financial_management_rules = False
+   broker_company_fails_to_cancel_broker_license_on_stop_or_dissolve = False
+   broker_fails_to_cancel_license_within_30_days_after_company_stop_or_dissolve_or_revocation = False
+   fail_to_fill_out_solicitation_report_truthfully = False
+   induce_contract_termination_or_loan_payment = False
+   improper_inducement_to_cancel_or_loan = False
+   management_rules_compliance = False
+   relevant_insurance_covered = True
+   violation_financial_or_business_management_or_broker_rules = False
+   violate_insurance_law_163_7 = False
+   violation_broker_management_rules = False
+   unauthorized_use_of_license = False
+   broker_duty_of_care_and_fiduciary = True
+   unauthorized_use_of_advertisement = False
+   broker_provide_written_analysis_report = True
+   charge_unapproved_fees_or_commissions = False
+   false_information_on_license_application = False
+   illegal_insurance_payments = False
+   license_and_guarantee_compliance = False
+   other_acts_damaging_insurance_image = False
+   transfer_documents_to_unassigned_broker_or_agent = False
+   submit_false_or_incomplete_reports = False
+   sell_unapproved_foreign_policy_discount_benefit = False
+   fail_to_confirm_financial_consumer_suitability = False
+   pay_commission_to_non_actual_solicitor = False
+   violation_financial_or_business_management = False
+   fail_to_employ_broker_after_employee_leaves = False
+   fail_to_cancel_license_within_deadline = False
+   misappropriate_insurance_funds = False
+   unauthorized_stop_or_suspend_or_dissolve = False
+   authorize_third_party_to_operate = False
+   minimum_guarantee_deposit = 500000
+   coerce_or_induce_contracting = False
+   employ_unqualified_insurance_solicitor = False
+   reporting_and_improvement_compliance = False
+   misleading_promotion_or_recruitment = False
+   criminal_conviction_for_fraud_or_forgery = False
+   spread_false_information_disturb_financial_order = False
+   fail_to_report_to_broker_association = False
+   penalty = False
+   other_violations_of_rules_or_laws = False
+   hold_positions_in_insurance_or_association = False
+   bank_authority_approval_for_agent_or_broker = False
+   operate_outside_license_scope = False
+   prohibited_conduct_compliance = True
+   conceal_important_contract_info = False
+   contract_with_unapproved_insurer = False
+✅ Model saved to: outputs\case_49.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_49.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_49.smt2

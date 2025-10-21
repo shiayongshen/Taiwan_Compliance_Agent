@@ -1,0 +1,162 @@
+[
+  {
+    "id": "epayment:company_type_restriction",
+    "desc": "電子支付機構必須為股份有限公司",
+    "expr": [
+      "EQ",
+      "company_type_restriction",
+      [
+        "EQ",
+        "company_type",
+        "stock_company"
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:exclusive_business_requirement",
+    "desc": "非經主管機關許可兼營者，應專營第四條第一項及第二項各款業務",
+    "expr": [
+      "EQ",
+      "exclusive_business_requirement",
+      [
+        "OR",
+        [
+          "EQ",
+          "has_permission_to_concurrent_business",
+          true
+        ],
+        [
+          "EQ",
+          "business_scope",
+          "exclusive_4_1_2"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:contract_terms_compliance",
+    "desc": "專營電子支付機構訂定業務定型化契約條款應符合主管機關公告範本內容",
+    "expr": [
+      "EQ",
+      "contract_terms_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_terms_include_mandatory_items",
+          true
+        ],
+        [
+          "EQ",
+          "contract_terms_exclude_prohibited_items",
+          true
+        ],
+        [
+          "GE",
+          "user_rights_protection_level",
+          "standard_template_level"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "epayment:annual_report_submission",
+    "desc": "專營電子支付機構應於會計年度終了四個月內編製營業報告書及財務報告，並於董事會通過翌日起15日內申報公告",
+    "expr": [
+      "EQ",
+      "annual_report_submission",
+      [
+        "AND",
+        [
+          "LE",
+          "report_preparation_days_after_fiscal_year_end",
+          120
+        ],
+        [
+          "EQ",
+          "financial_report_audited_or_approved",
+          true
+        ],
+        [
+          "LE",
+          "days_after_board_approval_to_submission",
+          15
+        ],
+        [
+          "EQ",
+          "report_submitted_to_authority",
+          true
+        ],
+        [
+          "EQ",
+          "report_announced_publicly",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "epayment"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反公司型態、專營業務、契約條款或報告申報規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "company_type_restriction",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "exclusive_business_requirement",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_terms_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_submission",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

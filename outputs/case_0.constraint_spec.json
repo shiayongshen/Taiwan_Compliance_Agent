@@ -1,7 +1,7 @@
 [
   {
     "id": "insurance:capital_level",
-    "desc": "保險業資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足, 0=未分類）",
+    "desc": "保險業資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足）",
     "expr": [
       "EQ",
       "capital_level",
@@ -12,11 +12,15 @@
           [
             "LT",
             [
-              "DIV",
-              "own_capital",
-              "risk_capital"
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
             ],
-            0.5
+            50.0
           ],
           [
             "LT",
@@ -32,20 +36,28 @@
             [
               "GE",
               [
-                "DIV",
-                "own_capital",
-                "risk_capital"
+                "MUL",
+                [
+                  "DIV",
+                  "own_capital",
+                  "risk_capital"
+                ],
+                100.0
               ],
-              0.5
+              50.0
             ],
             [
               "LT",
               [
-                "DIV",
-                "own_capital",
-                "risk_capital"
+                "MUL",
+                [
+                  "DIV",
+                  "own_capital",
+                  "risk_capital"
+                ],
+                100.0
               ],
-              1.5
+              150.0
             ]
           ],
           [
@@ -53,30 +65,41 @@
             [
               "LT",
               [
-                "CASE",
+                "MUL",
                 [
-                  "LE",
-                  "net_worth_prev",
-                  "net_worth"
+                  "DIV",
+                  "net_worth_ratio_prev1",
+                  1.0
                 ],
-                "net_worth_prev",
-                "net_worth"
+                100.0
               ],
-              0.03
+              3.0
+            ],
+            [
+              "LT",
+              [
+                "MUL",
+                [
+                  "DIV",
+                  "net_worth_ratio_prev2",
+                  1.0
+                ],
+                100.0
+              ],
+              3.0
             ],
             [
               "GE",
               [
-                "CASE",
+                "MUL",
                 [
-                  "LE",
-                  "net_worth_prev",
-                  "net_worth"
+                  "DIV",
+                  "net_worth_ratio_prev1",
+                  1.0
                 ],
-                "net_worth_prev",
-                "net_worth"
+                100.0
               ],
-              0.0
+              2.0
             ]
           ]
         ],
@@ -88,20 +111,28 @@
             [
               "GE",
               [
-                "DIV",
-                "own_capital",
-                "risk_capital"
+                "MUL",
+                [
+                  "DIV",
+                  "own_capital",
+                  "risk_capital"
+                ],
+                100.0
               ],
-              1.5
+              150.0
             ],
             [
               "LT",
               [
-                "DIV",
-                "own_capital",
-                "risk_capital"
+                "MUL",
+                [
+                  "DIV",
+                  "own_capital",
+                  "risk_capital"
+                ],
+                100.0
               ],
-              2.0
+              200.0
             ]
           ],
           [
@@ -109,30 +140,41 @@
             [
               "LT",
               [
-                "CASE",
+                "MUL",
                 [
-                  "LE",
-                  "net_worth_prev",
-                  "net_worth"
+                  "DIV",
+                  "net_worth_ratio_prev1",
+                  1.0
                 ],
-                "net_worth_prev",
-                "net_worth"
+                100.0
               ],
-              0.02
+              2.0
+            ],
+            [
+              "LT",
+              [
+                "MUL",
+                [
+                  "DIV",
+                  "net_worth_ratio_prev2",
+                  1.0
+                ],
+                100.0
+              ],
+              2.0
             ],
             [
               "GE",
               [
-                "CASE",
+                "MUL",
                 [
-                  "LE",
-                  "net_worth_prev",
-                  "net_worth"
+                  "DIV",
+                  "net_worth_ratio_prev1",
+                  1.0
                 ],
-                "net_worth_prev",
-                "net_worth"
+                100.0
               ],
-              0.02
+              0.0
             ]
           ]
         ],
@@ -142,25 +184,44 @@
           [
             "GE",
             [
-              "DIV",
-              "own_capital",
-              "risk_capital"
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
             ],
-            2.0
+            200.0
           ],
           [
-            "GE",
+            "OR",
             [
-              "CASE",
+              "GE",
               [
-                "GE",
-                "net_worth_prev",
-                "net_worth"
+                "MUL",
+                [
+                  "DIV",
+                  "net_worth_ratio_prev1",
+                  1.0
+                ],
+                100.0
               ],
-              "net_worth_prev",
-              "net_worth"
+              3.0
             ],
-            0.03
+            [
+              "GE",
+              [
+                "MUL",
+                [
+                  "DIV",
+                  "net_worth_ratio_prev2",
+                  1.0
+                ],
+                100.0
+              ],
+              3.0
+            ]
           ]
         ],
         1,
@@ -171,21 +232,21 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:level_2_measures_ok",
+    "id": "insurance:level_2_measures_executed",
     "desc": "資本不足等級措施執行完成",
     "expr": [
       "EQ",
-      "level_2_measures_ok",
+      "level_2_measures_executed",
       [
         "AND",
         [
           "EQ",
-          "capital_insufficient_plan_submitted",
+          "improvement_plan_submitted",
           true
         ],
         [
           "EQ",
-          "capital_insufficient_plan_executed",
+          "improvement_plan_executed",
           true
         ]
       ]
@@ -194,21 +255,51 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:level_3_measures_ok",
+    "id": "insurance:level_3_measures_executed",
     "desc": "資本顯著不足等級措施執行完成",
     "expr": [
       "EQ",
-      "level_3_measures_ok",
+      "level_3_measures_executed",
       [
         "AND",
         [
           "EQ",
-          "level_2_measures_ok",
+          "level_2_measures_executed",
           true
         ],
         [
           "EQ",
-          "capital_significantly_insufficient_additional_measures_executed",
+          "responsible_person_removed",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_suspended",
+          true
+        ],
+        [
+          "EQ",
+          "asset_disposal_approved",
+          true
+        ],
+        [
+          "EQ",
+          "asset_disposed",
+          true
+        ],
+        [
+          "EQ",
+          "credit_restriction",
+          true
+        ],
+        [
+          "EQ",
+          "responsible_person_compensation_reduced",
+          true
+        ],
+        [
+          "EQ",
+          "branch_reduction",
           true
         ]
       ]
@@ -217,21 +308,21 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:level_4_measures_ok",
+    "id": "insurance:level_4_measures_executed",
     "desc": "資本嚴重不足等級措施執行完成",
     "expr": [
       "EQ",
-      "level_4_measures_ok",
+      "level_4_measures_executed",
       [
         "AND",
         [
           "EQ",
-          "level_3_measures_ok",
+          "level_3_measures_executed",
           true
         ],
         [
           "EQ",
-          "capital_severely_insufficient_additional_measures_executed",
+          "special_disposition_149_3_1",
           true
         ]
       ]
@@ -252,7 +343,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：資本不足等級且未執行對應措施時處罰",
+    "desc": "處罰條件：資本等級不足且未執行對應措施時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -269,7 +360,7 @@
             "NOT",
             [
               "EQ",
-              "level_4_measures_ok",
+              "level_4_measures_executed",
               true
             ]
           ]
@@ -285,7 +376,7 @@
             "NOT",
             [
               "EQ",
-              "level_3_measures_ok",
+              "level_3_measures_executed",
               true
             ]
           ]
@@ -301,7 +392,7 @@
             "NOT",
             [
               "EQ",
-              "level_2_measures_ok",
+              "level_2_measures_executed",
               true
             ]
           ]

@@ -1,0 +1,139 @@
+{
+  "case_id": "case_324",
+  "success": false,
+  "error_message": "Fact 'self_use_real_estate_investment' should be bool, got int",
+  "total_time_sec": 210.27,
+  "repair_attempts": 2,
+  "total_agent_calls": 5,
+  "total_input_tokens": 49748,
+  "total_output_tokens": 19048,
+  "total_tokens": 68796,
+  "total_cost_usd": 0.050376,
+  "timestamp": "2025-10-21T07:18:54.974812",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "PASS",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "FAIL",
+  "step8_case_law_check": "NOT_RUN",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "NOT_RUN",
+  "step9_z3_optimize": "NOT_RUN",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 9897,
+      "output_tokens": 5896,
+      "elapsed_time": 42.92958188056946,
+      "cost": 0.0133924
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 26054,
+      "output_tokens": 5896,
+      "elapsed_time": 49.56650185585022,
+      "cost": 0.019855200000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 754,
+      "output_tokens": 3053,
+      "elapsed_time": 46.01590895652771,
+      "cost": 0.005186400000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 751,
+      "output_tokens": 3031,
+      "elapsed_time": 44.29410696029663,
+      "cost": 0.005150000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 12292,
+      "output_tokens": 1172,
+      "elapsed_time": 20.62296223640442,
+      "cost": 0.006792000000000001
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "16786 chars",
+      "timestamp": 42.92958188056946
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "16786 chars",
+      "timestamp": 92.49608373641968
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "34 constraints",
+      "timestamp": 92.49608373641968
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "114 varspecs",
+      "timestamp": 138.5119926929474
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "'<' not supported between instances of 'BoolRef' and 'BoolRef'",
+      "timestamp": 138.51699256896973
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": true,
+      "details": "1 rounds",
+      "timestamp": 145.3253378868103
+    },
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 145.34734106063843
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 145.34734106063843
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "104 facts",
+      "timestamp": 210.26641011238098
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": false,
+      "details": "Fact 'self_use_real_estate_investment' should be bool, got int",
+      "timestamp": 210.2684097290039
+    },
+    "step8_case_law_check": null,
+    "step8_repair_success": null,
+    "step8_violation_detected": null,
+    "step9_z3_optimize": null,
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 145.34734106063843
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 138.51
+    }
+  ]
+}

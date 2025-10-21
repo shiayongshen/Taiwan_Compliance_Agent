@@ -1,0 +1,122 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (4002 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (3933 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (9 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (25 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [insurance_agent:license_and_insurance_compliance]
+   ✅ Removed prefixes in [insurance_agent:insurance_type_requirement]
+   ✅ Removed prefixes in [insurance_agent:minimum_amount_and_implementation]
+   ✅ Removed prefixes in [insurance_agent:qualification_and_management_rules]
+   ✅ Removed prefixes in [bank:insurance_agent_or_broker_permit]
+   ✅ Removed prefixes in [insurance_broker:duty_of_care_and_fidelity]
+   ✅ Removed prefixes in [insurance_broker:written_report_and_fee_disclosure]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 8
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 8
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (9 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (19 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (19 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_conditions', 'meta:penalty_default_false', 'c12', 'insurance_agent:license_and_insurance_compliance'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_conditions', 'meta:penalty_default_false', 'c12', 'insurance_agent:license_and_insurance_compliance'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_394
+
+📊 Model (filtered):
+   liability_insurance_subscribed = True
+   guarantee_insurance_subscribed = True
+   fee_charged = False
+   bank_permit_obtained = False
+   minimum_amount_and_implementation_defined = True
+   fee_disclosure_made = False
+   qualification_and_management_rules_defined = True
+   bank_operate_as_broker = False
+   agent_type = 2
+   bank_operate_as_agent = False
+   insurance_subscribed = True
+   license_permitted = True
+   qualification_and_management_rules = True
+   duty_of_care_observed = True
+   insurance_agent_or_broker_permit = False
+   minimum_amount_and_implementation = True
+   duty_of_care_and_fidelity = True
+   insurance_type_requirement = True
+   penalty = False
+   written_report_provided = True
+   written_report_and_fee_disclosure = True
+   deposit_guarantee_fund = True
+   license_issued = True
+   duty_of_fidelity_observed = True
+   license_and_insurance_compliance = True
+✅ Model saved to: outputs\case_394.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_394.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_394.smt2

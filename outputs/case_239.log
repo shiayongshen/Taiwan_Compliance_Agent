@@ -1,0 +1,163 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (11801 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (11801 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (31 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (73 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 1
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 1
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (31 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (27 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (27 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c57'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c57'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_239
+
+📊 Model (filtered):
+   financial_holding_violation = True
+   remove_manager_or_staff = True
+   revoke_permit = False
+   dispose_subsidiary_shares = False
+   remove_or_suspend_director_or_supervisor = False
+   other_necessary_measures = False
+   suspend_subsidiary_business_part_or_all = False
+   revoke_statutory_meeting_resolution = False
+   remove_manager_or_staff_or_suspend = False
+   suspend_partial_business = False
+   order_provision_of_reserve_funds = False
+   restrict_investment = False
+   order_closure_of_branches_or_departments = False
+   order_or_prohibit_asset_disposition = True
+   revoke_all_or_part_business_permit = False
+   revoke_shareholders_or_board_resolution = False
+   order_provision_of_reserve_or_capital_increase = False
+   notify_ministry_of_economy = False
+   notify_company_registration_authority = False
+   restrict_business_scope = False
+   order_company_remove_manager_or_staff = True
+   remove_or_suspend_company_director_or_supervisor = False
+   penalty_decision_made = True
+   exempt_from_compliance_unit_duties_4 = False
+   operational_deficiency_exists = True
+   designate_guidance_agency = True
+   consultation_channel = False
+   establish_clear_communication_system = False
+   confirm_regulations_updated = False
+   compliance_supervisor_issues_opinion_before_new_business = False
+   set_evaluation_procedures_and_supervise = False
+   provide_appropriate_training = False
+   supervise_implementation_of_internal_rules = False
+   unit_is_internal_audit = False
+   report_submitted = False
+   includes_deficiency_analysis = False
+   includes_improvement_suggestions = False
+   self_assessment_times_per_year = 0
+   self_assessment_frequency = 0
+   subsidiary_shares_held = 0
+   legal_limit_shares = 0
+   legal_limit_directors = 0
+   subsidiary_directors_appointed = False
+   prohibit_use_financial_holding_name = False
+   dissolution_and_liquidation = False
+   revoke_permit_penalty = False
+   apply_bank_law_61_1 = True
+   director_supervisor_removal_notify = True
+   violation_occurred = True
+   business_guidance = True
+   e_payment_violation = True
+   internal_audit_exemption = True
+   report_to_board_includes_analysis = False
+   penalty_types = True
+   insurance_agent_violation = True
+   penalty = False
+   revoke_permit_requirements = True
+   document_retention_years = 0
+   self_assessment_document_retention = False
+   penalties_applicable = True
+   collect_local_financial_regulations = False
+   implement_self_assessment = False
+   ensure_compliance_supervisor_qualification = False
+   ensure_compliance_resources_adequate = False
+   establish_risk_assessment_and_monitoring = False
+   engage_external_expert_for_high_risk_verification = False
+   foreign_branch_compliance = False
+   bill_finance_violation = True
+   bank_violation = True
+   consultation_channel_established = False
+   compliance_unit_duties = False
+   non_e_payment_business_operated_with_permit = False
+   non_e_payment_business_violation = True
+✅ Model saved to: outputs\case_239.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_239.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_239.smt2

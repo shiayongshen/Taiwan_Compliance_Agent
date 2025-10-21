@@ -1,0 +1,522 @@
+[
+  {
+    "id": "insurance:loan_type_1_to_4",
+    "desc": "放款類型限銀行或主管機關認可信用保證機構保證、動產不動產擔保、有價證券質押、人壽保險單質押",
+    "expr": [
+      "EQ",
+      "loan_type_1_to_4",
+      [
+        "OR",
+        [
+          "EQ",
+          "loan_guaranteed_by_bank_or_authority",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_movable_or_immovable_property",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_qualified_securities",
+          true
+        ],
+        [
+          "EQ",
+          "loan_secured_by_life_insurance_policy",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_amount_limit_per_unit",
+    "desc": "第一款至第三款放款每一單位放款金額不得超過資金5%",
+    "expr": [
+      "EQ",
+      "loan_amount_limit_per_unit",
+      [
+        "LE",
+        "loan_amount_per_unit",
+        [
+          "MUL",
+          "insurance_funds",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_total_limit",
+    "desc": "第一款至第三款放款總額不得超過資金35%",
+    "expr": [
+      "EQ",
+      "loan_total_limit",
+      [
+        "LE",
+        "loan_total_amount_1_to_3",
+        [
+          "MUL",
+          "insurance_funds",
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_guarantee",
+    "desc": "對負責人、職員、主要股東或利害關係人擔保放款須十足擔保且條件不得優於其他同類放款",
+    "expr": [
+      "EQ",
+      "loan_related_party_guarantee",
+      [
+        "AND",
+        [
+          "EQ",
+          "loan_to_related_party",
+          true
+        ],
+        [
+          "EQ",
+          "full_collateral_provided",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_conditions_better_than_others",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_board_approval",
+    "desc": "利害關係人擔保放款達主管機關規定金額以上須董事會三分之二出席及四分之三同意",
+    "expr": [
+      "EQ",
+      "loan_related_party_board_approval",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "loan_to_related_party",
+            true
+          ],
+          [
+            "GE",
+            "loan_amount_to_related_party",
+            "authority_specified_amount"
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            0.6667
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            0.75
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_investment_limit_combined",
+    "desc": "依146-3條第三款及第四款合併計算放款與投資不得超過資金10%及公司業主權益10%",
+    "expr": [
+      "EQ",
+      "loan_investment_limit_combined",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "loan_secured_by_company_securities"
+          ],
+          [
+            "MUL",
+            "insurance_funds",
+            10.0
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "loan_secured_by_company_securities"
+          ],
+          [
+            "MUL",
+            "company_owner_equity",
+            10.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_adequacy_ratio",
+    "desc": "資本適足率計算公式",
+    "expr": [
+      "EQ",
+      "capital_adequacy_ratio",
+      [
+        "MUL",
+        [
+          "DIV",
+          "own_capital",
+          "risk_capital"
+        ],
+        100.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:net_worth_ratio",
+    "desc": "淨值比率計算公式",
+    "expr": [
+      "EQ",
+      "net_worth_ratio",
+      [
+        "MUL",
+        [
+          "DIV",
+          "owner_equity",
+          "total_assets_excluding_investment_type_insurance_special_account"
+        ],
+        100.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev1",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev1",
+            2.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev2",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio_prev2",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_full_collateral_violation",
+    "desc": "依146-3條第三項規定，擔保放款無十足擔保或條件優於其他同類放款者違規",
+    "expr": [
+      "EQ",
+      "loan_related_party_full_collateral_violation",
+      [
+        "AND",
+        [
+          "EQ",
+          "loan_to_related_party",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "full_collateral_provided",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "loan_conditions_better_than_others",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_related_party_board_approval_violation",
+    "desc": "擔保放款達主管機關規定金額以上未經董事會三分之二出席及四分之三同意違規",
+    "expr": [
+      "EQ",
+      "loan_related_party_board_approval_violation",
+      [
+        "AND",
+        [
+          "EQ",
+          "loan_to_related_party",
+          true
+        ],
+        [
+          "GE",
+          "loan_amount_to_related_party",
+          "authority_specified_amount"
+        ],
+        [
+          "OR",
+          [
+            "LT",
+            "board_attendance_ratio",
+            0.6667
+          ],
+          [
+            "LT",
+            "board_approval_ratio",
+            0.75
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_amount_limit_violation",
+    "desc": "第一款至第三款放款每一單位放款金額超過資金5%違規",
+    "expr": [
+      "EQ",
+      "loan_amount_limit_violation",
+      [
+        "GT",
+        "loan_amount_per_unit",
+        [
+          "MUL",
+          "insurance_funds",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_total_limit_violation",
+    "desc": "第一款至第三款放款總額超過資金35%違規",
+    "expr": [
+      "EQ",
+      "loan_total_limit_violation",
+      [
+        "GT",
+        "loan_total_amount_1_to_3",
+        [
+          "MUL",
+          "insurance_funds",
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:loan_investment_limit_violation",
+    "desc": "依146-3條第三款及第四款合併計算放款與投資超過資金10%或公司業主權益10%違規",
+    "expr": [
+      "EQ",
+      "loan_investment_limit_violation",
+      [
+        "OR",
+        [
+          "GT",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "loan_secured_by_company_securities"
+          ],
+          [
+            "MUL",
+            "insurance_funds",
+            10.0
+          ]
+        ],
+        [
+          "GT",
+          [
+            "ADD",
+            "investment_in_company_securities",
+            "loan_secured_by_company_securities"
+          ],
+          [
+            "MUL",
+            "company_owner_equity",
+            10.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反放款類型、擔保、董事會決議或放款限額規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_type_1_to_4",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_related_party_guarantee",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_related_party_board_approval",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "loan_related_party_full_collateral_violation",
+          true
+        ],
+        [
+          "EQ",
+          "loan_related_party_board_approval_violation",
+          true
+        ],
+        [
+          "EQ",
+          "loan_amount_limit_violation",
+          true
+        ],
+        [
+          "EQ",
+          "loan_total_limit_violation",
+          true
+        ],
+        [
+          "EQ",
+          "loan_investment_limit_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

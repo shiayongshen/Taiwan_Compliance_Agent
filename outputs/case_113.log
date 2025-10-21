@@ -1,0 +1,127 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (3413 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (3413 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (9 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (26 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL ('>=' not supported between instances of 'BoolRef' and 'BoolRef')
+⚠️ Found 1 problematic constraints:
+  - [electronic_payment:contract_terms_compliance] '>=' not supported between instances of 'BoolRef' and 'BoolRef'
+⚠️ Constraints parse failed: '>=' not supported between instances of 'BoolRef' and 'BoolRef'
+🔄 Repair attempt 1
+📍 Found 1 problematic constraint(s):
+   [electronic_payment:contract_terms_compliance] '>=' not supported between instances of 'BoolRef' and 'BoolRef'
+
+🔧 修復 constraint [electronic_payment:contract_terms_compliance]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [electronic_payment:contract_terms_compliance] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (26 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (26 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c19', 'c21', 'c20', 'electronic_payment:contract_terms_compliance'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c19', 'c21', 'c20', 'electronic_payment:contract_terms_compliance'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_113
+
+📊 Model (filtered):
+   foreign_cooperation_without_approval = False
+   engaging_in_business_without_approval = False
+   internal_control_system_established = True
+   internal_control_system_effective = False
+   legal_and_regulatory_compliance_met = False
+   business_plan_prepared = False
+   overall_strategy_planned = False
+   risk_management_policy_planned = False
+   guidelines_planned = False
+   risk_management_procedures_prepared = False
+   execution_guidelines_prepared = False
+   operational_effectiveness_and_efficiency_met = False
+   contract_terms_content_level = False
+   standard_contract_terms_level = False
+   reporting_reliability_timeliness_transparency_met = False
+   financial_statements_gaap_compliant = True
+   transactions_properly_approved = False
+   representative_involved = False
+   internal_control_objectives_met = False
+   representative_illegal_conduct = False
+   penalty = False
+   external_financial_reporting_compliant = False
+   illegal_foreign_cooperation = False
+   internal_control_established = False
+   contract_terms_compliance = True
+   business_strategy_planned = False
+✅ Model saved to: outputs\case_113.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_113.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_113.smt2

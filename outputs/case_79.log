@@ -1,0 +1,150 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5710 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6666 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (10 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (61 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (10 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (26 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (26 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c28', 'insurance:penalty_conditions', 'insurance:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c28', 'insurance:penalty_conditions', 'insurance:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_79
+
+📊 Model (filtered):
+   audit_committee_total_members = 0
+   audit_committee_approval_votes = 0
+   board_of_directors_total = 0
+   audit_committee_established = False
+   board_of_directors_votes = 0
+   internal_control_executed = True
+   internal_control_established = True
+   audit_system_established = True
+   board_of_directors_approved = True
+   solicitation_handling_executed = True
+   solicitation_handling_established = True
+   audit_system_executed = True
+   internal_control_approval = True
+   embezzle_insurance_funds = False
+   unauthorized_business_suspension = False
+   fail_to_fill_solicitation_report = False
+   agent_report_compliance = True
+   improper_insurance_payment = False
+   violate_disclosure_rules = False
+   unauthorized_use_of_advertisement = False
+   other_violations = False
+   reporting_guidelines_followed = True
+   illegal_commission_collection = False
+   violate_consumer_data_rules = False
+   not_ensure_suitability = False
+   audit_committee_approval = True
+   fail_to_report_agent_changes = False
+   financial_consumer_suitability_violation = False
+   internal_control_compliance = True
+   criminal_conviction = False
+   damage_insurance_image = False
+   induce_policy_surrender = False
+   hire_unqualified_solicitors = False
+   agent_resignation_reported_within_15_days = True
+   assist_formal_appearance_violation = False
+   false_license_application = False
+   fail_to_confirm_consumer_suitability = False
+   license_lending = False
+   violate_compensation_system_rules = False
+   unauthorized_document_transfer = False
+   agent_add_or_change_reported_within_7_days = True
+   violate_advertising_rules = False
+   disrupt_financial_order = False
+   sell_unapproved_foreign_policies = False
+   financial_consumer_protection_violation = False
+   false_financial_reports = False
+   coerce_or_induce_clients = False
+   unauthorized_insurance_business = False
+   internal_control_compliance_full = True
+   unauthorized_third_party_operation = False
+   agent_license_revoked_within_15_days = True
+   penalty = False
+   conflict_of_interest = False
+   not_fully_understand_consumer_data = False
+   pay_commission_to_non_solicitors = False
+   fail_to_cancel_license_on_resignation = False
+   insurance_agent_misconduct = False
+   operate_outside_license_scope = False
+   conceal_important_contract_info = False
+   misleading_advertisement = False
+   induce_contract_termination = False
+✅ Model saved to: outputs\case_79.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_79.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_79.smt2

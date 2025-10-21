@@ -1,0 +1,125 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5022 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5022 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (18 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (36 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (18 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (36 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (36 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c53'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c53'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_249
+
+📊 Model (filtered):
+   article_13_paragraph_1_compliance = True
+   article_13_paragraph_2_compliance = False
+   article_24_paragraph_2_compliance = True
+   article_24_paragraph_3_compliance = False
+   article_34_paragraph_1_compliance = True
+   article_34_paragraph_3_compliance = False
+   article_31_compliance = False
+   violate_article_12 = True
+   violate_article_27 = True
+   principal_guaranteed = False
+   violate_article_18 = True
+   minimum_yield_guaranteed = 0
+   article_15_paragraph_1_compliance = False
+   violate_article_36_liquidity_ratio = True
+   violate_article_32_paragraph_1 = True
+   article_15_paragraph_2_compliance = False
+   article_59_compliance = False
+   article_12_compliance = False
+   violate_article_31 = True
+   violate_article_15_paragraph_1 = True
+   article_32_paragraph_1_compliance = False
+   violate_article_34_paragraph_1_or_3 = True
+   violate_article_60 = True
+   article_27_compliance = False
+   violate_article_40 = True
+   violate_article_13 = True
+   prohibit_principal_guarantee = True
+   violate_article_24_paragraph_2_or_3 = True
+   article_40_compliance = False
+   penalty = False
+   violate_article_59 = True
+   prohibit_minimum_yield_guarantee = True
+   violate_article_15_paragraph_2 = True
+   article_36_liquidity_compliance = False
+   article_60_compliance = False
+   article_18_compliance = False
+✅ Model saved to: outputs\case_249.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_249.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_249.smt2

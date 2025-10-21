@@ -1,0 +1,293 @@
+[
+  {
+    "id": "futures:violation_1",
+    "desc": "違反期貨交易法指定條文之一",
+    "expr": [
+      "EQ",
+      "violation_1",
+      [
+        "OR",
+        "violate_article_5",
+        "violate_article_10_1",
+        "violate_article_18",
+        "violate_article_45_2_pre",
+        "violate_article_56_4",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_67",
+        "violate_article_70_1",
+        "violate_article_72_1",
+        "violate_article_73",
+        "violate_article_74",
+        "violate_article_78_1",
+        "violate_article_80_3",
+        "violate_article_82_2",
+        "violate_article_84_2_pre",
+        "violate_article_85_1",
+        "violate_article_87_1",
+        "violate_article_97_1_1",
+        "violate_article_97_1_3",
+        "violate_article_104_2",
+        "violate_article_105"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_2",
+    "desc": "違反依指定條文發布之命令",
+    "expr": [
+      "EQ",
+      "violation_2",
+      [
+        "OR",
+        "violate_order_8_2",
+        "violate_order_45_2_post",
+        "violate_order_56_5",
+        "violate_order_80_4",
+        "violate_order_82_3",
+        "violate_order_85_2",
+        "violate_order_93"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_3",
+    "desc": "違反第三條第二項但書未依主管機關規定於指定期貨結算機構集中結算或期貨結算機構違反第五十五條準用第十八條",
+    "expr": [
+      "EQ",
+      "violation_3",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "violate_article_3_2_exception",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "centralized_clearing_at_designated_clearinghouse",
+              true
+            ]
+          ]
+        ],
+        "violate_clearinghouse_article_55"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_4",
+    "desc": "期貨商違反第七十九條準用第十八條規定",
+    "expr": [
+      "EQ",
+      "violation_4",
+      "violate_futures_broker_article_79"
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_5",
+    "desc": "槓桿交易商違反指定條文",
+    "expr": [
+      "EQ",
+      "violation_5",
+      [
+        "OR",
+        "violate_leveraged_trader_article_81",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_67",
+        "violate_article_70_1",
+        "violate_article_72_1",
+        "violate_article_73",
+        "violate_article_74",
+        "violate_article_78_1"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_6",
+    "desc": "期貨服務事業違反指定條文",
+    "expr": [
+      "EQ",
+      "violation_6",
+      [
+        "OR",
+        "violate_futures_service_article_88",
+        "violate_article_57_1",
+        "violate_article_64",
+        "violate_article_65_1",
+        "violate_article_66_1",
+        "violate_article_74"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_7",
+    "desc": "逾期不提出帳簿書類或妨礙主管機關檢查",
+    "expr": [
+      "EQ",
+      "violation_7",
+      [
+        "OR",
+        "overdue_not_submit_documents",
+        "obstruct_inspection",
+        "refuse_inspection"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_8",
+    "desc": "期貨交易所等未依法製作、申報、公告、備置或保存相關文件",
+    "expr": [
+      "EQ",
+      "violation_8",
+      [
+        "OR",
+        "not_prepare_documents",
+        "not_report_documents",
+        "not_announce_documents",
+        "not_store_documents",
+        "not_preserve_documents"
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:violation_9",
+    "desc": "規避、妨礙或拒絕主管機關調查或通知備詢無正當理由拒不到達",
+    "expr": [
+      "EQ",
+      "violation_9",
+      [
+        "OR",
+        "evade_investigation",
+        "obstruct_investigation",
+        "refuse_investigation",
+        "refuse_provide_documents",
+        [
+          "AND",
+          "not_justified_refuse_arrival"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "futures:penalty_applicable",
+    "desc": "違反任一規定且情節非輕微者適用處罰",
+    "expr": [
+      "EQ",
+      "penalty_applicable",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_1",
+            true
+          ],
+          [
+            "EQ",
+            "violation_2",
+            true
+          ],
+          [
+            "EQ",
+            "violation_3",
+            true
+          ],
+          [
+            "EQ",
+            "violation_4",
+            true
+          ],
+          [
+            "EQ",
+            "violation_5",
+            true
+          ],
+          [
+            "EQ",
+            "violation_6",
+            true
+          ],
+          [
+            "EQ",
+            "violation_7",
+            true
+          ],
+          [
+            "EQ",
+            "violation_8",
+            true
+          ],
+          [
+            "EQ",
+            "violation_9",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "violation_minor",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "futures"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反期貨交易法第119條規定且非輕微情節時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "penalty_applicable",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

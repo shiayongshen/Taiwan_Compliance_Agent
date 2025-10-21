@@ -1,0 +1,535 @@
+{
+  "case_id": "case_325",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 74.42,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 12319,
+  "total_output_tokens": 6253,
+  "total_tokens": 18572,
+  "total_cost_usd": 0.014932,
+  "timestamp": "2025-10-21T07:20:09.391562",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1649,
+      "output_tokens": 1876,
+      "elapsed_time": 20.500791311264038,
+      "cost": 0.0036612000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 5538,
+      "output_tokens": 2173,
+      "elapsed_time": 19.876020908355713,
+      "cost": 0.005692000000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 279,
+      "output_tokens": 883,
+      "elapsed_time": 12.68290114402771,
+      "cost": 0.0015244000000000002
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 279,
+      "output_tokens": 883,
+      "elapsed_time": 14.036045551300049,
+      "cost": 0.0015244000000000002
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4574,
+      "output_tokens": 438,
+      "elapsed_time": 7.256989479064941,
+      "cost": 0.0025304000000000004
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "5027 chars",
+      "timestamp": 20.500791311264038
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "5848 chars",
+      "timestamp": 40.37681221961975
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 40.37681221961975
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "33 varspecs",
+      "timestamp": 53.05971336364746
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 53.06471276283264
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 53.07071280479431
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 53.07071280479431
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "33 facts",
+      "timestamp": 74.36474800109863
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "33 constraints",
+      "timestamp": 74.3667471408844
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 74.38174748420715
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c44', 'meta:penalty_default_false']",
+      "timestamp": 74.38174748420715
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 74.40575003623962
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 53.07071280479431
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "bank:investment_limit_stock_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_stock_total",
+        [
+          "LE",
+          "investment_cost_stock_total",
+          [
+            "MUL",
+            "calculation_base",
+            0.3
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_stock_total",
+        [
+          "LE",
+          "investment_cost_stock_total",
+          [
+            "MUL",
+            "calculation_base",
+            0.3
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_otc_stock_and_others",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_otc_stock_and_others",
+        [
+          "LE",
+          "investment_cost_otc_stock_and_others",
+          [
+            "MUL",
+            "calculation_base",
+            0.05
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_otc_stock_and_others",
+        [
+          "LE",
+          "investment_cost_otc_stock_and_others",
+          [
+            "MUL",
+            "calculation_base",
+            0.05
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_unrated_short_term_and_bonds",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_unrated_short_term_and_bonds",
+        [
+          "OR",
+          [
+            "LE",
+            "investment_cost_unrated_short_term_and_bonds",
+            [
+              "MUL",
+              "calculation_base",
+              0.1
+            ]
+          ],
+          [
+            "EQ",
+            "issuer_or_guarantor_has_credit_rating",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_unrated_short_term_and_bonds",
+        [
+          "OR",
+          [
+            "LE",
+            "investment_cost_unrated_short_term_and_bonds",
+            [
+              "MUL",
+              "calculation_base",
+              0.1
+            ]
+          ],
+          [
+            "EQ",
+            "issuer_or_guarantor_has_credit_rating",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_unrated_short_term_and_bonds_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_unrated_short_term_and_bonds_total",
+        [
+          "LE",
+          "investment_cost_unrated_short_term_and_bonds_total",
+          [
+            "MUL",
+            [
+              "ADD",
+              "total_deposits",
+              "financial_bonds_issued_amount"
+            ],
+            0.25
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_unrated_short_term_and_bonds_total",
+        [
+          "LE",
+          "investment_cost_unrated_short_term_and_bonds_total",
+          [
+            "MUL",
+            [
+              "ADD",
+              "total_deposits",
+              "financial_bonds_issued_amount"
+            ],
+            0.25
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_securities_held_over_one_year",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_securities_held_over_one_year",
+        [
+          "EQ",
+          "securities_held_over_one_year_included_in_limits",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_securities_held_over_one_year",
+        [
+          "EQ",
+          "securities_held_over_one_year_included_in_limits",
+          true
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_buy_sell_back_short_term_exclusion",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_buy_sell_back_short_term_exclusion",
+        [
+          "AND",
+          [
+            "EQ",
+            "buy_back_condition_purchase_excluded",
+            true
+          ],
+          [
+            "EQ",
+            "buy_back_condition_sale_included",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_buy_sell_back_short_term_exclusion",
+        [
+          "AND",
+          [
+            "EQ",
+            "buy_back_condition_purchase_excluded",
+            true
+          ],
+          [
+            "EQ",
+            "buy_back_condition_sale_included",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_per_company_stock_and_bonds",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_per_company_stock_and_bonds",
+        [
+          "LE",
+          "investment_cost_per_company_stock_and_bonds",
+          [
+            "MUL",
+            "company_total_issued_shares",
+            0.05
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_per_company_stock_and_bonds",
+        [
+          "LE",
+          "investment_cost_per_company_stock_and_bonds",
+          [
+            "MUL",
+            "company_total_issued_shares",
+            0.05
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "bank:investment_limit_adjustable_by_authority",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_adjustable_by_authority",
+        [
+          "EQ",
+          "authority_adjusted_investment_limit",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_adjustable_by_authority",
+        [
+          "EQ",
+          "authority_adjusted_investment_limit",
+          true
+        ]
+      ],
+      "timestamp": 53.06
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_stock_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_otc_stock_and_others",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_unrated_short_term_and_bonds",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_unrated_short_term_and_bonds_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_securities_held_over_one_year",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_buy_sell_back_short_term_exclusion",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_per_company_stock_and_bonds",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_stock_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_otc_stock_and_others",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_unrated_short_term_and_bonds",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_unrated_short_term_and_bonds_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_securities_held_over_one_year",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_buy_sell_back_short_term_exclusion",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_per_company_stock_and_bonds",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 53.06
+    }
+  ]
+}

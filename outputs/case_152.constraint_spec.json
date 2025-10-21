@@ -1,0 +1,741 @@
+[
+  {
+    "id": "insurance:violation_167_2",
+    "desc": "違反保險法第163條第4項財務或業務管理規定、第7項規定，或違反第165條第1項及第163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_167_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_165_1",
+            true
+          ],
+          [
+            "EQ",
+            "violate_163_5_applied_165_1",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_167_2",
+    "desc": "違反第167-2條規定應處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_167_2",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:license_permit_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可並繳存保證金及投保相關保險",
+    "expr": [
+      "EQ",
+      "license_permit_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "permit_obtained",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_guarantee",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_purchased",
+          true
+        ],
+        [
+          "EQ",
+          "license_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_license_permit",
+    "desc": "違反保險代理人、經紀人、公證人許可及保證金、保險投保規定",
+    "expr": [
+      "EQ",
+      "violate_license_permit",
+      [
+        "NOT",
+        [
+          "EQ",
+          "license_permit_required",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_1",
+    "desc": "申領執業證照時具報不實",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_1",
+      [
+        "EQ",
+        "false_report_on_license_application",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_2",
+    "desc": "為未經核准登記之保險業洽訂保險契約",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_2",
+      [
+        "EQ",
+        "contract_with_unapproved_insurer",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_3",
+    "desc": "故意隱匿保險契約之重要事項",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_3",
+      [
+        "EQ",
+        "conceal_important_contract_info",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_4",
+    "desc": "利用職務或業務便利強迫、引誘或限制締約自由或索取額外報酬",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_4",
+      [
+        "EQ",
+        "coerce_or_induce_or_limit_contract_freedom_or_extra_fee",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_5",
+    "desc": "以誇大不實或其他不當方法經營或執行業務或招聘人員",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_5",
+      [
+        "EQ",
+        "exaggerate_or_mislead_or_improper_business_or_recruit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_6",
+    "desc": "以不當手段慫恿保戶退保、轉保或貸款",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_6",
+      [
+        "EQ",
+        "improperly_induce_policyholder_to_cancel_or_transfer_or_loan",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_7",
+    "desc": "挪用或侵占保險費、再保險費、保險金或再保險賠款",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_7",
+      [
+        "EQ",
+        "misappropriate_or_embezzle_premiums_or_claims",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_8",
+    "desc": "本人未執行業務而以執業證照供他人使用",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_8",
+      [
+        "EQ",
+        "license_used_by_others_without_own_execution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_9",
+    "desc": "有侵占、詐欺、背信、偽造文書行為受刑之宣告",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_9",
+      [
+        "EQ",
+        "convicted_of_embezzlement_fraud_breach_forgery",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_10",
+    "desc": "經營或執行執業證照所載範圍以外之保險業務",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_10",
+      [
+        "EQ",
+        "operate_outside_license_scope",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_11",
+    "desc": "除合約及法定合理報酬外，以其他費用名目或第三人名義向保險人收取不當報酬",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_11",
+      [
+        "EQ",
+        "charge_improper_fees_or_third_party",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_12",
+    "desc": "以不法方式使保險人為不當保險給付",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_12",
+      [
+        "EQ",
+        "illegal_induce_improper_insurance_payment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_13",
+    "desc": "散播不實言論或文宣擾亂金融秩序",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_13",
+      [
+        "EQ",
+        "spread_false_statements_disturb_financial_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_14",
+    "desc": "授權第三人代為經營或以他人名義經營或執行業務",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_14",
+      [
+        "EQ",
+        "authorize_others_or_use_others_name_to_operate",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_15",
+    "desc": "將非所任用經紀人或非所屬保險業務員招攬之要保文件轉報保險人或轉由他人交付",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_15",
+      [
+        "EQ",
+        "transfer_unassigned_policy_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_16",
+    "desc": "聘用未具保險招攬資格者為招攬保險業務",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_16",
+      [
+        "EQ",
+        "employ_unqualified_insurance_solicitor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_17",
+    "desc": "未依規定期限辦理繳銷或註銷執業證照",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_17",
+      [
+        "EQ",
+        "fail_to_cancel_license_in_time",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_18",
+    "desc": "擅自停業、暫停業務、復業、解散或終止業務",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_18",
+      [
+        "EQ",
+        "unauthorized_suspend_resume_or_terminate_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_19",
+    "desc": "經紀人公司或銀行未於經紀人離職時依規定任用經紀人",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_19",
+      [
+        "EQ",
+        "fail_to_appoint_broker_after_resignation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_20",
+    "desc": "未依主管機關規定向經紀人商業同業公會或經紀人公會報備",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_20",
+      [
+        "EQ",
+        "fail_to_report_to_broker_association",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_21",
+    "desc": "使用非保險業提供或未經同意之保險商品廣告宣傳內容",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_21",
+      [
+        "EQ",
+        "use_unauthorized_insurance_advertisement",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_22",
+    "desc": "將佣酬支付予非實際招攬之保險業務員及其業務主管（續期佣酬除外）",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_22",
+      [
+        "EQ",
+        "pay_commission_to_non_actual_solicitor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_23",
+    "desc": "未確認金融消費者對保險商品之適合度，含65歲以上客戶提供不適合商品",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_23",
+      [
+        "EQ",
+        "fail_to_confirm_consumer_suitability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_24",
+    "desc": "銷售未經主管機關許可之國外保單貼現受益權憑證商品",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_24",
+      [
+        "EQ",
+        "sell_unapproved_foreign_policy_discount_benefit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_25",
+    "desc": "提報業務或財務報表資料不實或不全",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_25",
+      [
+        "EQ",
+        "false_or_incomplete_business_or_financial_report",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_26",
+    "desc": "任職於保險業、擔任有關公會現職人員或登錄為保險業務員",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_26",
+      [
+        "EQ",
+        "hold_conflicting_positions",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_27",
+    "desc": "勸誘客戶解除或終止契約，或以貸款、定存解約或保險單借款繳交保險費",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_27",
+      [
+        "EQ",
+        "induce_contract_termination_or_use_loan_to_pay_premium",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_28",
+    "desc": "未據實填寫招攬報告書，未載明65歲以上客戶能力及保險商品適合度評估",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_28",
+      [
+        "EQ",
+        "fail_to_fill_solicitation_report_truthfully",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_29",
+    "desc": "其他違反本規則或相關法令",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_29",
+      [
+        "EQ",
+        "other_violation_of_rules_or_laws",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_misconduct_49_30",
+    "desc": "其他有損保險形象行為",
+    "expr": [
+      "EQ",
+      "broker_misconduct_49_30",
+      [
+        "EQ",
+        "other_behavior_harm_insurance_image",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第167-2條或違反許可及保證金投保規定，或違反經紀人管理規則第49條任一條款時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_license_permit",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "broker_misconduct_49_1",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_2",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_3",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_4",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_5",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_6",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_7",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_8",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_9",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_10",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_11",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_12",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_13",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_14",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_15",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_16",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_17",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_18",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_19",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_20",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_21",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_22",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_23",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_24",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_25",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_26",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_27",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_28",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_29",
+            true
+          ],
+          [
+            "EQ",
+            "broker_misconduct_49_30",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

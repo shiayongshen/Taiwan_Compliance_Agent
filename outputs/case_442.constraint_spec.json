@@ -1,0 +1,321 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_noncompliance",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_4_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_level_4_measures_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_deterioration_noncompliance",
+    "desc": "財務或業務狀況顯著惡化且未提出或未完成改善計畫",
+    "expr": [
+      "EQ",
+      "financial_deterioration_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:accelerated_deterioration_noncompliance",
+    "desc": "損益、淨值加速惡化且未改善",
+    "expr": [
+      "EQ",
+      "accelerated_deterioration_noncompliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "accelerated_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_effective",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reinsurance_violation",
+    "desc": "違反再保險分出、分入、危險分散機制方式或限額規定",
+    "expr": [
+      "EQ",
+      "reinsurance_violation",
+      [
+        "EQ",
+        "violation_of_reinsurance_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:professional_reinsurance_violation",
+    "desc": "專業再保險業違反業務範圍或財務管理規定",
+    "expr": [
+      "EQ",
+      "professional_reinsurance_violation",
+      [
+        "EQ",
+        "violation_of_professional_reinsurance_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_violation",
+    "desc": "未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_violation",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_violation",
+    "desc": "未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "internal_handling_violation",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_operation_violation",
+    "desc": "未建立或未執行內部作業制度或程序",
+    "expr": [
+      "EQ",
+      "internal_operation_violation",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_operation_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_operation_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:illegal_acts_under_supervision",
+    "desc": "監管處分期間違反主管機關規定之行為",
+    "expr": [
+      "EQ",
+      "illegal_acts_under_supervision",
+      [
+        "OR",
+        [
+          "GT",
+          "payment_exceed_limit",
+          0.0
+        ],
+        [
+          "EQ",
+          "contract_or_major_commitment_made",
+          true
+        ],
+        [
+          "EQ",
+          "other_major_financial_impact",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反資本嚴重不足未完成增資或改善計畫，或財務惡化未提出核定改善計畫，或未建立執行內部控制、處理、作業制度，或違反再保險規定，或監管期間違法行為",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        "capital_level_4_noncompliance",
+        "financial_deterioration_noncompliance",
+        "accelerated_deterioration_noncompliance",
+        "internal_control_violation",
+        "internal_handling_violation",
+        "internal_operation_violation",
+        "reinsurance_violation",
+        "professional_reinsurance_violation",
+        "illegal_acts_under_supervision"
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

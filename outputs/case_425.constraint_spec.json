@@ -1,0 +1,455 @@
+[
+  {
+    "id": "insurance:capital_level_severe_insufficient",
+    "desc": "資本等級嚴重不足判定",
+    "expr": [
+      "EQ",
+      "capital_level_severe_insufficient",
+      [
+        "OR",
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "net_worth",
+          0.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significant_deterioration",
+    "desc": "資本等級顯著惡化判定",
+    "expr": [
+      "EQ",
+      "capital_level_significant_deterioration",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          50.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "GE",
+          "net_worth_ratio",
+          0.0
+        ],
+        [
+          "LT",
+          "net_worth_ratio",
+          2.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_insufficient",
+    "desc": "資本等級不足判定",
+    "expr": [
+      "EQ",
+      "capital_level_insufficient",
+      [
+        "AND",
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          150.0
+        ],
+        [
+          "LT",
+          "capital_adequacy_ratio",
+          200.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_adequate",
+    "desc": "資本等級適足判定",
+    "expr": [
+      "EQ",
+      "capital_level_adequate",
+      [
+        "GE",
+        "capital_adequacy_ratio",
+        200.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著惡化, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_completed",
+    "desc": "資本嚴重不足等級措施完成（增資、改善計畫或合併完成）",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_completed",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_severe_insufficient",
+          true
+        ],
+        [
+          "EQ",
+          "capital_increase_completed",
+          true
+        ],
+        [
+          "EQ",
+          "financial_or_business_improvement_plan_completed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_completed",
+    "desc": "資本顯著惡化等級措施完成（改善計畫核定且執行）",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_completed",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_significant_deterioration",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_completed",
+    "desc": "資本不足等級措施完成（改善計畫核定且執行）",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_completed",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level_insufficient",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_approved",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_144_1_to_4_145",
+    "desc": "違反第一百四十四條第一項至第四項、第一百四十五條規定",
+    "expr": [
+      "EQ",
+      "violation_144_1_to_4_145",
+      [
+        "EQ",
+        "violation_144_1_to_4_145_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_144_5",
+    "desc": "簽證精算人員或外部複核精算人員違反第一百四十四條第五項規定",
+    "expr": [
+      "EQ",
+      "violation_144_5",
+      [
+        "EQ",
+        "violation_144_5_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_1_or_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violation_148_1_or_2",
+      [
+        "EQ",
+        "violation_148_1_or_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定（未提供說明文件、說明文件未依規定記載或記載不實）",
+    "expr": [
+      "EQ",
+      "violation_148_2_1",
+      [
+        "EQ",
+        "violation_148_2_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定（未依限報告或公開說明，或內容不實）",
+    "expr": [
+      "EQ",
+      "violation_148_2_2",
+      [
+        "EQ",
+        "violation_148_2_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定（未建立或未執行內部控制或稽核制度）",
+    "expr": [
+      "EQ",
+      "violation_148_3_1",
+      [
+        "EQ",
+        "violation_148_3_1_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定（未建立或未執行內部處理制度或程序）",
+    "expr": [
+      "EQ",
+      "violation_148_3_2",
+      [
+        "EQ",
+        "violation_148_3_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反相關法令規定或資本嚴重不足且未完成增資或改善計畫時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_144_1_to_4_145",
+          true
+        ],
+        [
+          "EQ",
+          "violation_144_5",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_148_3_2",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level_severe_insufficient",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "OR",
+              [
+                "EQ",
+                "capital_increase_completed",
+                true
+              ],
+              [
+                "EQ",
+                "financial_or_business_improvement_plan_completed",
+                true
+              ],
+              [
+                "EQ",
+                "merger_completed",
+                true
+              ]
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

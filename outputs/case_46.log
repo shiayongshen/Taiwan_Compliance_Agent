@@ -1,0 +1,126 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (2489 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (2710 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (7 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (18 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (7 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (18 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (18 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law SAT → 案例可能無違規，但資料集為違規案例，嘗試修復以達成 UNSAT
+❌ Checkpoint [step8_case_law_check]: FAIL (SAT (unexpected))
+
+============================================================
+Step 8.1: SAT→UNSAT Repair
+============================================================
+🔧 Starting SAT→UNSAT repair process...
+
+--- Strategy 1: Repair Facts ---
+✅ Generated new aggressive facts: ['fhc_violation_flag', 'violation_occurred', 'remove_or_suspend_director_supervisor', 'penalty_measures', 'director_supervisor_removal_notify', 'revoke_license', 'dispose_shares_and_reduce_directors', 'dispose_subsidiary_shares', 'dissolution_and_liquidation_ordered', 'license_revocation_requirements_met', 'license_revocation_penalty', 'notify_economic_ministry_to_revoke_registration', 'other_necessary_measures', 'penalty', 'remove_manager_or_staff', 'revoke_statutory_meeting_resolution', 'suspend_subsidiary_business', 'prohibit_use_name_and_change_registration']
+⚠️ Facts修復後仍然 SAT
+
+--- Strategy 2: Strengthen Constraints ---
+✅ Generated 9 strengthened constraints
+⚠️ Constraints加強後仍然 ERROR
+
+--- Strategy 3: Combined Repair ---
+❌ 組合修復後仍然 ERROR
+❌ 所有修復策略都失敗
+❌ SAT→UNSAT 修復失敗
+❌ Checkpoint [step8_violation_detected]: FAIL (SAT and repair failed)
+❌ Checkpoint [step8_repair_success]: FAIL (SAT→UNSAT repair failed)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_46
+
+📊 Model (filtered):
+   dispose_shares_and_reduce_directors = False
+   revoke_license = False
+   fhc_violation_flag = True
+   revoke_statutory_meeting_resolution = False
+   remove_manager_or_staff = False
+   dispose_subsidiary_shares = False
+   suspend_subsidiary_business = False
+   remove_or_suspend_director_supervisor = True
+   other_necessary_measures = False
+   dissolution_and_liquidation_ordered = False
+   prohibit_use_name_and_change_registration = False
+   notify_economic_ministry_to_revoke_registration = True
+   penalty_measures = True
+   license_revocation_requirements_met = False
+   director_supervisor_removal_notify = True
+   violation_occurred = True
+   penalty = False
+   license_revocation_penalty = False
+✅ Model saved to: outputs\case_46.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_46.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_46.smt2

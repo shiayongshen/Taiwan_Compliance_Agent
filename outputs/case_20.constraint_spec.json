@@ -1,0 +1,467 @@
+[
+  {
+    "id": "securities:fiduciary_duty_compliance",
+    "desc": "證券投資信託事業等依善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "fiduciary_duty_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_loyalty",
+          true
+        ],
+        [
+          "EQ",
+          "good_faith_principle",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:confidentiality_compliance",
+    "desc": "保守受益人或客戶個人資料及交易資料秘密",
+    "expr": [
+      "EQ",
+      "confidentiality_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "other_law_or_authority_exemption",
+          true
+        ],
+        [
+          "EQ",
+          "confidentiality_maintained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:insider_trading_prohibition",
+    "desc": "負責人及相關人員不得從事特定公司股票及股權性質衍生商品交易期間交易",
+    "expr": [
+      "EQ",
+      "insider_trading_prohibition",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "fund_invests_in_company_stock_or_equity_derivatives",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "OR",
+            [
+              "EQ",
+              "person_or_related_trades_company_stock_or_equity_derivatives",
+              true
+            ],
+            [
+              "EQ",
+              "exemption_by_authority",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personal_trade_declaration_compliance",
+    "desc": "負責人及相關人員應依主管機關規定申報公司股票及股權性質衍生商品交易",
+    "expr": [
+      "EQ",
+      "personal_trade_declaration_compliance",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "person_or_related_trades_company_stock_or_equity_derivatives",
+          true
+        ],
+        [
+          "EQ",
+          "trade_declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_established",
+    "desc": "證券投資信託事業建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_executed",
+    "desc": "證券投資信託事業依法令、章程及內部控制制度經營業務",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_operated_according_to_law_and_articles",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_change_approved",
+    "desc": "內部控制制度訂定或變更經董事會同意並留存備查",
+    "expr": [
+      "EQ",
+      "internal_control_change_approved",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_system_changed",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_change_approved_by_board",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_change_filed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personal_trade_prohibition",
+    "desc": "負責人及業務人員不得洩漏消息或從事不當交易行為",
+    "expr": [
+      "EQ",
+      "personal_trade_prohibition",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "insider_information_leaked",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "self_or_others_benefit_trades",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fraudulent_or_misleading_acts",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "undisclosed_rebate_or_benefit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_promotion_or_benefit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bribery_for_voting_rights",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "market_price_manipulation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unauthorized_account_transfer",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_public_recommendation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unreasonable_commission_payment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unauthorized_agent_trades",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personal_trade_confidentiality",
+    "desc": "負責人及業務人員保守受益人或客戶個人資料及交易資料秘密",
+    "expr": [
+      "EQ",
+      "personal_trade_confidentiality",
+      [
+        "OR",
+        [
+          "EQ",
+          "other_law_or_authority_exemption",
+          true
+        ],
+        [
+          "EQ",
+          "confidentiality_maintained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personal_trade_declaration_required",
+    "desc": "負責人及相關人員本人及關係人應申報公司股票及股權性質衍生商品交易",
+    "expr": [
+      "EQ",
+      "personal_trade_declaration_required",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "person_or_related_trades_company_stock_or_equity_derivatives",
+          true
+        ],
+        [
+          "EQ",
+          "trade_declaration_submitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:personal_trade_related_person_definition",
+    "desc": "關係人定義符合規定",
+    "expr": [
+      "EQ",
+      "related_person_definition_compliant",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "person_is_natural_person",
+            true
+          ],
+          [
+            "EQ",
+            "related_person_is_spouse_or_second_degree_relative_or_enterprise_controlled_by_person_or_spouse",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "person_is_natural_person",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "related_person_is_controlled_corporation",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "securities:penalty_conditions",
+    "desc": "處罰條件：違反善良管理人義務、保密義務、內部控制制度、個人交易申報及禁止交易等規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "fiduciary_duty_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "confidentiality_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_change_approved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_trade_prohibition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_trade_confidentiality",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_trade_declaration_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_person_definition_compliant",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

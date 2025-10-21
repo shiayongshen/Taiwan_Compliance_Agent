@@ -1,0 +1,566 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severely_insufficient_and_no_compliance",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_severely_insufficient_and_no_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_significantly_worsened_and_no_compliance",
+    "desc": "財務或業務狀況顯著惡化且未改善",
+    "expr": [
+      "EQ",
+      "capital_level_significantly_worsened_and_no_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_significantly_worsened",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_restriction_applied",
+    "desc": "主管機關對保險業限制營業或資金運用範圍",
+    "expr": [
+      "EQ",
+      "supervision_restriction_applied",
+      [
+        "EQ",
+        "restriction_on_business_or_funds",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_stop_sale_applied",
+    "desc": "主管機關令保險業停售保險商品或限制開辦",
+    "expr": [
+      "EQ",
+      "supervision_stop_sale_applied",
+      [
+        "EQ",
+        "stop_sale_or_limit_product",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_capital_increase_ordered",
+    "desc": "主管機關令保險業增資",
+    "expr": [
+      "EQ",
+      "supervision_capital_increase_ordered",
+      [
+        "EQ",
+        "capital_increase_ordered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_manager_dismissed",
+    "desc": "主管機關令保險業解除經理人或職員職務",
+    "expr": [
+      "EQ",
+      "supervision_manager_dismissed",
+      [
+        "EQ",
+        "manager_or_staff_dismissed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_meeting_resolution_revoked",
+    "desc": "主管機關撤銷法定會議之決議",
+    "expr": [
+      "EQ",
+      "supervision_meeting_resolution_revoked",
+      [
+        "EQ",
+        "meeting_resolution_revoked",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_board_dismissed",
+    "desc": "主管機關解除董（理）事、監察人（監事）職務或停止執行職務",
+    "expr": [
+      "EQ",
+      "supervision_board_dismissed",
+      [
+        "EQ",
+        "board_or_supervisor_dismissed_or_suspended",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_other_measures",
+    "desc": "主管機關採取其他必要處置",
+    "expr": [
+      "EQ",
+      "supervision_other_measures",
+      [
+        "EQ",
+        "other_necessary_measures",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:board_dismissal_registration_cancelled",
+    "desc": "解除董（理）事、監察人職務時，主管機關通知登記機關廢止登記",
+    "expr": [
+      "EQ",
+      "board_dismissal_registration_cancelled",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "supervision_board_dismissed",
+          true
+        ],
+        [
+          "EQ",
+          "registration_cancelled",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures_for_severe_cases",
+    "desc": "資本嚴重不足且未完成增資、改善計畫或合併，主管機關應於期限後九十日內為接管、勒令停業清理或解散處分",
+    "expr": [
+      "EQ",
+      "supervision_measures_for_severe_cases",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "capital_level_severely_insufficient_and_no_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "supervision_takeover_or_shutdown_or_dissolution",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures_for_other_worsened_cases",
+    "desc": "財務或業務狀況顯著惡化且未改善，主管機關得依情節輕重為監管、接管、勒令停業清理或解散處分",
+    "expr": [
+      "EQ",
+      "supervision_measures_for_other_worsened_cases",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "capital_level_significantly_worsened_and_no_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "supervision_takeover_or_shutdown_or_dissolution",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_major_event_extension",
+    "desc": "因重大事件影響金融市場，未於期限完成增資、改善或合併，主管機關得延長期限或要求重新提計畫",
+    "expr": [
+      "EQ",
+      "supervision_major_event_extension",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "major_event_affecting_market_and_no_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "supervision_deadline_extended_or_plan_resubmitted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_delegate_others",
+    "desc": "主管機關得委託其他保險業、相關機構或專業人員擔任監管人、接管人、清理人或清算人",
+    "expr": [
+      "EQ",
+      "supervision_delegate_others",
+      [
+        "EQ",
+        "supervision_delegate_assigned",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_delegate_exempt_gov_procurement",
+    "desc": "主管機關委託之相關機構或個人辦理受委託事項時，不適用政府採購法",
+    "expr": [
+      "EQ",
+      "supervision_delegate_exempt_gov_procurement",
+      [
+        "EQ",
+        "delegate_exempt_gov_procurement",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_takeover_exempt_company_law",
+    "desc": "保險業受接管或勒令停業清理時，不適用公司法有關臨時管理人或檢查人規定",
+    "expr": [
+      "EQ",
+      "supervision_takeover_exempt_company_law",
+      [
+        "EQ",
+        "takeover_exempt_company_law",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:takeover_reorganization_petition",
+    "desc": "接管人依本法規定聲請重整，得合併審理或裁定",
+    "expr": [
+      "EQ",
+      "takeover_reorganization_petition",
+      [
+        "EQ",
+        "takeover_reorganization_petition_filed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_restriction_on_actions",
+    "desc": "保險業監管處分時，非經監管人同意不得超限支付款項、締結契約或其他重大財務事項",
+    "expr": [
+      "EQ",
+      "supervision_restriction_on_actions",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "payment_exceed_limit_allowed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_or_major_commitment_without_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_major_financial_actions_without_approval",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_inspection_applied",
+    "desc": "監管人執行監管職務時，準用檢查規定",
+    "expr": [
+      "EQ",
+      "supervision_inspection_applied",
+      [
+        "EQ",
+        "inspection_rules_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_procedure_regulated",
+    "desc": "主管機關定監管、接管程序及監管人、接管人職權、費用負擔等辦法",
+    "expr": [
+      "EQ",
+      "supervision_procedure_regulated",
+      [
+        "EQ",
+        "supervision_procedure_defined",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:legal_operation_permission",
+    "desc": "保險業非經主管機關許可、依法設立登記、繳存保證金及領得營業執照不得開始營業",
+    "expr": [
+      "EQ",
+      "legal_operation_permission",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "EQ",
+          "registration_completed",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_guarantee_paid",
+          true
+        ],
+        [
+          "EQ",
+          "business_license_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:foreign_insurance_legal_operation_permission",
+    "desc": "外國保險業非經主管機關許可、依法設立登記、繳存保證金及領得營業執照不得開始營業",
+    "expr": [
+      "EQ",
+      "foreign_insurance_legal_operation_permission",
+      [
+        "AND",
+        [
+          "EQ",
+          "foreign_license_permitted",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_registration_completed",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_deposit_guarantee_paid",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_business_license_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本嚴重不足且未完成增資、改善計畫或合併，或財務業務顯著惡化且未改善，或未依法取得營業許可開始營業時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "capital_level_severely_insufficient_and_no_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "capital_level_significantly_worsened_and_no_compliance",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "legal_operation_permission",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "foreign_insurance_legal_operation_permission",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

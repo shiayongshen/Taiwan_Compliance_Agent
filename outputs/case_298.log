@@ -1,0 +1,138 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5390 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6423 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (11 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (49 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (11 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (47 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (47 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c57', 'insurance:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c57', 'insurance:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_298
+
+📊 Model (filtered):
+   investment_in_real_estate = False
+   engage_in_derivative_transactions = True
+   deposit_amount_per_financial_institution = 2000000000
+   deposit_limit_approved_by_authority = 1
+   investment_in_securities = True
+   business_is_finance_lease = False
+   business_is_credit_card = False
+   investment_in_foreign_investments = True
+   business_is_securities_investment_trust = False
+   business_is_securities_investment_advisory = False
+   insurance_fund_total = 10000000000
+   business_is_bills_finance = False
+   investment_in_derivative_transactions = True
+   business_is_insurance = True
+   full_discretionary_investment_license_obtained = False
+   business_is_trust = False
+   investment_in_loans = True
+   derivative_transaction_regulations_followed = True
+   special_accounting_book_established = False
+   policyholder_full_discretionary_investment = False
+   investment_insurance_business = True
+   investment_in_other_approved_uses = False
+   business_is_other_approved_insurance_related = False
+   business_is_futures = False
+   exempt_from_specified_articles = False
+   business_is_securities = False
+   investment_in_insurance_related_business = True
+   investment_in_special_approved_projects = False
+   business_is_financial_holding = False
+   business_investment_type = True
+   business_is_bank = False
+   policy_sales_underwriting_claims_system = True
+   internal_handling_system_established = True
+   investment_bookkeeping_compliant = False
+   internal_control_and_audit_established = True
+   overdue_loan_management = True
+   reserve_provision_system = True
+   full_discretionary_investment_license_compliant = True
+   bad_debt_writeoff = True
+   investment_in_allowed_categories = True
+   derivative_transaction_compliant = True
+   special_accounting_book_exemption = True
+   collection_management = True
+   penalty = False
+   deposit_limit_per_financial_institution = 1
+   internal_control_established = True
+   audit_system_established = True
+   insurance_related_business_valid = True
+   asset_quality_evaluation_system = True
+✅ Model saved to: outputs\case_298.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_298.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_298.smt2

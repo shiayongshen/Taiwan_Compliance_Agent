@@ -1,0 +1,798 @@
+[
+  {
+    "id": "insurance:related_person_definition",
+    "desc": "同一人定義為同一自然人或同一法人",
+    "expr": [
+      "EQ",
+      "related_person_same",
+      [
+        "OR",
+        [
+          "EQ",
+          "person_type",
+          "natural_person"
+        ],
+        [
+          "EQ",
+          "person_type",
+          "legal_person"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_person_scope",
+    "desc": "同一關係人範圍包含本人、配偶、二親等以內血親及本人或配偶為負責人之事業",
+    "expr": [
+      "EQ",
+      "related_person_scope_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "is_self_or_spouse",
+          true
+        ],
+        [
+          "LE",
+          "degree_of_kinship",
+          2
+        ],
+        [
+          "EQ",
+          "is_responsible_person_of_enterprise",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_enterprise_scope",
+    "desc": "同一關係企業範圍依公司法369-1至369-3、369-9及369-11規定",
+    "expr": [
+      "EQ",
+      "related_enterprise_scope_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "company_law_369_1_to_369_3_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_9_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "company_law_369_11_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:other_transaction_limit_compliance",
+    "desc": "保險業與利害關係人從事放款以外其他交易符合主管機關規定",
+    "expr": [
+      "EQ",
+      "other_transaction_limit_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "other_transaction_scope_defined_by_authority",
+          true
+        ],
+        [
+          "EQ",
+          "other_transaction_limit_complied",
+          true
+        ],
+        [
+          "EQ",
+          "other_transaction_must_follow_procedures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_equity_exchange",
+    "desc": "保險業不得與被投資公司或第三人以信託、委任或其他契約約定股權交換或利益輸送",
+    "expr": [
+      "EQ",
+      "prohibited_equity_exchange",
+      [
+        "NOT",
+        [
+          "EQ",
+          "equity_exchange_or_benefit_transfer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:protect_insured_interest",
+    "desc": "不得損及要保人、被保險人或受益人利益",
+    "expr": [
+      "EQ",
+      "insured_interest_protected",
+      [
+        "EQ",
+        "insured_interest_not_harmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:voting_rights_evaluation",
+    "desc": "出席被投資公司股東會前應作成行使表決權評估分析說明",
+    "expr": [
+      "EQ",
+      "voting_rights_evaluation_done",
+      [
+        "EQ",
+        "voting_rights_evaluation_reported",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:voting_rights_record_reported",
+    "desc": "股東會後應將行使表決權書面紀錄提報董事會",
+    "expr": [
+      "EQ",
+      "voting_rights_record_reported",
+      [
+        "EQ",
+        "voting_rights_record_submitted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:proxy_request_prohibition",
+    "desc": "保險業及其從屬公司不得擔任被投資公司委託書徵求人或委託他人擔任",
+    "expr": [
+      "EQ",
+      "proxy_request_prohibited",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "proxy_requester",
+            true
+          ],
+          [
+            "EQ",
+            "proxy_requester_agent",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_classification",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "CAR",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "CAR",
+            50.0
+          ],
+          [
+            "LT",
+            "CAR",
+            150.0
+          ],
+          [
+            "GE",
+            "NWR",
+            0.0
+          ],
+          [
+            "LT",
+            "NWR",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "CAR",
+            150.0
+          ],
+          [
+            "LT",
+            "CAR",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "CAR",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級4措施已執行",
+    "expr": [
+      "EQ",
+      "level_4_measures_executed",
+      [
+        "EQ",
+        "level_4_measures_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著不足等級3措施已執行",
+    "expr": [
+      "EQ",
+      "level_3_measures_executed",
+      [
+        "EQ",
+        "level_3_measures_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級2措施已執行",
+    "expr": [
+      "EQ",
+      "level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures",
+    "desc": "主管機關對違反法令或有礙健全經營保險業得採取監管、接管、勒令停業清理或命令解散等處分",
+    "expr": [
+      "EQ",
+      "supervision_measures_applicable",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_increase_or_improvement_plan_completed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ]
+          ],
+          [
+            "EQ",
+            "financial_or_business_condition_significantly_deteriorated",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "unable_to_pay_debts",
+              true
+            ],
+            [
+              "EQ",
+              "unable_to_fulfill_contracts",
+              true
+            ],
+            [
+              "EQ",
+              "risk_of_harming_insured_rights",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_measures_deadline_extension",
+    "desc": "主管機關得延長期限或重新提具增資、改善或合併計畫",
+    "expr": [
+      "EQ",
+      "supervision_measures_deadline_extended",
+      [
+        "EQ",
+        "deadline_extended_or_plan_resubmitted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_delegate",
+    "desc": "主管機關得委託其他保險業、相關機構或專業人員擔任監管人、接管人、清理人或清算人",
+    "expr": [
+      "EQ",
+      "supervision_delegate_ok",
+      [
+        "EQ",
+        "supervision_delegate_assigned",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:procurement_law_not_applicable",
+    "desc": "主管機關委託相關機構或個人辦理受委託事項時，不適用政府採購法",
+    "expr": [
+      "EQ",
+      "procurement_law_not_applicable",
+      [
+        "EQ",
+        "procurement_law_exempted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:receivership_procedure_exemption",
+    "desc": "保險業受接管或勒令停業清理時，不適用公司法臨時管理人或檢查人規定",
+    "expr": [
+      "EQ",
+      "receivership_procedure_exempted",
+      [
+        "EQ",
+        "company_law_procedure_exempted",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reorganization_application",
+    "desc": "接管人依本法規定聲請重整，法院得合併審理或裁定",
+    "expr": [
+      "EQ",
+      "reorganization_application_ok",
+      [
+        "EQ",
+        "reorganization_application_filed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_restrictions",
+    "desc": "保險業監管處分期間不得超過主管機關規定限額支付款項或處分財產等",
+    "expr": [
+      "EQ",
+      "supervision_restrictions_complied",
+      [
+        "AND",
+        [
+          "LE",
+          "payment_amount",
+          "supervision_limit"
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_or_major_commitment_made",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_major_financial_impact",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:supervision_inspection_applied",
+    "desc": "監管人執行監管職務時準用檢查規定",
+    "expr": [
+      "EQ",
+      "supervision_inspection_applied",
+      [
+        "EQ",
+        "inspection_rules_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:related_person_scope_definition",
+    "desc": "利害關係人範圍包括負責人、大股東及其相關企業等",
+    "expr": [
+      "EQ",
+      "related_person_scope_defined",
+      [
+        "AND",
+        [
+          "EQ",
+          "is_responsible_person_or_major_shareholder",
+          true
+        ],
+        [
+          "EQ",
+          "is_responsible_person_enterprise",
+          true
+        ],
+        [
+          "EQ",
+          "is_related_enterprise",
+          true
+        ],
+        [
+          "EQ",
+          "is_subsidiary_responsible_person",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:responsible_person_definition",
+    "desc": "負責人範圍包括董事、監察人、總經理、副總經理、協理、經理或相當職責人員",
+    "expr": [
+      "EQ",
+      "responsible_person_defined",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_director",
+          true
+        ],
+        [
+          "EQ",
+          "is_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "is_general_manager",
+          true
+        ],
+        [
+          "EQ",
+          "is_deputy_general_manager",
+          true
+        ],
+        [
+          "EQ",
+          "is_assistant_manager",
+          true
+        ],
+        [
+          "EQ",
+          "is_manager",
+          true
+        ],
+        [
+          "EQ",
+          "is_equivalent_position",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:major_shareholder_definition",
+    "desc": "大股東指持有保險業已發行股份總數10%以上者，含配偶及未成年子女持股",
+    "expr": [
+      "EQ",
+      "major_shareholder_defined",
+      [
+        "GE",
+        "shareholding_percentage_including_spouse_and_minor_children",
+        10.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反資本等級規定且未執行對應措施，或違反其他法令規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "level_2_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_person_same",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_person_scope_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_enterprise_scope_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_transaction_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_equity_exchange",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insured_interest_protected",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "voting_rights_evaluation_done",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "voting_rights_record_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "proxy_request_prohibited",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervision_measures_applicable",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervision_delegate_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "supervision_inspection_applied",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_person_scope_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "responsible_person_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "major_shareholder_defined",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

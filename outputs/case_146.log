@@ -1,0 +1,217 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (11880 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (13815 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (44 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (110 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (44 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (22 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (22 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law SAT → 案例可能無違規，但資料集為違規案例，嘗試修復以達成 UNSAT
+❌ Checkpoint [step8_case_law_check]: FAIL (SAT (unexpected))
+
+============================================================
+Step 8.1: SAT→UNSAT Repair
+============================================================
+🔧 Starting SAT→UNSAT repair process...
+
+--- Strategy 1: Repair Facts ---
+✅ Generated new aggressive facts: ['violation_flag', 'violation_occurred', 'penalty_measures_taken', 'correction_ordered', 'fine_imposed', 'violate_internal_control_or_audit', 'internal_control_established', 'internal_control_executed', 'audit_system_established', 'audit_system_executed', 'solicitation_handling_system_established', 'solicitation_handling_system_executed', 'fail_to_confirm_product_suitability', 'fail_to_fill_solicitation_report_truthfully', 'truthful_solicitation_report_management', 'customer_need_and_suitability_assessment', 'customer_complaints_handling', 'other_rule_or_law_violation', 'advertisement_and_promotion_management']
+⚠️ Facts修復後仍然 SAT
+
+--- Strategy 2: Strengthen Constraints ---
+✅ Generated 51 strengthened constraints
+⚠️ Constraints加強後仍然 ERROR
+
+--- Strategy 3: Combined Repair ---
+❌ 組合修復後仍然 ERROR
+❌ 所有修復策略都失敗
+❌ SAT→UNSAT 修復失敗
+❌ Checkpoint [step8_violation_detected]: FAIL (SAT and repair failed)
+❌ Checkpoint [step8_repair_success]: FAIL (SAT→UNSAT repair failed)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_146
+
+📊 Model (filtered):
+   violation_flag = True
+   penalty_measures_taken = True
+   correction_ordered = True
+   fine_imposed = True
+   license_revoked = False
+   audit_system_executed = False
+   solicitation_handling_system_executed = False
+   internal_control_executed = False
+   audit_system_established = False
+   solicitation_handling_system_established = False
+   internal_control_established = False
+   fail_to_confirm_product_suitability = True
+   fail_to_fill_solicitation_report_truthfully = True
+   truthful_solicitation_report_management = False
+   customer_need_and_suitability_assessment = False
+   customer_complaints_handling = False
+   other_rule_or_law_violation = False
+   advertisement_and_promotion_management = False
+   agent_violation_10 = False
+   audit_committee_management_included_flag = False
+   audit_committee_established = False
+   audit_committee_management_included = True
+   penalty_dismiss_director_supervisor = False
+   dismiss_director_supervisor = False
+   internal_control_system_defined = False
+   solicitation_handling_system_defined = False
+   internal_control_system_established = False
+   agent_violation_30 = False
+   agent_violation_29 = True
+   violation_occurred = True
+   license_used_by_others = False
+   agent_violation_9 = False
+   hold_conflicting_positions = False
+   agent_violation_27 = False
+   penalty_measures_applicable = True
+   fail_to_cancel_license_in_time = False
+   agent_violation_18 = False
+   penalty_limit_business_scope = False
+   limit_business_scope = False
+   agent_violation_24 = True
+   improper_inducement_of_policyholder = False
+   agent_violation_7 = False
+   pay_commission_to_non_actual_solicitor = False
+   agent_violation_23 = False
+   illegal_insurance_payment = False
+   agent_violation_13 = False
+   improper_collection_of_funds_or_rewards = False
+   agent_violation_12 = False
+   false_or_misleading_promotion_or_recruitment = False
+   agent_violation_6 = False
+   violate_rule_163_4 = False
+   violate_rule_163_5 = False
+   violate_rule_163_7 = False
+   violate_rule_165_1 = False
+   violate_finance_or_business_management_rules = False
+   unapproved_insurance_business = False
+   agent_violation_3 = False
+   sell_unapproved_foreign_policy_discount = False
+   agent_violation_25 = False
+   fail_to_report_to_agent_association = False
+   agent_violation_21 = False
+   fail_to_appoint_agent_after_resignation = False
+   agent_violation_20 = False
+   induce_contract_termination_or_loan_payment = False
+   agent_violation_28 = False
+   spread_false_information_disturb_financial_order = False
+   agent_violation_14 = False
+   misappropriation_of_premiums_or_claims = False
+   agent_violation_8 = False
+   use_unapproved_advertisement = False
+   agent_violation_22 = False
+   violate_internal_control_or_audit = True
+   qualification_and_solicitation_management = False
+   compensation_and_risk_linkage = False
+   premium_collection_and_management = False
+   product_information_disclosure = False
+   pre_submission_check_mechanism = False
+   solicitation_document_control_and_storage = False
+   other_designated_matters = False
+   solicitation_handling_minimum_requirements = False
+   employ_unqualified_solicitors = False
+   agent_violation_17 = False
+   other_behavior_harm_insurance_image = False
+   agent_violation_31 = False
+   unapproved_insurance_agent_business = False
+   agent_violation_2 = False
+   notification_sent = False
+   notify_deregistration = False
+   coerce_or_induce_or_limit_contract_freedom_or_extra_fee = False
+   agent_violation_5 = False
+   unauthorized_suspend_or_terminate_business = False
+   agent_violation_19 = False
+   false_or_incomplete_report = False
+   agent_violation_26 = False
+   conceal_important_contract_info = False
+   agent_violation_4 = False
+   penalty_fine_or_license_revocation = True
+   penalty_internal_control_violation = True
+   improper_transfer_of_solicitation_documents = False
+   agent_violation_16 = False
+   authorize_others_to_operate_or_use_others_name = False
+   agent_violation_15 = False
+   business_outside_license_scope = False
+   agent_violation_11 = False
+   penalty_dismiss_manager_staff = False
+   dismiss_manager_staff = False
+   false_report_on_license_application = False
+   agent_violation_1 = False
+   criminal_conviction_for_fraud_or_breach = False
+✅ Model saved to: outputs\case_146.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_146.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_146.smt2

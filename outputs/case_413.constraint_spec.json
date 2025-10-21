@@ -1,0 +1,220 @@
+[
+  {
+    "id": "fhc:non_credit_transaction_counterparty",
+    "desc": "授信以外交易對象分類",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_counterparty",
+      [
+        "CASE",
+        "is_fhc_and_responsible_and_major_shareholder",
+        1,
+        "is_fhc_responsible_major_shareholder_sole_partner_or_enterprise_or_representative_group",
+        2,
+        "is_fhc_affiliate_and_responsible_and_major_shareholder",
+        3,
+        "is_fhc_bank_insurance_securities_subsidiary_and_subsidiary_responsible",
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_condition_met",
+    "desc": "授信以外交易條件符合定義",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_condition_met",
+      [
+        "OR",
+        "is_invest_or_purchase_issuer_securities",
+        "is_purchase_counterparty_real_estate_or_other_assets",
+        "is_sell_securities_real_estate_or_other_assets_to_counterparty",
+        "is_contract_pay_money_or_provide_service_to_counterparty",
+        "is_counterparty_agent_broker_or_commission_service",
+        "is_transaction_with_third_party_related_to_counterparty"
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:securities_exclusion",
+    "desc": "有價證券排除銀行子公司發行之可轉讓定期存單",
+    "expr": [
+      "EQ",
+      "securities_exclusion_ok",
+      [
+        "NOT",
+        "is_bank_subsidiary_transferable_time_deposit_certificate"
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:board_approval_met",
+    "desc": "董事會出席及決議比例符合規定",
+    "expr": [
+      "EQ",
+      "board_approval_met",
+      [
+        "AND",
+        [
+          "GE",
+          "board_attendance_ratio",
+          66.6667
+        ],
+        [
+          "GE",
+          "board_approval_ratio",
+          75.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:transaction_condition_not_better_than_others",
+    "desc": "授信以外交易條件不得優於其他同類對象",
+    "expr": [
+      "EQ",
+      "transaction_condition_not_better_than_others",
+      [
+        "EQ",
+        "transaction_condition_better_than_others",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_counterparty_limit_ok",
+    "desc": "銀行子公司與單一關係人交易金額不超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_counterparty_limit_ok",
+      [
+        "LE",
+        [
+          "MUL",
+          [
+            "DIV",
+            "bank_subsidiary_single_counterparty_transaction_amount",
+            "bank_subsidiary_net_worth"
+          ],
+          100.0
+        ],
+        10.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_counterparty_limit_ok",
+    "desc": "銀行子公司與所有利害關係人交易總額不超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_counterparty_limit_ok",
+      [
+        "LE",
+        [
+          "MUL",
+          [
+            "DIV",
+            "bank_subsidiary_all_counterparty_transaction_amount",
+            "bank_subsidiary_net_worth"
+          ],
+          100.0
+        ],
+        20.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:compliance_45_article",
+    "desc": "第45條授信以外交易條件及董事會決議符合規定",
+    "expr": [
+      "EQ",
+      "compliance_45_article",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_credit_transaction_condition_met",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_condition_better_than_others",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "board_approval_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第45條授信以外交易條件限制或董事會決議方法，或違反銀行子公司交易金額限制",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_45_article",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_single_counterparty_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "bank_subsidiary_all_counterparty_limit_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

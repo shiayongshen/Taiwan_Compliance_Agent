@@ -1,0 +1,319 @@
+[
+  {
+    "id": "insurance:investment_limit_financial_bonds",
+    "desc": "金融債券等投資總額不得超過保險業資金35%",
+    "expr": [
+      "EQ",
+      "investment_limit_financial_bonds",
+      [
+        "LE",
+        "financial_bonds_total",
+        [
+          "MUL",
+          "insurance_funds",
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_company_stock_per_firm",
+    "desc": "每一公司股票及相關股權性質有價證券投資不得超過保險業資金5%",
+    "expr": [
+      "EQ",
+      "investment_limit_company_stock_per_firm",
+      [
+        "LE",
+        "company_stock_and_equity_securities_per_firm",
+        [
+          "MUL",
+          "insurance_funds",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_company_stock_per_firm_shares",
+    "desc": "每一公司股票及相關股權性質有價證券投資不得超過該公司已發行股份總數10%",
+    "expr": [
+      "EQ",
+      "investment_limit_company_stock_per_firm_shares",
+      [
+        "LE",
+        "company_stock_and_equity_securities_shares_per_firm",
+        [
+          "MUL",
+          "company_issued_shares",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_corporate_bonds_per_firm",
+    "desc": "每一公司公司債及免保證商業本票投資不得超過保險業資金5%",
+    "expr": [
+      "EQ",
+      "investment_limit_corporate_bonds_per_firm",
+      [
+        "LE",
+        "corporate_bonds_and_commercial_paper_per_firm",
+        [
+          "MUL",
+          "insurance_funds",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_corporate_bonds_per_firm_equity",
+    "desc": "每一公司公司債及免保證商業本票投資不得超過該公司業主權益10%",
+    "expr": [
+      "EQ",
+      "investment_limit_corporate_bonds_per_firm_equity",
+      [
+        "LE",
+        "corporate_bonds_and_commercial_paper_equity_per_firm",
+        [
+          "MUL",
+          "company_equity",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_fund_total",
+    "desc": "證券投資信託基金及共同信託基金投資總額不得超過保險業資金10%",
+    "expr": [
+      "EQ",
+      "investment_limit_fund_total",
+      [
+        "LE",
+        "fund_investment_total",
+        [
+          "MUL",
+          "insurance_funds",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_fund_per_fund_shares",
+    "desc": "每一基金受益憑證投資不得超過該基金已發行受益憑證總額10%",
+    "expr": [
+      "EQ",
+      "investment_limit_fund_per_fund_shares",
+      [
+        "LE",
+        "fund_investment_per_fund_shares",
+        [
+          "MUL",
+          "fund_issued_shares",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_securitized_products",
+    "desc": "證券化商品及其他核准有價證券投資總額不得超過保險業資金10%",
+    "expr": [
+      "EQ",
+      "investment_limit_securitized_products",
+      [
+        "LE",
+        "securitized_products_total",
+        [
+          "MUL",
+          "insurance_funds",
+          10.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:investment_limit_stock_and_bond_combined",
+    "desc": "第三款及第四款投資總額合計不得超過保險業資金35%",
+    "expr": [
+      "EQ",
+      "investment_limit_stock_and_bond_combined",
+      [
+        "LE",
+        [
+          "ADD",
+          "company_stock_and_equity_securities_total",
+          "corporate_bonds_and_commercial_paper_total"
+        ],
+        [
+          "MUL",
+          "insurance_funds",
+          35.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_investment_conditions",
+    "desc": "不得以保險業或代表人擔任被投資公司董事、監察人等情事",
+    "expr": [
+      "EQ",
+      "prohibited_investment_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "insurance_or_representative_director",
+          false
+        ],
+        [
+          "EQ",
+          "insurance_or_representative_vote",
+          false
+        ],
+        [
+          "EQ",
+          "insurance_or_representative_manager",
+          false
+        ],
+        [
+          "EQ",
+          "insurance_trustee_supervisor",
+          false
+        ],
+        [
+          "EQ",
+          "insurance_or_third_party_agreement",
+          false
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反投資限額或禁止情事時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_financial_bonds",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_company_stock_per_firm",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_company_stock_per_firm_shares",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_corporate_bonds_per_firm",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_corporate_bonds_per_firm_equity",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_fund_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_fund_per_fund_shares",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_securitized_products",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_stock_and_bond_combined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_investment_conditions",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

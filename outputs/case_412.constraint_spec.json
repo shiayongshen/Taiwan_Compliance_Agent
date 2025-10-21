@@ -1,0 +1,275 @@
+[
+  {
+    "id": "insurance:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_established_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_executed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "內部控制及稽核制度建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_compliance",
+    "desc": "內部處理制度及程序建立且執行",
+    "expr": [
+      "EQ",
+      "internal_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_limit_ok",
+    "desc": "不動產投資總額不超過資金30%且自用不動產不超過業主權益總額",
+    "expr": [
+      "EQ",
+      "real_estate_investment_limit_ok",
+      [
+        "AND",
+        [
+          "LE",
+          "real_estate_investment_excluding_owner_use",
+          [
+            "MUL",
+            "total_funds",
+            0.3
+          ]
+        ],
+        [
+          "LE",
+          "owner_use_real_estate_investment",
+          "owner_equity_total"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_use_and_income_ok",
+    "desc": "不動產即時利用並有收益",
+    "expr": [
+      "EQ",
+      "real_estate_investment_use_and_income_ok",
+      [
+        "EQ",
+        "real_estate_use_and_income_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_compliance",
+    "desc": "不動產投資符合即時利用並有收益限制或住宅法例外",
+    "expr": [
+      "EQ",
+      "real_estate_investment_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "real_estate_investment_use_and_income_ok",
+          true
+        ],
+        [
+          "EQ",
+          "social_housing_exception",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_internal_procedure_ok",
+    "desc": "不動產投資內部處理程序及條件限制符合主管機關規定",
+    "expr": [
+      "EQ",
+      "real_estate_investment_internal_procedure_ok",
+      [
+        "EQ",
+        "real_estate_internal_procedure_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_valuation_ok",
+    "desc": "不動產取得及處分經合法鑑價機構評價",
+    "expr": [
+      "EQ",
+      "real_estate_valuation_ok",
+      [
+        "EQ",
+        "real_estate_valuation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未執行內部控制或稽核制度，或未建立或未執行內部處理制度或程序，或不動產投資違反限制，或不動產取得未經合法鑑價時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_investment_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_investment_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_investment_internal_procedure_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_valuation_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

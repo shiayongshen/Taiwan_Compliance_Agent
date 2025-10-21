@@ -1,0 +1,474 @@
+{
+  "case_id": "case_398",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 56.79,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 7827,
+  "total_output_tokens": 4694,
+  "total_tokens": 12521,
+  "total_cost_usd": 0.010641,
+  "timestamp": "2025-10-21T08:46:31.944461",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 782,
+      "output_tokens": 1465,
+      "elapsed_time": 13.988932609558105,
+      "cost": 0.0026568
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 3393,
+      "output_tokens": 1452,
+      "elapsed_time": 13.715432167053223,
+      "cost": 0.0036804000000000003
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 211,
+      "output_tokens": 760,
+      "elapsed_time": 13.812400817871094,
+      "cost": 0.0013004000000000002
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 211,
+      "output_tokens": 760,
+      "elapsed_time": 12.326459646224976,
+      "cost": 0.0013004000000000002
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3230,
+      "output_tokens": 257,
+      "elapsed_time": 2.9215176105499268,
+      "cost": 0.0017032000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3824 chars",
+      "timestamp": 13.988932609558105
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "3745 chars",
+      "timestamp": 27.704364776611328
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 27.704364776611328
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "30 varspecs",
+      "timestamp": 41.51676559448242
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 41.5197639465332
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 41.52376580238342
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 41.52376580238342
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "23 facts",
+      "timestamp": 56.772741079330444
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "23 constraints",
+      "timestamp": 56.772741079330444
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 56.77873992919922
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c11', 'meta:penalty_default_false', 'meta:penalty_conditions']",
+      "timestamp": 56.77873992919922
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 56.78773021697998
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 41.52376580238342
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:agent_broker_notary_license_and_guarantee",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:agent_broker_notary_license_and_guarantee",
+        [
+          "AND",
+          [
+            "EQ",
+            "license_permitted",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ],
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ],
+          [
+            "EQ",
+            "practice_certificate_held",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "agent_broker_notary_license_and_guarantee",
+        [
+          "AND",
+          [
+            "EQ",
+            "license_permitted",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ],
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ],
+          [
+            "EQ",
+            "practice_certificate_held",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:related_insurance_type",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:related_insurance_type",
+        [
+          "CASE",
+          [
+            "EQ",
+            "role_agent",
+            true
+          ],
+          "liability_insurance",
+          [
+            "EQ",
+            "role_notary",
+            true
+          ],
+          "liability_insurance",
+          [
+            "EQ",
+            "role_broker",
+            true
+          ],
+          "liability_and_guarantee_insurance",
+          "none"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "related_insurance_type",
+        [
+          "CASE",
+          [
+            "EQ",
+            "role_agent",
+            true
+          ],
+          "liability_insurance",
+          [
+            "EQ",
+            "role_notary",
+            true
+          ],
+          "liability_insurance",
+          [
+            "EQ",
+            "role_broker",
+            true
+          ],
+          "liability_and_guarantee_insurance",
+          "none"
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:minimum_amount_and_implementation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:minimum_amount_and_implementation",
+        [
+          "EQ",
+          "authority_defined_minimum_and_implementation",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "minimum_amount_and_implementation",
+        [
+          "EQ",
+          "authority_defined_minimum_and_implementation",
+          true
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:qualification_and_management_rules",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:qualification_and_management_rules",
+        [
+          "EQ",
+          "authority_defined_qualification_and_management_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "qualification_and_management_rules",
+        [
+          "EQ",
+          "authority_defined_qualification_and_management_rules",
+          true
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:bank_permitted_to_operate_agent_or_broker",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:bank_permitted_to_operate_agent_or_broker",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank_authority_permitted",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "bank_operate_agent",
+              true
+            ],
+            [
+              "EQ",
+              "bank_operate_broker",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_permitted_to_operate_agent_or_broker",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank_authority_permitted",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "bank_operate_agent",
+              true
+            ],
+            [
+              "EQ",
+              "bank_operate_broker",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:broker_duty_of_care_and_fidelity",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:broker_duty_of_care_and_fidelity",
+        [
+          "AND",
+          [
+            "EQ",
+            "broker_exercise_duty_of_care",
+            true
+          ],
+          [
+            "EQ",
+            "broker_exercise_fidelity",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "broker_duty_of_care_and_fidelity",
+        [
+          "AND",
+          [
+            "EQ",
+            "broker_exercise_duty_of_care",
+            true
+          ],
+          [
+            "EQ",
+            "broker_exercise_fidelity",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:broker_provide_written_report_and_disclose_fee",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:broker_provide_written_report_and_disclose_fee",
+        [
+          "AND",
+          [
+            "EQ",
+            "broker_provide_written_report",
+            true
+          ],
+          [
+            "IMPLIES",
+            [
+              "EQ",
+              "broker_charge_fee",
+              true
+            ],
+            [
+              "EQ",
+              "broker_disclose_fee_standard",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "broker_provide_written_report_and_disclose_fee",
+        [
+          "AND",
+          [
+            "EQ",
+            "broker_provide_written_report",
+            true
+          ],
+          [
+            "IMPLIES",
+            [
+              "EQ",
+              "broker_charge_fee",
+              true
+            ],
+            [
+              "EQ",
+              "broker_disclose_fee_standard",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 41.52
+    },
+    {
+      "id": "insurance:authority_define_report_scope_and_fee_standard",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:authority_define_report_scope_and_fee_standard",
+        [
+          "EQ",
+          "authority_defined_report_scope_and_fee_standard",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "authority_define_report_scope_and_fee_standard",
+        [
+          "EQ",
+          "authority_defined_report_scope_and_fee_standard",
+          true
+        ]
+      ],
+      "timestamp": 41.52
+    }
+  ]
+}

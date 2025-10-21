@@ -1,0 +1,155 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6256 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6878 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (13 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (41 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [aml:internal_control_established]
+   ✅ Removed prefixes in [aml:internal_control_executed]
+   ✅ Removed prefixes in [aml:internal_control_compliance]
+   ✅ Removed prefixes in [aml:customer_identification_procedure_established]
+   ✅ Removed prefixes in [aml:customer_identification_data_retained]
+   ✅ Removed prefixes in [aml:enhanced_customer_due_diligence_applied]
+   ✅ Removed prefixes in [aml:customer_identification_compliance]
+   ✅ Removed prefixes in [aml:currency_transaction_reported]
+   ✅ Removed prefixes in [aml:suspicious_transaction_report_required]
+   ✅ Removed prefixes in [aml:suspicious_transaction_reported]
+   ✅ Removed prefixes in [aml:suspicious_transaction_reporting_compliance]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 12
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 12
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (13 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (28 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (28 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law SAT → 案例可能無違規，但資料集為違規案例，嘗試修復以達成 UNSAT
+❌ Checkpoint [step8_case_law_check]: FAIL (SAT (unexpected))
+
+============================================================
+Step 8.1: SAT→UNSAT Repair
+============================================================
+🔧 Starting SAT→UNSAT repair process...
+
+--- Strategy 1: Repair Facts ---
+✅ Generated new aggressive facts: ['control_procedures_established', 'training_held_regularly', 'dedicated_personnel_assigned', 'risk_assessment_report_updated', 'audit_procedures_established', 'other_designated_matters_complied', 'internal_control_implemented', 'customer_identification_procedure_implemented', 'risk_based_approach_applied', 'beneficial_owner_reviewed', 'customer_identification_data_retention_years', 'temporary_transaction_data_retention_years', 'media_report_submitted', 'media_report_not_possible', 'written_report_approved', 'suspicious_transaction_report_submitted', 'same_account_daily_cash_deposit', 'same_account_daily_cash_withdrawal', 'same_customer_multiple_cash_transactions', 'same_customer_cash_multiple_remittances', 'transaction_matches_customer_income', 'transaction_related_to_business_nature', 'reasonable_purpose_explained', 'transaction_from_high_risk_country', 'transaction_beneficial_owner_is_terrorist', 'transaction_involves_terrorist_organization', 'transaction_funds_suspected_terrorism_related', 'transaction_identified_as_suspicious_by_internal_procedure']
+✅ Facts修復成功！UNSAT achieved: ['aml:internal_control_compliance', 'aml:internal_control_executed', 'c19', 'meta:penalty_default_false', 'meta:penalty_conditions']
+✅ SAT→UNSAT 修復成功
+✅ Final check: UNSAT - ['c19', 'aml:internal_control_compliance', 'aml:internal_control_executed', 'meta:penalty_default_false', 'meta:penalty_conditions']
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT after repair)
+✅ Checkpoint [step8_violation_detected]: PASS (['c19', 'aml:internal_control_compliance', 'aml:internal_control_executed', 'meta:penalty_default_false', 'meta:penalty_conditions'])
+✅ Checkpoint [step8_repair_success]: PASS (SAT→UNSAT repair successful)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_247
+
+📊 Model (filtered):
+   media_report_submitted = False
+   media_report_not_possible = False
+   reasonable_purpose_explained = True
+   suspicious_transaction_report_submitted = False
+   same_customer_multiple_cash_transactions = False
+   transaction_involves_terrorist_organization = False
+   transaction_beneficial_owner_is_terrorist = False
+   written_report_approved = False
+   same_customer_cash_multiple_remittances = False
+   transaction_related_to_business_nature = True
+   transaction_matches_customer_income = True
+   same_account_daily_cash_deposit = False
+   transaction_funds_suspected_terrorism_related = False
+   transaction_identified_as_suspicious_by_internal_procedure = False
+   customer_identification_data_retention_years = 0
+   transaction_from_high_risk_country = False
+   temporary_transaction_data_retention_years = 5
+   same_account_daily_cash_withdrawal = False
+   risk_based_approach_applied = True
+   beneficial_owner_reviewed = True
+   other_designated_matters_complied = True
+   dedicated_personnel_assigned = True
+   training_held_regularly = True
+   internal_control_implemented = True
+   audit_procedures_established = True
+   risk_assessment_report_updated = True
+   control_procedures_established = True
+   enhanced_due_diligence_executed = True
+   customer_identification_procedure_implemented = True
+   internal_control_executed = True
+   customer_identification_data_retained = True
+   suspicious_transaction_reporting_compliance = True
+   enhanced_customer_due_diligence_applied = True
+   penalty = False
+   internal_control_compliance = True
+   suspicious_transaction_reported = False
+   internal_control_established = True
+   suspicious_transaction_report_required = False
+   currency_transaction_reported = False
+   customer_identification_compliance = True
+   customer_identification_procedure_established = True
+✅ Model saved to: outputs\case_247.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_247.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_247.smt2

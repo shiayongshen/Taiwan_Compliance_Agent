@@ -1,0 +1,151 @@
+{
+  "case_id": "case_320",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 70.08,
+  "repair_attempts": 2,
+  "total_agent_calls": 5,
+  "total_input_tokens": 15234,
+  "total_output_tokens": 5813,
+  "total_tokens": 21047,
+  "total_cost_usd": 0.015394,
+  "timestamp": "2025-10-21T07:12:08.616329",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "PASS",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2939,
+      "output_tokens": 1807,
+      "elapsed_time": 17.771505117416382,
+      "cost": 0.004066800000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 8049,
+      "output_tokens": 2499,
+      "elapsed_time": 22.321969985961914,
+      "cost": 0.0072180000000000005
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 169,
+      "output_tokens": 718,
+      "elapsed_time": 11.620766401290894,
+      "cost": 0.0012164
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 167,
+      "output_tokens": 653,
+      "elapsed_time": 12.639069557189941,
+      "cost": 0.0011116000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3910,
+      "output_tokens": 136,
+      "elapsed_time": 2.3676953315734863,
+      "cost": 0.0017816000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "5365 chars",
+      "timestamp": 17.771505117416382
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7682 chars",
+      "timestamp": 40.093475103378296
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "11 constraints",
+      "timestamp": 40.093475103378296
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "23 varspecs",
+      "timestamp": 51.71424150466919
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "Unsupported operator: NE",
+      "timestamp": 51.71724033355713
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": true,
+      "details": "1 rounds",
+      "timestamp": 55.03345465660095
+    },
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 55.04145622253418
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 55.04145622253418
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "12 facts",
+      "timestamp": 70.04822111129761
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 70.04925656318665
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 70.05726099014282
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c22', 'insurance:capital_level', 'c11', 'meta:penalty_conditions', 'insurance:capital_severely_insufficient_penalty_condition', 'insurance:capital_severely_insufficient_plan_completed', 'c18', 'c20', 'c17', 'insurance:penalty_default_false', 'c19']",
+      "timestamp": 70.05726099014282
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 70.06726145744324
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 55.04145622253418
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 51.71
+    }
+  ]
+}

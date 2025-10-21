@@ -1,0 +1,436 @@
+{
+  "case_id": "case_448",
+  "success": false,
+  "error_message": "b'parser error'",
+  "total_time_sec": 117.91,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 18883,
+  "total_output_tokens": 7047,
+  "total_tokens": 25930,
+  "total_cost_usd": 0.018828,
+  "timestamp": "2025-10-21T10:04:56.402637",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "FAIL",
+  "step8_case_law_check": "NOT_RUN",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "NOT_RUN",
+  "step9_z3_optimize": "NOT_RUN",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3562,
+      "output_tokens": 2481,
+      "elapsed_time": 40.58194327354431,
+      "cost": 0.005394400000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9969,
+      "output_tokens": 2480,
+      "elapsed_time": 37.392842292785645,
+      "cost": 0.0079556
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 243,
+      "output_tokens": 924,
+      "elapsed_time": 19.003164768218994,
+      "cost": 0.0015756000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 243,
+      "output_tokens": 946,
+      "elapsed_time": 16.89472723007202,
+      "cost": 0.0016108000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4866,
+      "output_tokens": 216,
+      "elapsed_time": 4.010934352874756,
+      "cost": 0.002292
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7483 chars",
+      "timestamp": 40.58194327354431
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7477 chars",
+      "timestamp": 77.97478556632996
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 77.97478556632996
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "37 varspecs",
+      "timestamp": 96.97795033454895
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 96.98795247077942
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 97.00195264816284
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 97.00195264816284
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "20 facts",
+      "timestamp": 117.90861248970032
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": false,
+      "details": "b'parser error'",
+      "timestamp": 117.90961027145386
+    },
+    "step8_case_law_check": null,
+    "step8_repair_success": null,
+    "step8_violation_detected": null,
+    "step9_z3_optimize": null,
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 97.00195264816284
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:non_related_party_real_estate_single_limit",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "non_related_real_estate_single_limit",
+        [
+          "CASE",
+          [
+            "GE",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "LE",
+            "real_estate_single_amount",
+            [
+              "MUL",
+              "funds",
+              1.5
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "GT",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_single_amount",
+            [
+              "MUL",
+              "funds",
+              1.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "LE",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_single_amount",
+            [
+              "MIN",
+              [
+                "MUL",
+                "funds",
+                1.0
+              ],
+              5000000000.0
+            ]
+          ],
+          false
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_related_real_estate_single_limit",
+        [
+          "CASE",
+          [
+            "GE",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "LE",
+            "real_estate_single_amount",
+            [
+              "MUL",
+              "funds",
+              1.5
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "GT",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_single_amount",
+            [
+              "MUL",
+              "funds",
+              1.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "LE",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_single_amount",
+            [
+              "CASE",
+              [
+                "LE",
+                [
+                  "MUL",
+                  "funds",
+                  1.0
+                ],
+                5000000000.0
+              ],
+              [
+                "MUL",
+                "funds",
+                1.0
+              ],
+              5000000000.0
+            ]
+          ],
+          false
+        ]
+      ],
+      "timestamp": 96.98
+    },
+    {
+      "id": "insurance:non_related_party_real_estate_total_limit",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "non_related_real_estate_total_limit",
+        [
+          "CASE",
+          [
+            "GE",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "LE",
+            "real_estate_total_amount",
+            [
+              "MUL",
+              "funds",
+              3.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "GT",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_total_amount",
+            [
+              "MUL",
+              "funds",
+              2.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "LE",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_total_amount",
+            [
+              "MIN",
+              [
+                "MUL",
+                "funds",
+                2.0
+              ],
+              10000000000.0
+            ]
+          ],
+          false
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_related_real_estate_total_limit",
+        [
+          "CASE",
+          [
+            "GE",
+            "capital_to_risk_capital_ratio",
+            "legal_standard"
+          ],
+          [
+            "LE",
+            "real_estate_total_amount",
+            [
+              "MUL",
+              "funds",
+              3.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "GT",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_total_amount",
+            [
+              "MUL",
+              "funds",
+              2.0
+            ]
+          ],
+          [
+            "AND",
+            [
+              "LT",
+              "capital_to_risk_capital_ratio",
+              "legal_standard"
+            ],
+            [
+              "LE",
+              "policyholder_equity",
+              0
+            ]
+          ],
+          [
+            "LE",
+            "real_estate_total_amount",
+            [
+              "CASE",
+              [
+                "LE",
+                [
+                  "MUL",
+                  "funds",
+                  2.0
+                ],
+                10000000000.0
+              ],
+              [
+                "MUL",
+                "funds",
+                2.0
+              ],
+              10000000000.0
+            ]
+          ],
+          false
+        ]
+      ],
+      "timestamp": 96.98
+    }
+  ]
+}

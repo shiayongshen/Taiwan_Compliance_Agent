@@ -1,0 +1,1161 @@
+[
+  {
+    "id": "fhc:violation_60_1",
+    "desc": "違反第六條第一項規定，未申請設立金融控股公司",
+    "expr": [
+      "EQ",
+      "violation_60_1",
+      [
+        "EQ",
+        "fhc_applied",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_2",
+    "desc": "違反第十六條第三項規定，未經主管機關核准而持有股份",
+    "expr": [
+      "EQ",
+      "violation_60_2",
+      [
+        "AND",
+        [
+          "EQ",
+          "fhc_hold_shares",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_hold_approved",
+          false
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_3",
+    "desc": "違反第十六條第一項、第二項或第九項規定未向主管機關申報，或違反同條第七項但書規定增加持股",
+    "expr": [
+      "EQ",
+      "violation_60_3",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_reported",
+          false
+        ],
+        [
+          "EQ",
+          "fhc_increase_hold_violated",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_4",
+    "desc": "違反第十六條第十項規定，未依主管機關所定期限處分",
+    "expr": [
+      "EQ",
+      "violation_60_4",
+      [
+        "EQ",
+        "fhc_dispose_within_deadline",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_5",
+    "desc": "違反主管機關依第十六條第五項所定辦法中有關申報或公告之規定",
+    "expr": [
+      "EQ",
+      "violation_60_5",
+      [
+        "EQ",
+        "fhc_report_or_announce_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_6",
+    "desc": "違反第十六條第六項規定，為質權之設定",
+    "expr": [
+      "EQ",
+      "violation_60_6",
+      [
+        "EQ",
+        "fhc_pledge_set",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_7",
+    "desc": "違反第十八條第一項規定，未經許可為合併、概括讓與或概括承受",
+    "expr": [
+      "EQ",
+      "violation_60_7",
+      [
+        "EQ",
+        "fhc_merger_approved",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_8",
+    "desc": "違反第三十八條規定，持有金融控股公司之股份",
+    "expr": [
+      "EQ",
+      "violation_60_8",
+      [
+        "EQ",
+        "fhc_hold_fhc_shares_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_9",
+    "desc": "違反第三十九條第一項所定短期資金運用項目；或違反同條第二項規定，未經核准投資不動產或投資非自用不動產",
+    "expr": [
+      "EQ",
+      "violation_60_9",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_short_term_fund_violation",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_unapproved_real_estate_investment",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_10",
+    "desc": "違反主管機關依第三十九條第三項所定辦法中有關發行條件或期限之規定",
+    "expr": [
+      "EQ",
+      "violation_60_10",
+      [
+        "EQ",
+        "fhc_issue_condition_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_11",
+    "desc": "違反主管機關依第四十條或第四十一條所定之比率或所為之處置或限制",
+    "expr": [
+      "EQ",
+      "violation_60_11",
+      [
+        "EQ",
+        "fhc_ratio_or_disposal_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_12",
+    "desc": "違反第四十二條第一項規定，未保守秘密",
+    "expr": [
+      "EQ",
+      "violation_60_12",
+      [
+        "EQ",
+        "fhc_confidentiality_breached",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_13",
+    "desc": "違反第四十三條第一項、第二項或第四項規定；或違反主管機關依同條第三項所定辦法中有關可從事之業務範圍、資訊交互運用、共用設備、場所或人員管理之規定",
+    "expr": [
+      "EQ",
+      "violation_60_13",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_violate_43_1_2_4",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_violate_43_3_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_14",
+    "desc": "違反第四十五條第一項交易條件之限制或董事會之決議方法；或違反同條第四項所定之金額比率",
+    "expr": [
+      "EQ",
+      "violation_60_14",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_violate_45_1",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_violate_45_4_ratio",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_15",
+    "desc": "違反第四十六條第一項規定，未向主管機關申報或揭露",
+    "expr": [
+      "EQ",
+      "violation_60_15",
+      [
+        "EQ",
+        "fhc_report_or_disclose_violated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_16",
+    "desc": "違反第五十一條規定，未建立內部控制或稽核制度，或未確實執行",
+    "expr": [
+      "EQ",
+      "violation_60_16",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_internal_control_established",
+          false
+        ],
+        [
+          "EQ",
+          "fhc_internal_audit_established",
+          false
+        ],
+        [
+          "EQ",
+          "fhc_internal_control_executed",
+          false
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_17",
+    "desc": "違反第五十三條第一項或第二項規定；或未於主管機關依同條第三項所定期限內補足資本",
+    "expr": [
+      "EQ",
+      "violation_60_17",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_violate_53_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_capital_not_filled_in_time",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_18",
+    "desc": "違反主管機關依第五十五條第一項所為之命令",
+    "expr": [
+      "EQ",
+      "violation_60_18",
+      [
+        "EQ",
+        "fhc_violate_55_1_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_60_19",
+    "desc": "違反第五十六條第一項規定，未盡協助義務；或違反主管機關依同條第二項所為之命令",
+    "expr": [
+      "EQ",
+      "violation_60_19",
+      [
+        "OR",
+        [
+          "EQ",
+          "fhc_not_assist",
+          true
+        ],
+        [
+          "EQ",
+          "fhc_violate_56_2_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:related_party_non_preferential_approval",
+    "desc": "金融控股公司與關係人授信以外交易條件不得優於其他同類對象，且須經董事會三分之二出席及四分之三決議",
+    "expr": [
+      "EQ",
+      "related_party_non_preferential_approval",
+      [
+        "AND",
+        [
+          "EQ",
+          "fhc_non_preferential_condition",
+          true
+        ],
+        [
+          "GE",
+          "fhc_board_attendance_ratio",
+          0.6666667
+        ],
+        [
+          "GE",
+          "fhc_board_approval_ratio",
+          0.75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:non_credit_transaction_types",
+    "desc": "授信以外之交易類型",
+    "expr": [
+      "EQ",
+      "non_credit_transaction_types",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_invest_or_buy_securities",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_buy_real_estate_or_assets",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_sell_securities_real_estate_assets",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_contract_payment_or_service",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_agent_or_commission_service",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_related_third_party",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_single_related_party_limit",
+    "desc": "銀行子公司與單一關係人交易金額不得超過淨值10%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_single_related_party_limit",
+      [
+        "LE",
+        [
+          "MUL",
+          [
+            "DIV",
+            "bank_subsidiary_single_related_party_transaction_amount",
+            "bank_subsidiary_net_worth"
+          ],
+          100.0
+        ],
+        10.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_subsidiary_all_related_party_limit",
+    "desc": "銀行子公司與所有利害關係人交易總額不得超過淨值20%",
+    "expr": [
+      "EQ",
+      "bank_subsidiary_all_related_party_limit",
+      [
+        "LE",
+        [
+          "MUL",
+          [
+            "DIV",
+            "bank_subsidiary_all_related_party_transaction_amount",
+            "bank_subsidiary_net_worth"
+          ],
+          100.0
+        ],
+        20.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "insurance:related_party_loan_limit",
+    "desc": "主管機關對保險業就同一人、同一關係人或同一關係企業放款或其他交易限制",
+    "expr": [
+      "EQ",
+      "related_party_loan_limit",
+      [
+        "EQ",
+        "insurance_related_party_limit_set",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "bank:stock_registered",
+    "desc": "銀行股票應為記名式",
+    "expr": [
+      "EQ",
+      "stock_registered",
+      [
+        "EQ",
+        "bank_stock_registered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_5_percent_reported",
+    "desc": "同一人或同一關係人持有銀行股份超過5%且已於10日內申報",
+    "expr": [
+      "EQ",
+      "shareholding_5_percent_reported",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "bank_shareholding_percent",
+          5.0
+        ],
+        [
+          "EQ",
+          "bank_shareholding_reported_within_10_days",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_5_percent_change_reported",
+    "desc": "持股超過5%後累積增減逾1%者已申報",
+    "expr": [
+      "EQ",
+      "shareholding_5_percent_change_reported",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "GT",
+            "bank_shareholding_percent",
+            5.0
+          ],
+          [
+            "GT",
+            "bank_shareholding_change_percent",
+            1.0
+          ]
+        ],
+        [
+          "EQ",
+          "bank_shareholding_change_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_approval_required",
+    "desc": "持股超過10%、25%、50%者應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_required",
+      [
+        "OR",
+        [
+          "GE",
+          "bank_shareholding_percent",
+          10.0
+        ],
+        [
+          "GE",
+          "bank_shareholding_percent",
+          25.0
+        ],
+        [
+          "GE",
+          "bank_shareholding_percent",
+          50.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_approval_obtained",
+    "desc": "持股超過10%、25%、50%者已取得核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_obtained",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GE",
+            "bank_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "bank_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "bank_shareholding_percent",
+            50.0
+          ]
+        ],
+        [
+          "EQ",
+          "bank_shareholding_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:shareholding_excess_no_voting_right",
+    "desc": "未依規定申報或核准持有銀行股份超過部分無表決權且須限期處分",
+    "expr": [
+      "EQ",
+      "shareholding_excess_no_voting_right",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_shareholding_not_reported",
+            true
+          ],
+          [
+            "EQ",
+            "bank_shareholding_not_approved",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "bank_shareholding_excess_no_voting_right_enforced",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:notify_bank_if_1_percent_or_more",
+    "desc": "同一人或本人與配偶、未成年子女合計持有銀行股份1%以上應通知銀行",
+    "expr": [
+      "EQ",
+      "notify_bank_if_1_percent_or_more",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "bank_shareholding_family_percent",
+          1.0
+        ],
+        [
+          "EQ",
+          "bank_notify_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "insurance:shareholding_5_percent_reported",
+    "desc": "同一人或同一關係人持有保險公司股份超過5%且已於10日內申報",
+    "expr": [
+      "EQ",
+      "shareholding_5_percent_reported",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "insurance_shareholding_percent",
+          5.0
+        ],
+        [
+          "EQ",
+          "insurance_shareholding_reported_within_10_days",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:shareholding_5_percent_change_reported",
+    "desc": "持股超過5%後累積增減逾1%者已申報",
+    "expr": [
+      "EQ",
+      "shareholding_5_percent_change_reported",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "GT",
+            "insurance_shareholding_percent",
+            5.0
+          ],
+          [
+            "GT",
+            "insurance_shareholding_change_percent",
+            1.0
+          ]
+        ],
+        [
+          "EQ",
+          "insurance_shareholding_change_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:shareholding_approval_required",
+    "desc": "持股超過10%、25%、50%者應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_required",
+      [
+        "OR",
+        [
+          "GE",
+          "insurance_shareholding_percent",
+          10.0
+        ],
+        [
+          "GE",
+          "insurance_shareholding_percent",
+          25.0
+        ],
+        [
+          "GE",
+          "insurance_shareholding_percent",
+          50.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:shareholding_approval_obtained",
+    "desc": "持股超過10%、25%、50%者已取得核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_obtained",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            50.0
+          ]
+        ],
+        [
+          "EQ",
+          "insurance_shareholding_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:shareholding_excess_no_voting_right",
+    "desc": "未依規定申報或核准持有保險公司股份超過部分無表決權且須限期處分",
+    "expr": [
+      "EQ",
+      "shareholding_excess_no_voting_right",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_shareholding_not_reported",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_not_approved",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "insurance_shareholding_excess_no_voting_right_enforced",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:notify_insurance_if_1_percent_or_more",
+    "desc": "同一人或本人與配偶、未成年子女合計持有保險公司股份1%以上應通知保險公司",
+    "expr": [
+      "EQ",
+      "notify_insurance_if_1_percent_or_more",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "insurance_shareholding_family_percent",
+          1.0
+        ],
+        [
+          "EQ",
+          "insurance_notify_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "fhc:shareholding_10_percent_reported",
+    "desc": "金融控股公司轉換時，同一人或同一關係人持有股份超過10%應申報",
+    "expr": [
+      "EQ",
+      "shareholding_10_percent_reported",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "fhc_shareholding_percent",
+          10.0
+        ],
+        [
+          "EQ",
+          "fhc_shareholding_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_5_percent_reported_after_establishment",
+    "desc": "金融控股公司設立後，同一人或同一關係人持有股份超過5%且已於10日內申報",
+    "expr": [
+      "EQ",
+      "shareholding_5_percent_reported_after_establishment",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "fhc_shareholding_percent",
+          5.0
+        ],
+        [
+          "EQ",
+          "fhc_shareholding_reported_within_10_days",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_5_percent_change_reported_after_establishment",
+    "desc": "持股超過5%後累積增減逾1%者已申報",
+    "expr": [
+      "EQ",
+      "shareholding_5_percent_change_reported_after_establishment",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            5.0
+          ],
+          [
+            "GT",
+            "fhc_shareholding_change_percent",
+            1.0
+          ]
+        ],
+        [
+          "EQ",
+          "fhc_shareholding_change_reported",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_approval_required",
+    "desc": "持股超過10%、25%、50%者應事先申請核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_required",
+      [
+        "OR",
+        [
+          "GE",
+          "fhc_shareholding_percent",
+          10.0
+        ],
+        [
+          "GE",
+          "fhc_shareholding_percent",
+          25.0
+        ],
+        [
+          "GE",
+          "fhc_shareholding_percent",
+          50.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_approval_obtained",
+    "desc": "持股超過10%、25%、50%者已取得核准",
+    "expr": [
+      "EQ",
+      "shareholding_approval_obtained",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            50.0
+          ]
+        ],
+        [
+          "EQ",
+          "fhc_shareholding_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_excess_no_voting_right",
+    "desc": "未依規定申報或核准持有金融控股公司股份超過部分無表決權且須限期處分",
+    "expr": [
+      "EQ",
+      "shareholding_excess_no_voting_right",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "fhc_shareholding_not_reported",
+            true
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_not_approved",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "fhc_shareholding_excess_no_voting_right_enforced",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_pledge_prohibited",
+    "desc": "持有金融控股公司股份超過10%不得設定質權予子公司，例外於轉換前原質權存續期限內不適用",
+    "expr": [
+      "EQ",
+      "shareholding_pledge_prohibited",
+      [
+        "IMPLIES",
+        [
+          "GT",
+          "fhc_shareholding_percent",
+          10.0
+        ],
+        [
+          "EQ",
+          "fhc_shareholding_pledge_to_subsidiary",
+          false
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司法第60條任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_60_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_3",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_4",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_5",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_6",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_7",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_8",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_9",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_10",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_11",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_12",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_13",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_14",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_15",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_16",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_17",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_18",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_19",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

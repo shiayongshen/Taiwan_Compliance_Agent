@@ -1,0 +1,154 @@
+{
+  "case_id": "case_157",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 82.1,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 19201,
+  "total_output_tokens": 5068,
+  "total_tokens": 24269,
+  "total_cost_usd": 0.015789,
+  "timestamp": "2025-10-21T03:33:03.121998",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4312,
+      "output_tokens": 1736,
+      "elapsed_time": 30.453864097595215,
+      "cost": 0.0045024
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 10724,
+      "output_tokens": 1913,
+      "elapsed_time": 27.598071813583374,
+      "cost": 0.0073504
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 162,
+      "output_tokens": 630,
+      "elapsed_time": 10.932558059692383,
+      "cost": 0.0010728
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 162,
+      "output_tokens": 630,
+      "elapsed_time": 10.471659660339355,
+      "cost": 0.0010728
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3841,
+      "output_tokens": 159,
+      "elapsed_time": 2.607314109802246,
+      "cost": 0.0017908
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "4774 chars",
+      "timestamp": 30.453864097595215
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "5393 chars",
+      "timestamp": 58.05193591117859
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 58.05193591117859
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "22 varspecs",
+      "timestamp": 68.98449397087097
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "12 constraints",
+      "timestamp": 68.98949122428894
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 68.99749398231506
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 68.99749398231506
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "14 facts",
+      "timestamp": 82.07646775245667
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "14 constraints",
+      "timestamp": 82.07646775245667
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 82.08446645736694
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['insurance:penalty_conditions', 'insurance:internal_control_ok', 'c22', 'insurance:penalty_default_false']",
+      "timestamp": 82.08446645736694
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 82.0944664478302
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 68.99749398231506
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 68.99
+    },
+    {
+      "id": "varspec:capital_level_lowest_rule",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 68.99
+    }
+  ]
+}

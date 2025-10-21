@@ -1,0 +1,154 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7439 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7439 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (17 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (69 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (17 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (52 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+⚠️ Removed invalid keys from facts: {'plan_executed', 'plan_submitted'}
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (50 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c30', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c30', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_198
+
+📊 Model (filtered):
+   information_used_for_supervision_and_investor_protection = True
+   inspection_report_submitted_truthfully = False
+   no_claim_for_damages_or_penalty = False
+   compensation_for_services_before_termination_allowed = False
+   fees_and_payment_methods = False
+   other_mandated_items = False
+   advisory_contract_retained_flag = False
+   disclosure_or_provision_to_others_allowed = False
+   contract_party_names_and_addresses = False
+   service_methods = False
+   dispute_resolution_and_jurisdiction = False
+   contract_effective_date_and_duration = False
+   no_disclosure_without_consent = False
+   investment_analysis_report_created = True
+   confidentiality_obligation = False
+   investment_analysis_report_retention_years = 0
+   reasonable_analysis_basis_and_references_included = True
+   inspection_cost_paid_by_inspected = False
+   client_right_to_terminate_within_7_days = False
+   investment_analysis_report_copies_retained = False
+   media_investment_analysis_record_retention_years = 0
+   refund_ratio_and_method_on_termination = 0
+   related_authorities_provided_information = False
+   client_knowledge_and_risk_assessed_flag = False
+   no_receipt_of_client_funds_or_profit_sharing = False
+   suspected_violation = True
+   scope_of_investment_research_and_advice = False
+   inspection_by_designated_professional = False
+   contract_rights_obligations_and_liabilities = False
+   advisory_contract_signed = False
+   violation_warning = True
+   advisory_contract_retention_years = 0
+   media_investment_analysis_record_saved = False
+   contract_modification_or_termination = False
+   violation_29_43_45_96_announcement = False
+   written_advisory_contract_signed = False
+   violation_26_49_74_81_99_100_document = False
+   violation_20_provision = False
+   advisory_contract_mandatory_items_complete = False
+   inspection_cost_borne_by_inspected = False
+   information_non_disclosure = True
+   obstruction_or_refusal = False
+   information_provided_to_related_authorities = False
+   violation_69_72_personnel_or_department = False
+   violation_47_2_report = False
+   report_submission_and_cooperation = True
+   violation_17_1_or_17_2 = False
+   advisory_contract_retained = False
+   investment_analysis_report_compliant = True
+   contract_termination_compensation_limit = False
+   investment_analysis_report_retained = False
+   violation_11_4_or_43_2_report = False
+   violation_62_1_4_5_accounting_records = False
+   violation_penalty_level = 1
+   violation_94_conflict_of_interest = False
+   violation_60_1_2_customer_data = False
+   violation_96_2_refusal_of_designated_assignee = False
+   report_submitted_within_deadline = True
+   violation_113_occurred = False
+   media_investment_analysis_record_retained = False
+   client_knowledge_and_risk_assessed = False
+   penalty = False
+   inspection_report_submission = True
+   violation_101_1_report_submission_or_obstruction = False
+✅ Model saved to: outputs\case_198.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_198.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_198.smt2

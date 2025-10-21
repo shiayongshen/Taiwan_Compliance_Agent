@@ -1,0 +1,234 @@
+[
+  {
+    "id": "taiwan_relations:violate_article_36_1_or_2",
+    "desc": "違反第三十六條第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_1_or_2",
+      [
+        "EQ",
+        "violate_article_36_1",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:violate_article_36_1",
+    "desc": "違反第三十六條第一項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_1",
+      [
+        "VAR",
+        "violate_article_36_1"
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:violate_article_36_2",
+    "desc": "違反第三十六條第二項規定",
+    "expr": [
+      "EQ",
+      "violate_article_36_2",
+      [
+        "VAR",
+        "violate_article_36_2"
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_fine_200_to_1000",
+    "desc": "違反第三十六條第一項或第二項規定者，處新臺幣二百萬元以上一千萬元以下罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_fine_200_to_1000",
+      [
+        "AND",
+        [
+          "EQ",
+          "violate_article_36_1_or_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:stop_or_correct_ordered",
+    "desc": "限期命其停止或改正",
+    "expr": [
+      "EQ",
+      "stop_or_correct_ordered",
+      [
+        "EQ",
+        "stop_or_correct_ordered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:stop_or_correct_not_done_or_repeat",
+    "desc": "屆期不停止或改正，或停止後再為相同違反行為",
+    "expr": [
+      "EQ",
+      "stop_or_correct_not_done_or_repeat",
+      [
+        "OR",
+        [
+          "EQ",
+          "stop_or_correct_not_done",
+          true
+        ],
+        [
+          "EQ",
+          "repeat_violation_after_stop",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_imprison_or_fine_1500",
+    "desc": "屆期不停止或改正，或停止後再為相同違反行為者，處行為負責人三年以下有期徒刑、拘役或科或併科新臺幣一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_imprison_or_fine_1500",
+      [
+        "AND",
+        [
+          "EQ",
+          "stop_or_correct_not_done_or_repeat",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:violate_ministry_order",
+    "desc": "違反財政部依第三十六條第四項規定報請行政院核定之限制或禁止命令",
+    "expr": [
+      "EQ",
+      "violate_ministry_order",
+      [
+        "EQ",
+        "violate_ministry_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_officer_imprison_or_fine_1_to_15",
+    "desc": "違反限制或禁止命令者，處行為負責人三年以下有期徒刑、拘役或科或併科新臺幣一百萬元以上一千五百萬元以下罰金",
+    "expr": [
+      "EQ",
+      "penalty_officer_imprison_or_fine_1_to_15",
+      [
+        "AND",
+        [
+          "EQ",
+          "violate_ministry_order",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:penalty_fine_institution",
+    "desc": "對金融保險證券期貨機構科罰金",
+    "expr": [
+      "EQ",
+      "penalty_fine_institution",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_fine_200_to_1000",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_imprison_or_fine_1500",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_officer_imprison_or_fine_1_to_15",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "taiwan_relations:applicable_outside_roc",
+    "desc": "第一項及第二項規定於中華民國領域外犯罪者適用",
+    "expr": [
+      "EQ",
+      "applicable_outside_roc",
+      [
+        "EQ",
+        "crime_outside_roc",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "taiwan_relations"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第三十六條第一項或第二項規定，或違反限制命令，或未停止或改正且再違反時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "penalty_fine_200_to_1000",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_imprison_or_fine_1500",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_officer_imprison_or_fine_1_to_15",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

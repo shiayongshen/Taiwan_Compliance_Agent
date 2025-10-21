@@ -1,0 +1,157 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (10163 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (10163 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (33 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (68 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (33 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (68 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (68 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c86', 'insurance_broker:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c86', 'insurance_broker:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_275
+
+📊 Model (filtered):
+   renewal_commission_payment_exempted = False
+   commission_paid_to_non_actual_broker = False
+   exempted_by_product_characteristics = False
+   incomplete_suitability_report_filled = False
+   improper_document_transferred = False
+   prior_written_consent_obtained = False
+   unauthorized_business_suspension_or_termination = False
+   conflict_of_interest_employment_or_registration = False
+   coerce_contract = False
+   intentional_concealment_of_contract_info = False
+   convicted_of_fraud_or_related_crimes = False
+   spread_false_information = False
+   business_outside_license_scope = False
+   misappropriation_of_insurance_funds = False
+   failure_to_report_to_broker_association = False
+   induce_contract = False
+   employ_unqualified_personnel = False
+   exaggerated_or_false_promotion = False
+   improper_fee_or_commission_collection = False
+   unauthorized_use_of_insurance_advertisement = False
+   failure_to_reappoint_broker_after_resignation = False
+   delay_in_license_cancellation = False
+   improper_inducement_of_policy_surrender = False
+   false_or_incomplete_business_or_financial_report = False
+   induce_contract_termination_or_payment_by_loan = False
+   failure_to_confirm_product_suitability = False
+   demand_extra_benefits = False
+   unauthorized_delegation_or_proxy = False
+   false_report_on_license_application = False
+   restrict_contract_freedom = False
+   other_violations_of_rules_or_laws = False
+   sale_of_unapproved_foreign_discounted_policies = False
+   license_used_by_others = False
+   contract_with_unapproved_insurer = False
+   illegal_insurance_payment_made = False
+   other_behaviors_damaging_insurance_image = False
+   failure_to_confirm_suitability = False
+   induce_contract_termination = False
+   unauthorized_business_suspension = False
+   violation_any = False
+   unauthorized_delegation = False
+   contract_without_approval = False
+   improper_commission_payment = False
+   unauthorized_use_of_license = False
+   other_violations = False
+   conceal_important_info = False
+   license_cancellation_delay = False
+   unqualified_employment = False
+   misleading_promotion = False
+   damage_insurance_image = False
+   illegal_insurance_payment = False
+   failure_to_reappoint = False
+   criminal_conviction = False
+   induce_policy_surrender = False
+   unauthorized_advertisement = False
+   coerce_or_induce = False
+   improper_fee_collection = False
+   unauthorized_business_scope = False
+   disrupt_financial_order = False
+   false_or_incomplete_report = False
+   misappropriate_funds = False
+   sale_of_unapproved_foreign_products = False
+   incomplete_suitability_report = False
+   penalty = False
+   conflict_of_interest = False
+   misconduct_reported = False
+   failure_to_report = False
+   improper_document_handling = False
+✅ Model saved to: outputs\case_275.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_275.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_275.smt2

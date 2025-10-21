@@ -1,0 +1,495 @@
+{
+  "case_id": "case_196",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 46.79,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 38251,
+  "total_output_tokens": 3637,
+  "total_tokens": 41888,
+  "total_cost_usd": 0.02112,
+  "timestamp": "2025-10-21T04:17:10.784365",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 10710,
+      "output_tokens": 1183,
+      "elapsed_time": 13.455007076263428,
+      "cost": 0.0061768000000000005
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 22967,
+      "output_tokens": 1312,
+      "elapsed_time": 14.984853506088257,
+      "cost": 0.011286000000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 146,
+      "output_tokens": 502,
+      "elapsed_time": 8.663355588912964,
+      "cost": 0.0008616000000000001
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 146,
+      "output_tokens": 502,
+      "elapsed_time": 7.416258811950684,
+      "cost": 0.0008616000000000001
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4282,
+      "output_tokens": 138,
+      "elapsed_time": 2.2502331733703613,
+      "cost": 0.0019336000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3356 chars",
+      "timestamp": 13.455007076263428
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "3647 chars",
+      "timestamp": 28.439860582351685
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "11 constraints",
+      "timestamp": 28.439860582351685
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "20 varspecs",
+      "timestamp": 37.10321617126465
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "11 constraints",
+      "timestamp": 37.10621643066406
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 37.109214544296265
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 37.109214544296265
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "13 facts",
+      "timestamp": 46.77670240402222
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "13 constraints",
+      "timestamp": 46.77670240402222
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 46.78170466423035
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c23', 'aml:penalty_default_false', 'aml:penalty_conditions']",
+      "timestamp": 46.78170466423035
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 46.78670525550842
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 37.109214544296265
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_required_matters_established",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "EQ",
+          "bank:internal_control_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "EQ",
+          "internal_control_system_established",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:internal_handling_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_handling_established",
+        [
+          "EQ",
+          "bank:internal_handling_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_handling_established",
+        [
+          "EQ",
+          "internal_handling_system_established",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:internal_operation_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_operation_established",
+        [
+          "EQ",
+          "bank:internal_operation_system_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_operation_established",
+        [
+          "EQ",
+          "internal_operation_system_established",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "bank:internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:internal_handling_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_handling_executed",
+        [
+          "EQ",
+          "bank:internal_handling_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_handling_executed",
+        [
+          "EQ",
+          "internal_handling_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:internal_operation_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_operation_executed",
+        [
+          "EQ",
+          "bank:internal_operation_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_operation_executed",
+        [
+          "EQ",
+          "internal_operation_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 37.1
+    },
+    {
+      "id": "bank:violation_penalty_condition",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank_violation",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_handling_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_operation_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_handling_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:internal_operation_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_violation",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_handling_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_operation_established",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_handling_executed",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_operation_executed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 37.1
+    }
+  ]
+}

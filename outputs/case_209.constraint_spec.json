@@ -1,0 +1,560 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held_regularly",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_execution_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:inspection_cooperation",
+    "desc": "配合中央目的事業主管機關查核",
+    "expr": [
+      "EQ",
+      "inspection_cooperation",
+      [
+        "NOT",
+        [
+          "EQ",
+          "inspection_evaded_or_obstructed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "fcp:consumer_data_understood",
+    "desc": "充分瞭解金融消費者相關資料",
+    "expr": [
+      "EQ",
+      "consumer_data_understood",
+      [
+        "EQ",
+        "consumer_data_collected_and_verified",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:product_suitability_ensured",
+    "desc": "確保金融商品或服務對金融消費者之適合度",
+    "expr": [
+      "EQ",
+      "product_suitability_ensured",
+      [
+        "EQ",
+        "product_suitability_confirmed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:consumer_protection_compliance",
+    "desc": "金融消費者保護法第9條規定遵守",
+    "expr": [
+      "EQ",
+      "consumer_protection_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_data_understood",
+          true
+        ],
+        [
+          "EQ",
+          "product_suitability_ensured",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_advertising",
+    "desc": "違反廣告、業務招攬、營業促銷活動方式或內容規定",
+    "expr": [
+      "EQ",
+      "violation_advertising",
+      [
+        "EQ",
+        "violate_advertising_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_consumer_data",
+    "desc": "違反未充分瞭解金融消費者資料及適合度規定",
+    "expr": [
+      "EQ",
+      "violation_consumer_data",
+      [
+        "EQ",
+        "violate_consumer_data_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_disclosure",
+    "desc": "違反未充分說明金融商品、服務、契約重要內容或揭露風險規定",
+    "expr": [
+      "EQ",
+      "violation_disclosure",
+      [
+        "EQ",
+        "violate_disclosure_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:violation_compensation",
+    "desc": "違反酬金制度訂定或執行規定",
+    "expr": [
+      "EQ",
+      "violation_compensation",
+      [
+        "EQ",
+        "violate_compensation_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "fcp:serious_violation",
+    "desc": "違反前述規定且情節重大",
+    "expr": [
+      "EQ",
+      "serious_violation",
+      [
+        "EQ",
+        "serious_violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fcp"
+  },
+  {
+    "id": "trust:client_understanding_rules_established",
+    "desc": "信託業建立充分瞭解客戶作業準則",
+    "expr": [
+      "EQ",
+      "client_understanding_rules_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "client_acceptance_rules_established",
+          true
+        ],
+        [
+          "EQ",
+          "client_review_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "client_data_collected_and_verified",
+          true
+        ],
+        [
+          "EQ",
+          "investment_ability_evaluated",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:non_professional_investor_compliance",
+    "desc": "非專業投資人遵守商品適合度規章及風險揭露",
+    "expr": [
+      "EQ",
+      "non_professional_investor_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "product_suitability_rules_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_level_classification_established",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "clear_risk_disclosure_to_client",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "trust:false_or_hidden_recommendation",
+    "desc": "信託業推介內容有虛偽、隱匿或未依規定辦理",
+    "expr": [
+      "EQ",
+      "false_or_hidden_recommendation",
+      [
+        "EQ",
+        "recommendation_false_or_hidden",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "trust"
+  },
+  {
+    "id": "aml:financial_institution_defined",
+    "desc": "是否為洗錢防制法定義之金融機構或指定非金融事業或人員",
+    "expr": [
+      "EQ",
+      "financial_institution_defined",
+      [
+        "OR",
+        [
+          "EQ",
+          "is_bank",
+          true
+        ],
+        [
+          "EQ",
+          "is_trust_company",
+          true
+        ],
+        [
+          "EQ",
+          "is_credit_cooperative",
+          true
+        ],
+        [
+          "EQ",
+          "is_agricultural_credit_department",
+          true
+        ],
+        [
+          "EQ",
+          "is_fisheries_credit_department",
+          true
+        ],
+        [
+          "EQ",
+          "is_national_agricultural_bank",
+          true
+        ],
+        [
+          "EQ",
+          "is_postal_financial_institution",
+          true
+        ],
+        [
+          "EQ",
+          "is_bill_finance_company",
+          true
+        ],
+        [
+          "EQ",
+          "is_credit_card_company",
+          true
+        ],
+        [
+          "EQ",
+          "is_insurance_company",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_firm",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_investment_trust",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_finance_company",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_investment_advisor",
+          true
+        ],
+        [
+          "EQ",
+          "is_securities_central_depository",
+          true
+        ],
+        [
+          "EQ",
+          "is_futures_broker",
+          true
+        ],
+        [
+          "EQ",
+          "is_trust_industry",
+          true
+        ],
+        [
+          "EQ",
+          "is_other_designated_financial_institution",
+          true
+        ],
+        [
+          "EQ",
+          "is_financing_lease_or_virtual_asset_service_provider",
+          true
+        ],
+        [
+          "EQ",
+          "is_designated_non_financial_business_or_personnel",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第7條規定未建立或未執行制度，或規避查核時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "inspection_cooperation",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "fcp:penalty_conditions",
+    "desc": "處罰條件：違反金融消費者保護法第30-1條規定之任一情形",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_advertising",
+          true
+        ],
+        [
+          "EQ",
+          "violation_consumer_data",
+          true
+        ],
+        [
+          "EQ",
+          "violation_disclosure",
+          true
+        ],
+        [
+          "EQ",
+          "violation_compensation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "fcp:penalty_conditions_serious",
+    "desc": "處罰條件：違反且情節重大者加重處罰",
+    "expr": [
+      "EQ",
+      "penalty_heavy",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_advertising",
+            true
+          ],
+          [
+            "EQ",
+            "violation_consumer_data",
+            true
+          ],
+          [
+            "EQ",
+            "violation_disclosure",
+            true
+          ],
+          [
+            "EQ",
+            "violation_compensation",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "serious_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "trust:penalty_conditions",
+    "desc": "處罰條件：信託業推介內容虛偽、隱匿或未依規定辦理",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "false_or_hidden_recommendation",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

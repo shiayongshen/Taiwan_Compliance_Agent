@@ -1,0 +1,399 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held_regularly",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:reporting_timing_compliance",
+    "desc": "金融機構於交易完成後五個營業日內申報達一定金額以上通貨交易",
+    "expr": [
+      "EQ",
+      "reporting_timing_compliance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "reporting_media_submitted",
+            true
+          ],
+          [
+            "LE",
+            "reporting_days_after_transaction",
+            5
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "reporting_media_submitted",
+            false
+          ],
+          [
+            "EQ",
+            "reporting_written_approved",
+            true
+          ],
+          [
+            "LE",
+            "reporting_days_after_transaction",
+            5
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:transaction_amount_definition",
+    "desc": "一定金額定義為新台幣五十萬元含等值外幣",
+    "expr": [
+      "EQ",
+      "transaction_amount_definition",
+      [
+        "EQ",
+        "transaction_amount_threshold",
+        500000
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:currency_transaction_definition",
+    "desc": "通貨交易定義為單筆現金收付或換鈔交易",
+    "expr": [
+      "EQ",
+      "currency_transaction_definition",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_is_cash_receipt",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_cash_payment",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_currency_exchange",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:financial_institution_definition",
+    "desc": "金融機構定義包含銀行、信託投資公司、信用合作社等多種機構",
+    "expr": [
+      "EQ",
+      "financial_institution_definition",
+      [
+        "OR",
+        [
+          "EQ",
+          "institution_is_bank",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_trust_investment_company",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_credit_cooperative",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_agricultural_credit_department",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_fisheries_credit_department",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_national_agricultural_bank",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_postal_savings_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_bill_finance_company",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_credit_card_company",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_insurance_company",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_securities_firm",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_securities_investment_trust",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_securities_finance",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_securities_investment_advisor",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_securities_central_depository",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_futures_broker",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_trust_industry",
+          true
+        ],
+        [
+          "EQ",
+          "institution_is_other_designated_financial_institution",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:designated_non_financial_business_definition",
+    "desc": "指定非金融事業或人員定義",
+    "expr": [
+      "EQ",
+      "designated_non_financial_business_definition",
+      [
+        "OR",
+        [
+          "EQ",
+          "business_is_jewelry",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_real_estate_agent_related",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_lawyer_notary_accountant_related",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_trust_and_company_service_provider",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_third_party_payment_service",
+          true
+        ],
+        [
+          "EQ",
+          "business_is_other_high_risk_business",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:finance_lease_and_virtual_asset_applicability",
+    "desc": "融資性租賃及虛擬資產服務事業適用金融機構規定",
+    "expr": [
+      "EQ",
+      "finance_lease_and_virtual_asset_applicability",
+      [
+        "EQ",
+        "business_is_finance_lease_or_virtual_asset_service",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:transaction_payment_tool_requirement",
+    "desc": "必要時指定達一定金額交易應使用現金以外支付工具",
+    "expr": [
+      "EQ",
+      "transaction_payment_tool_requirement",
+      [
+        "EQ",
+        "designated_use_non_cash_payment_tool",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "aml:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制內部控制制度建立或執行規定，或違反通貨交易申報規定，或規避查核者處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reporting_timing_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "inspection_evaded",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

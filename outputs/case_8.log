@@ -1,0 +1,163 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (9784 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (10304 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (38 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (37 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [bank:violation]
+   ✅ Removed prefixes in [bank:penalty_measures]
+   ✅ Removed prefixes in [bank:penalty_measure_1]
+   ✅ Removed prefixes in [bank:penalty_measure_2]
+   ✅ Removed prefixes in [bank:penalty_measure_3]
+   ✅ Removed prefixes in [bank:penalty_measure_4]
+   ✅ Removed prefixes in [bank:penalty_measure_5]
+   ✅ Removed prefixes in [bank:penalty_measure_6]
+   ✅ Removed prefixes in [bank:penalty_measure_7]
+   ✅ Removed prefixes in [bank:penalty_measure_8]
+   ✅ Removed prefixes in [bank:penalty_measure_9]
+   ✅ Removed prefixes in [bank:director_supervisor_registration_revoked]
+   ✅ Removed prefixes in [bank:business_guidance_needed]
+   ✅ Removed prefixes in [bill_finance:violation]
+   ✅ Removed prefixes in [bill_finance:penalty_measures]
+   ✅ Removed prefixes in [financial_holding:violation]
+   ✅ Removed prefixes in [financial_holding:penalty_measures]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_1]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_2]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_3]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_4]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_5]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_6]
+   ✅ Removed prefixes in [financial_holding:penalty_measure_7]
+   ✅ Removed prefixes in [financial_holding:director_supervisor_registration_revoked]
+   ✅ Removed prefixes in [financial_holding:revoke_permit_followup]
+   ✅ Removed prefixes in [electronic_payment:violation]
+   ✅ Removed prefixes in [electronic_payment:penalty_measures]
+   ✅ Removed prefixes in [electronic_payment:penalty_measure_1]
+   ✅ Removed prefixes in [electronic_payment:penalty_measure_2]
+   ✅ Removed prefixes in [electronic_payment:penalty_measure_3]
+   ✅ Removed prefixes in [electronic_payment:penalty_measure_4]
+   ✅ Removed prefixes in [electronic_payment:penalty_measure_5]
+   ✅ Removed prefixes in [electronic_payment:director_supervisor_registration_revoked]
+   ✅ Removed prefixes in [electronic_payment:non_special_violation]
+   ✅ Removed prefixes in [electronic_payment:non_special_penalty_measures]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 37
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 37
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (38 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (6 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (6 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c40', 'meta:penalty_conditions', 'c39', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c40', 'meta:penalty_conditions', 'c39', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_8
+
+📊 Model (filtered):
+   order_prohibit_asset_disposition = True
+   notify_registration_authority = True
+   notify_economic_ministry = True
+   violation_flag = True
+   penalty_measures_issued = False
+   restrict_investment = False
+   suspend_partial_business = False
+   penalty_measure_7 = True
+   non_special_penalty_measures = False
+   followup_completed = False
+   revoke_permit_followup = False
+   revoke_permit = False
+   penalty_measures = False
+   penalty_measure_4 = True
+   order_close_branch_or_department = False
+   order_dispose_subsidiary_shares = False
+   revoke_statutory_meeting_resolution = False
+   penalty_measure_1 = False
+   violation = True
+   penalty_measure_2 = False
+   penalty_measure_6 = False
+   penalty = False
+   non_special_violation_flag = False
+   non_special_violation = False
+   penalty_measure_5 = False
+   order_provision_or_capital_increase = False
+   suspend_subsidiary_business = False
+   director_supervisor_registration_revoked = True
+   other_necessary_measures = True
+   order_provision_amount = 0
+   penalty_measure_8 = False
+   order_remove_manager_staff = False
+   penalty_measure_3 = False
+   business_guidance_required = False
+   business_guidance_needed = False
+   penalty_measure_9 = True
+   remove_director_supervisor = True
+✅ Model saved to: outputs\case_8.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_8.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_8.smt2

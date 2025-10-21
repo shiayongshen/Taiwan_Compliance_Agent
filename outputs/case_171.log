@@ -1,0 +1,125 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5457 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7954 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (17 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (34 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 1
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (17 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (27 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (27 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c36', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c36', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_171
+
+📊 Model (filtered):
+   capital_adequacy_ratio = 100
+   net_worth_deteriorated = False
+   financial_deterioration = False
+   net_worth_ratio = 3
+   profit_loss_deteriorated = False
+   takeover_ordered = False
+   improvement_plan_approved = False
+   suspension_ordered = False
+   net_worth = 50
+   capital_level_4_measures_executed = False
+   dissolution_ordered = False
+   improvement_plan_executed = False
+   improvement_plan_submitted = False
+   supervision_ordered = False
+   internal_control_system_established = True
+   internal_control_system_executed = True
+   internal_handling_system_established = True
+   internal_handling_system_executed = True
+   internal_handling_established = True
+   financial_deterioration_reported = False
+   capital_level_4_noncompliance = False
+   internal_handling_compliance = True
+   capital_level = 0
+   supervision_measures_taken = False
+   internal_systems_compliance = True
+   internal_control_executed = True
+   violation_internal_control = False
+   penalty = False
+   financial_deterioration_not_improved = False
+   capital_level_4_measures_completed = False
+   internal_control_compliance = True
+   internal_handling_executed = True
+   internal_control_established = True
+   violation_internal_handling = False
+✅ Model saved to: outputs\case_171.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_171.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_171.smt2

@@ -1,0 +1,190 @@
+[
+  {
+    "id": "int_finance:investment_prohibited_stock",
+    "desc": "國際金融業務分行不得投資股票",
+    "expr": [
+      "EQ",
+      "investment_prohibited_stock",
+      [
+        "EQ",
+        "invested_stock",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "int_finance:investment_prohibited_related_company_securities",
+    "desc": "國際金融業務分行不得投資於所屬銀行負責人擔任董事、監察人或經理人之公司所發行、承兌或保證之有價證券",
+    "expr": [
+      "EQ",
+      "investment_prohibited_related_company_securities",
+      [
+        "EQ",
+        "invested_related_company_securities",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "int_finance:investment_limit_total",
+    "desc": "國際金融業務分行投資有價證券與所屬銀行投資有價證券金額合計不得超過金管會對總行規定之限額",
+    "expr": [
+      "EQ",
+      "investment_limit_total",
+      [
+        "LE",
+        [
+          "ADD",
+          "branch_investment_amount",
+          "head_office_investment_amount"
+        ],
+        "investment_limit_amount"
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "int_finance:investment_approval_document_attached",
+    "desc": "國際金融業務分行應檢附經董（理）事會或總行授權同意之外幣有價證券種類、總投資限額及對同一發行人投資限額文件，並依核准內容辦理",
+    "expr": [
+      "EQ",
+      "investment_approval_document_attached",
+      [
+        "AND",
+        [
+          "EQ",
+          "approval_document_attached",
+          true
+        ],
+        [
+          "EQ",
+          "investment_according_to_approval",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "int_finance:compliance_credit_and_transaction_limit",
+    "desc": "遵守同一人或同一關係人授信及其他交易限制",
+    "expr": [
+      "EQ",
+      "compliance_credit_and_transaction_limit",
+      [
+        "EQ",
+        "credit_and_transaction_limit_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "int_finance:compliance_inspection",
+    "desc": "主管機關檢查時未隱匿、毀損文件，且未規避、妨礙、拒絕檢查",
+    "expr": [
+      "EQ",
+      "compliance_inspection",
+      [
+        "AND",
+        [
+          "EQ",
+          "no_document_concealment",
+          true
+        ],
+        [
+          "EQ",
+          "no_document_destruction",
+          true
+        ],
+        [
+          "EQ",
+          "no_inspection_evasion",
+          true
+        ],
+        [
+          "EQ",
+          "no_inspection_obstruction",
+          true
+        ],
+        [
+          "EQ",
+          "no_inspection_refusal",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "int_finance:compliance_fund_usage_and_risk_management",
+    "desc": "遵守主管機關資金運用範圍中投資外幣有價證券之種類及限額規定",
+    "expr": [
+      "EQ",
+      "compliance_fund_usage_and_risk_management",
+      [
+        "EQ",
+        "fund_usage_and_risk_management_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "int_finance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反授信及交易限制、檢查規定或資金運用管理辦法時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_credit_and_transaction_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_inspection",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_fund_usage_and_risk_management",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

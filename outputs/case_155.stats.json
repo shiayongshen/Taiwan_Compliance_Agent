@@ -1,0 +1,1131 @@
+{
+  "case_id": "case_155",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 269.06,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 39260,
+  "total_output_tokens": 19228,
+  "total_tokens": 58488,
+  "total_cost_usd": 0.046469,
+  "timestamp": "2025-10-21T03:30:08.516459",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 6388,
+      "output_tokens": 6443,
+      "elapsed_time": 87.95421552658081,
+      "cost": 0.012864000000000002
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 19583,
+      "output_tokens": 6422,
+      "elapsed_time": 81.94132542610168,
+      "cost": 0.018108400000000004
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 849,
+      "output_tokens": 3134,
+      "elapsed_time": 47.241687297821045,
+      "cost": 0.005354
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 849,
+      "output_tokens": 3134,
+      "elapsed_time": 49.77229881286621,
+      "cost": 0.005354
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 11591,
+      "output_tokens": 95,
+      "elapsed_time": 2.06689453125,
+      "cost": 0.004788400000000001
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "15701 chars",
+      "timestamp": 87.95421552658081
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "15701 chars",
+      "timestamp": 169.8955409526825
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "46 constraints",
+      "timestamp": 169.8955409526825
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "109 varspecs",
+      "timestamp": 217.13722825050354
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "46 constraints",
+      "timestamp": 217.14922881126404
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 217.16521954536438
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 217.16521954536438
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "8 facts",
+      "timestamp": 269.006413936615
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "8 constraints",
+      "timestamp": 269.0074141025543
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 269.02342534065247
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c53']",
+      "timestamp": 269.02342534065247
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 269.043425321579
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 217.16521954536438
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:related_party_loan_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:related_party_loan_limit",
+        [
+          "EQ",
+          "insurance_related_party_limit_set",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "related_party_loan_limit",
+        [
+          "EQ",
+          "insurance_related_party_limit_set",
+          true
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:stock_registered",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:stock_registered",
+        [
+          "EQ",
+          "bank_stock_registered",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "stock_registered",
+        [
+          "EQ",
+          "bank_stock_registered",
+          true
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:shareholding_5_percent_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:shareholding_5_percent_reported",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "bank_shareholding_percent",
+            5.0
+          ],
+          [
+            "EQ",
+            "bank_shareholding_reported_within_10_days",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_5_percent_reported",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "bank_shareholding_percent",
+            5.0
+          ],
+          [
+            "EQ",
+            "bank_shareholding_reported_within_10_days",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:shareholding_5_percent_change_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:shareholding_5_percent_change_reported",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "GT",
+              "bank_shareholding_percent",
+              5.0
+            ],
+            [
+              "GT",
+              "bank_shareholding_change_percent",
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "bank_shareholding_change_reported",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_5_percent_change_reported",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "GT",
+              "bank_shareholding_percent",
+              5.0
+            ],
+            [
+              "GT",
+              "bank_shareholding_change_percent",
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "bank_shareholding_change_reported",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:shareholding_approval_required",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:shareholding_approval_required",
+        [
+          "OR",
+          [
+            "GE",
+            "bank_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "bank_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "bank_shareholding_percent",
+            50.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_approval_required",
+        [
+          "OR",
+          [
+            "GE",
+            "bank_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "bank_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "bank_shareholding_percent",
+            50.0
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:shareholding_approval_obtained",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:shareholding_approval_obtained",
+        [
+          "IMPLIES",
+          [
+            "OR",
+            [
+              "GE",
+              "bank_shareholding_percent",
+              10.0
+            ],
+            [
+              "GE",
+              "bank_shareholding_percent",
+              25.0
+            ],
+            [
+              "GE",
+              "bank_shareholding_percent",
+              50.0
+            ]
+          ],
+          [
+            "EQ",
+            "bank_shareholding_approved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_approval_obtained",
+        [
+          "IMPLIES",
+          [
+            "OR",
+            [
+              "GE",
+              "bank_shareholding_percent",
+              10.0
+            ],
+            [
+              "GE",
+              "bank_shareholding_percent",
+              25.0
+            ],
+            [
+              "GE",
+              "bank_shareholding_percent",
+              50.0
+            ]
+          ],
+          [
+            "EQ",
+            "bank_shareholding_approved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:shareholding_excess_no_voting_right",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:shareholding_excess_no_voting_right",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "bank_shareholding_not_reported",
+              true
+            ],
+            [
+              "EQ",
+              "bank_shareholding_not_approved",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "bank_shareholding_excess_no_voting_right_enforced",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_excess_no_voting_right",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "bank_shareholding_not_reported",
+              true
+            ],
+            [
+              "EQ",
+              "bank_shareholding_not_approved",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "bank_shareholding_excess_no_voting_right_enforced",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "bank:notify_bank_if_1_percent_or_more",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:notify_bank_if_1_percent_or_more",
+        [
+          "IMPLIES",
+          [
+            "GE",
+            "bank_shareholding_family_percent",
+            1.0
+          ],
+          [
+            "EQ",
+            "bank_notify_done",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "notify_bank_if_1_percent_or_more",
+        [
+          "IMPLIES",
+          [
+            "GE",
+            "bank_shareholding_family_percent",
+            1.0
+          ],
+          [
+            "EQ",
+            "bank_notify_done",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "insurance:shareholding_5_percent_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:shareholding_5_percent_reported",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "insurance_shareholding_percent",
+            5.0
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_reported_within_10_days",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_5_percent_reported",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "insurance_shareholding_percent",
+            5.0
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_reported_within_10_days",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "insurance:shareholding_5_percent_change_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:shareholding_5_percent_change_reported",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "GT",
+              "insurance_shareholding_percent",
+              5.0
+            ],
+            [
+              "GT",
+              "insurance_shareholding_change_percent",
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_change_reported",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_5_percent_change_reported",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "GT",
+              "insurance_shareholding_percent",
+              5.0
+            ],
+            [
+              "GT",
+              "insurance_shareholding_change_percent",
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_change_reported",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "insurance:shareholding_approval_required",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:shareholding_approval_required",
+        [
+          "OR",
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            50.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_approval_required",
+        [
+          "OR",
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "insurance_shareholding_percent",
+            50.0
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "insurance:shareholding_approval_obtained",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:shareholding_approval_obtained",
+        [
+          "IMPLIES",
+          [
+            "OR",
+            [
+              "GE",
+              "insurance_shareholding_percent",
+              10.0
+            ],
+            [
+              "GE",
+              "insurance_shareholding_percent",
+              25.0
+            ],
+            [
+              "GE",
+              "insurance_shareholding_percent",
+              50.0
+            ]
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_approved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_approval_obtained",
+        [
+          "IMPLIES",
+          [
+            "OR",
+            [
+              "GE",
+              "insurance_shareholding_percent",
+              10.0
+            ],
+            [
+              "GE",
+              "insurance_shareholding_percent",
+              25.0
+            ],
+            [
+              "GE",
+              "insurance_shareholding_percent",
+              50.0
+            ]
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_approved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "insurance:shareholding_excess_no_voting_right",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:shareholding_excess_no_voting_right",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_shareholding_not_reported",
+              true
+            ],
+            [
+              "EQ",
+              "insurance_shareholding_not_approved",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_excess_no_voting_right_enforced",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_excess_no_voting_right",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_shareholding_not_reported",
+              true
+            ],
+            [
+              "EQ",
+              "insurance_shareholding_not_approved",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "insurance_shareholding_excess_no_voting_right_enforced",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "insurance:notify_insurance_if_1_percent_or_more",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:notify_insurance_if_1_percent_or_more",
+        [
+          "IMPLIES",
+          [
+            "GE",
+            "insurance_shareholding_family_percent",
+            1.0
+          ],
+          [
+            "EQ",
+            "insurance_notify_done",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "notify_insurance_if_1_percent_or_more",
+        [
+          "IMPLIES",
+          [
+            "GE",
+            "insurance_shareholding_family_percent",
+            1.0
+          ],
+          [
+            "EQ",
+            "insurance_notify_done",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_10_percent_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_10_percent_reported",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_reported",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_10_percent_reported",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_reported",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_5_percent_reported_after_establishment",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_5_percent_reported_after_establishment",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            5.0
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_reported_within_10_days",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_5_percent_reported_after_establishment",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            5.0
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_reported_within_10_days",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_5_percent_change_reported_after_establishment",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_5_percent_change_reported_after_establishment",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "GT",
+              "fhc_shareholding_percent",
+              5.0
+            ],
+            [
+              "GT",
+              "fhc_shareholding_change_percent",
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_change_reported",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_5_percent_change_reported_after_establishment",
+        [
+          "IMPLIES",
+          [
+            "AND",
+            [
+              "GT",
+              "fhc_shareholding_percent",
+              5.0
+            ],
+            [
+              "GT",
+              "fhc_shareholding_change_percent",
+              1.0
+            ]
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_change_reported",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_approval_required",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_approval_required",
+        [
+          "OR",
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            50.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_approval_required",
+        [
+          "OR",
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            25.0
+          ],
+          [
+            "GE",
+            "fhc_shareholding_percent",
+            50.0
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_approval_obtained",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_approval_obtained",
+        [
+          "IMPLIES",
+          [
+            "OR",
+            [
+              "GE",
+              "fhc_shareholding_percent",
+              10.0
+            ],
+            [
+              "GE",
+              "fhc_shareholding_percent",
+              25.0
+            ],
+            [
+              "GE",
+              "fhc_shareholding_percent",
+              50.0
+            ]
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_approved",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_approval_obtained",
+        [
+          "IMPLIES",
+          [
+            "OR",
+            [
+              "GE",
+              "fhc_shareholding_percent",
+              10.0
+            ],
+            [
+              "GE",
+              "fhc_shareholding_percent",
+              25.0
+            ],
+            [
+              "GE",
+              "fhc_shareholding_percent",
+              50.0
+            ]
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_approved",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_excess_no_voting_right",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_excess_no_voting_right",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "fhc_shareholding_not_reported",
+              true
+            ],
+            [
+              "EQ",
+              "fhc_shareholding_not_approved",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_excess_no_voting_right_enforced",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_excess_no_voting_right",
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "fhc_shareholding_not_reported",
+              true
+            ],
+            [
+              "EQ",
+              "fhc_shareholding_not_approved",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_excess_no_voting_right_enforced",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    },
+    {
+      "id": "fhc:shareholding_pledge_prohibited",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "fhc:shareholding_pledge_prohibited",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_pledge_to_subsidiary",
+            false
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "shareholding_pledge_prohibited",
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "fhc_shareholding_percent",
+            10.0
+          ],
+          [
+            "EQ",
+            "fhc_shareholding_pledge_to_subsidiary",
+            false
+          ]
+        ]
+      ],
+      "timestamp": 217.14
+    }
+  ]
+}

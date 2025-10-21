@@ -1,0 +1,284 @@
+[
+  {
+    "id": "bank:investment_limit_stock_total",
+    "desc": "投資集中交易市場與店頭市場股票等原始取得成本總餘額不得超過核算基數30%",
+    "expr": [
+      "EQ",
+      "investment_limit_stock_total",
+      [
+        "LE",
+        "investment_cost_stock_total",
+        [
+          "MUL",
+          "calculation_base",
+          0.3
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_otc_stock_and_others",
+    "desc": "店頭市場股票等不得超過核算基數5%",
+    "expr": [
+      "EQ",
+      "investment_limit_otc_stock_and_others",
+      [
+        "LE",
+        "investment_cost_otc_stock_and_others",
+        [
+          "MUL",
+          "calculation_base",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_unrated_short_term_and_bonds",
+    "desc": "投資無信用評等或未達一定等級短期票券等總餘額不得超過核算基數10%，發行人或保證人具一定信用評等者不在此限",
+    "expr": [
+      "EQ",
+      "investment_limit_unrated_short_term_and_bonds",
+      [
+        "OR",
+        [
+          "LE",
+          "investment_cost_unrated_short_term_and_bonds",
+          [
+            "MUL",
+            "calculation_base",
+            0.1
+          ]
+        ],
+        [
+          "EQ",
+          "issuer_or_guarantor_has_credit_rating",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_unrated_short_term_and_bonds_total",
+    "desc": "銀行投資第二點第一項各類有價證券總餘額不得超過存款總餘額與金融債發售額合計之25%",
+    "expr": [
+      "EQ",
+      "investment_limit_unrated_short_term_and_bonds_total",
+      [
+        "LE",
+        "investment_cost_unrated_short_term_and_bonds_total",
+        [
+          "MUL",
+          [
+            "ADD",
+            "total_deposits",
+            "financial_bonds_issued_amount"
+          ],
+          0.25
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_securities_held_over_one_year",
+    "desc": "銀行兼營證券商所購入有價證券逾一年未賣出者，應納入前三款限額內計算",
+    "expr": [
+      "EQ",
+      "investment_limit_securities_held_over_one_year",
+      [
+        "EQ",
+        "securities_held_over_one_year_included_in_limits",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_buy_sell_back_short_term_exclusion",
+    "desc": "以附賣回條件買入短期票券與債券者不計入限額，但附買回條件賣出者須計入",
+    "expr": [
+      "EQ",
+      "investment_limit_buy_sell_back_short_term_exclusion",
+      [
+        "AND",
+        [
+          "EQ",
+          "buy_back_condition_purchase_excluded",
+          true
+        ],
+        [
+          "EQ",
+          "buy_back_condition_sale_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_per_company_stock_and_bonds",
+    "desc": "投資每一公司股票、新股權利證書與債券換股權利證書不得超過該公司已發行股份總數5%",
+    "expr": [
+      "EQ",
+      "investment_limit_per_company_stock_and_bonds",
+      [
+        "LE",
+        "investment_cost_per_company_stock_and_bonds",
+        [
+          "MUL",
+          "company_total_issued_shares",
+          0.05
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:calculation_base_definition",
+    "desc": "核算基數定義：上年度決算後淨值扣除對其他銀行持股逾一年之原始成本及依法轉投資非銀行企業之原始成本後餘額，當年度現金增資列入，現金股利扣除",
+    "expr": [
+      "EQ",
+      "calculation_base",
+      [
+        "SUB",
+        [
+          "ADD",
+          "net_worth_last_year_after_settlement",
+          "current_year_cash_capital_increase"
+        ],
+        [
+          "ADD",
+          "original_cost_long_term_bank_shares",
+          "original_cost_non_bank_enterprise_investments",
+          "cash_dividends_distributed"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:total_deposits_definition",
+    "desc": "存款總餘額包含活期、定期、支票存款、中華郵政轉存款及外幣存款",
+    "expr": [
+      "EQ",
+      "total_deposits",
+      [
+        "ADD",
+        "demand_deposits",
+        "time_deposits",
+        "checking_deposits",
+        "post_office_transferred_deposits",
+        "foreign_currency_deposits"
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_adjustable_by_authority",
+    "desc": "主管機關得依國內經濟金融情勢調整第一款之投資比率上限",
+    "expr": [
+      "EQ",
+      "investment_limit_adjustable_by_authority",
+      [
+        "EQ",
+        "authority_adjusted_investment_limit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行投資有價證券種類及限額規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_stock_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_otc_stock_and_others",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_unrated_short_term_and_bonds",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_unrated_short_term_and_bonds_total",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_securities_held_over_one_year",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_buy_sell_back_short_term_exclusion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_per_company_stock_and_bonds",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

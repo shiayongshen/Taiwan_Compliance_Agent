@@ -1,0 +1,361 @@
+[
+  {
+    "id": "insurance:real_estate_investment_limit",
+    "desc": "不動產投資總額除自用不動產外不得超過資金30%",
+    "expr": [
+      "EQ",
+      "real_estate_investment_limit",
+      [
+        "LE",
+        [
+          "SUB",
+          "real_estate_total_investment",
+          "self_use_real_estate_investment"
+        ],
+        [
+          "MUL",
+          "capital_fund",
+          30.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:self_use_real_estate_limit",
+    "desc": "自用不動產總額不得超過業主權益總額",
+    "expr": [
+      "EQ",
+      "self_use_real_estate_limit",
+      [
+        "LE",
+        "self_use_real_estate_investment",
+        "owner_equity_total"
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_valuation_required",
+    "desc": "不動產取得及處分應經合法鑑價機構評價",
+    "expr": [
+      "EQ",
+      "real_estate_valuation_required",
+      [
+        "EQ",
+        "real_estate_valuation_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:social_housing_exemption",
+    "desc": "依住宅法興辦社會住宅且僅供租賃者，不受即時利用並有收益限制",
+    "expr": [
+      "EQ",
+      "social_housing_exemption",
+      [
+        "EQ",
+        "social_housing_only_rental",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_compliance",
+    "desc": "不動產投資符合即時利用並有收益限制或社會住宅例外",
+    "expr": [
+      "EQ",
+      "real_estate_investment_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "social_housing_only_rental",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "real_estate_in_use",
+            true
+          ],
+          [
+            "EQ",
+            "real_estate_has_income",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_4_measures_executed",
+    "desc": "資本嚴重不足等級4措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_4_measures_executed",
+      [
+        "EQ",
+        "level_4_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_3_measures_executed",
+    "desc": "資本顯著不足等級3措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_3_measures_executed",
+      [
+        "EQ",
+        "level_3_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_2_measures_executed",
+    "desc": "資本不足等級2措施已執行",
+    "expr": [
+      "EQ",
+      "capital_level_2_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_of_investment_regulations",
+    "desc": "違反資金運用相關規定",
+    "expr": [
+      "EQ",
+      "violation_of_investment_regulations",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_146_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_3",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_5",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_6",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_8",
+          true
+        ],
+        [
+          "EQ",
+          "violate_146_9",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反資金運用規定或資本不足且未執行對應措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_of_investment_regulations",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_4_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            3
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_3_measures_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "capital_level",
+            2
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_level_2_measures_executed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

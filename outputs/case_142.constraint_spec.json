@@ -1,0 +1,370 @@
+[
+  {
+    "id": "insurance_broker:capital_requirement",
+    "desc": "經紀人公司最低實收資本額依申請業務及時期規定",
+    "expr": [
+      "EQ",
+      "capital_requirement",
+      [
+        "CASE",
+        [
+          "AND",
+          [
+            "LT",
+            "application_date",
+            20170303
+          ],
+          [
+            "EQ",
+            "business_type",
+            1
+          ]
+        ],
+        5000000,
+        [
+          "AND",
+          [
+            "LT",
+            "application_date",
+            20170303
+          ],
+          [
+            "EQ",
+            "business_type",
+            2
+          ]
+        ],
+        10000000,
+        [
+          "AND",
+          [
+            "LT",
+            "application_date",
+            20170303
+          ],
+          [
+            "EQ",
+            "business_type",
+            3
+          ]
+        ],
+        10000000,
+        [
+          "AND",
+          [
+            "GE",
+            "application_date",
+            20170303
+          ],
+          [
+            "EQ",
+            "business_type",
+            1
+          ]
+        ],
+        20000000,
+        [
+          "AND",
+          [
+            "GE",
+            "application_date",
+            20170303
+          ],
+          [
+            "EQ",
+            "business_type",
+            2
+          ]
+        ],
+        20000000,
+        [
+          "AND",
+          [
+            "GE",
+            "application_date",
+            20170303
+          ],
+          [
+            "EQ",
+            "business_type",
+            3
+          ]
+        ],
+        30000000,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:capital_adjustment_deadline_met",
+    "desc": "經紀人公司於規定期限內完成資本額調整",
+    "expr": [
+      "EQ",
+      "capital_adjustment_deadline_met",
+      [
+        "OR",
+        [
+          "GE",
+          "capital_adjustment_date",
+          20180624
+        ],
+        [
+          "LT",
+          "license_issue_date",
+          20140624
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:capital_adjustment_after_transfer_met",
+    "desc": "經紀人公司股權或資本總額移轉達50%以上後六個月內完成資本額調整（繼承除外）",
+    "expr": [
+      "EQ",
+      "capital_adjustment_after_transfer_met",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "GE",
+            "share_or_capital_transfer_ratio",
+            50
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "share_or_capital_transfer_ratio",
+            50
+          ],
+          [
+            "EQ",
+            "capital_adjustment_within_6_months",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "transfer_due_to_inheritance",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_broker:capital_paid_in_cash",
+    "desc": "經紀人公司發起人及股東出資以現金為限",
+    "expr": [
+      "EQ",
+      "capital_paid_in_cash",
+      [
+        "EQ",
+        "capital_paid_in_cash_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_broker"
+  },
+  {
+    "id": "insurance_agent:capital_requirement",
+    "desc": "代理人公司最低實收資本額依申請業務及時期規定",
+    "expr": [
+      "EQ",
+      "agent_capital_requirement",
+      [
+        "CASE",
+        [
+          "AND",
+          [
+            "LT",
+            "application_date",
+            20170303
+          ]
+        ],
+        5000000,
+        [
+          "AND",
+          [
+            "GE",
+            "application_date",
+            20170303
+          ]
+        ],
+        10000000,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:capital_adjustment_deadline_met",
+    "desc": "代理人公司於規定期限內完成資本額調整",
+    "expr": [
+      "EQ",
+      "agent_capital_adjustment_deadline_met",
+      [
+        "OR",
+        [
+          "GE",
+          "capital_adjustment_date",
+          20180624
+        ],
+        [
+          "LT",
+          "license_issue_date",
+          20140624
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:capital_adjustment_after_transfer_met",
+    "desc": "代理人公司股權或資本總額移轉達50%以上後六個月內完成資本額調整（繼承除外）",
+    "expr": [
+      "EQ",
+      "agent_capital_adjustment_after_transfer_met",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "GE",
+            "share_or_capital_transfer_ratio",
+            50
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "share_or_capital_transfer_ratio",
+            50
+          ],
+          [
+            "EQ",
+            "capital_adjustment_within_6_months",
+            true
+          ],
+          [
+            "NOT",
+            "transfer_due_to_inheritance_or_share"
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "insurance_agent:capital_paid_in_cash",
+    "desc": "代理人公司發起人及股東出資以現金為限",
+    "expr": [
+      "EQ",
+      "agent_capital_paid_in_cash",
+      [
+        "EQ",
+        "capital_paid_in_cash_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance_agent"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反資本額規定或未依規定完成資本調整或出資非現金時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "LT",
+          "paid_in_capital",
+          "capital_requirement"
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_adjustment_deadline_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_adjustment_after_transfer_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_paid_in_cash",
+            true
+          ]
+        ],
+        [
+          "LT",
+          "agent_paid_in_capital",
+          "agent_capital_requirement"
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_capital_adjustment_deadline_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_capital_adjustment_after_transfer_met",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_capital_paid_in_cash",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

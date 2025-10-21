@@ -1,0 +1,383 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "建立內部控制制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_effective",
+    "desc": "內部控制制度持續有效執行",
+    "expr": [
+      "EQ",
+      "internal_control_effective",
+      [
+        "EQ",
+        "internal_control_system_effective",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:overall_strategy_planned",
+    "desc": "規劃整體經營策略、風險管理政策與指導準則",
+    "expr": [
+      "EQ",
+      "overall_strategy_planned",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_strategy_planned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_policy_planned",
+          true
+        ],
+        [
+          "EQ",
+          "guidelines_planned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_plan_prepared",
+    "desc": "擬定經營計畫、風險管理程序及執行準則",
+    "expr": [
+      "EQ",
+      "business_plan_prepared",
+      [
+        "AND",
+        [
+          "EQ",
+          "business_plan_prepared_flag",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_procedure_prepared",
+          true
+        ],
+        [
+          "EQ",
+          "execution_guidelines_prepared",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:control_environment_ok",
+    "desc": "控制環境符合要求",
+    "expr": [
+      "EQ",
+      "control_environment_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "integrity_and_ethics_established",
+          true
+        ],
+        [
+          "EQ",
+          "board_and_audit_committee_responsibility_established",
+          true
+        ],
+        [
+          "EQ",
+          "organizational_structure_defined",
+          true
+        ],
+        [
+          "EQ",
+          "authority_and_responsibility_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "human_resource_policy_defined",
+          true
+        ],
+        [
+          "EQ",
+          "performance_measurement_and_rewards_defined",
+          true
+        ],
+        [
+          "EQ",
+          "internal_code_of_conduct_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:risk_assessment_ok",
+    "desc": "風險評估符合要求",
+    "expr": [
+      "EQ",
+      "risk_assessment_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "objectives_defined",
+          true
+        ],
+        [
+          "EQ",
+          "linkage_to_units_established",
+          true
+        ],
+        [
+          "EQ",
+          "consider_external_environment_changes",
+          true
+        ],
+        [
+          "EQ",
+          "consider_fraud_risk",
+          true
+        ],
+        [
+          "EQ",
+          "assessment_results_used_for_control_design",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:control_activities_ok",
+    "desc": "控制作業符合要求",
+    "expr": [
+      "EQ",
+      "control_activities_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "appropriate_policies_and_procedures_adopted",
+          true
+        ],
+        [
+          "EQ",
+          "risk_controlled_within_tolerance",
+          true
+        ],
+        [
+          "EQ",
+          "all_levels_and_processes_covered",
+          true
+        ],
+        [
+          "EQ",
+          "technology_environment_covered",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiaries_supervised",
+          true
+        ],
+        [
+          "EQ",
+          "proper_segregation_of_duties",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "conflicting_duties_assigned",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:information_and_communication_ok",
+    "desc": "資訊與溝通符合要求",
+    "expr": [
+      "EQ",
+      "information_and_communication_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "relevant_quality_information_collected",
+          true
+        ],
+        [
+          "EQ",
+          "information_supports_internal_control",
+          true
+        ],
+        [
+          "EQ",
+          "effective_communication_channels_established",
+          true
+        ],
+        [
+          "EQ",
+          "timely_information_accessible",
+          true
+        ],
+        [
+          "EQ",
+          "complete_financial_operational_compliance_information_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:monitoring_activities_ok",
+    "desc": "監督作業符合要求",
+    "expr": [
+      "EQ",
+      "monitoring_activities_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "ongoing_and_separate_evaluations_performed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_and_board_evaluations_performed",
+          true
+        ],
+        [
+          "EQ",
+          "deficiencies_reported_and_communicated",
+          true
+        ],
+        [
+          "EQ",
+          "timely_corrections_made",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_compliance",
+    "desc": "內部控制制度完整且持續有效執行",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_effective",
+          true
+        ],
+        [
+          "EQ",
+          "overall_strategy_planned",
+          true
+        ],
+        [
+          "EQ",
+          "business_plan_prepared",
+          true
+        ],
+        [
+          "EQ",
+          "control_environment_ok",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_ok",
+          true
+        ],
+        [
+          "EQ",
+          "control_activities_ok",
+          true
+        ],
+        [
+          "EQ",
+          "information_and_communication_ok",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_activities_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制制度規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

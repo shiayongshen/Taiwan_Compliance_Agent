@@ -1,0 +1,905 @@
+{
+  "case_id": "case_247",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 125.78,
+  "repair_attempts": 0,
+  "total_agent_calls": 6,
+  "total_input_tokens": 22027,
+  "total_output_tokens": 7135,
+  "total_tokens": 29162,
+  "total_cost_usd": 0.020227,
+  "timestamp": "2025-10-21T05:27:21.463328",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "PASS",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 2835,
+      "output_tokens": 2044,
+      "elapsed_time": 33.63708233833313,
+      "cost": 0.0044044
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 8078,
+      "output_tokens": 2237,
+      "elapsed_time": 35.54979968070984,
+      "cost": 0.006810400000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 300,
+      "output_tokens": 1110,
+      "elapsed_time": 26.84973406791687,
+      "cost": 0.0018960000000000003
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 300,
+      "output_tokens": 1110,
+      "elapsed_time": 18.953019380569458,
+      "cost": 0.0018960000000000003
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5233,
+      "output_tokens": 316,
+      "elapsed_time": 4.6549036502838135,
+      "cost": 0.0025988000000000005
+    },
+    {
+      "agent": "mapper_aggressive_repair",
+      "input_tokens": 5281,
+      "output_tokens": 318,
+      "elapsed_time": 6.075582504272461,
+      "cost": 0.0026212000000000006
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "6256 chars",
+      "timestamp": 33.63708233833313
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "6878 chars",
+      "timestamp": 69.18688201904297
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "13 constraints",
+      "timestamp": 69.18688201904297
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "41 varspecs",
+      "timestamp": 96.03661608695984
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "13 constraints",
+      "timestamp": 96.04161524772644
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 96.04861736297607
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 96.04861736297607
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "28 facts",
+      "timestamp": 119.6575403213501
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "28 constraints",
+      "timestamp": 119.65854263305664
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT after repair",
+      "timestamp": 125.76112341880798
+    },
+    "step8_repair_success": {
+      "passed": true,
+      "details": "SAT→UNSAT repair successful",
+      "timestamp": 125.76112341880798
+    },
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c19', 'aml:internal_control_compliance', 'aml:internal_control_executed', 'meta:penalty_default_false', 'meta:penalty_conditions']",
+      "timestamp": 125.76112341880798
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 125.77411556243896
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 96.04861736297607
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_designated_matters_complied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_designated_matters_complied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_implemented",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_implemented",
+          true
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:internal_control_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:internal_control_executed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ],
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:customer_identification_procedure_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:customer_identification_procedure_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:customer_identification_procedure_implemented",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_based_approach_applied",
+            true
+          ],
+          [
+            "EQ",
+            "aml:beneficial_owner_reviewed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_procedure_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_identification_procedure_implemented",
+            true
+          ],
+          [
+            "EQ",
+            "risk_based_approach_applied",
+            true
+          ],
+          [
+            "EQ",
+            "beneficial_owner_reviewed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:customer_identification_data_retained",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:customer_identification_data_retained",
+        [
+          "OR",
+          [
+            "GE",
+            "aml:customer_identification_data_retention_years",
+            5.0
+          ],
+          [
+            "GE",
+            "aml:temporary_transaction_data_retention_years",
+            5.0
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_data_retained",
+        [
+          "OR",
+          [
+            "GE",
+            "customer_identification_data_retention_years",
+            5.0
+          ],
+          [
+            "GE",
+            "temporary_transaction_data_retention_years",
+            5.0
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:enhanced_customer_due_diligence_applied",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:enhanced_customer_due_diligence_applied",
+        [
+          "EQ",
+          "aml:enhanced_due_diligence_executed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "enhanced_customer_due_diligence_applied",
+        [
+          "EQ",
+          "enhanced_due_diligence_executed",
+          true
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:customer_identification_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:customer_identification_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:customer_identification_procedure_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:customer_identification_data_retained",
+            true
+          ],
+          [
+            "EQ",
+            "aml:enhanced_customer_due_diligence_applied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "customer_identification_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "customer_identification_procedure_established",
+            true
+          ],
+          [
+            "EQ",
+            "customer_identification_data_retained",
+            true
+          ],
+          [
+            "EQ",
+            "enhanced_customer_due_diligence_applied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:currency_transaction_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:currency_transaction_reported",
+        [
+          "OR",
+          [
+            "EQ",
+            "aml:media_report_submitted",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:media_report_not_possible",
+              true
+            ],
+            [
+              "EQ",
+              "aml:written_report_approved",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "currency_transaction_reported",
+        [
+          "OR",
+          [
+            "EQ",
+            "media_report_submitted",
+            true
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "media_report_not_possible",
+              true
+            ],
+            [
+              "EQ",
+              "written_report_approved",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:suspicious_transaction_report_required",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:suspicious_transaction_report_required",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "aml:same_account_daily_cash_deposit",
+              500000.0
+            ],
+            [
+              "GE",
+              "aml:same_account_daily_cash_withdrawal",
+              500000.0
+            ],
+            [
+              "OR",
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "aml:transaction_matches_customer_income",
+                  true
+                ]
+              ],
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "aml:transaction_related_to_business_nature",
+                  true
+                ]
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "aml:same_customer_multiple_cash_transactions",
+              500000.0
+            ],
+            [
+              "OR",
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "aml:transaction_matches_customer_income",
+                  true
+                ]
+              ],
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "aml:transaction_related_to_business_nature",
+                  true
+                ]
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "aml:same_customer_cash_multiple_remittances",
+              500000.0
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "aml:reasonable_purpose_explained",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:transaction_from_high_risk_country",
+              true
+            ],
+            [
+              "OR",
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "aml:transaction_matches_customer_income",
+                  true
+                ]
+              ],
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "aml:transaction_related_to_business_nature",
+                  true
+                ]
+              ]
+            ]
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "aml:transaction_beneficial_owner_is_terrorist",
+              true
+            ],
+            [
+              "EQ",
+              "aml:transaction_involves_terrorist_organization",
+              true
+            ],
+            [
+              "EQ",
+              "aml:transaction_funds_suspected_terrorism_related",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "aml:transaction_identified_as_suspicious_by_internal_procedure",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "suspicious_transaction_report_required",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "GE",
+              "same_account_daily_cash_deposit",
+              500000.0
+            ],
+            [
+              "GE",
+              "same_account_daily_cash_withdrawal",
+              500000.0
+            ],
+            [
+              "OR",
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "transaction_matches_customer_income",
+                  true
+                ]
+              ],
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "transaction_related_to_business_nature",
+                  true
+                ]
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "same_customer_multiple_cash_transactions",
+              500000.0
+            ],
+            [
+              "OR",
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "transaction_matches_customer_income",
+                  true
+                ]
+              ],
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "transaction_related_to_business_nature",
+                  true
+                ]
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "same_customer_cash_multiple_remittances",
+              500000.0
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "reasonable_purpose_explained",
+                true
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "transaction_from_high_risk_country",
+              true
+            ],
+            [
+              "OR",
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "transaction_matches_customer_income",
+                  true
+                ]
+              ],
+              [
+                "NOT",
+                [
+                  "EQ",
+                  "transaction_related_to_business_nature",
+                  true
+                ]
+              ]
+            ]
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "transaction_beneficial_owner_is_terrorist",
+              true
+            ],
+            [
+              "EQ",
+              "transaction_involves_terrorist_organization",
+              true
+            ],
+            [
+              "EQ",
+              "transaction_funds_suspected_terrorism_related",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "transaction_identified_as_suspicious_by_internal_procedure",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:suspicious_transaction_reported",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:suspicious_transaction_reported",
+        [
+          "EQ",
+          "aml:suspicious_transaction_report_submitted",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "suspicious_transaction_reported",
+        [
+          "EQ",
+          "suspicious_transaction_report_submitted",
+          true
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "aml:suspicious_transaction_reporting_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:suspicious_transaction_reporting_compliance",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "aml:suspicious_transaction_report_required",
+            true
+          ],
+          [
+            "EQ",
+            "aml:suspicious_transaction_reported",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "suspicious_transaction_reporting_compliance",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "suspicious_transaction_report_required",
+            true
+          ],
+          [
+            "EQ",
+            "suspicious_transaction_reported",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:internal_control_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:customer_identification_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml:suspicious_transaction_reporting_compliance",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "internal_control_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "customer_identification_compliance",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "suspicious_transaction_reporting_compliance",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 96.04
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6292 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6268 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (15 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (47 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: min_capital_requirement should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'min_capital_requirement'}
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (15 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (36 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+⚠️ Removed invalid keys from facts: {'plan_executed', 'plan_submitted'}
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (34 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['insurance_broker:capital_compliance', 'c19', 'insurance_broker:penalty_default_false', 'insurance_broker:penalty_conditions'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['insurance_broker:capital_compliance', 'c19', 'insurance_broker:penalty_default_false', 'insurance_broker:penalty_conditions'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_143
+
+📊 Model (filtered):
+   license_issue_date = 0
+   contact_other_approved_method_provided = False
+   broker_company_shareholding_ratio = 0
+   share_transfer_date = 0
+   internal_operation_rules_established = True
+   duty_of_loyalty = True
+   permit_obtained = True
+   contact_phone_provided = False
+   application_date = 1080623
+   capital_adjustment_date = 1080601
+   days_since_share_transfer = 0
+   insurance_purchased = True
+   written_analysis_report_provided = True
+   fee_disclosure_provided = False
+   compliance_with_65_plus_protection = True
+   disclosure_made = True
+   internal_operation_rules_executed = True
+   share_transfer_ratio = 0
+   business_type = 1
+   is_inheritance = False
+   documents_retained = True
+   duty_of_care = True
+   paid_in_capital = 5000000
+   contact_info_provided_to_insurer = True
+   license_held = True
+   contact_email_provided = True
+   guarantee_deposit_minimum = 10
+   fee_charged = False
+   insurance_company_shareholding_ratio = 0
+   policy_issued_electronically = True
+   guarantee_deposit = 10
+   compliance_business_management = True
+   electronic_policy_contact_info_provided = True
+   document_retention = True
+   compliance_with_management_rules = True
+   min_capital_requirement = 5000000
+   capital_compliance = True
+   internal_operation_compliance = True
+   duty_of_care_and_loyalty = True
+   license_and_permit_valid = True
+   capital_requirement_compliance = True
+   compliance_financial_management = True
+   pre_contract_disclosure = True
+   capital_adjustment_deadline_met = True
+   penalty = False
+   capital_adjustment_after_share_transfer_met = True
+   shareholding_disclosure = True
+✅ Model saved to: outputs\case_143.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_143.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_143.smt2

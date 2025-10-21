@@ -1,0 +1,405 @@
+[
+  {
+    "id": "insurance:act_144_actuarial_assignment_approved",
+    "desc": "簽證精算人員指派經董（理）事會同意並報主管機關備查",
+    "expr": [
+      "EQ",
+      "act_144_actuarial_assignment_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "board_approved",
+          true
+        ],
+        [
+          "EQ",
+          "reported_to_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_review_approved",
+    "desc": "外部複核精算人員聘請經董（理）事會同意並報主管機關備查",
+    "expr": [
+      "EQ",
+      "act_144_external_review_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "external_reviewer_hired",
+          true
+        ],
+        [
+          "EQ",
+          "board_approved",
+          true
+        ],
+        [
+          "EQ",
+          "reported_to_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_actuarial_report_fair",
+    "desc": "簽證精算人員簽證報告內容公正且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "act_144_actuarial_report_fair",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_report_fairness",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_report_falsehood",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_report_concealment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_report_omission",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_report_error",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_review_report_fair",
+    "desc": "外部複核精算人員複核報告內容公正且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "act_144_external_review_report_fair",
+      [
+        "AND",
+        [
+          "EQ",
+          "external_review_report_fairness",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_report_falsehood",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_report_concealment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_report_omission",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_review_report_error",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_control_established_and_executed",
+    "desc": "建立並執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_control_established_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_148_3_internal_handling_established_and_executed",
+    "desc": "建立並執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "act_148_3_internal_handling_established_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_171_1_148_1_or_2",
+    "desc": "違反第一百四十八條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violation_171_1_148_1_or_2",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "act_148_1_1_complied",
+            true
+          ],
+          [
+            "EQ",
+            "act_148_1_2_complied",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_171_1_148_2_1",
+    "desc": "違反第一百四十八條之二第一項規定：未提供說明文件供查閱、或說明文件未依規定記載或記載不實",
+    "expr": [
+      "EQ",
+      "violation_171_1_148_2_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_provided",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "explanation_document_compliant",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "explanation_document_falsehood",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_171_1_148_2_2",
+    "desc": "違反第一百四十八條之二第二項規定：未依限向主管機關報告或主動公開說明，或報告或公開說明內容不實",
+    "expr": [
+      "EQ",
+      "violation_171_1_148_2_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "report_to_authority_on_time",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "public_explanation_provided",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "report_or_explanation_falsehood",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_171_1_148_3_1",
+    "desc": "違反第一百四十八條之三第一項規定：未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "violation_171_1_148_3_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_171_1_148_3_2",
+    "desc": "違反第一百四十八條之三第二項規定：未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violation_171_1_148_3_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反任一規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_171_1_148_1_or_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_171_1_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_171_1_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_171_1_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_171_1_148_3_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

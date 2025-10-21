@@ -1,0 +1,449 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "內部作業制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_qualified",
+    "desc": "內部稽核人員具備資格條件",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_qualified",
+      [
+        "AND",
+        [
+          "OR",
+          [
+            "GE",
+            "audit_experience_years",
+            2
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "college_graduate",
+              true
+            ],
+            [
+              "OR",
+              [
+                "EQ",
+                "passed_high_exam",
+                true
+              ],
+              [
+                "EQ",
+                "passed_equivalent_exam",
+                true
+              ],
+              [
+                "EQ",
+                "passed_cia_exam",
+                true
+              ]
+            ],
+            [
+              "GE",
+              "financial_experience_years",
+              2
+            ]
+          ],
+          [
+            "GE",
+            "financial_experience_years",
+            5
+          ]
+        ],
+        [
+          "LE",
+          "specialized_staff_ratio",
+          0.3333333
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_staff_disciplinary_record",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_leader_experience",
+    "desc": "內部稽核人員充任領隊具備經驗",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_leader_experience",
+      [
+        "OR",
+        [
+          "GE",
+          "audit_leader_audit_experience_years",
+          3
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "audit_leader_audit_experience_years",
+            1
+          ],
+          [
+            "GE",
+            "audit_leader_financial_experience_years",
+            5
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_foreign_compliance",
+    "desc": "國外營業單位內部稽核人員符合當地法令及主管機關要求",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_foreign_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "foreign_audit_staff_meet_local_requirements",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_audit_staff_selected_by_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_compliance",
+    "desc": "內部稽核人員符合資格且無違反規定",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_audit_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_staff_leader_experience",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_staff_foreign_compliance",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_staff_violation_found",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_audit_staff_violation_improved",
+    "desc": "內部稽核人員違反規定已於二個月內改善",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_violation_improved",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_staff_violation_found",
+            true
+          ]
+        ],
+        [
+          "LE",
+          "violation_improvement_days",
+          60
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_comprehensive",
+    "desc": "內部控制制度包含控制環境、風險評估、控制作業、資訊與溝通、監督作業",
+    "expr": [
+      "EQ",
+      "internal_control_comprehensive",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_environment_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_performed",
+          true
+        ],
+        [
+          "EQ",
+          "control_activities_executed",
+          true
+        ],
+        [
+          "EQ",
+          "information_communication_effective",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_activities_performed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未確實執行內部控制、內部處理、內部作業制度，或內部稽核人員資格不符且未改善時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_audit_staff_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_audit_staff_violation_improved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

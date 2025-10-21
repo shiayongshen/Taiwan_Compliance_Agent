@@ -1,0 +1,135 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5009 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5009 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (12 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (46 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (12 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (28 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (28 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c18', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c18', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_167
+
+📊 Model (filtered):
+   net_worth_at_investment = 14100000000
+   authority_regulations_issued = True
+   order_provision_of_reserve = False
+   other_necessary_measures = False
+   order_branch_closure = False
+   non_self_use_real_estate_investment_total = 4440194000
+   revoke_statutory_meeting_resolution = False
+   approved_cultural_or_public_use = False
+   self_use_real_estate_investment = 0
+   suspend_partial_business = False
+   board_approval_ratio = 0
+   order_manager_or_staff_suspension = False
+   net_worth = 14100000000
+   violation_flag = True
+   order_or_prohibit_asset_disposition = False
+   order_director_or_supervisor_removal = False
+   main_part_self_use = False
+   notify_registration_authority = False
+   warehouse_investment = 0
+   business_guidance_assigned = False
+   board_attendance_ratio = 0
+   on_site_reconstruction = False
+   restrict_investment = False
+   short_term_prepurchase = False
+   transaction_with_related_party = True
+   violate_fund_usage_regulations_111 = False
+   regulations_defined_by_authority = True
+   real_estate_transaction_approval = False
+   violate_other_regulations_76_etc = False
+   non_self_use_real_estate_investment_limit = 1
+   violation_penalty = False
+   penalty_measures = False
+   violate_fund_usage_regulations_109 = False
+   violate_credit_investment_deposit_bond_regulations = False
+   director_supervisor_removal_notification = True
+   total_deposit_balance = 0
+   self_use_real_estate_investment_limit = 1
+   violate_investment_regulations_74 = False
+   non_self_use_real_estate_investment = 0
+   non_self_use_real_estate_investment_prohibition = True
+   penalty = False
+   violate_investment_regulations_75 = False
+   business_guidance_necessary = False
+   violate_central_bank_loan_regulations = False
+   violation_of_law_or_regulation = True
+   violate_loan_regulations = False
+✅ Model saved to: outputs\case_167.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_167.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_167.smt2

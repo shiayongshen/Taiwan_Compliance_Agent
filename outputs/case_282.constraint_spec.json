@@ -1,0 +1,760 @@
+[
+  {
+    "id": "insurance:act_144_actuarial_staff_assigned",
+    "desc": "保險業聘用精算人員並指派簽證精算人員",
+    "expr": [
+      "EQ",
+      "actuarial_staff_assigned",
+      [
+        "AND",
+        [
+          "EQ",
+          "actuarial_staff_hired",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuary_assigned",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_external_actuary_hired",
+    "desc": "保險業聘請外部複核精算人員",
+    "expr": [
+      "EQ",
+      "external_actuary_hired",
+      [
+        "EQ",
+        "external_actuary_hired_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_board_approval_obtained",
+    "desc": "簽證精算人員指派及外部複核精算人員聘請經董（理）事會同意",
+    "expr": [
+      "EQ",
+      "board_approval_obtained",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuary_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "external_actuary_hired_flag",
+          true
+        ],
+        [
+          "EQ",
+          "board_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:act_144_reports_fair_and_true",
+    "desc": "簽證及複核報告內容公正且無虛偽隱匿遺漏錯誤",
+    "expr": [
+      "EQ",
+      "reports_fair_and_true",
+      [
+        "AND",
+        [
+          "EQ",
+          "signing_actuary_report_fair",
+          true
+        ],
+        [
+          "EQ",
+          "signing_actuary_report_true",
+          true
+        ],
+        [
+          "EQ",
+          "external_actuary_report_fair",
+          true
+        ],
+        [
+          "EQ",
+          "external_actuary_report_true",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_established_and_executed",
+    "desc": "保險業建立並執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_established_and_executed",
+    "desc": "保險業建立並執行內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_staff_qualified_and_trained",
+    "desc": "核保人員具資格且接受公平對待65歲以上客戶教育訓練",
+    "expr": [
+      "EQ",
+      "underwriting_staff_qualified_and_trained",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "training_fair_treatment_65_plus_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_procedures_compliant",
+    "desc": "核保程序符合規定包括核保準則、財務核保機制等",
+    "expr": [
+      "EQ",
+      "underwriting_procedures_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_guidelines_defined",
+          true
+        ],
+        [
+          "EQ",
+          "financial_underwriting_mechanism_defined",
+          true
+        ],
+        [
+          "EQ",
+          "medical_exam_standards_defined",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_reporting_mechanism_defined",
+          true
+        ],
+        [
+          "EQ",
+          "authorization_levels_defined",
+          true
+        ],
+        [
+          "EQ",
+          "reinsurance_arrangement_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:policyholder_insured_understanding_and_appropriateness",
+    "desc": "要保人及被保險人保險需求及適合度評估符合規定",
+    "expr": [
+      "EQ",
+      "policyholder_and_insured_appropriateness_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "policyholder_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_type_amount_premium_appropriate",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_currency_risk_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "investment_insurance_risk_and_funds_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "inappropriate_products_not_offered",
+          true
+        ],
+        [
+          "EQ",
+          "non_aggressive_investment_loan_premium_not_accepted",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_underwriting_and_risk_assessment_procedures",
+    "desc": "財務核保機制及風險評估作業程序符合規定",
+    "expr": [
+      "EQ",
+      "financial_underwriting_and_risk_assessment_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_underwriting_mechanism_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_procedures_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "income_financial_status_verification_done",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_reporting_mechanism_and_documentation_ok",
+    "desc": "保險通報機制及相關文件保存符合規定",
+    "expr": [
+      "EQ",
+      "reporting_mechanism_and_documentation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "insurance_reporting_mechanism_implemented",
+          true
+        ],
+        [
+          "EQ",
+          "reporting_documents_retained",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_evaluation_documents_retained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:premium_source_assessed_and_appropriate",
+    "desc": "繳交保險費資金來源評估適當",
+    "expr": [
+      "EQ",
+      "premium_source_assessed_and_appropriate",
+      [
+        "AND",
+        [
+          "EQ",
+          "premium_source_checked",
+          true
+        ],
+        [
+          "EQ",
+          "premium_source_appropriate",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:identity_and_consent_verification_ok",
+    "desc": "要保人、被保險人及受益人身份及同意確認程序符合規定",
+    "expr": [
+      "EQ",
+      "identity_and_consent_verification_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "policyholder_identity_verified",
+          true
+        ],
+        [
+          "EQ",
+          "insured_identity_verified",
+          true
+        ],
+        [
+          "EQ",
+          "beneficiary_consent_verified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:contract_change_and_signature_verification_ok",
+    "desc": "保險契約變更及簽章確認程序符合規定",
+    "expr": [
+      "EQ",
+      "contract_change_and_signature_verification_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_change_affecting_risk_assessed",
+          true
+        ],
+        [
+          "EQ",
+          "policyholder_and_insured_identity_and_signature_verified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:personal_data_preservation_compliant",
+    "desc": "個人資料保存期限及銷毀程序符合規定",
+    "expr": [
+      "EQ",
+      "personal_data_preservation_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "personal_data_preservation_period_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "personal_data_handling_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "personal_data_deleted_after_period",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_and_claims_execution_compliant",
+    "desc": "保險業確實執行招攬、核保及理賠制度及程序",
+    "expr": [
+      "EQ",
+      "underwriting_and_claims_execution_compliant",
+      [
+        "EQ",
+        "underwriting_and_claims_procedures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_and_claims_staff_disciplinary_action",
+    "desc": "對未依規定執行業務之招攬、核保及理賠人員予以警告或適當處置",
+    "expr": [
+      "EQ",
+      "staff_disciplinary_action_taken",
+      [
+        "IMPLIES",
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_and_claims_staff_compliant",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "disciplinary_action_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_product_rate_setting_compliant",
+    "desc": "保險商品費率釐訂符合適足性、合理性及公平性",
+    "expr": [
+      "EQ",
+      "insurance_product_rate_setting_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "rate_setting_reference_data_recent_and_relevant",
+          true
+        ],
+        [
+          "EQ",
+          "rate_setting_risk_and_contract_terms_consistent",
+          true
+        ],
+        [
+          "EQ",
+          "rate_setting_original_data_acquired",
+          true
+        ],
+        [
+          "EQ",
+          "rate_setting_no_unreasonable_pricing",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_product_risk_control_compliant",
+    "desc": "保險商品風險控管機制符合規定",
+    "expr": [
+      "EQ",
+      "insurance_product_risk_control_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "reinsurance_arrangement_evaluated",
+          true
+        ],
+        [
+          "EQ",
+          "sales_limit_warning_and_control_mechanism_established",
+          true
+        ],
+        [
+          "EQ",
+          "sales_limit_within_risk_tolerance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_product_pre_approval_compliant",
+    "desc": "保險商品送審資料符合規定且無重大錯誤或缺漏",
+    "expr": [
+      "EQ",
+      "insurance_product_pre_approval_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "product_content_complies_laws",
+          true
+        ],
+        [
+          "EQ",
+          "signed_by_authorized_personnel",
+          true
+        ],
+        [
+          "EQ",
+          "no_major_errors_or_omissions",
+          true
+        ],
+        [
+          "EQ",
+          "submitted_documents_truthful",
+          true
+        ],
+        [
+          "EQ",
+          "authorized_personnel_declaration_correct",
+          true
+        ],
+        [
+          "EQ",
+          "sales_approval_procedures_followed",
+          true
+        ],
+        [
+          "EQ",
+          "submission_method_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "required_documents_complete",
+          true
+        ],
+        [
+          "EQ",
+          "major_regulatory_requirements_met",
+          true
+        ],
+        [
+          "EQ",
+          "corrections_completed_within_deadlines",
+          true
+        ],
+        [
+          "EQ",
+          "rejection_count_below_limit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法及相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "actuarial_staff_assigned",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "external_actuary_hired",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "board_approval_obtained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reports_fair_and_true",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_staff_qualified_and_trained",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_procedures_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "policyholder_and_insured_appropriateness_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_underwriting_and_risk_assessment_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reporting_mechanism_and_documentation_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "premium_source_assessed_and_appropriate",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "identity_and_consent_verification_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "contract_change_and_signature_verification_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "personal_data_preservation_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_and_claims_execution_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_product_rate_setting_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_product_risk_control_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_product_pre_approval_compliant",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

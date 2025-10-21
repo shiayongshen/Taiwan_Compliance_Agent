@@ -1,0 +1,503 @@
+[
+  {
+    "id": "securities:report_submission_and_cooperation",
+    "desc": "證券投資信託事業等應於期限內提出報告且不得規避妨礙檢查",
+    "expr": [
+      "EQ",
+      "report_submission_and_cooperation",
+      [
+        "AND",
+        [
+          "EQ",
+          "report_submitted_within_deadline",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "obstruction_or_refusal",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:inspection_report_submission",
+    "desc": "指定律師、會計師等專業人員檢查並據實提出報告",
+    "expr": [
+      "EQ",
+      "inspection_report_submission",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "inspection_by_designated_professional",
+          true
+        ],
+        [
+          "EQ",
+          "inspection_report_submitted_truthfully",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:inspection_cost_borne_by_inspected",
+    "desc": "檢查費用由被檢查人負擔",
+    "expr": [
+      "EQ",
+      "inspection_cost_borne_by_inspected",
+      [
+        "EQ",
+        "inspection_cost_paid_by_inspected",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:information_provision_to_related_authorities",
+    "desc": "主管機關得要求相關目的事業主管機關或金融機構提供必要資訊",
+    "expr": [
+      "EQ",
+      "information_provided_to_related_authorities",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "suspected_violation",
+          true
+        ],
+        [
+          "EQ",
+          "related_authorities_provided_information",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:information_non_disclosure",
+    "desc": "前三項所得資訊除必要外不得公布或提供他人",
+    "expr": [
+      "EQ",
+      "information_non_disclosure",
+      [
+        "IMPLIES",
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_or_provision_to_others_allowed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "information_used_for_supervision_and_investor_protection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_penalty_criteria",
+    "desc": "違反本法或命令之處分等級",
+    "expr": [
+      "EQ",
+      "violation_penalty_level",
+      [
+        "CASE",
+        [
+          "EQ",
+          "violation_warning",
+          true
+        ],
+        1,
+        [
+          "EQ",
+          "violation_dismissal_of_officer",
+          true
+        ],
+        2,
+        [
+          "EQ",
+          "violation_suspension_of_fund_raising_or_trustee",
+          true
+        ],
+        3,
+        [
+          "EQ",
+          "violation_suspension_of_business",
+          true
+        ],
+        4,
+        [
+          "EQ",
+          "violation_revocation_of_license",
+          true
+        ],
+        5,
+        [
+          "EQ",
+          "violation_other_measures",
+          true
+        ],
+        6,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_violation_113",
+    "desc": "違反第113條規定之罰鍰及改善責令",
+    "expr": [
+      "EQ",
+      "violation_113_occurred",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_11_4_or_43_2_report",
+          true
+        ],
+        [
+          "EQ",
+          "violation_17_1_or_17_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_20_provision",
+          true
+        ],
+        [
+          "EQ",
+          "violation_26_49_74_81_99_100_document",
+          true
+        ],
+        [
+          "EQ",
+          "violation_29_43_45_96_announcement",
+          true
+        ],
+        [
+          "EQ",
+          "violation_47_2_report",
+          true
+        ],
+        [
+          "EQ",
+          "violation_60_1_2_customer_data",
+          true
+        ],
+        [
+          "EQ",
+          "violation_62_1_4_5_accounting_records",
+          true
+        ],
+        [
+          "EQ",
+          "violation_69_72_personnel_or_department",
+          true
+        ],
+        [
+          "EQ",
+          "violation_94_conflict_of_interest",
+          true
+        ],
+        [
+          "EQ",
+          "violation_96_2_refusal_of_designated_assignee",
+          true
+        ],
+        [
+          "EQ",
+          "violation_101_1_report_submission_or_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:client_knowledge_and_risk_assessment",
+    "desc": "證券投資顧問事業應充分知悉並評估客戶投資知識、經驗、財務及風險承受度",
+    "expr": [
+      "EQ",
+      "client_knowledge_and_risk_assessed",
+      [
+        "EQ",
+        "client_knowledge_and_risk_assessed_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:written_advisory_contract",
+    "desc": "證券投資顧問事業應訂定書面證券投資顧問契約",
+    "expr": [
+      "EQ",
+      "written_advisory_contract_signed",
+      [
+        "EQ",
+        "advisory_contract_signed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisory_contract_mandatory_items",
+    "desc": "證券投資顧問契約應載明法定事項",
+    "expr": [
+      "EQ",
+      "advisory_contract_mandatory_items_complete",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_party_names_and_addresses",
+          true
+        ],
+        [
+          "EQ",
+          "contract_rights_obligations_and_liabilities",
+          true
+        ],
+        [
+          "EQ",
+          "scope_of_investment_research_and_advice",
+          true
+        ],
+        [
+          "EQ",
+          "service_methods",
+          true
+        ],
+        [
+          "EQ",
+          "fees_and_payment_methods",
+          true
+        ],
+        [
+          "EQ",
+          "confidentiality_obligation",
+          true
+        ],
+        [
+          "EQ",
+          "no_disclosure_without_consent",
+          true
+        ],
+        [
+          "EQ",
+          "no_receipt_of_client_funds_or_profit_sharing",
+          true
+        ],
+        [
+          "EQ",
+          "contract_modification_or_termination",
+          true
+        ],
+        [
+          "EQ",
+          "contract_effective_date_and_duration",
+          true
+        ],
+        [
+          "EQ",
+          "client_right_to_terminate_within_7_days",
+          true
+        ],
+        [
+          "EQ",
+          "refund_ratio_and_method_on_termination",
+          true
+        ],
+        [
+          "EQ",
+          "dispute_resolution_and_jurisdiction",
+          true
+        ],
+        [
+          "EQ",
+          "other_mandated_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:contract_termination_compensation_limit",
+    "desc": "契約終止時不得請求損害賠償或違約金",
+    "expr": [
+      "EQ",
+      "contract_termination_compensation_limit",
+      [
+        "AND",
+        [
+          "EQ",
+          "compensation_for_services_before_termination_allowed",
+          true
+        ],
+        [
+          "EQ",
+          "no_claim_for_damages_or_penalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_analysis_report_requirements",
+    "desc": "證券投資顧問事業應作成投資分析報告並載明合理分析基礎及根據",
+    "expr": [
+      "EQ",
+      "investment_analysis_report_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_analysis_report_created",
+          true
+        ],
+        [
+          "EQ",
+          "reasonable_analysis_basis_and_references_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_analysis_report_retention",
+    "desc": "投資分析報告副本及紀錄保存五年，可電子媒體形式",
+    "expr": [
+      "EQ",
+      "investment_analysis_report_retained",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_analysis_report_copies_retained",
+          true
+        ],
+        [
+          "GE",
+          "investment_analysis_report_retention_years",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:advisory_contract_retention",
+    "desc": "證券投資顧問契約權利義務關係消滅日起保存五年",
+    "expr": [
+      "EQ",
+      "advisory_contract_retained",
+      [
+        "AND",
+        [
+          "EQ",
+          "advisory_contract_retained_flag",
+          true
+        ],
+        [
+          "GE",
+          "advisory_contract_retention_years",
+          5.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:media_investment_analysis_record_retention",
+    "desc": "各種傳播媒體提供投資分析者應保存節目錄影及錄音至少一年",
+    "expr": [
+      "EQ",
+      "media_investment_analysis_record_retained",
+      [
+        "AND",
+        [
+          "EQ",
+          "media_investment_analysis_record_saved",
+          true
+        ],
+        [
+          "GE",
+          "media_investment_analysis_record_retention_years",
+          1.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第113條規定或未依規定提交報告或妨礙檢查時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_113_occurred",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "report_submission_and_cooperation",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

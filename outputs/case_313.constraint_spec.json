@@ -1,0 +1,399 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_required_matters_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "bank:internal_control_established",
+    "desc": "銀行建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "bank_internal_control_established",
+      [
+        "EQ",
+        "internal_control_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "銀行建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "bank_internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "銀行建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "bank_internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "銀行內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "bank_internal_control_executed",
+      [
+        "EQ",
+        "internal_control_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "銀行內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "bank_internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "銀行內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "bank_internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_implemented",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_ok",
+    "desc": "銀行建立內部控制及稽核制度且確實執行",
+    "expr": [
+      "EQ",
+      "bank_internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "bank_internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "銀行建立內部處理制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "bank_internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "bank_internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "銀行建立內部作業制度及程序且確實執行",
+    "expr": [
+      "EQ",
+      "bank_internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "bank_internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "aml:internal_control_compliance",
+    "desc": "洗錢防制內部控制制度建立且執行合規",
+    "expr": [
+      "EQ",
+      "aml_internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:improvement_ordered",
+    "desc": "主管機關限期令改善",
+    "expr": [
+      "EQ",
+      "improvement_ordered",
+      [
+        "EQ",
+        "improvement_ordered",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:improvement_completed",
+    "desc": "限期改善已完成",
+    "expr": [
+      "EQ",
+      "improvement_completed",
+      [
+        "EQ",
+        "improvement_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_condition_violation",
+    "desc": "違反未建立制度或未依規定執行",
+    "expr": [
+      "EQ",
+      "aml_violation",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml_internal_control_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_after_improvement",
+    "desc": "屆期未改善",
+    "expr": [
+      "EQ",
+      "aml_penalty_after_improvement",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_ordered",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_due_to_violation",
+    "desc": "違反規定且未改善處罰",
+    "expr": [
+      "EQ",
+      "aml_penalty_due_to_violation",
+      [
+        "AND",
+        [
+          "EQ",
+          "aml_violation",
+          true
+        ],
+        [
+          "EQ",
+          "aml_penalty_after_improvement",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_due_to_obstruction",
+    "desc": "規避、拒絕或妨礙查核",
+    "expr": [
+      "EQ",
+      "aml_penalty_due_to_obstruction",
+      [
+        "EQ",
+        "inspection_obstruction",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反洗錢防制法第7條規定未建立或未執行制度且未改善，或規避查核時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "aml_penalty_due_to_violation",
+          true
+        ],
+        [
+          "EQ",
+          "aml_penalty_due_to_obstruction",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

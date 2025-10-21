@@ -1,0 +1,782 @@
+[
+  {
+    "id": "insurance:violate_148_1_2",
+    "desc": "違反保險法第148條之一第一項或第二項規定",
+    "expr": [
+      "EQ",
+      "violate_148_1_2",
+      [
+        "EQ",
+        "violate_148_1_2_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_1",
+    "desc": "違反保險法第148條之二第一項規定：未提供說明文件供查閱、或說明文件未依規定記載、或說明文件記載不實",
+    "expr": [
+      "EQ",
+      "violate_148_2_1",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_provide_explanation_doc",
+          true
+        ],
+        [
+          "EQ",
+          "explanation_doc_not_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "explanation_doc_false",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_2_2",
+    "desc": "違反保險法第148條之二第二項規定：未依限向主管機關報告或主動公開說明，或報告或公開說明內容不實",
+    "expr": [
+      "EQ",
+      "violate_148_2_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "not_report_to_authority_in_time",
+          true
+        ],
+        [
+          "EQ",
+          "not_proactively_disclose",
+          true
+        ],
+        [
+          "EQ",
+          "report_or_disclosure_false",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_1",
+    "desc": "違反保險法第148條之三第一項規定：未建立或未執行內部控制或稽核制度",
+    "expr": [
+      "EQ",
+      "violate_148_3_1",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_148_3_2",
+    "desc": "違反保險法第148條之三第二項規定：未建立或未執行內部處理制度或程序",
+    "expr": [
+      "EQ",
+      "violate_148_3_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_handling_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_ok",
+    "desc": "已建立且執行內部控制及稽核制度與內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_consumer_info_complete",
+    "desc": "保險業提供金融消費者基本資料完整",
+    "expr": [
+      "EQ",
+      "financial_consumer_info_complete",
+      [
+        "AND",
+        [
+          "EQ",
+          "applicant_and_insured_basic_info_complete",
+          true
+        ],
+        [
+          "EQ",
+          "applicant_and_insured_relationship_known",
+          true
+        ],
+        [
+          "EQ",
+          "other_regulatory_basic_info_complete",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_consumer_understanding",
+    "desc": "保險業充分瞭解金融消費者及其投保條件、審查原則",
+    "expr": [
+      "EQ",
+      "financial_consumer_understanding",
+      [
+        "AND",
+        [
+          "EQ",
+          "understand_financial_consumer",
+          true
+        ],
+        [
+          "EQ",
+          "set_insurance_conditions",
+          true
+        ],
+        [
+          "EQ",
+          "understand_insurance_purpose_and_needs",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_suitability_evaluated",
+    "desc": "保險業評估保險商品適合度符合規定",
+    "expr": [
+      "EQ",
+      "insurance_suitability_evaluated",
+      [
+        "AND",
+        [
+          "EQ",
+          "consumer_understands_premium_usage",
+          true
+        ],
+        [
+          "EQ",
+          "insurance_amount_and_premium_match_needs",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_is_foreign_currency",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "understand_exchange_rate_risk",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:sales_process_recorded_and_reviewed",
+    "desc": "銷售過程以錄音、錄影或電子設備留存並覆審",
+    "expr": [
+      "EQ",
+      "sales_process_recorded_and_reviewed",
+      [
+        "AND",
+        [
+          "EQ",
+          "recording_or_electronic_trace_kept",
+          true
+        ],
+        [
+          "EQ",
+          "reviewed_by_appropriate_unit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:sales_process_recording_complete",
+    "desc": "銷售過程錄音錄影或電子設備留存內容完整",
+    "expr": [
+      "EQ",
+      "sales_process_recording_complete",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_showed_qualification",
+          true
+        ],
+        [
+          "EQ",
+          "informed_customer_about_product_and_company",
+          true
+        ],
+        [
+          "EQ",
+          "explained_important_terms_and_exclusions",
+          true
+        ],
+        [
+          "EQ",
+          "explained_contract_cancellation_rights",
+          true
+        ],
+        [
+          "EQ",
+          "confirmed_customer_understands_premium_and_affordability",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance_is_investment_type",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "explained_investment_risks",
+              true
+            ],
+            [
+              "EQ",
+              "explained_policy_costs",
+              true
+            ],
+            [
+              "EQ",
+              "confirmed_customer_can_bear_loss",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:post_sale_contact_compliant",
+    "desc": "銷售後電話、視訊或遠距訪問符合規定並保存紀錄",
+    "expr": [
+      "EQ",
+      "post_sale_contact_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "non_sales_staff_assigned_for_contact",
+          true
+        ],
+        [
+          "EQ",
+          "contact_records_kept",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "premium_source_is_loan_or_surrender_or_borrow",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "confirmed_premium_source_compliance",
+              true
+            ],
+            [
+              "EQ",
+              "informed_loan_risk",
+              true
+            ],
+            [
+              "EQ",
+              "informed_surrender_loss",
+              true
+            ]
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "customer_age_over_65",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "assessed_customer_understanding_and_risks",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_and_broker_compliance",
+    "desc": "業務往來保險經紀人遵守管理規則及合約約定",
+    "expr": [
+      "EQ",
+      "agent_and_broker_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "comply_broker_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "no_improper_discount_or_inducement",
+          true
+        ],
+        [
+          "EQ",
+          "no_induce_contract_termination_or_loan_payment",
+          true
+        ],
+        [
+          "EQ",
+          "understand_premium_source",
+          true
+        ],
+        [
+          "EQ",
+          "no_other_harmful_acts",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_process_compliant",
+    "desc": "核保處理制度及程序符合規定",
+    "expr": [
+      "EQ",
+      "underwriting_process_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "underwriting_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_suitability_evaluated",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "provide_inappropriate_products",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "verify_applicant_and_insured_identity",
+          true
+        ],
+        [
+          "EQ",
+          "verify_beneficiary_consent",
+          true
+        ],
+        [
+          "EQ",
+          "verify_contract_changes_and_signatures",
+          true
+        ],
+        [
+          "EQ",
+          "preserve_personal_data_properly",
+          true
+        ],
+        [
+          "EQ",
+          "implement_risk_assessment_and_premium_calculation",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unfair_treatment_due_to_disability",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "implement_financial_underwriting_and_reporting",
+          true
+        ],
+        [
+          "EQ",
+          "assess_premium_source_and_appropriateness",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibit_improper_sales_acts",
+    "desc": "禁止保險業及業務人員不當招攬行為",
+    "expr": [
+      "EQ",
+      "prohibit_improper_sales_acts",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "unqualified_sales_personnel",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_discount_or_commission",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "false_or_misleading_promotion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "induce_contract_termination_or_loan_payment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "use_unauthorized_promotional_material",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "induce_violate_disclosure_obligation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "commission_payee_differs_from_agent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "misappropriate_or_embezzle_premium",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fail_confirm_suitability_for_elderly",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "pay_loan_referral_fee_except_exemption",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_harmful_acts",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:execute_sales_underwriting_claim_procedures",
+    "desc": "確實執行招攬、核保及理賠處理制度及程序",
+    "expr": [
+      "EQ",
+      "execute_sales_underwriting_claim_procedures",
+      [
+        "EQ",
+        "execute_sales_underwriting_claim_procedures_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反任一相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_148_1_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_2_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_2_2",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_3_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_148_3_2",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_handling_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_consumer_info_complete",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_consumer_understanding",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_suitability_evaluated",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "sales_process_recorded_and_reviewed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "sales_process_recording_complete",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "post_sale_contact_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_and_broker_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_process_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibit_improper_sales_acts",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "execute_sales_underwriting_claim_procedures",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

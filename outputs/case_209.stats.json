@@ -1,0 +1,792 @@
+{
+  "case_id": "case_209",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 122.91,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 28365,
+  "total_output_tokens": 8903,
+  "total_tokens": 37268,
+  "total_cost_usd": 0.025591,
+  "timestamp": "2025-10-21T04:36:18.350202",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 5977,
+      "output_tokens": 2677,
+      "elapsed_time": 35.87912130355835,
+      "cost": 0.006674
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 14995,
+      "output_tokens": 2685,
+      "elapsed_time": 40.6251163482666,
+      "cost": 0.010294000000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 419,
+      "output_tokens": 1584,
+      "elapsed_time": 20.784143924713135,
+      "cost": 0.002702
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 419,
+      "output_tokens": 1584,
+      "elapsed_time": 20.150152921676636,
+      "cost": 0.002702
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 6555,
+      "output_tokens": 373,
+      "elapsed_time": 5.42014217376709,
+      "cost": 0.0032188000000000004
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "7338 chars",
+      "timestamp": 35.87912130355835
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "7406 chars",
+      "timestamp": 76.50423765182495
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "21 constraints",
+      "timestamp": 76.50423765182495
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "62 varspecs",
+      "timestamp": 97.28838157653809
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "21 constraints",
+      "timestamp": 97.29438161849976
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 97.30138158798218
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 97.30138158798218
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "36 facts",
+      "timestamp": 122.87367677688599
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "36 constraints",
+      "timestamp": 122.87367677688599
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 122.88367891311646
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c33', 'meta:penalty_default_false', 'fcp:penalty_conditions']",
+      "timestamp": 122.88367891311646
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 122.8966794013977
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 97.30138158798218
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "aml:dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "aml:risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "aml:audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "aml:other_designated_matters_complied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "control_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "training_held_regularly",
+            true
+          ],
+          [
+            "EQ",
+            "dedicated_personnel_assigned",
+            true
+          ],
+          [
+            "EQ",
+            "risk_assessment_report_updated",
+            true
+          ],
+          [
+            "EQ",
+            "audit_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "other_designated_matters_complied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "aml:internal_control_executed",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "aml:internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_executed",
+        [
+          "EQ",
+          "internal_control_execution_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "aml:inspection_cooperation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "inspection_cooperation",
+        [
+          "NOT",
+          [
+            "EQ",
+            "aml:inspection_evaded_or_obstructed",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "inspection_cooperation",
+        [
+          "NOT",
+          [
+            "EQ",
+            "inspection_evaded_or_obstructed",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:consumer_data_understood",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "consumer_data_understood",
+        [
+          "EQ",
+          "fcp:consumer_data_collected_and_verified",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "consumer_data_understood",
+        [
+          "EQ",
+          "consumer_data_collected_and_verified",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:product_suitability_ensured",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "product_suitability_ensured",
+        [
+          "EQ",
+          "fcp:product_suitability_confirmed",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "product_suitability_ensured",
+        [
+          "EQ",
+          "product_suitability_confirmed",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:violation_advertising",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "violation_advertising",
+        [
+          "EQ",
+          "fcp:violate_advertising_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_advertising",
+        [
+          "EQ",
+          "violate_advertising_rules",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:violation_consumer_data",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "violation_consumer_data",
+        [
+          "EQ",
+          "fcp:violate_consumer_data_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_consumer_data",
+        [
+          "EQ",
+          "violate_consumer_data_rules",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:violation_disclosure",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "violation_disclosure",
+        [
+          "EQ",
+          "fcp:violate_disclosure_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_disclosure",
+        [
+          "EQ",
+          "violate_disclosure_rules",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:violation_compensation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "violation_compensation",
+        [
+          "EQ",
+          "fcp:violate_compensation_rules",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_compensation",
+        [
+          "EQ",
+          "violate_compensation_rules",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "fcp:serious_violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "serious_violation",
+        [
+          "EQ",
+          "fcp:serious_violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "serious_violation",
+        [
+          "EQ",
+          "serious_violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "trust:client_understanding_rules_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "client_understanding_rules_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "trust:client_acceptance_rules_established",
+            true
+          ],
+          [
+            "EQ",
+            "trust:client_review_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "trust:client_data_collected_and_verified",
+            true
+          ],
+          [
+            "EQ",
+            "trust:investment_ability_evaluated",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "client_understanding_rules_established",
+        [
+          "AND",
+          [
+            "EQ",
+            "client_acceptance_rules_established",
+            true
+          ],
+          [
+            "EQ",
+            "client_review_procedures_established",
+            true
+          ],
+          [
+            "EQ",
+            "client_data_collected_and_verified",
+            true
+          ],
+          [
+            "EQ",
+            "investment_ability_evaluated",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "trust:non_professional_investor_compliance",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "non_professional_investor_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "trust:product_suitability_rules_established",
+            true
+          ],
+          [
+            "EQ",
+            "trust:risk_level_classification_established",
+            true
+          ],
+          [
+            "EQ",
+            "trust:monitoring_mechanism_established",
+            true
+          ],
+          [
+            "EQ",
+            "trust:clear_risk_disclosure_to_client",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "non_professional_investor_compliance",
+        [
+          "AND",
+          [
+            "EQ",
+            "product_suitability_rules_established",
+            true
+          ],
+          [
+            "EQ",
+            "risk_level_classification_established",
+            true
+          ],
+          [
+            "EQ",
+            "monitoring_mechanism_established",
+            true
+          ],
+          [
+            "EQ",
+            "clear_risk_disclosure_to_client",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "trust:false_or_hidden_recommendation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "false_or_hidden_recommendation",
+        [
+          "EQ",
+          "trust:recommendation_false_or_hidden",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "false_or_hidden_recommendation",
+        [
+          "EQ",
+          "recommendation_false_or_hidden",
+          true
+        ]
+      ],
+      "timestamp": 97.29
+    },
+    {
+      "id": "aml:financial_institution_defined",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_institution_defined",
+        [
+          "OR",
+          [
+            "EQ",
+            "aml:is_bank",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_trust_company",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_credit_cooperative",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_agricultural_credit_department",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_fisheries_credit_department",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_national_agricultural_bank",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_postal_financial_institution",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_bill_finance_company",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_credit_card_company",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_insurance_company",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_securities_firm",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_securities_investment_trust",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_securities_finance_company",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_securities_investment_advisor",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_securities_central_depository",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_futures_broker",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_trust_industry",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_other_designated_financial_institution",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_financing_lease_or_virtual_asset_service_provider",
+            true
+          ],
+          [
+            "EQ",
+            "aml:is_designated_non_financial_business_or_personnel",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "financial_institution_defined",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_bank",
+            true
+          ],
+          [
+            "EQ",
+            "is_trust_company",
+            true
+          ],
+          [
+            "EQ",
+            "is_credit_cooperative",
+            true
+          ],
+          [
+            "EQ",
+            "is_agricultural_credit_department",
+            true
+          ],
+          [
+            "EQ",
+            "is_fisheries_credit_department",
+            true
+          ],
+          [
+            "EQ",
+            "is_national_agricultural_bank",
+            true
+          ],
+          [
+            "EQ",
+            "is_postal_financial_institution",
+            true
+          ],
+          [
+            "EQ",
+            "is_bill_finance_company",
+            true
+          ],
+          [
+            "EQ",
+            "is_credit_card_company",
+            true
+          ],
+          [
+            "EQ",
+            "is_insurance_company",
+            true
+          ],
+          [
+            "EQ",
+            "is_securities_firm",
+            true
+          ],
+          [
+            "EQ",
+            "is_securities_investment_trust",
+            true
+          ],
+          [
+            "EQ",
+            "is_securities_finance_company",
+            true
+          ],
+          [
+            "EQ",
+            "is_securities_investment_advisor",
+            true
+          ],
+          [
+            "EQ",
+            "is_securities_central_depository",
+            true
+          ],
+          [
+            "EQ",
+            "is_futures_broker",
+            true
+          ],
+          [
+            "EQ",
+            "is_trust_industry",
+            true
+          ],
+          [
+            "EQ",
+            "is_other_designated_financial_institution",
+            true
+          ],
+          [
+            "EQ",
+            "is_financing_lease_or_virtual_asset_service_provider",
+            true
+          ],
+          [
+            "EQ",
+            "is_designated_non_financial_business_or_personnel",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 97.29
+    }
+  ]
+}

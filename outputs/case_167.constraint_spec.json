@@ -1,0 +1,340 @@
+[
+  {
+    "id": "bank:violation_of_law_or_regulation",
+    "desc": "銀行違反法令、章程或有礙健全經營之虞",
+    "expr": [
+      "EQ",
+      "violation_of_law_or_regulation",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:penalty_measures",
+    "desc": "主管機關可依情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "revoke_statutory_meeting_resolution",
+          true
+        ],
+        [
+          "EQ",
+          "suspend_partial_business",
+          true
+        ],
+        [
+          "EQ",
+          "restrict_investment",
+          true
+        ],
+        [
+          "EQ",
+          "order_or_prohibit_asset_disposition",
+          true
+        ],
+        [
+          "EQ",
+          "order_branch_closure",
+          true
+        ],
+        [
+          "EQ",
+          "order_manager_or_staff_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "order_director_or_supervisor_removal",
+          true
+        ],
+        [
+          "EQ",
+          "order_provision_of_reserve",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:director_supervisor_removal_notification",
+    "desc": "解除董事、監察人職務時通知公司登記主管機關撤銷或廢止其登記",
+    "expr": [
+      "EQ",
+      "director_supervisor_removal_notification",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "order_director_or_supervisor_removal",
+          true
+        ],
+        [
+          "EQ",
+          "notify_registration_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:business_guidance_necessity",
+    "desc": "為改善營運缺失有業務輔導必要時，主管機關得指定機構辦理",
+    "expr": [
+      "EQ",
+      "business_guidance_necessary",
+      [
+        "EQ",
+        "business_guidance_assigned",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:self_use_real_estate_investment_limit",
+    "desc": "自用不動產投資不得超過投資時淨值，營業用倉庫投資不得超過存款總餘額5%",
+    "expr": [
+      "EQ",
+      "self_use_real_estate_investment_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "self_use_real_estate_investment",
+          "net_worth_at_investment"
+        ],
+        [
+          "LE",
+          "warehouse_investment",
+          [
+            "MUL",
+            "total_deposit_balance",
+            5.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:non_self_use_real_estate_investment_prohibition",
+    "desc": "商業銀行不得投資非自用不動產，除特定例外",
+    "expr": [
+      "EQ",
+      "non_self_use_real_estate_investment_prohibition",
+      [
+        "OR",
+        [
+          "EQ",
+          "non_self_use_real_estate_investment",
+          0.0
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "main_part_self_use",
+            true
+          ],
+          [
+            "EQ",
+            "short_term_prepurchase",
+            true
+          ],
+          [
+            "EQ",
+            "on_site_reconstruction",
+            true
+          ],
+          [
+            "EQ",
+            "approved_cultural_or_public_use",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:non_self_use_real_estate_investment_limit",
+    "desc": "非自用不動產投資總額不得超過銀行淨值20%，且與自用不動產合計不得超過投資時淨值",
+    "expr": [
+      "EQ",
+      "non_self_use_real_estate_investment_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "non_self_use_real_estate_investment_total",
+          [
+            "MUL",
+            "net_worth",
+            20.0
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "non_self_use_real_estate_investment_total",
+            "self_use_real_estate_investment"
+          ],
+          "net_worth_at_investment"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:real_estate_transaction_approval",
+    "desc": "與持有實收資本3%以上企業、負責人、職員、主要股東或利害關係人交易須董事會三分之二出席及四分之三同意",
+    "expr": [
+      "EQ",
+      "real_estate_transaction_approval",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "transaction_with_related_party",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            66.67
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            75.0
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:regulations_defined_by_authority",
+    "desc": "主管機關定自用不動產、非自用不動產範圍及核准程序等相關辦法",
+    "expr": [
+      "EQ",
+      "regulations_defined_by_authority",
+      [
+        "EQ",
+        "authority_regulations_issued",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_penalty",
+    "desc": "違反特定條款者處新臺幣一百萬元以上二千萬元以下罰鍰",
+    "expr": [
+      "EQ",
+      "violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_central_bank_loan_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "violate_loan_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "violate_investment_regulations_74",
+          true
+        ],
+        [
+          "EQ",
+          "violate_investment_regulations_75",
+          true
+        ],
+        [
+          "EQ",
+          "violate_other_regulations_76_etc",
+          true
+        ],
+        [
+          "EQ",
+          "violate_credit_investment_deposit_bond_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_regulations_109",
+          true
+        ],
+        [
+          "EQ",
+          "violate_fund_usage_regulations_111",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法第130條規定之任一條款時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_penalty",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

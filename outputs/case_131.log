@@ -1,0 +1,154 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6212 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7082 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (13 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (65 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (13 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (62 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (62 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c74'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c74'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_131
+
+📊 Model (filtered):
+   audit_committee_approval_ratio = 0
+   audit_committee_exists = False
+   board_approval = False
+   board_approval_ratio = 0
+   act_2 = False
+   act_23 = False
+   item_4_compliant = True
+   broker_prohibited_acts_compliance = True
+   board_approval_if_no_audit_committee = True
+   act_12 = False
+   internal_control_approval_compliance = True
+   internal_control_executed = True
+   act_4 = False
+   audit_committee_approval = True
+   board_approval_internal_control = False
+   internal_control_compliance = True
+   act_24 = False
+   internal_control_established = True
+   act_29 = False
+   item_1_compliant = True
+   item_9_compliant = True
+   act_18 = False
+   act_14 = False
+   act_13 = False
+   act_3 = False
+   act_6 = False
+   violation_flag = False
+   item_10_compliant = True
+   item_5_compliant = True
+   act_7 = False
+   act_30 = False
+   act_1 = False
+   act_11 = False
+   act_25 = False
+   item_11_compliant = True
+   item_3_compliant = True
+   item_2_compliant = True
+   act_15 = False
+   act_5 = False
+   act_20 = False
+   solicitation_system_executed = True
+   violation_occurred = False
+   penalty_measures_authorized = False
+   act_17 = False
+   violation_167_3 = False
+   violation_167_2 = False
+   act_21 = False
+   solicitation_system_required_items_compliance = True
+   act_22 = False
+   audit_system_executed = True
+   act_27 = False
+   act_19 = False
+   audit_system_established = True
+   act_9 = False
+   act_10 = False
+   violation_163_financial_or_business_rule = False
+   item_7_compliant = True
+   act_8 = False
+   solicitation_system_established = True
+   item_8_compliant = True
+   act_28 = False
+   penalty = False
+   act_26 = False
+   act_16 = False
+   item_6_compliant = True
+✅ Model saved to: outputs\case_131.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_131.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_131.smt2

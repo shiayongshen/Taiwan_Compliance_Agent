@@ -1,0 +1,199 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (14385 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (14377 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (27 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (108 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: guarantee_deposit_amount should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'guarantee_deposit_amount'}
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (27 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (92 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+⚠️ Removed invalid keys from facts: {'plan_executed', 'plan_submitted'}
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (90 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'meta:penalty_conditions', 'c27'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'meta:penalty_conditions', 'c27'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_33
+
+📊 Model (filtered):
+   exempted_by_other_regulations = False
+   improvement_period_months = 24
+   suspend_period_months = 0
+   recent_6_months_other_penalties_count = 0
+   financial_report_submission_months_after_year_end = 0
+   internet_media_publishes_violating_ad = False
+   internet_media_stops_broadcast = False
+   internet_media_publishes_non_securities_ad = False
+   brokerage_firm_operates_full_discretionary = False
+   assets = 4000000
+   internet_media_performed_required_measures = False
+   liabilities = 5000000
+   self_suspend_duration_months = 0
+   net_asset_value_improved = True
+   par_value_per_share = 10
+   recent_2_years_most_serious_penalties_count = 0
+   deposit_no_pledge = False
+   trust_company_operates_full_discretionary = True
+   suspend_application_once_only = True
+   business_operation_months = 24
+   damage_occurred = False
+   academic_performance_good = False
+   deposit_not_distributed = False
+   meets_analyst_qualification = False
+   ad_discloses_commissioner_and_funder = True
+   deposit_change_reported = False
+   suspend_application_submitted = False
+   internet_media_received_financial_benefit = False
+   internet_media_other_measures = False
+   asset_insufficient_improved = True
+   internet_media_removes_ad = False
+   recent_3_months_major_penalties_count = 1
+   net_asset_value_improvement_exempt = False
+   other_qualification_proven = True
+   education_recognized = False
+   internet_media_limits_access = False
+   net_asset_value_per_share = 8
+   paid_in_capital = 10000000
+   recent_1_year_more_penalties_count = 0
+   deposit_guarantee = False
+   investment_experience_years = 0
+   latest_net_asset_value_per_share = 10
+   internet_media_intentional_or_gross_negligence = False
+   general_manager_qualification = True
+   custodian_performs_full_discretionary_custody = True
+   client_delegated_assets = 1
+   transfer_major_business_or_assets = False
+   false_approval_claim = False
+   investment_research_department_established = True
+   misleading_recommendations = False
+   violation_revoke_license = False
+   impersonation_of_famous_persons = False
+   other_improper_recommendations = False
+   department_and_staffing_standard = True
+   business_guarantee_deposit_required = True
+   violation_suspend_fund_or_new_business = False
+   custodian_qualified_bank = True
+   guaranteed_profit_or_loss = False
+   investment_analysis_and_solicitation = False
+   other_approval_matters = False
+   violation_dismissal = False
+   financial_report_supervisor_approved = True
+   violation_other_measures = False
+   staff_qualified = True
+   advisor_change_approval_required = False
+   dissolution_or_merger = False
+   department_head_qualified = True
+   investment_in_securities_or_approved_items = True
+   violation_warning = False
+   financial_accounting_department_established = True
+   business_guarantee_deposit_restrictions_ok = True
+   internet_media_advertisement_requirements = True
+   internet_media_liability_relief_conditions = True
+   asset_insufficient_penalty = False
+   change_company_name = False
+   internet_media_joint_liability = False
+   net_asset_value_improvement_required = False
+   applies_for_full_discretionary = True
+   full_discretionary_custodian_definition = True
+   violation_suspend_operation = False
+   general_manager_count = 1
+   financial_report_compliance = True
+   financial_report_audited = True
+   advertisement_prohibited_behaviors = True
+   brokerage_qualification_requirements = True
+   business_sanction_level = 0
+   recent_1_year_trading_suspension = False
+   investment_decision_and_execution = True
+   suspend_resume_cease_business = False
+   full_discretionary_investment_applicability = True
+   guarantee_deposit_restrictions_ok = False
+   change_office_location = False
+   change_capital = False
+   net_asset_value_improvement_penalty = False
+   full_discretionary_investment_definition = True
+   advisor_revoke_license_for_illegal_suspend = False
+   change_business_scope = False
+   improvement_completed = True
+   trust_company_full_discretionary_application = True
+   internet_media_advertisement_prohibition = True
+   no_other_equivalent_manager = True
+   trust_company_manages_approved_assets = True
+   guarantee_deposit_amount = 10000000
+   manager_qualified = True
+   advisor_suspend_limit = 1
+   penalty = False
+   financial_report_board_approved = True
+   general_manager_required = True
+✅ Model saved to: outputs\case_33.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_33.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_33.smt2

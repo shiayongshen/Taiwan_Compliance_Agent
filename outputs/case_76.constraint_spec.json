@@ -1,0 +1,630 @@
+[
+  {
+    "id": "insurance:agent_broker_license_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可並繳存保證金及投保相關保險後始得執業",
+    "expr": [
+      "EQ",
+      "agent_broker_license_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "license_permitted",
+          true
+        ],
+        [
+          "GE",
+          "deposit_guarantee",
+          "minimum_guarantee_amount"
+        ],
+        [
+          "EQ",
+          "insurance_policy_valid",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:insurance_policy_type_valid",
+    "desc": "保險代理人、公證人須投保責任保險；保險經紀人須投保責任保險及保證保險",
+    "expr": [
+      "EQ",
+      "insurance_policy_type_valid",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            1
+          ],
+          [
+            "EQ",
+            "insured_policy_type",
+            "liability_insurance"
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            2
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "insured_policy_type",
+              "liability_insurance"
+            ],
+            [
+              "EQ",
+              "insured_policy_type_2",
+              "guarantee_insurance"
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            3
+          ],
+          [
+            "EQ",
+            "insured_policy_type",
+            "liability_insurance"
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_broker_fiduciary_duty",
+    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
+    "expr": [
+      "EQ",
+      "agent_broker_fiduciary_duty",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_type",
+          2
+        ],
+        [
+          "EQ",
+          "duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "duty_of_loyalty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_broker_report_requirement",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前應主動提供書面分析報告並明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "agent_broker_report_requirement",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_type",
+          2
+        ],
+        [
+          "EQ",
+          "report_provided",
+          true
+        ],
+        [
+          "EQ",
+          "compensation_disclosed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_management_rule_compliance",
+    "desc": "保險代理人、經紀人、公證人應遵守主管機關定之資格、申請、管理規則及其他應遵行事項",
+    "expr": [
+      "EQ",
+      "agent_management_rule_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "qualification_conditions_met",
+          true
+        ],
+        [
+          "EQ",
+          "application_procedures_followed",
+          true
+        ],
+        [
+          "EQ",
+          "required_documents_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "board_and_manager_qualifications_met",
+          true
+        ],
+        [
+          "EQ",
+          "branch_establishment_conditions_met",
+          true
+        ],
+        [
+          "EQ",
+          "financial_and_business_management_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "training_completed",
+          true
+        ],
+        [
+          "EQ",
+          "license_revocation_conditions_not_met",
+          true
+        ],
+        [
+          "EQ",
+          "other_compliance_matters_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_internal_operation_compliance",
+    "desc": "代理人公司及銀行應依法令及主管機關規定訂定內部作業規範並落實執行",
+    "expr": [
+      "EQ",
+      "agent_internal_operation_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_rules_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_rules_executed",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_with_senior_consumer_protection",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_good_faith_duty",
+    "desc": "個人執業代理人、代理人公司及銀行應盡善良管理人注意義務，充分說明保險商品主要內容及權利義務",
+    "expr": [
+      "EQ",
+      "agent_good_faith_duty",
+      [
+        "AND",
+        [
+          "EQ",
+          "duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "professional_explanation_provided",
+          true
+        ],
+        [
+          "EQ",
+          "information_disclosed",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_with_laws",
+          true
+        ],
+        [
+          "EQ",
+          "document_retention_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_e_policy_contact_info_collected",
+    "desc": "電子保單出單時應取得要保人及被保險人聯絡方式並提供予承保保險人",
+    "expr": [
+      "EQ",
+      "agent_e_policy_contact_info_collected",
+      [
+        "AND",
+        [
+          "EQ",
+          "e_policy_issued",
+          true
+        ],
+        [
+          "EQ",
+          "applicant_phone_collected",
+          true
+        ],
+        [
+          "EQ",
+          "insured_phone_collected",
+          true
+        ],
+        [
+          "EQ",
+          "applicant_email_collected",
+          true
+        ],
+        [
+          "EQ",
+          "insured_email_collected",
+          true
+        ],
+        [
+          "EQ",
+          "contact_info_provided_to_insurer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_prohibited_acts",
+    "desc": "代理人不得有申領證照不實、未經核准經營、隱匿重要事項、不當強迫或引誘、誇大不實宣傳、挪用保險費等不法行為",
+    "expr": [
+      "EQ",
+      "agent_prohibited_acts",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "false_license_application",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_business_operation",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_insurance_business",
+            true
+          ],
+          [
+            "EQ",
+            "conceal_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "improper_coercion_or_inducement",
+            true
+          ],
+          [
+            "EQ",
+            "false_or_misleading_advertisement",
+            true
+          ],
+          [
+            "EQ",
+            "induce_policy_cancellation_or_loan",
+            true
+          ],
+          [
+            "EQ",
+            "misappropriation_of_premiums_or_claims",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_use_of_license",
+            true
+          ],
+          [
+            "EQ",
+            "criminal_conviction_for_fraud_or_forgery",
+            true
+          ],
+          [
+            "EQ",
+            "operate_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "illegal_commission_or_fee_collection",
+            true
+          ],
+          [
+            "EQ",
+            "illegal_insurance_claims",
+            true
+          ],
+          [
+            "EQ",
+            "disrupt_financial_order",
+            true
+          ],
+          [
+            "EQ",
+            "authorize_others_to_operate",
+            true
+          ],
+          [
+            "EQ",
+            "transfer_unassigned_policy_documents",
+            true
+          ],
+          [
+            "EQ",
+            "employ_unqualified_personnel",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_cancel_license_on_time",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_suspension_or_termination_of_business",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_reappoint_agent_after_resignation",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_report_to_agent_association",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_use_of_advertisement_content",
+            true
+          ],
+          [
+            "EQ",
+            "pay_commission_to_non_actual_agent",
+            true
+          ],
+          [
+            "EQ",
+            "fail_to_confirm_suitability_for_senior_clients",
+            true
+          ],
+          [
+            "EQ",
+            "sell_unapproved_foreign_policy_discount_products",
+            true
+          ],
+          [
+            "EQ",
+            "false_or_incomplete_business_or_financial_reports",
+            true
+          ],
+          [
+            "EQ",
+            "conflict_of_interest_or_other_violation",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_contract_content_compliance",
+    "desc": "保險代理合約應包含雙方名稱、代理期限、權限、佣酬、法令遵循、禁止行為或合約內容規定",
+    "expr": [
+      "EQ",
+      "agent_contract_content_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "contract_party_names_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_period_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_authority_scope_included",
+          true
+        ],
+        [
+          "EQ",
+          "commission_payment_standard_included",
+          true
+        ],
+        [
+          "EQ",
+          "commission_payment_method_included",
+          true
+        ],
+        [
+          "EQ",
+          "legal_compliance_clause_included",
+          true
+        ],
+        [
+          "EQ",
+          "prohibited_acts_clause_included",
+          true
+        ],
+        [
+          "EQ",
+          "conflict_of_interest_prevention_included",
+          true
+        ],
+        [
+          "EQ",
+          "breach_of_contract_liability_included",
+          true
+        ],
+        [
+          "EQ",
+          "dispute_resolution_clause_included",
+          true
+        ],
+        [
+          "EQ",
+          "contract_termination_clause_included",
+          true
+        ],
+        [
+          "EQ",
+          "financial_institution_account_included",
+          true
+        ],
+        [
+          "EQ",
+          "other_regulatory_requirements_included",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反許可、保證金、保險投保、管理規則、善良管理義務、禁止行為或合約內容規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_broker_license_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "insurance_policy_type_valid",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_management_rule_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_internal_operation_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_good_faith_duty",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_e_policy_contact_info_collected",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_prohibited_acts",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_contract_content_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

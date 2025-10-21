@@ -1,0 +1,150 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (8481 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (8575 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (17 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (61 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (17 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (36 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (36 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['securities_investment_advisory:business_approval_required', 'c18', 'c17'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['securities_investment_advisory:business_approval_required', 'c18', 'c17'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_57
+
+📊 Model (filtered):
+   stop_operation_approved = False
+   fund_usage_approved_investment_trust_fund = False
+   fund_usage_other_approved = True
+   extension_applied_and_approved = False
+   stop_operation_no_approval_penalty = True
+   fund_usage_treasury_bills_or_commercial_papers = False
+   stop_operation_duration_months = 0
+   fund_usage_government_bonds = False
+   fund_usage_domestic_bank_deposit = False
+   stop_operation_applied = False
+   endorses_notes = False
+   complies_company_law_article_16_1 = True
+   provides_guarantee = False
+   business_types_approved = False
+   provides_collateral_for_others = False
+   approved_by_authority = False
+   registration_days_since_permit = 7
+   contract_no_client_fund_receipt = True
+   membership_compliant = True
+   contract_signed = True
+   violates_regulations = False
+   contract_effective_date_and_duration_included = True
+   written_contract_signed = True
+   compensation_requested = True
+   fund_usage_compliant = True
+   contract_service_scope_included = True
+   client_evaluation_performed = True
+   fund_used_for_other_purposes = False
+   contract_modification_and_termination_included = True
+   has_disqualifying_condition = False
+   business_approval_required = False
+   contract_refund_ratio_and_method_included = True
+   joined_trade_association = True
+   prohibited_fund_usage = True
+   contract_mandatory_items_compliant = True
+   fund_used_for_non_operating_real_estate = False
+   personnel_registered_before_duty = True
+   contract_other_regulated_items_included = True
+   contract_confidentiality_clause_included = True
+   contract_fee_and_payment_included = True
+   business_license_application_timely = True
+   contract_dispute_resolution_included = True
+   contract_client_termination_right_included = True
+   contract_non_disclosure_clause_included = True
+   contract_service_method_included = True
+   business_operation_permitted = True
+   personnel_registration_compliant = True
+   contract_party_names_included = True
+   personnel_full_time = True
+   contract_no_profit_loss_sharing = True
+   contract_termination_compensation_limit_compliant = True
+   fund_loaned_to_others = False
+   client_evaluation_done = True
+   contract_rights_obligations_included = True
+   damages_or_penalty_requested = False
+   penalty = False
+   business_operation_approved = True
+   personnel_registration_valid = True
+   guarantee_and_collateral_compliant = True
+   does_not_meet_qualification = False
+   stop_operation_approved_and_within_limit = False
+✅ Model saved to: outputs\case_57.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_57.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_57.smt2

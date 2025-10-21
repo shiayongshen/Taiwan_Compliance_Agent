@@ -1,0 +1,465 @@
+{
+  "case_id": "case_172",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 232.92,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 27159,
+  "total_output_tokens": 12716,
+  "total_tokens": 39875,
+  "total_cost_usd": 0.031209,
+  "timestamp": "2025-10-21T03:54:20.991864",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 4357,
+      "output_tokens": 4465,
+      "elapsed_time": 64.98714756965637,
+      "cost": 0.0088868
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 13543,
+      "output_tokens": 4465,
+      "elapsed_time": 60.283883810043335,
+      "cost": 0.012561200000000002
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 489,
+      "output_tokens": 1742,
+      "elapsed_time": 65.83439326286316,
+      "cost": 0.0029828000000000003
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 489,
+      "output_tokens": 1742,
+      "elapsed_time": 35.46305871009827,
+      "cost": 0.0029828000000000003
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 8281,
+      "output_tokens": 302,
+      "elapsed_time": 6.291570663452148,
+      "cost": 0.0037956000000000005
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "11887 chars",
+      "timestamp": 64.98714756965637
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "11887 chars",
+      "timestamp": 125.2710313796997
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "34 constraints",
+      "timestamp": 125.2710313796997
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "61 varspecs",
+      "timestamp": 191.10542464256287
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "34 constraints",
+      "timestamp": 191.1134214401245
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 191.1234245300293
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 191.1234245300293
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "26 facts",
+      "timestamp": 232.87905597686768
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "26 constraints",
+      "timestamp": 232.8800551891327
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 232.89205527305603
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c47', 'meta:penalty_conditions', 'insurance:violation_of_internal_control_audit', 'meta:penalty_default_false']",
+      "timestamp": 232.89205527305603
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 232.9080548286438
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 191.1234245300293
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "aml:internal_control_audit_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_audit_established",
+        [
+          "EQ",
+          "aml_internal_control_audit_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_audit_established",
+        [
+          "EQ",
+          "aml_internal_control_audit_established",
+          true
+        ]
+      ],
+      "timestamp": 191.11
+    },
+    {
+      "id": "aml:internal_control_audit_content_compliant",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:internal_control_audit_content_compliant",
+        [
+          "EQ",
+          "aml_internal_control_audit_content_compliant",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_audit_content_compliant",
+        [
+          "EQ",
+          "aml_internal_control_audit_content_compliant",
+          true
+        ]
+      ],
+      "timestamp": 191.11
+    },
+    {
+      "id": "aml:failure_to_establish_or_implement_internal_control",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:failure_to_establish_or_implement_internal_control",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "aml:internal_control_audit_established",
+              true
+            ],
+            [
+              "EQ",
+              "aml:internal_control_audit_content_compliant",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "failure_to_establish_or_implement_internal_control",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "internal_control_audit_established",
+              true
+            ],
+            [
+              "EQ",
+              "internal_control_audit_content_compliant",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 191.11
+    },
+    {
+      "id": "aml:failure_to_improve_after_order",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:failure_to_improve_after_order",
+        [
+          "AND",
+          [
+            "EQ",
+            "aml:failure_to_establish_or_implement_internal_control",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "failure_to_improve_after_order",
+        [
+          "AND",
+          [
+            "EQ",
+            "failure_to_establish_or_implement_internal_control",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "aml_improvement_completed",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 191.11
+    },
+    {
+      "id": "aml:refusal_or_obstruction_of_inspection",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "aml:refusal_or_obstruction_of_inspection",
+        [
+          "EQ",
+          "aml_refused_or_obstructed_inspection",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "refusal_or_obstruction_of_inspection",
+        [
+          "EQ",
+          "aml_refused_or_obstructed_inspection",
+          true
+        ]
+      ],
+      "timestamp": 191.11
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "capital_level_severe_and_not_completed_improvement_within_90_days",
+            true
+          ],
+          [
+            "EQ",
+            "regulatory_action_due_to_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_business_scope_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_reserve_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_article_143",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_article_143_5_or_143_6_measures",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_fund_management_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_loan_guarantee_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_loan_approval_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_loan_limit_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_internal_control_audit",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_internal_handling",
+            true
+          ],
+          [
+            "EQ",
+            "aml:failure_to_improve_after_order",
+            true
+          ],
+          [
+            "EQ",
+            "aml:refusal_or_obstruction_of_inspection",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "capital_level_severe_and_not_completed_improvement_within_90_days",
+            true
+          ],
+          [
+            "EQ",
+            "regulatory_action_due_to_deterioration",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_business_scope_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_reserve_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_article_143",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_article_143_5_or_143_6_measures",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_fund_management_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_loan_guarantee_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_loan_approval_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_loan_limit_rules",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_internal_control_audit",
+            true
+          ],
+          [
+            "EQ",
+            "violation_of_internal_handling",
+            true
+          ],
+          [
+            "EQ",
+            "failure_to_improve_after_order",
+            true
+          ],
+          [
+            "EQ",
+            "refusal_or_obstruction_of_inspection",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 191.11
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 191.11
+    }
+  ]
+}

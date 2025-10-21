@@ -1,0 +1,100 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7870 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7825 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (19 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (42 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (19 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (38 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (38 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+⚠️ Case+Law check error: Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01'
+❌ Checkpoint [step8_case_law_check]: FAIL (Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01')
+
+============================================================
+Step 8.1: Repair Problematic Constraints
+============================================================
+🔧 Attempting to repair constraints (max 2 retries)
+✅ Checkpoint [case_law_repair_start]: PASS (Starting repair with 19 constraints)
+📍 Found 1 problematic constraint(s):
+   [fhc:shareholding_5_to_10_percent_declaration_before_2009] Unknown variable name '2009-01-01'
+✅ Checkpoint [case_law_repair_diagnosis]: PASS (Found 1 problematic constraints)
+
+🔧 Repairing constraint [fhc:shareholding_5_to_10_percent_declaration_before_2009]
+   Attempt 1/2
+   ⚠️ 修復後仍有問題: "Variable '2009-01-01' not found in z3_vars. Available: ['applied_for_establishment', 'approval_deemed_if_no_objection_within_15_business_days', 'date_of_shareholding', 'days_since_2009_revision', 'days_since_application_received', 'days_since_shareholding_over_5_percent', 'declaration_made_at_conversion', 'declaration_made_for_accumulated_change', 'disposed_excess_shares_in_time', 'eligibility_conditions_met', 'excess_shares_no_voting_right', 'objection_made', 'penalty', 'pledge_obtained_before_conversion', 'pledge_to_subsidiary', 'pledge_within_original_term', 'prior_approval_obtained', 'related_person_includes_trust_and_agreement', 'reporting_and_announcement_compliant', 'shareholding_5_to_10_percent_declaration_before_2009', 'shareholding_accumulated_change_over_1_percent_declaration', 'shareholding_declaration_required', 'shareholding_eligibility_condition', 'shareholding_no_increase_if_not_eligible', 'shareholding_over_10_percent_declaration_at_conversion', 'shareholding_over_10_percent_pledge_restriction', 'shareholding_over_5_percent_declaration_after_establishment', 'shareholding_over_threshold_prior_approval', 'shareholding_percent', 'shareholding_percent_after_establishment', 'shareholding_percent_at_conversion', 'shareholding_percent_before_2009', 'shareholding_percent_change', 'shareholding_percent_change_since_last_declaration', 'shareholding_percent_intended', 'trust_and_agreement_included_in_related_person', 'violation_16_10_not_dispose_in_time', 'violation_16_1_2_9_no_declaration_or_increase', 'violation_16_3_no_approval', 'violation_16_5_reporting_announcement', 'violation_16_6_pledge_prohibition', 'violation_6_1_not_applied_for_establishment']"
+   Attempt 2/2
+   ⚠️ 修復後仍有問題: "Variable 'date_2009_01_01' not found in z3_vars. Available: ['applied_for_establishment', 'approval_deemed_if_no_objection_within_15_business_days', 'date_of_shareholding', 'days_since_2009_revision', 'days_since_application_received', 'days_since_shareholding_over_5_percent', 'declaration_made_at_conversion', 'declaration_made_for_accumulated_change', 'disposed_excess_shares_in_time', 'eligibility_conditions_met', 'excess_shares_no_voting_right', 'objection_made', 'penalty', 'pledge_obtained_before_conversion', 'pledge_to_subsidiary', 'pledge_within_original_term', 'prior_approval_obtained', 'related_person_includes_trust_and_agreement', 'reporting_and_announcement_compliant', 'shareholding_5_to_10_percent_declaration_before_2009', 'shareholding_accumulated_change_over_1_percent_declaration', 'shareholding_declaration_required', 'shareholding_eligibility_condition', 'shareholding_no_increase_if_not_eligible', 'shareholding_over_10_percent_declaration_at_conversion', 'shareholding_over_10_percent_pledge_restriction', 'shareholding_over_5_percent_declaration_after_establishment', 'shareholding_over_threshold_prior_approval', 'shareholding_percent', 'shareholding_percent_after_establishment', 'shareholding_percent_at_conversion', 'shareholding_percent_before_2009', 'shareholding_percent_change', 'shareholding_percent_change_since_last_declaration', 'shareholding_percent_intended', 'trust_and_agreement_included_in_related_person', 'violation_16_10_not_dispose_in_time', 'violation_16_1_2_9_no_declaration_or_increase', 'violation_16_3_no_approval', 'violation_16_5_reporting_announcement', 'violation_16_6_pledge_prohibition', 'violation_6_1_not_applied_for_establishment']"
+   ❌ Constraint [fhc:shareholding_5_to_10_percent_declaration_before_2009] 修復失敗，保留原始版本
+
+⚠️ Some constraints still have issues: Unknown variable name '2009-01-01'
+❌ Checkpoint [case_law_repair]: FAIL (Some constraints still have issues: Unknown variable name '2009-01-01')
+❌ Constraint repair failed
+⚠️ Checkpoint [step8_violation_detected]: SKIP (REPAIR_FAILED)
+❌ Checkpoint [step8_repair_success]: FAIL (Repair failed)
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+⚠️ Optimization failed for case_379: Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01'
+❌ Checkpoint [step9_z3_optimize]: FAIL (Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01')

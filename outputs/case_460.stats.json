@@ -1,0 +1,747 @@
+{
+  "case_id": "case_460",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 108.73,
+  "repair_attempts": 2,
+  "total_agent_calls": 5,
+  "total_input_tokens": 19717,
+  "total_output_tokens": 8828,
+  "total_tokens": 28545,
+  "total_cost_usd": 0.022012,
+  "timestamp": "2025-10-21T10:19:11.493211",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "PASS",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3575,
+      "output_tokens": 2402,
+      "elapsed_time": 16.181492567062378,
+      "cost": 0.0052732000000000005
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 9916,
+      "output_tokens": 3454,
+      "elapsed_time": 26.188739776611328,
+      "cost": 0.009492800000000001
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 317,
+      "output_tokens": 1279,
+      "elapsed_time": 32.636470794677734,
+      "cost": 0.0021732
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 317,
+      "output_tokens": 1279,
+      "elapsed_time": 21.747492790222168,
+      "cost": 0.0021732
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5592,
+      "output_tokens": 414,
+      "elapsed_time": 7.355511903762817,
+      "cost": 0.0028992
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "6307 chars",
+      "timestamp": 16.181492567062378
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "9070 chars",
+      "timestamp": 42.370232343673706
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "15 constraints",
+      "timestamp": 42.370232343673706
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "47 varspecs",
+      "timestamp": 75.00670313835144
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "'<' not supported between instances of 'BoolRef' and 'BoolRef'",
+      "timestamp": 75.01070499420166
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": true,
+      "details": "1 rounds",
+      "timestamp": 79.57990050315857
+    },
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 79.5879008769989
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 79.5879008769989
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "34 facts",
+      "timestamp": 108.69190764427185
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "34 constraints",
+      "timestamp": 108.69290614128113
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 108.70490717887878
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c26', 'insurance:penalty_default_false', 'insurance:penalty_conditions', 'insurance:capital_level', 'c21']",
+      "timestamp": 108.70490717887878
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 108.72290635108948
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 79.5879008769989
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "insurance:business_start_permit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:business_start_permit",
+        [
+          "AND",
+          [
+            "EQ",
+            "permit_granted",
+            true
+          ],
+          [
+            "EQ",
+            "registered_according_law",
+            true
+          ],
+          [
+            "EQ",
+            "deposit_guarantee",
+            true
+          ],
+          [
+            "EQ",
+            "business_license_obtained",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "business_start_permit",
+        [
+          "AND",
+          [
+            "EQ",
+            "permit_granted",
+            true
+          ],
+          [
+            "EQ",
+            "registered_according_law",
+            true
+          ],
+          [
+            "EQ",
+            "deposit_guarantee",
+            true
+          ],
+          [
+            "EQ",
+            "business_license_obtained",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:foreign_business_start_permit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:foreign_business_start_permit",
+        [
+          "AND",
+          [
+            "EQ",
+            "foreign_permit_granted",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_registered_according_law",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_deposit_guarantee",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_business_license_obtained",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "foreign_business_start_permit",
+        [
+          "AND",
+          [
+            "EQ",
+            "foreign_permit_granted",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_registered_according_law",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_deposit_guarantee",
+            true
+          ],
+          [
+            "EQ",
+            "foreign_business_license_obtained",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:real_estate_investment_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:real_estate_investment_limit",
+        [
+          "AND",
+          [
+            "LE",
+            "real_estate_investment_excluding_self_use",
+            [
+              "MUL",
+              "capital_fund",
+              0.3
+            ]
+          ],
+          [
+            "LE",
+            "self_use_real_estate_investment",
+            "owner_equity"
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "real_estate_investment_limit",
+        [
+          "AND",
+          [
+            "LE",
+            "real_estate_investment_excluding_self_use",
+            [
+              "MUL",
+              "capital_fund",
+              0.3
+            ]
+          ],
+          [
+            "LE",
+            "self_use_real_estate_investment",
+            "owner_equity"
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:real_estate_investment_use_and_income",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:real_estate_investment_use_and_income",
+        [
+          "OR",
+          [
+            "EQ",
+            "social_housing_rental",
+            true
+          ],
+          [
+            "EQ",
+            "real_estate_investment_use_and_income",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "real_estate_investment_use_and_income",
+        [
+          "OR",
+          [
+            "EQ",
+            "social_housing_rental",
+            true
+          ],
+          [
+            "EQ",
+            "real_estate_investment_use_and_income",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:loan_types_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:loan_types_limit",
+        [
+          "OR",
+          [
+            "EQ",
+            "loan_guaranteed_by_bank_or_authority",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_movable_or_immovable",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_approved_securities",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_life_insurance_policy",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "loan_types_limit",
+        [
+          "OR",
+          [
+            "EQ",
+            "loan_guaranteed_by_bank_or_authority",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_movable_or_immovable",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_approved_securities",
+            true
+          ],
+          [
+            "EQ",
+            "loan_secured_by_life_insurance_policy",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:single_loan_amount_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:single_loan_amount_limit",
+        [
+          "LE",
+          "single_loan_amount",
+          [
+            "MUL",
+            "capital_fund",
+            0.05
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "single_loan_amount_limit",
+        [
+          "LE",
+          "single_loan_amount",
+          [
+            "MUL",
+            "capital_fund",
+            0.05
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:total_loan_amount_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:total_loan_amount_limit",
+        [
+          "LE",
+          "total_loan_amount",
+          [
+            "MUL",
+            "capital_fund",
+            0.35
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "total_loan_amount_limit",
+        [
+          "LE",
+          "total_loan_amount",
+          [
+            "MUL",
+            "capital_fund",
+            0.35
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:related_party_loan_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:related_party_loan_conditions",
+        [
+          "AND",
+          [
+            "EQ",
+            "related_party_loan_fully_secured",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "LT",
+              "related_party_loan_conditions",
+              "other_similar_loans_conditions"
+            ]
+          ],
+          [
+            "IMPLIES",
+            [
+              "GE",
+              "related_party_loan_amount",
+              "authority_specified_amount"
+            ],
+            [
+              "AND",
+              [
+                "GE",
+                "board_meeting_attendance_ratio",
+                0.6666667
+              ],
+              [
+                "GE",
+                "board_meeting_approval_ratio",
+                0.75
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "related_party_loan_conditions",
+        [
+          "AND",
+          [
+            "EQ",
+            "related_party_loan_fully_secured",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "LT",
+              "related_party_loan_conditions",
+              "other_similar_loans_conditions"
+            ]
+          ],
+          [
+            "IMPLIES",
+            [
+              "GE",
+              "related_party_loan_amount",
+              "authority_specified_amount"
+            ],
+            [
+              "AND",
+              [
+                "GE",
+                "board_meeting_attendance_ratio",
+                0.6666667
+              ],
+              [
+                "GE",
+                "board_meeting_approval_ratio",
+                0.75
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:combined_investment_and_loan_limit",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:combined_investment_and_loan_limit",
+        [
+          "AND",
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "capital_fund",
+              0.1
+            ]
+          ],
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "company_owner_equity",
+              0.1
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "combined_investment_and_loan_limit",
+        [
+          "AND",
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "capital_fund",
+              0.1
+            ]
+          ],
+          [
+            "LE",
+            [
+              "ADD",
+              "investment_in_company_securities",
+              "loan_secured_by_company_securities"
+            ],
+            [
+              "MUL",
+              "company_owner_equity",
+              0.1
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:internal_control_and_audit_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_control_and_audit_established",
+        [
+          "EQ",
+          "internal_control_and_audit_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_control_and_audit_established",
+        [
+          "EQ",
+          "internal_control_and_audit_established",
+          true
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:internal_handling_procedures_established",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:internal_handling_procedures_established",
+        [
+          "EQ",
+          "internal_handling_procedures_established",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "internal_handling_procedures_established",
+        [
+          "EQ",
+          "internal_handling_procedures_established",
+          true
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "insurance:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:business_start_permit",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "improvement_plan_submitted_and_executed",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "business_start_permit",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "capital_level",
+              4
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "improvement_plan_submitted_and_executed",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 75.01
+    },
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 75.01
+    }
+  ]
+}

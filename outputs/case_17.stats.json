@@ -1,0 +1,511 @@
+{
+  "case_id": "case_17",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 49.55,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 9215,
+  "total_output_tokens": 3420,
+  "total_tokens": 12635,
+  "total_cost_usd": 0.009158,
+  "timestamp": "2025-10-20T23:04:50.900665",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1501,
+      "output_tokens": 1222,
+      "elapsed_time": 16.548484325408936,
+      "cost": 0.0025556000000000003
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 4588,
+      "output_tokens": 1916,
+      "elapsed_time": 25.941230535507202,
+      "cost": 0.0049008
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 46,
+      "output_tokens": 119,
+      "elapsed_time": 3.667483329772949,
+      "cost": 0.00020880000000000003
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 46,
+      "output_tokens": 119,
+      "elapsed_time": 2.1181869506835938,
+      "cost": 0.00020880000000000003
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3034,
+      "output_tokens": 44,
+      "elapsed_time": 1.254899024963379,
+      "cost": 0.001284
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "3021 chars",
+      "timestamp": 16.548484325408936
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "4835 chars",
+      "timestamp": 42.48971486091614
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 42.48971486091614
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "5 varspecs",
+      "timestamp": 46.15719819068909
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "10 constraints",
+      "timestamp": 46.15919637680054
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 46.16219663619995
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 46.16219663619995
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "5 facts",
+      "timestamp": 49.535282611846924
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "5 constraints",
+      "timestamp": 49.535282611846924
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 49.54028081893921
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c14']",
+      "timestamp": 49.54028081893921
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 49.54527997970581
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 46.16219663619995
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "bank:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:violation",
+        [
+          "EQ",
+          "bank:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "bank:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank:violation",
+            true
+          ],
+          [
+            "EQ",
+            "bank:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "financial_institution:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_institution:violation",
+        [
+          "EQ",
+          "financial_institution:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "financial_institution:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_institution:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_institution:violation",
+            true
+          ],
+          [
+            "EQ",
+            "financial_institution:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "financial_holding:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:violation",
+        [
+          "EQ",
+          "financial_holding:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "financial_holding:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "financial_holding:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "financial_holding:violation",
+            true
+          ],
+          [
+            "EQ",
+            "financial_holding:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "electronic_payment:violation",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:violation",
+        [
+          "EQ",
+          "electronic_payment:violation_flag",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation",
+        [
+          "EQ",
+          "violation_flag",
+          true
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "electronic_payment:penalty_measures",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "electronic_payment:penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "electronic_payment:violation",
+            true
+          ],
+          [
+            "EQ",
+            "electronic_payment:penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty_measures",
+        [
+          "AND",
+          [
+            "EQ",
+            "violation",
+            true
+          ],
+          [
+            "EQ",
+            "penalty_measures_issued",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 46.16
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "bank:violation",
+              true
+            ],
+            [
+              "EQ",
+              "bank:penalty_measures_issued",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "financial_institution:violation",
+              true
+            ],
+            [
+              "EQ",
+              "financial_institution:penalty_measures_issued",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "financial_holding:violation",
+              true
+            ],
+            [
+              "EQ",
+              "financial_holding:penalty_measures_issued",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "electronic_payment:violation",
+              true
+            ],
+            [
+              "EQ",
+              "electronic_payment:penalty_measures_issued",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "EQ",
+              "violation",
+              true
+            ],
+            [
+              "EQ",
+              "penalty_measures_issued",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation",
+              true
+            ],
+            [
+              "EQ",
+              "penalty_measures_issued",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation",
+              true
+            ],
+            [
+              "EQ",
+              "penalty_measures_issued",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "violation",
+              true
+            ],
+            [
+              "EQ",
+              "penalty_measures_issued",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 46.16
+    }
+  ]
+}

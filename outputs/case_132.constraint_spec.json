@@ -1,0 +1,498 @@
+[
+  {
+    "id": "insurance:agent_violation_penalty",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營之虞時主管機關可處分",
+    "expr": [
+      "EQ",
+      "agent_violation_penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_law",
+          true
+        ],
+        [
+          "EQ",
+          "impede_sound_operation",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_penalty_measures",
+    "desc": "主管機關可採取限制經營範圍、解除職務、停止職務或其他處置",
+    "expr": [
+      "EQ",
+      "agent_penalty_measures",
+      [
+        "OR",
+        [
+          "EQ",
+          "restrict_business_scope",
+          true
+        ],
+        [
+          "EQ",
+          "dismiss_manager_or_staff",
+          true
+        ],
+        [
+          "EQ",
+          "dismiss_or_suspend_director_or_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_167_2",
+    "desc": "違反163條相關財務或業務管理規定應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "violation_167_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_management",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_167_2",
+    "desc": "違反167-2條限期改正或處罰罰鍰，情節重大者廢止許可並註銷執照",
+    "expr": [
+      "EQ",
+      "penalty_167_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_167_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_167_3",
+    "desc": "違反165條第三項或163條第五項準用規定，未建立或未確實執行內部控制等制度",
+    "expr": [
+      "EQ",
+      "violation_167_3",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_167_3",
+    "desc": "違反167-3條限期改正或處罰罰鍰",
+    "expr": [
+      "EQ",
+      "penalty_167_3",
+      [
+        "EQ",
+        "violation_167_3",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "privacy:notice_required",
+    "desc": "蒐集個人資料時應明確告知六項事項",
+    "expr": [
+      "EQ",
+      "notice_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "agency_name_notified",
+          true
+        ],
+        [
+          "EQ",
+          "collection_purpose_notified",
+          true
+        ],
+        [
+          "EQ",
+          "data_category_notified",
+          true
+        ],
+        [
+          "EQ",
+          "data_usage_period_region_object_method_notified",
+          true
+        ],
+        [
+          "EQ",
+          "rights_and_methods_notified",
+          true
+        ],
+        [
+          "EQ",
+          "impact_of_not_providing_notified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:notice_exempt",
+    "desc": "符合免告知情形之一",
+    "expr": [
+      "EQ",
+      "notice_exempt",
+      [
+        "OR",
+        [
+          "EQ",
+          "exempt_by_law",
+          true
+        ],
+        [
+          "EQ",
+          "collection_for_statutory_duties",
+          true
+        ],
+        [
+          "EQ",
+          "notification_hinders_statutory_duties",
+          true
+        ],
+        [
+          "EQ",
+          "notification_hinders_public_interest",
+          true
+        ],
+        [
+          "EQ",
+          "subject_already_aware",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "non_profit_collection",
+            true
+          ],
+          [
+            "EQ",
+            "no_adverse_effect",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:notice_compliance",
+    "desc": "蒐集個人資料時應告知或符合免告知情形",
+    "expr": [
+      "EQ",
+      "notice_compliance",
+      [
+        "OR",
+        [
+          "EQ",
+          "notice_required",
+          true
+        ],
+        [
+          "EQ",
+          "notice_exempt",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:safety_measures_required",
+    "desc": "非公務機關應採行適當安全措施防止個資被竊取等",
+    "expr": [
+      "EQ",
+      "safety_measures_required",
+      [
+        "EQ",
+        "non_public_agency_has_personal_data",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:safety_plan_designated",
+    "desc": "中央主管機關得指定非公務機關訂定安全維護計畫及處理方法",
+    "expr": [
+      "EQ",
+      "safety_plan_designated",
+      [
+        "EQ",
+        "central_authority_designated_plan",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:violation_48_1",
+    "desc": "非公務機關違反第8或9條規定",
+    "expr": [
+      "EQ",
+      "violation_48_1",
+      [
+        "EQ",
+        "violate_article_8_or_9",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:violation_48_2",
+    "desc": "非公務機關違反第10至13條規定",
+    "expr": [
+      "EQ",
+      "violation_48_2",
+      [
+        "EQ",
+        "violate_article_10_to_13",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:violation_48_3",
+    "desc": "非公務機關違反第20條第二項或第三項規定",
+    "expr": [
+      "EQ",
+      "violation_48_3",
+      [
+        "EQ",
+        "violate_article_20_2_or_3",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:violation_48_4",
+    "desc": "非公務機關違反第27條第一項或未依第二項訂定安全維護計畫或處理方法",
+    "expr": [
+      "EQ",
+      "violation_48_4",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "safety_measures_27_1",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "safety_plan_27_2_defined",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:penalty_48_minor",
+    "desc": "違反48條第一款至第三款規定，限期改正，未改正處罰",
+    "expr": [
+      "EQ",
+      "penalty_48_minor",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_48_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_48_2",
+          true
+        ],
+        [
+          "EQ",
+          "violation_48_3",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "privacy:penalty_48_major",
+    "desc": "違反48條第四款規定，限期改正，未改正按次處罰",
+    "expr": [
+      "EQ",
+      "penalty_48_major",
+      [
+        "EQ",
+        "violation_48_4",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "privacy"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法或個資法相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "agent_violation_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_167_3",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_48_minor",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_48_major",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

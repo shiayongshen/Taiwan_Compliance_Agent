@@ -1,0 +1,497 @@
+[
+  {
+    "id": "insurance:internal_control_compliance",
+    "desc": "建立且確實執行內部控制、稽核制度、招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:management_rule_compliance",
+    "desc": "遵守財務或業務管理相關管理規則及相關規定",
+    "expr": [
+      "EQ",
+      "management_rule_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_management_rule_complied",
+          true
+        ],
+        [
+          "EQ",
+          "business_management_rule_complied",
+          true
+        ],
+        [
+          "EQ",
+          "article_165_1_complied",
+          true
+        ],
+        [
+          "EQ",
+          "article_163_5_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "finance_consumer:advertising_compliance",
+    "desc": "遵守廣告、業務招攬及營業促銷活動相關規定",
+    "expr": [
+      "EQ",
+      "advertising_compliance",
+      [
+        "EQ",
+        "violate_advertising_regulations",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:consumer_info_compliance",
+    "desc": "充分瞭解金融消費者資料並確保適合度",
+    "expr": [
+      "EQ",
+      "consumer_info_compliance",
+      [
+        "EQ",
+        "violate_consumer_info_regulations",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:disclosure_compliance",
+    "desc": "充分說明金融商品、服務及揭露風險",
+    "expr": [
+      "EQ",
+      "disclosure_compliance",
+      [
+        "EQ",
+        "violate_disclosure_regulations",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:remuneration_compliance",
+    "desc": "訂定酬金制度且確實執行",
+    "expr": [
+      "EQ",
+      "remuneration_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "remuneration_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "remuneration_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:formal_condition_compliance",
+    "desc": "未協助自然人或法人創造不符第四條第二項條件之形式外觀",
+    "expr": [
+      "EQ",
+      "formal_condition_compliance",
+      [
+        "EQ",
+        "assist_formal_condition_violation",
+        false
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "finance_consumer:major_violation",
+    "desc": "情節重大違反前述規定",
+    "expr": [
+      "EQ",
+      "major_violation",
+      [
+        "EQ",
+        "violation_is_major",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "insurance:internal_control_approved",
+    "desc": "內部控制、稽核制度及招攬處理制度經董（理）事會通過",
+    "expr": [
+      "EQ",
+      "internal_control_approved",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_approved_by_board",
+          true
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "audit_committee_exists",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "GE",
+              "audit_committee_approval_ratio",
+              0.5
+            ],
+            [
+              "EQ",
+              "audit_committee_approval_reported_to_board",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_opinion_recorded",
+    "desc": "董（理）事保留或反對意見已記錄於會議紀錄",
+    "expr": [
+      "EQ",
+      "internal_control_opinion_recorded",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "board_member_has_reservation_or_opposition",
+          true
+        ],
+        [
+          "EQ",
+          "reservation_opposition_recorded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_reported",
+    "desc": "內部控制、稽核制度及招攬處理制度送監察人或審計委員會",
+    "expr": [
+      "EQ",
+      "internal_control_reported",
+      [
+        "EQ",
+        "internal_control_reported_to_supervisors_or_audit_committee",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_three_lines",
+    "desc": "建立內部控制三道防線及相關制度",
+    "expr": [
+      "EQ",
+      "internal_control_three_lines",
+      [
+        "AND",
+        [
+          "EQ",
+          "self_audit_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_system_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_system_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_measures_executed",
+    "desc": "內部控制三道防線措施確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_measures_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "self_audit_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "compliance_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "risk_management_system_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_system_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "finance_consumer:advertising_ethics_compliance",
+    "desc": "廣告、業務招攬及營業促銷活動符合社會道德、誠實信用及保護消費者精神",
+    "expr": [
+      "EQ",
+      "advertising_ethics_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "advertising_content_truthful",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_misleading",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_reputation_damage",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_trademark_misuse",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_false_reports",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_exaggeration",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_misleading_government_approval",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_promotion_of_unapproved_products",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_no_guarantee_of_principal_or_profit",
+          true
+        ],
+        [
+          "EQ",
+          "advertising_clear_disclaimer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "finance_consumer"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反內部控制、稽核、招攬處理制度或管理規則，或違反金融消費者保護相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "management_rule_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "consumer_info_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "disclosure_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "remuneration_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "formal_condition_compliance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "major_violation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_approved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_measures_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "advertising_ethics_compliance",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

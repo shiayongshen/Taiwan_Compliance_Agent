@@ -1,0 +1,171 @@
+[
+  {
+    "id": "bank:investment_self_use_real_estate_limit",
+    "desc": "自用不動產投資限額不得超過投資時淨值，營業用倉庫投資不得超過存款總餘額5%",
+    "expr": [
+      "EQ",
+      "investment_self_use_real_estate_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "investment_self_use_real_estate_amount",
+          "net_worth_at_investment_time"
+        ],
+        [
+          "LE",
+          "investment_business_warehouse_amount",
+          [
+            "MUL",
+            "total_deposit_balance",
+            0.05
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_non_self_use_real_estate_prohibited",
+    "desc": "禁止投資非自用不動產，除特定例外情形",
+    "expr": [
+      "EQ",
+      "investment_non_self_use_real_estate_prohibited",
+      [
+        "OR",
+        [
+          "EQ",
+          "investment_non_self_use_real_estate_amount",
+          0.0
+        ],
+        [
+          "OR",
+          "exception_main_part_self_use",
+          "exception_short_term_prepurchase",
+          "exception_rebuild_self_use",
+          "exception_approved_cultural_public_use"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_non_self_use_real_estate_limit",
+    "desc": "非自用不動產投資總額不得超過銀行淨值20%，且與自用不動產投資合計不得超過投資時淨值",
+    "expr": [
+      "EQ",
+      "investment_non_self_use_real_estate_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "investment_non_self_use_real_estate_amount",
+          [
+            "MUL",
+            "net_worth",
+            0.2
+          ]
+        ],
+        [
+          "LE",
+          [
+            "ADD",
+            "investment_non_self_use_real_estate_amount",
+            "investment_self_use_real_estate_amount"
+          ],
+          "net_worth_at_investment_time"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:real_estate_transaction_related_party_approval",
+    "desc": "與持股3%以上企業、負責人、職員、主要股東或利害關係人交易須董事會三分之二出席且四分之三同意",
+    "expr": [
+      "EQ",
+      "real_estate_transaction_related_party_approval",
+      [
+        "IMPLIES",
+        "real_estate_transaction_with_related_party",
+        [
+          "AND",
+          [
+            "GE",
+            "board_attendance_ratio",
+            0.6666666667
+          ],
+          [
+            "GE",
+            "board_approval_ratio",
+            0.75
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反銀行法第75條投資限制或董事會審議規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_self_use_real_estate_limit",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_non_self_use_real_estate_prohibited",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_non_self_use_real_estate_limit",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_transaction_related_party_approval",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

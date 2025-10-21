@@ -1,0 +1,206 @@
+[
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            [
+              "MUL",
+              "required_ratio",
+              0.25
+            ]
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            "required_ratio"
+          ],
+          [
+            "LT",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            "required_ratio"
+          ]
+        ],
+        0,
+        1
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_ratio_ok",
+    "desc": "自有資本與風險資本比率及淨值比率均不低於一定比率",
+    "expr": [
+      "EQ",
+      "capital_ratio_ok",
+      [
+        "AND",
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            100.0
+          ],
+          "required_ratio"
+        ],
+        [
+          "GE",
+          [
+            "MUL",
+            [
+              "DIV",
+              "net_worth",
+              "risk_capital"
+            ],
+            100.0
+          ],
+          "net_worth_ratio"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:reporting_compliance",
+    "desc": "依規定期限申報資本等級相關資訊",
+    "expr": [
+      "EQ",
+      "reporting_compliance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "annual_report_submitted",
+            true
+          ],
+          [
+            "LE",
+            "annual_report_submission_days",
+            90
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "semiannual_report_submitted",
+            true
+          ],
+          [
+            "LE",
+            "semiannual_report_submission_days",
+            60
+          ]
+        ],
+        [
+          "EQ",
+          "under_supervision",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：資本比率不足或未依規定申報且非主管機關接管保險業時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "under_supervision",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_ratio_ok",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "reporting_compliance",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

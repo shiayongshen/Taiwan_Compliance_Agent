@@ -1,0 +1,128 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7732 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7732 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (28 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (34 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [insurance:related_party_definition]
+   ✅ Removed prefixes in [insurance:supervisor_limit_related_party_transactions]
+   ✅ Removed prefixes in [insurance:supervisor_limit_other_transactions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: capital_level should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'capital_level'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ capital_level: Int → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 3
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 0
+   - Total fixes: 4
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (28 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (34 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (34 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c32'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c32'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_466
+
+📊 Model (filtered):
+   capital_level_3_measures_executed = False
+   improvement_plan_submitted = False
+   capital_adequacy_ratio = 120
+   net_worth_ratio = 3
+   net_worth = 100
+   capital_level_4_measures_executed = False
+   improvement_plan_executed = False
+   capital_level_3_compliance = False
+   related_party_definition = True
+   receivership_exceptions = True
+   supervisor_may_impose_measures = True
+   violation_article_143_penalty = True
+   supervisor_must_notify_deregistration = True
+   capital_level_4_compliance = False
+   supervisor_must_take_action_for_level_4 = False
+   violation_fund_management_penalty = True
+   violation_business_scope_penalty = True
+   supervisor_limit_other_transactions = True
+   penalty_for_violation_loan_limits = True
+   penalty_for_unauthorized_guaranteed_loans = True
+   criminal_liability_for_unsecured_loans = True
+   capital_level = 0
+   violation_reserve_penalty = True
+   supervisor_may_delegate = True
+   supervisor_may_take_action_for_deterioration = True
+   supervision_procedures_defined = True
+   violation_article_143_5_6_penalty = True
+   supervisor_limit_related_party_transactions = True
+   supervisor_inspection_applies = True
+   penalty = False
+   capital_level_2_compliance = False
+   receivership_reorganization_procedure = True
+   delegated_not_subject_to_gov_procurement = True
+   supervised_entity_restrictions = True
+✅ Model saved to: outputs\case_466.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_466.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_466.smt2

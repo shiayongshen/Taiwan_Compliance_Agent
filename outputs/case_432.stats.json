@@ -1,0 +1,151 @@
+{
+  "case_id": "case_432",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 176.52,
+  "repair_attempts": 2,
+  "total_agent_calls": 5,
+  "total_input_tokens": 22674,
+  "total_output_tokens": 11716,
+  "total_tokens": 34390,
+  "total_cost_usd": 0.027815,
+  "timestamp": "2025-10-21T09:42:17.851982",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "FAIL",
+  "step5_repair_needed": "PASS",
+  "step5_repair_success": "PASS",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 3293,
+      "output_tokens": 3604,
+      "elapsed_time": 48.00394535064697,
+      "cost": 0.007083600000000001
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 10554,
+      "output_tokens": 3604,
+      "elapsed_time": 45.86975288391113,
+      "cost": 0.009988
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 432,
+      "output_tokens": 1987,
+      "elapsed_time": 29.955790042877197,
+      "cost": 0.003352
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 432,
+      "output_tokens": 1987,
+      "elapsed_time": 34.37956643104553,
+      "cost": 0.003352
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 7963,
+      "output_tokens": 534,
+      "elapsed_time": 10.122447729110718,
+      "cost": 0.004039600000000001
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "10174 chars",
+      "timestamp": 48.00394535064697
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "10176 chars",
+      "timestamp": 93.8736982345581
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "28 constraints",
+      "timestamp": 93.8736982345581
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "58 varspecs",
+      "timestamp": 123.8294882774353
+    },
+    "step5_constraints_parseable": {
+      "passed": false,
+      "details": "b'Sort mismatch at argument #1 for function (declare-fun or (Bool Bool) Bool) supplied sort is Int'",
+      "timestamp": 123.83449053764343
+    },
+    "step5_repair_needed": true,
+    "step5_repair_success": {
+      "passed": true,
+      "details": "1 rounds",
+      "timestamp": 131.94284009933472
+    },
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 131.95684027671814
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 131.95684027671814
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "39 facts",
+      "timestamp": 176.4598569869995
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "39 constraints",
+      "timestamp": 176.46185731887817
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 176.47885727882385
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'meta:penalty_conditions', 'c35', 'insurance:investment_prohibited_conditions']",
+      "timestamp": 176.47885727882385
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 176.50485801696777
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 131.95684027671814
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 123.83
+    }
+  ]
+}

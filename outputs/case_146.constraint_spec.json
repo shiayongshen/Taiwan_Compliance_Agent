@@ -1,0 +1,832 @@
+[
+  {
+    "id": "insurance:violation_occurred",
+    "desc": "保險代理人、經紀人、公證人違反法令或有礙健全經營",
+    "expr": [
+      "EQ",
+      "violation_occurred",
+      [
+        "EQ",
+        "violation_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_measures_applicable",
+    "desc": "主管機關得視情節輕重採取處分措施",
+    "expr": [
+      "EQ",
+      "penalty_measures_applicable",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "EQ",
+          "penalty_measures_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_limit_business_scope",
+    "desc": "限制經營或執行業務範圍處分",
+    "expr": [
+      "EQ",
+      "limit_business_scope",
+      [
+        "EQ",
+        "penalty_limit_business_scope",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_dismiss_manager_staff",
+    "desc": "命公司解除經理人或職員職務處分",
+    "expr": [
+      "EQ",
+      "dismiss_manager_staff",
+      [
+        "EQ",
+        "penalty_dismiss_manager_staff",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_dismiss_director_supervisor",
+    "desc": "解除公司董事、監察人職務或停止執行職務處分",
+    "expr": [
+      "EQ",
+      "dismiss_director_supervisor",
+      [
+        "EQ",
+        "penalty_dismiss_director_supervisor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:notify_deregistration",
+    "desc": "主管機關通知公司登記主管機關註銷董事或監察人登記",
+    "expr": [
+      "EQ",
+      "notify_deregistration",
+      [
+        "AND",
+        [
+          "EQ",
+          "dismiss_director_supervisor",
+          true
+        ],
+        [
+          "EQ",
+          "notification_sent",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_finance_or_business_management_rules",
+    "desc": "違反財務或業務管理規定",
+    "expr": [
+      "EQ",
+      "violate_finance_or_business_management_rules",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_rule_163_4",
+          true
+        ],
+        [
+          "EQ",
+          "violate_rule_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_rule_165_1",
+          true
+        ],
+        [
+          "EQ",
+          "violate_rule_163_5",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_fine_or_license_revocation",
+    "desc": "限期改正或處罰鍰，情節重大廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "penalty_fine_or_license_revocation",
+      [
+        "OR",
+        [
+          "EQ",
+          "correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "fine_imposed",
+          true
+        ],
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violate_internal_control_or_audit",
+    "desc": "未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序",
+    "expr": [
+      "EQ",
+      "violate_internal_control_or_audit",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "audit_system_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "solicitation_handling_system_executed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_internal_control_violation",
+    "desc": "限期改正或處罰鍰因內部控制或稽核制度違反",
+    "expr": [
+      "EQ",
+      "penalty_internal_control_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "fine_imposed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_1",
+    "desc": "申領執業證照時具報不實",
+    "expr": [
+      "EQ",
+      "agent_violation_1",
+      [
+        "EQ",
+        "false_report_on_license_application",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_2",
+    "desc": "為未經核准登記之保險業代理經營或執行業務",
+    "expr": [
+      "EQ",
+      "agent_violation_2",
+      [
+        "EQ",
+        "unapproved_insurance_agent_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_3",
+    "desc": "為保險業代理經營或執行未經主管機關核准之保險業務",
+    "expr": [
+      "EQ",
+      "agent_violation_3",
+      [
+        "EQ",
+        "unapproved_insurance_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_4",
+    "desc": "故意隱匿保險契約之重要事項",
+    "expr": [
+      "EQ",
+      "agent_violation_4",
+      [
+        "EQ",
+        "conceal_important_contract_info",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_5",
+    "desc": "利用職務或業務便利強迫、引誘或限制締約自由或索取額外報酬",
+    "expr": [
+      "EQ",
+      "agent_violation_5",
+      [
+        "EQ",
+        "coerce_or_induce_or_limit_contract_freedom_or_extra_fee",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_6",
+    "desc": "以誇大不實、引人錯誤之宣傳、廣告或其他不當方法經營或執行業務或招聘人員",
+    "expr": [
+      "EQ",
+      "agent_violation_6",
+      [
+        "EQ",
+        "false_or_misleading_promotion_or_recruitment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_7",
+    "desc": "以不當手段慫恿保戶退保、轉保或貸款等行為",
+    "expr": [
+      "EQ",
+      "agent_violation_7",
+      [
+        "EQ",
+        "improper_inducement_of_policyholder",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_8",
+    "desc": "挪用或侵占保險費、保險金",
+    "expr": [
+      "EQ",
+      "agent_violation_8",
+      [
+        "EQ",
+        "misappropriation_of_premiums_or_claims",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_9",
+    "desc": "本人未執行業務而以執業證照供他人使用",
+    "expr": [
+      "EQ",
+      "agent_violation_9",
+      [
+        "EQ",
+        "license_used_by_others",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_10",
+    "desc": "侵占、詐欺、背信、偽造文書行為受刑宣告",
+    "expr": [
+      "EQ",
+      "agent_violation_10",
+      [
+        "EQ",
+        "criminal_conviction_for_fraud_or_breach",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_11",
+    "desc": "經營或執行執業證照範圍以外之保險業務",
+    "expr": [
+      "EQ",
+      "agent_violation_11",
+      [
+        "EQ",
+        "business_outside_license_scope",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_12",
+    "desc": "除合約佣酬及費用外，以其他名目或第三人名義向保險人收取金錢或其他報酬",
+    "expr": [
+      "EQ",
+      "agent_violation_12",
+      [
+        "EQ",
+        "improper_collection_of_funds_or_rewards",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_13",
+    "desc": "以不法方式使保險人為不當保險給付",
+    "expr": [
+      "EQ",
+      "agent_violation_13",
+      [
+        "EQ",
+        "illegal_insurance_payment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_14",
+    "desc": "散播不實言論或文宣擾亂金融秩序",
+    "expr": [
+      "EQ",
+      "agent_violation_14",
+      [
+        "EQ",
+        "spread_false_information_disturb_financial_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_15",
+    "desc": "授權第三人代為經營或以他人名義經營或執行業務",
+    "expr": [
+      "EQ",
+      "agent_violation_15",
+      [
+        "EQ",
+        "authorize_others_to_operate_or_use_others_name",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_16",
+    "desc": "將非所任用代理人或非所屬登錄保險業務員招攬之要保文件轉報保險人或轉由他人交付",
+    "expr": [
+      "EQ",
+      "agent_violation_16",
+      [
+        "EQ",
+        "improper_transfer_of_solicitation_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_17",
+    "desc": "聘用未具保險招攬資格者為招攬保險業務",
+    "expr": [
+      "EQ",
+      "agent_violation_17",
+      [
+        "EQ",
+        "employ_unqualified_solicitors",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_18",
+    "desc": "未依規定期限辦理繳銷執業證照",
+    "expr": [
+      "EQ",
+      "agent_violation_18",
+      [
+        "EQ",
+        "fail_to_cancel_license_in_time",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_19",
+    "desc": "擅自停業、暫停業務、復業、解散或終止業務",
+    "expr": [
+      "EQ",
+      "agent_violation_19",
+      [
+        "EQ",
+        "unauthorized_suspend_or_terminate_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_20",
+    "desc": "代理人公司或銀行未於代理人離職時依規定任用代理人",
+    "expr": [
+      "EQ",
+      "agent_violation_20",
+      [
+        "EQ",
+        "fail_to_appoint_agent_after_resignation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_21",
+    "desc": "未依主管機關規定向代理人商業同業公會報備",
+    "expr": [
+      "EQ",
+      "agent_violation_21",
+      [
+        "EQ",
+        "fail_to_report_to_agent_association",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_22",
+    "desc": "使用非保險業提供或未經同意之廣告、宣傳內容",
+    "expr": [
+      "EQ",
+      "agent_violation_22",
+      [
+        "EQ",
+        "use_unapproved_advertisement",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_23",
+    "desc": "將佣酬支付予非實際招攬之保險業務員及其主管",
+    "expr": [
+      "EQ",
+      "agent_violation_23",
+      [
+        "EQ",
+        "pay_commission_to_non_actual_solicitor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_24",
+    "desc": "未確認金融消費者對保險商品之適合度，含65歲以上客戶提供不適合商品",
+    "expr": [
+      "EQ",
+      "agent_violation_24",
+      [
+        "EQ",
+        "fail_to_confirm_product_suitability",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_25",
+    "desc": "銷售未經主管機關許可之國外保單貼現受益權憑證商品",
+    "expr": [
+      "EQ",
+      "agent_violation_25",
+      [
+        "EQ",
+        "sell_unapproved_foreign_policy_discount",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_26",
+    "desc": "提報業務或財務報表資料不實或不全",
+    "expr": [
+      "EQ",
+      "agent_violation_26",
+      [
+        "EQ",
+        "false_or_incomplete_report",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_27",
+    "desc": "任職於保險業、擔任公會現職人員或登錄為保險業務員",
+    "expr": [
+      "EQ",
+      "agent_violation_27",
+      [
+        "EQ",
+        "hold_conflicting_positions",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_28",
+    "desc": "勸誘客戶解除或終止契約，或以貸款、定存解約或保險單借款繳交保險費",
+    "expr": [
+      "EQ",
+      "agent_violation_28",
+      [
+        "EQ",
+        "induce_contract_termination_or_loan_payment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_29",
+    "desc": "未據實填寫招攬報告書，未載明客戶辨識能力及保險商品適合度評估",
+    "expr": [
+      "EQ",
+      "agent_violation_29",
+      [
+        "EQ",
+        "fail_to_fill_solicitation_report_truthfully",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_30",
+    "desc": "其他違反本規則或相關法令",
+    "expr": [
+      "EQ",
+      "agent_violation_30",
+      [
+        "EQ",
+        "other_rule_or_law_violation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_violation_31",
+    "desc": "其他有損保險形象行為",
+    "expr": [
+      "EQ",
+      "agent_violation_31",
+      [
+        "EQ",
+        "other_behavior_harm_insurance_image",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_system_established",
+    "desc": "保險代理人公司、經紀人公司、銀行依業務性質及規模訂定內部控制及招攬處理制度",
+    "expr": [
+      "EQ",
+      "internal_control_system_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_system_defined",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_handling_system_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:audit_committee_management_included",
+    "desc": "設置審計委員會者，內部控制制度包括審計委員會議事運作管理",
+    "expr": [
+      "EQ",
+      "audit_committee_management_included",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "audit_committee_established",
+          true
+        ],
+        [
+          "EQ",
+          "audit_committee_management_included_flag",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:solicitation_handling_minimum_requirements",
+    "desc": "招攬處理制度及程序至少包括規定之十一項內容",
+    "expr": [
+      "EQ",
+      "solicitation_handling_minimum_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "qualification_and_solicitation_management",
+          true
+        ],
+        [
+          "EQ",
+          "compensation_and_risk_linkage",
+          true
+        ],
+        [
+          "EQ",
+          "premium_collection_and_management",
+          true
+        ],
+        [
+          "EQ",
+          "product_information_disclosure",
+          true
+        ],
+        [
+          "EQ",
+          "advertisement_and_promotion_management",
+          true
+        ],
+        [
+          "EQ",
+          "customer_need_and_suitability_assessment",
+          true
+        ],
+        [
+          "EQ",
+          "truthful_solicitation_report_management",
+          true
+        ],
+        [
+          "EQ",
+          "pre_submission_check_mechanism",
+          true
+        ],
+        [
+          "EQ",
+          "solicitation_document_control_and_storage",
+          true
+        ],
+        [
+          "EQ",
+          "customer_complaints_handling",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  }
+]

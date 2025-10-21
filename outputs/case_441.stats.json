@@ -1,0 +1,760 @@
+{
+  "case_id": "case_441",
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 89.14,
+  "repair_attempts": 0,
+  "total_agent_calls": 5,
+  "total_input_tokens": 13640,
+  "total_output_tokens": 6721,
+  "total_tokens": 20361,
+  "total_cost_usd": 0.01621,
+  "timestamp": "2025-10-21T09:55:56.379451",
+  "step1_law_parser": "PASS",
+  "step2_completion": "PASS",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
+  "step5_repair_needed": "FAIL",
+  "step5_repair_success": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
+  "step7_facts_validation": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
+  "agent_calls": [
+    {
+      "agent": "parser",
+      "input_tokens": 1869,
+      "output_tokens": 2322,
+      "elapsed_time": 28.0646870136261,
+      "cost": 0.0044628
+    },
+    {
+      "agent": "parser_completion",
+      "input_tokens": 6424,
+      "output_tokens": 2322,
+      "elapsed_time": 31.905555486679077,
+      "cost": 0.0062848
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 261,
+      "output_tokens": 844,
+      "elapsed_time": 12.895062446594238,
+      "cost": 0.0014548
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 261,
+      "output_tokens": 844,
+      "elapsed_time": 10.629761934280396,
+      "cost": 0.0014548
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 4825,
+      "output_tokens": 389,
+      "elapsed_time": 5.590116739273071,
+      "cost": 0.0025524000000000002
+    }
+  ],
+  "checkpoints_detail": {
+    "step1_law_parser": {
+      "passed": true,
+      "details": "6090 chars",
+      "timestamp": 28.0646870136261
+    },
+    "step2_completion": {
+      "passed": true,
+      "details": "6090 chars",
+      "timestamp": 59.970242500305176
+    },
+    "step3_json_valid": {
+      "passed": true,
+      "details": "17 constraints",
+      "timestamp": 59.970242500305176
+    },
+    "step4_varspec": {
+      "passed": true,
+      "details": "32 varspecs",
+      "timestamp": 72.86630487442017
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "17 constraints",
+      "timestamp": 72.87230706214905
+    },
+    "step5_repair_needed": false,
+    "step5_repair_success": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 72.88130712509155
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 72.88130712509155
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "31 facts",
+      "timestamp": 89.10118579864502
+    },
+    "step7_facts_validation": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "31 constraints",
+      "timestamp": 89.10318613052368
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 89.11518597602844
+    },
+    "step8_repair_success": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c47', 'meta:penalty_default_false']",
+      "timestamp": 89.11518597602844
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 89.13218450546265
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 72.88130712509155
+    }
+  },
+  "fix_logs": [
+    {
+      "id": "bank:credit_limit_natural_person_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_natural_person_total",
+        [
+          "LE",
+          "credit_exposure_natural_person_total",
+          [
+            "MUL",
+            "net_worth",
+            0.03
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_natural_person_total",
+        [
+          "LE",
+          "credit_exposure_natural_person_total",
+          [
+            "MUL",
+            "net_worth",
+            0.03
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_natural_person_unsecured",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_natural_person_unsecured",
+        [
+          "LE",
+          "credit_exposure_natural_person_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.01
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_natural_person_unsecured",
+        [
+          "LE",
+          "credit_exposure_natural_person_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.01
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_legal_person_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_legal_person_total",
+        [
+          "LE",
+          "credit_exposure_legal_person_total",
+          [
+            "MUL",
+            "net_worth",
+            0.15
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_legal_person_total",
+        [
+          "LE",
+          "credit_exposure_legal_person_total",
+          [
+            "MUL",
+            "net_worth",
+            0.15
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_legal_person_unsecured",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_legal_person_unsecured",
+        [
+          "LE",
+          "credit_exposure_legal_person_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.05
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_legal_person_unsecured",
+        [
+          "LE",
+          "credit_exposure_legal_person_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.05
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_public_enterprise_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_public_enterprise_total",
+        [
+          "LE",
+          "credit_exposure_public_enterprise_total",
+          "net_worth"
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_public_enterprise_total",
+        [
+          "LE",
+          "credit_exposure_public_enterprise_total",
+          "net_worth"
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_related_person_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_related_person_total",
+        [
+          "LE",
+          "credit_exposure_related_person_total",
+          [
+            "MUL",
+            "net_worth",
+            0.4
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_related_person_total",
+        [
+          "LE",
+          "credit_exposure_related_person_total",
+          [
+            "MUL",
+            "net_worth",
+            0.4
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_related_person_natural_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_related_person_natural_total",
+        [
+          "LE",
+          "credit_exposure_related_person_natural_total",
+          [
+            "MUL",
+            "net_worth",
+            0.06
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_related_person_natural_total",
+        [
+          "LE",
+          "credit_exposure_related_person_natural_total",
+          [
+            "MUL",
+            "net_worth",
+            0.06
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_related_person_unsecured_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_related_person_unsecured_total",
+        [
+          "LE",
+          "credit_exposure_related_person_unsecured_total",
+          [
+            "MUL",
+            "net_worth",
+            0.1
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_related_person_unsecured_total",
+        [
+          "LE",
+          "credit_exposure_related_person_unsecured_total",
+          [
+            "MUL",
+            "net_worth",
+            0.1
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_related_person_natural_unsecured",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_related_person_natural_unsecured",
+        [
+          "LE",
+          "credit_exposure_related_person_natural_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.02
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_related_person_natural_unsecured",
+        [
+          "LE",
+          "credit_exposure_related_person_natural_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.02
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_related_enterprise_total",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_related_enterprise_total",
+        [
+          "LE",
+          "credit_exposure_related_enterprise_total",
+          [
+            "MUL",
+            "net_worth",
+            0.4
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_related_enterprise_total",
+        [
+          "LE",
+          "credit_exposure_related_enterprise_total",
+          [
+            "MUL",
+            "net_worth",
+            0.4
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_limit_related_enterprise_unsecured",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_limit_related_enterprise_unsecured",
+        [
+          "LE",
+          "credit_exposure_related_enterprise_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.15
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_limit_related_enterprise_unsecured",
+        [
+          "LE",
+          "credit_exposure_related_enterprise_unsecured",
+          [
+            "MUL",
+            "net_worth",
+            0.15
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_exclusion_policy_approved",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_exclusion_policy_approved",
+        [
+          "EQ",
+          "credit_exposure_policy_approved",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_exclusion_policy_approved",
+        [
+          "EQ",
+          "credit_exposure_policy_approved",
+          true
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_exclusion_government",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_exclusion_government",
+        [
+          "EQ",
+          "credit_exposure_government",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_exclusion_government",
+        [
+          "EQ",
+          "credit_exposure_government",
+          true
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_exclusion_secured_bonds",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_exclusion_secured_bonds",
+        [
+          "EQ",
+          "credit_exposure_secured_bonds",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_exclusion_secured_bonds",
+        [
+          "EQ",
+          "credit_exposure_secured_bonds",
+          true
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "bank:credit_exclusion_small_loans",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:credit_exclusion_small_loans",
+        [
+          "EQ",
+          "credit_exposure_small_loans",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "credit_exclusion_small_loans",
+        [
+          "EQ",
+          "credit_exposure_small_loans",
+          true
+        ]
+      ],
+      "timestamp": 72.87
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_natural_person_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_natural_person_unsecured",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_legal_person_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_legal_person_unsecured",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_public_enterprise_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_related_person_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_related_person_natural_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_related_person_unsecured_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_related_person_natural_unsecured",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_related_enterprise_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:credit_limit_related_enterprise_unsecured",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_natural_person_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_natural_person_unsecured",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_legal_person_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_legal_person_unsecured",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_public_enterprise_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_related_person_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_related_person_natural_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_related_person_unsecured_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_related_person_natural_unsecured",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_related_enterprise_total",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "credit_limit_related_enterprise_unsecured",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 72.87
+    }
+  ]
+}

@@ -1,0 +1,804 @@
+[
+  {
+    "id": "fhc:subsidiary_business_scope_ok",
+    "desc": "子公司業務限於投資及對被投資事業之管理",
+    "expr": [
+      "EQ",
+      "subsidiary_business_scope_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "subsidiary_business_investment",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_business_management",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:investment_approval_scope",
+    "desc": "投資事業類別符合主管機關核准範圍",
+    "expr": [
+      "EQ",
+      "investment_approval_scope",
+      [
+        "OR",
+        [
+          "EQ",
+          "invest_in_fhc",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_bank",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_bill_finance",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_credit_card",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_trust",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_securities",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_futures",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_venture_capital",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_foreign_financial_institution_approved",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_other_financial_related_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:bank_investment_subtypes_ok",
+    "desc": "銀行業投資包含商業銀行、專業銀行及信託投資公司",
+    "expr": [
+      "EQ",
+      "bank_investment_subtypes_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "invest_in_commercial_bank",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_specialized_bank",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_trust_investment_company",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:insurance_investment_subtypes_ok",
+    "desc": "保險業投資包含財產保險業、人身保險業、再保險公司、保險代理人及經紀人",
+    "expr": [
+      "EQ",
+      "insurance_investment_subtypes_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "invest_in_property_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_life_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_reinsurance_company",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_insurance_agent",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_insurance_broker",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:securities_investment_subtypes_ok",
+    "desc": "證券業投資包含證券商、證券投資信託事業、證券投資顧問事業",
+    "expr": [
+      "EQ",
+      "securities_investment_subtypes_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "invest_in_securities_firm",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_securities_investment_trust",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_securities_investment_advisor",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:futures_investment_subtypes_ok",
+    "desc": "期貨業投資包含期貨商、槓桿交易商、期貨信託事業、期貨經理事業及期貨顧問事業",
+    "expr": [
+      "EQ",
+      "futures_investment_subtypes_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "invest_in_futures_broker",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_leveraged_trader",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_futures_trust",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_futures_manager",
+          true
+        ],
+        [
+          "EQ",
+          "invest_in_futures_advisor",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:investment_approval_status",
+    "desc": "投資行為經主管機關核准或視為核准",
+    "expr": [
+      "EQ",
+      "investment_approval_status",
+      [
+        "OR",
+        [
+          "EQ",
+          "approval_obtained",
+          true
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "application_submitted",
+            true
+          ],
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "OR",
+                [
+                  "EQ",
+                  "invest_in_fhc",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_bank",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_bill_finance",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_credit_card",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_trust",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_insurance",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_securities",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_futures",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_venture_capital",
+                  true
+                ]
+              ],
+              [
+                "LE",
+                "business_days_since_application",
+                15
+              ]
+            ],
+            [
+              "AND",
+              [
+                "OR",
+                [
+                  "EQ",
+                  "invest_in_foreign_financial_institution_approved",
+                  true
+                ],
+                [
+                  "EQ",
+                  "invest_in_other_financial_related_approved",
+                  true
+                ]
+              ],
+              [
+                "LE",
+                "business_days_since_application",
+                30
+              ]
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "disapproval_expressed",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:investment_without_approval_prohibited",
+    "desc": "未經核准不得進行投資行為",
+    "expr": [
+      "EQ",
+      "investment_without_approval_prohibited",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "investment_made",
+          true
+        ],
+        [
+          "EQ",
+          "investment_approval_status",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_business_or_investment_exceed_limit",
+    "desc": "子公司業務或投資逾越法令規定範圍",
+    "expr": [
+      "EQ",
+      "subsidiary_business_or_investment_exceed_limit",
+      [
+        "OR",
+        [
+          "EQ",
+          "subsidiary_business_exceed_limit",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_investment_exceed_limit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:adjustment_ordered",
+    "desc": "主管機關限期命金融控股公司調整逾越範圍之業務或投資",
+    "expr": [
+      "EQ",
+      "adjustment_ordered",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "subsidiary_business_or_investment_exceed_limit",
+          true
+        ],
+        [
+          "EQ",
+          "adjustment_order_issued",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:adjustment_deadline_within_limit",
+    "desc": "調整期限最長三年，必要時得申請延長二次，每次二年",
+    "expr": [
+      "EQ",
+      "adjustment_deadline_within_limit",
+      [
+        "AND",
+        [
+          "LE",
+          "adjustment_deadline_years",
+          3
+        ],
+        [
+          "IMPLIES",
+          [
+            "GT",
+            "adjustment_extension_times",
+            0
+          ],
+          [
+            "AND",
+            [
+              "LE",
+              "adjustment_extension_times",
+              2
+            ],
+            [
+              "LE",
+              "adjustment_extension_years_per_extension",
+              2
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:prohibited_manager_in_venture_invested_company",
+    "desc": "金融控股公司負責人或職員不得擔任創業投資事業所投資事業經理人",
+    "expr": [
+      "EQ",
+      "prohibited_manager_in_venture_invested_company",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "fhc_officer_or_staff",
+            true
+          ],
+          [
+            "EQ",
+            "venture_invested_company_manager",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:subsidiary_capital_reduction_approval_required",
+    "desc": "子公司減資應事先申請核准",
+    "expr": [
+      "EQ",
+      "subsidiary_capital_reduction_approval_required",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "subsidiary_capital_reduction",
+          true
+        ],
+        [
+          "EQ",
+          "capital_reduction_approval_obtained",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_and_audit_established",
+    "desc": "金融控股公司應建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_and_audit_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_and_audit_executed",
+    "desc": "金融控股公司應確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_executed",
+      [
+        "EQ",
+        "internal_control_and_audit_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_penalty_conditions",
+    "desc": "違反法令、章程或有礙健全經營之虞時主管機關得處分",
+    "expr": [
+      "EQ",
+      "violation_penalty_conditions",
+      [
+        "OR",
+        [
+          "EQ",
+          "correction_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_ordered",
+          true
+        ],
+        [
+          "EQ",
+          "statutory_meeting_resolution_revoked",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_business_suspension",
+          true
+        ],
+        [
+          "EQ",
+          "manager_or_staff_dismissed",
+          true
+        ],
+        [
+          "EQ",
+          "director_or_supervisor_dismissed_or_suspended",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_shares_disposed",
+          true
+        ],
+        [
+          "EQ",
+          "license_revoked",
+          true
+        ],
+        [
+          "EQ",
+          "other_necessary_measures_taken",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:shareholding_exceedance_penalty",
+    "desc": "未經核准持有股份超過規定部分無表決權且應限令處分",
+    "expr": [
+      "EQ",
+      "shareholding_exceedance_penalty",
+      [
+        "AND",
+        [
+          "EQ",
+          "hold_shares_exceed_without_approval",
+          true
+        ],
+        [
+          "EQ",
+          "exceeding_shares_no_voting_right",
+          true
+        ],
+        [
+          "EQ",
+          "regulator_orders_disposal",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:reporting_and_approval_compliance",
+    "desc": "持股超過規定比例應申報及申請核准",
+    "expr": [
+      "EQ",
+      "reporting_and_approval_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "reporting_obligation_met",
+          true
+        ],
+        [
+          "EQ",
+          "approval_obtained_for_thresholds",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:prohibited_pledge_of_shares",
+    "desc": "同一人或同一關係人持有股份不得設定質權予子公司",
+    "expr": [
+      "EQ",
+      "prohibited_pledge_of_shares",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "shareholder_is_same_person_or_related",
+            true
+          ],
+          [
+            "EQ",
+            "pledge_to_subsidiary",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:related_persons_definition_ok",
+    "desc": "同一自然人及同一法人之關係人定義符合規定",
+    "expr": [
+      "EQ",
+      "related_persons_definition_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "natural_person_related_definition_met",
+          true
+        ],
+        [
+          "EQ",
+          "legal_person_related_definition_met",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反金融控股公司法第36條、51條、54條、60條及相關規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_business_scope_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_approval_scope",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_approval_status",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "investment_made",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_approval_status",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_audit_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reporting_and_approval_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "shareholding_exceedance_penalty",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_manager_in_venture_invested_company",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "subsidiary_capital_reduction_approval_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_persons_definition_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

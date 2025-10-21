@@ -1,0 +1,553 @@
+[
+  {
+    "id": "securities:full_delegation_approval",
+    "desc": "證券投資信託或顧問事業經營全權委託投資業務須符合主管機關條件並核准",
+    "expr": [
+      "EQ",
+      "full_delegation_approval",
+      [
+        "AND",
+        [
+          "EQ",
+          "full_delegation_conditions_met",
+          true
+        ],
+        [
+          "EQ",
+          "full_delegation_approved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:dedicated_department_setup",
+    "desc": "經營全權委託投資業務應設置專責部門並配置適任主管及業務人員",
+    "expr": [
+      "EQ",
+      "dedicated_department_setup",
+      [
+        "AND",
+        [
+          "EQ",
+          "dedicated_department_established",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_department_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_department_staff_qualified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:other_departments_setup",
+    "desc": "應至少設置投資研究、財務會計及內部稽核部門",
+    "expr": [
+      "EQ",
+      "other_departments_setup",
+      [
+        "AND",
+        [
+          "EQ",
+          "investment_research_department_established",
+          true
+        ],
+        [
+          "EQ",
+          "financial_accounting_department_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_department_established",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:dedicated_department_staff_restriction",
+    "desc": "專責部門主管及業務人員不得辦理專責部門以外業務或由非登錄專責部門人員兼辦",
+    "expr": [
+      "EQ",
+      "dedicated_department_staff_restriction",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "dedicated_department_staff_outside_business",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "non_registered_staff_doing_dedicated_business",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_decision_staff_compatibility",
+    "desc": "辦理投資或交易決策之業務人員得兼任私募基金及期貨信託基金投資決策人員",
+    "expr": [
+      "EQ",
+      "investment_decision_staff_compatibility",
+      [
+        "EQ",
+        "investment_decision_staff_compatible_with_other_roles",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_and_advisory_staff_dual_role_conditions",
+    "desc": "符合條件者，投資決策人員得與證券投資分析人員相互兼任",
+    "expr": [
+      "EQ",
+      "investment_and_advisory_staff_dual_role_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "clients_are_professional_investors",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_prevents_conflicts",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "investment_decision_staff_and_advisory_staff_dual_role_allowed",
+            true
+          ],
+          [
+            "EQ",
+            "investment_decision_staff_and_advisory_staff_dual_role_not_allowed",
+            false
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:dedicated_department_staff_no_trade_execution_dual_role",
+    "desc": "專責部門研究分析及投資決策人員不得與買賣執行人員相互兼任",
+    "expr": [
+      "EQ",
+      "dedicated_department_staff_no_trade_execution_dual_role",
+      [
+        "NOT",
+        [
+          "EQ",
+          "dedicated_department_research_or_decision_staff_trade_execution_dual_role",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_audit_staff_qualification",
+    "desc": "專責部門與內部稽核部門主管及業務人員應符合資格條件",
+    "expr": [
+      "EQ",
+      "internal_audit_staff_qualification",
+      [
+        "AND",
+        [
+          "EQ",
+          "dedicated_department_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_department_staff_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_department_supervisor_qualified",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_department_staff_qualified",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:manager_and_staff_leave_proxy",
+    "desc": "經理人或業務人員出缺應指派具相當資格人員代理且不得違反第七條規定",
+    "expr": [
+      "EQ",
+      "manager_and_staff_leave_proxy",
+      [
+        "AND",
+        [
+          "EQ",
+          "proxy_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "proxy_qualification_equivalent",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "proxy_violates_article_7",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:manager_and_staff_leave_proxy_record",
+    "desc": "應設專簿載明代理事由、期間、代理人及職務",
+    "expr": [
+      "EQ",
+      "manager_and_staff_leave_proxy_record",
+      [
+        "EQ",
+        "proxy_recorded",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors",
+    "desc": "負責人、主管及業務人員不得有違反誠信義務及其他禁止行為",
+    "expr": [
+      "EQ",
+      "prohibited_behaviors",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "fraudulent_contract",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_proxy_trading",
+            true
+          ],
+          [
+            "EQ",
+            "profit_loss_sharing_with_client",
+            true
+          ],
+          [
+            "EQ",
+            "buy_sell_same_securities_as_client",
+            true
+          ],
+          [
+            "EQ",
+            "false_or_misleading_behavior",
+            true
+          ],
+          [
+            "EQ",
+            "loan_or_intermediation_with_client",
+            true
+          ],
+          [
+            "EQ",
+            "misappropriation_of_client_assets",
+            true
+          ],
+          [
+            "EQ",
+            "conflict_of_interest_behavior",
+            true
+          ],
+          [
+            "EQ",
+            "unauthorized_disclosure_of_client_info",
+            true
+          ],
+          [
+            "EQ",
+            "allow_others_use_name",
+            true
+          ],
+          [
+            "EQ",
+            "unreasonable_recommendations",
+            true
+          ],
+          [
+            "EQ",
+            "unsubstantiated_public_predictions",
+            true
+          ],
+          [
+            "EQ",
+            "superstition_based_investment_advice",
+            true
+          ],
+          [
+            "EQ",
+            "inciting_contract_breach",
+            true
+          ],
+          [
+            "EQ",
+            "improper_commission_or_client_recruitment",
+            true
+          ],
+          [
+            "EQ",
+            "use_of_alias",
+            true
+          ],
+          [
+            "EQ",
+            "investment_advisory_as_gift",
+            true
+          ],
+          [
+            "EQ",
+            "business_at_unregistered_place",
+            true
+          ],
+          [
+            "EQ",
+            "other_illegal_acts",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:manager_investment_restriction",
+    "desc": "董事、監察人、經理人不得投資或兼任其他證券投資顧問或信託事業職務",
+    "expr": [
+      "EQ",
+      "manager_investment_restriction",
+      [
+        "NOT",
+        [
+          "OR",
+          [
+            "EQ",
+            "invest_in_other_advisory",
+            true
+          ],
+          [
+            "EQ",
+            "concurrent_director_or_manager_other_advisory",
+            true
+          ],
+          [
+            "EQ",
+            "concurrent_director_or_manager_trust",
+            true
+          ],
+          [
+            "EQ",
+            "concurrent_director_or_manager_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_penalty_conditions",
+    "desc": "違反本法或主管機關命令者處罰條件",
+    "expr": [
+      "EQ",
+      "violation_penalty_conditions",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_law",
+          true
+        ],
+        [
+          "EQ",
+          "violate_authority_orders",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反經營全權委託投資業務條件、專責部門設置、資格限制、誠信義務或主管機關命令時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "full_delegation_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "dedicated_department_setup",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_departments_setup",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "dedicated_department_staff_restriction",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_decision_staff_compatibility",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_and_advisory_staff_dual_role_conditions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "dedicated_department_staff_no_trade_execution_dual_role",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_audit_staff_qualification",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manager_and_staff_leave_proxy",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manager_and_staff_leave_proxy_record",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "prohibited_behaviors",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manager_investment_restriction",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "violation_penalty_conditions",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

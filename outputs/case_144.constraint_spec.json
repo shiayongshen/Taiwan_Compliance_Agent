@@ -1,0 +1,720 @@
+[
+  {
+    "id": "insurance:violation_167_2",
+    "desc": "違反保險法第163條第4項管理規則財務或業務管理規定、第163條第7項規定，或違反第165條第1項及第163條第5項準用規定",
+    "expr": [
+      "EQ",
+      "violation_167_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_163_4_financial_or_business_rule",
+          true
+        ],
+        [
+          "EQ",
+          "violate_163_7",
+          true
+        ],
+        [
+          "EQ",
+          "violate_165_1_or_163_5_applied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:penalty_167_2_impose_fine_or_license_revocation",
+    "desc": "違反167-2條規定應限期改正或處罰，情節重大者廢止許可並註銷執業證照",
+    "expr": [
+      "EQ",
+      "penalty_167_2",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "serious_violation_167_2",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_1",
+    "desc": "申領執業證照時具報不實",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_1",
+      [
+        "EQ",
+        "false_report_on_license_application",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_2",
+    "desc": "為未經核准登記之保險業代理經營或執行業務",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_2",
+      [
+        "EQ",
+        "unapproved_insurance_agent_operation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_3",
+    "desc": "為保險業代理經營或執行未經主管機關核准之保險業務",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_3",
+      [
+        "EQ",
+        "unapproved_insurance_business_execution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_4",
+    "desc": "故意隱匿保險契約之重要事項",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_4",
+      [
+        "EQ",
+        "intentional_concealment_of_contract_important_info",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_5",
+    "desc": "利用職務或業務便利強迫、引誘或限制締約自由或索取額外報酬或利益",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_5",
+      [
+        "EQ",
+        "improper_coercion_or_inducement_or_extra_benefit",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_6",
+    "desc": "以誇大不實、引人錯誤之宣傳、廣告或其他不當方法經營或執行業務或招聘人員",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_6",
+      [
+        "EQ",
+        "exaggerated_or_misleading_promotion_or_recruitment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_7",
+    "desc": "以不當手段慫恿保戶退保、轉保或貸款等行為",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_7",
+      [
+        "EQ",
+        "improper_inducement_of_policy_cancellation_or_transfer_or_loan",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_8",
+    "desc": "挪用或侵占保險費、保險金",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_8",
+      [
+        "EQ",
+        "misappropriation_or_embezzlement_of_premiums_or_insurance_money",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_9",
+    "desc": "本人未執行業務而以執業證照供他人使用",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_9",
+      [
+        "EQ",
+        "license_used_by_others_without_own_execution",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_10",
+    "desc": "有侵占、詐欺、背信、偽造文書行為受刑之宣告",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_10",
+      [
+        "EQ",
+        "convicted_of_embezzlement_fraud_breach_of_trust_or_forgery",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_11",
+    "desc": "經營或執行執業證照所載範圍以外之保險業務",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_11",
+      [
+        "EQ",
+        "operation_outside_license_scope",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_12",
+    "desc": "除合約佣酬及費用外，以其他名目或第三人名義向保險人收取金錢、物品、報酬或不合營業常規交易",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_12",
+      [
+        "EQ",
+        "improper_collection_of_money_or_goods_or_commission",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_13",
+    "desc": "以不法方式使保險人為不當保險給付",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_13",
+      [
+        "EQ",
+        "illegal_inducement_for_improper_insurance_payment",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_14",
+    "desc": "散播不實言論或文宣擾亂金融秩序",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_14",
+      [
+        "EQ",
+        "spread_false_statements_or_disrupt_financial_order",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_15",
+    "desc": "授權第三人代為經營或執行業務，或以他人名義經營或執行業務",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_15",
+      [
+        "EQ",
+        "authorize_others_to_operate_or_execute_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_16",
+    "desc": "將非所任用代理人或非所屬登錄保險業務員招攬之要保文件轉報保險人或轉由其他保險經紀人或代理人交付保險人（代理人公司收受個人執業代理人已取得書面同意之保件不在此限）",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_16",
+      [
+        "EQ",
+        "improper_transfer_of_policy_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_17",
+    "desc": "聘用未具保險招攬資格者為其招攬保險業務",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_17",
+      [
+        "EQ",
+        "employ_unqualified_person_for_insurance_solicitation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_18",
+    "desc": "未依規定期限辦理繳銷執業證照",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_18",
+      [
+        "EQ",
+        "fail_to_cancel_license_within_deadline",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_19",
+    "desc": "擅自停業、暫停業務、復業、恢復業務、解散或終止業務",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_19",
+      [
+        "EQ",
+        "unauthorized_suspension_or_termination_of_business",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_20",
+    "desc": "代理人公司或銀行經營業務後，未於代理人離職時依規定任用代理人",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_20",
+      [
+        "EQ",
+        "fail_to_appoint_agent_after_resignation",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_21",
+    "desc": "未依主管機關規定向代理人商業同業公會報備相關事項",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_21",
+      [
+        "EQ",
+        "fail_to_report_to_agent_association",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_22",
+    "desc": "使用與保險商品有關之廣告、宣傳內容非屬保險業提供或未經其同意",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_22",
+      [
+        "EQ",
+        "unauthorized_use_of_insurance_related_advertisement",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_23",
+    "desc": "將佣酬支付予非實際招攬之保險業務員及其業務主管（支付續期佣酬予接續保戶服務人員不在此限）",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_23",
+      [
+        "EQ",
+        "improper_commission_payment_to_non_actual_solicitor",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_24",
+    "desc": "未確認金融消費者對保險商品之適合度，包括對65歲以上客戶提供不適合保險商品",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_24",
+      [
+        "EQ",
+        "fail_to_confirm_consumer_suitability_including_seniors",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_25",
+    "desc": "銷售未經主管機關許可之國外保單貼現受益權憑證商品",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_25",
+      [
+        "EQ",
+        "sell_unapproved_foreign_policy_discount_benefit_certificates",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_26",
+    "desc": "提報業務或財務報表資料不實或不全",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_26",
+      [
+        "EQ",
+        "false_or_incomplete_business_or_financial_reports",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_27",
+    "desc": "任職於保險業、擔任有關公會現職人員或登錄為保險業務員",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_27",
+      [
+        "EQ",
+        "hold_position_in_insurance_or_association_or_registered_as_agent",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_28",
+    "desc": "勸誘客戶解除或終止契約，或以貸款、定存解約或保險單借款繳交保險費",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_28",
+      [
+        "EQ",
+        "induce_customer_to_terminate_contract_or_use_loan_or_deposit_to_pay_premium",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_29",
+    "desc": "未據實填寫招攬報告書，包括未載明65歲以上客戶投保能力及適合度評估及紀錄（特定保險商品除外）",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_29",
+      [
+        "EQ",
+        "fail_to_fill_solicitation_report_truthfully_and_completely",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_30",
+    "desc": "其他違反本規則或相關法令",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_30",
+      [
+        "EQ",
+        "other_violations_of_rules_or_laws",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_violation_31",
+    "desc": "其他有損保險形象行為",
+    "expr": [
+      "EQ",
+      "agent_rule_49_violation_31",
+      [
+        "EQ",
+        "other_behaviors_damaging_insurance_image",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_rule_49_any_violation",
+    "desc": "代理人管理規則第49條任一違規行為",
+    "expr": [
+      "EQ",
+      "agent_rule_49_any_violation",
+      [
+        "OR",
+        [
+          "EQ",
+          "agent_rule_49_violation_1",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_2",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_3",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_4",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_5",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_6",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_7",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_8",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_9",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_10",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_11",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_12",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_13",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_14",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_15",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_16",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_17",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_18",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_19",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_20",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_21",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_22",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_23",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_24",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_25",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_26",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_27",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_28",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_29",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_30",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_violation_31",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反保險法第167-2條或代理人管理規則第49條任一違規行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_167_2",
+          true
+        ],
+        [
+          "EQ",
+          "agent_rule_49_any_violation",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

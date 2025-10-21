@@ -1,0 +1,174 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (8742 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (9832 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (19 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (84 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (19 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (27 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+⚠️ Removed invalid keys from facts: {'violate_article_9_2', 'violate_article_23'}
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (25 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['futures:penalty_default_false', 'c43'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['futures:penalty_default_false', 'c43'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_309
+
+📊 Model (filtered):
+   responsible_for_personnel_before_registration = True
+   violate_article_74 = False
+   internal_control_system_established = True
+   violate_article_29 = False
+   violate_article_97_1_3 = False
+   violate_article_73 = False
+   obstruct_investigation = False
+   violate_article_28_1 = False
+   personnel_registration_revoked_conditions = False
+   violate_article_84_2_pre = False
+   not_report_documents = False
+   personnel_registration_revoked = False
+   violate_article_72_1 = False
+   violate_article_66_1 = False
+   violate_order_article_82_3 = False
+   violate_order_article_45_2_post = False
+   internal_control_system_recorded = True
+   violation_futures_service = False
+   violate_article_97_1_1 = False
+   violate_article_82_2 = False
+   violate_article_80_3 = False
+   overdue_non_submission = False
+   internal_control_system_updated = True
+   violate_article_70_1 = False
+   registered_salesperson_executing = True
+   unjustified_absence = False
+   violate_article_104_2 = False
+   violate_article_81_18 = False
+   violate_order_article_93 = False
+   violation_order = False
+   not_store_records = False
+   violation_futures_broker = False
+   internal_control_system_reported_to_board = True
+   personnel_change_reported_timely = True
+   violate_article_105 = False
+   refuse_inspection = False
+   not_completed_training = False
+   work_permit_reissued_or_returned = True
+   personnel_registration_valid = True
+   internal_control_system_defined = True
+   violation_clearing_mandate = False
+   internal_control_system_change_approved_by_board = True
+   violation_non_submission_or_obstruction = False
+   not_meet_qualification_article_26_3 = False
+   not_produce_books = False
+   violate_article_18 = False
+   violate_article_5 = False
+   personnel_responsibility_before_registration = True
+   involved_in_untrustworthy_activities = False
+   violate_article_57_1 = False
+   violation_any = False
+   obstruct_inspection = False
+   violate_order_article_8_2 = False
+   violate_article_65_1 = False
+   violate_article_67 = False
+   business_managed_by_dedicated_department = True
+   not_preserve_files = False
+   violate_article_64 = False
+   violate_article_3_2_clause = False
+   violate_article_87_1 = False
+   violate_article_78_1 = False
+   violate_order_article_56_5 = False
+   violate_order_article_80_4 = False
+   violation_obstruct_investigation = False
+   personnel_change_reported_within_5_days = True
+   violate_article_45_2_pre = False
+   dedicated_department_assigned = True
+   refuse_provide_documents = False
+   violate_article_10_1 = False
+   violate_article_85_1 = False
+   internal_control_system_change_reported = True
+   violate_article_56_4 = False
+   dedicated_person_assigned = True
+   violation_leverage_trader = False
+   penalty = False
+   violate_order_article_85_2 = False
+   violate_clearing_entity_article_55_18 = False
+   violate_article_88_18 = False
+   not_announce_reports = False
+   internal_control_system_change_within_deadline = True
+   personnel_registered = True
+   business_executed_by_registered_salesperson = True
+   violation_document_noncompliance = False
+   violate_article_79_18 = False
+✅ Model saved to: outputs\case_309.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_309.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_309.smt2

@@ -1,0 +1,142 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (6068 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (5920 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (12 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (41 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [insurance:foreign_investment_allowed_types]
+   ✅ Removed prefixes in [insurance:foreign_investment_limit]
+   ✅ Removed prefixes in [insurance:foreign_investment_exclusion_amount]
+   ✅ Removed prefixes in [insurance:foreign_investment_total_calculation]
+   ✅ Removed prefixes in [insurance:foreign_investment_compliance]
+   ✅ Removed prefixes in [insurance:foreign_investment_adjustment_plan_required]
+   ✅ Removed prefixes in [insurance:foreign_investment_adjustment_plan_completed]
+   ✅ Removed prefixes in [insurance:foreign_investment_adjustment_plan_violation]
+   ✅ Removed prefixes in [insurance:violation_of_investment_regulations]
+   ✅ Removed prefixes in [meta:penalty_conditions]
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+      🔄 MIN(['MUL', 'non_investment_foreign_currency_reserve_40_percent', 1.0], foreign_currency_non_investment_reserve) → CASE
+   ✅ Replaced MIN/MAX in [insurance:foreign_investment_exclusion_amount]
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 10
+   - MIN/MAX replacements: 1
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 11
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (12 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (19 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (19 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c30'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c30'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_126
+
+📊 Model (filtered):
+   foreign_currency_non_investment_reserve_fully_invested_in_same_currency = True
+   capital_fund = 23500000000
+   foreign_investment_total = 7252000000
+   adjustment_plan_approved_by_board = False
+   approved_ratio_value = 3/10
+   investment_type_foreign_securities = True
+   foreign_currency_non_investment_reserve = 0
+   foreign_investment_gross = 7252000000
+   adjustment_completed_within_one_month = False
+   meets_fund_usage_ratio_requirements = True
+   non_investment_foreign_currency_reserve_40_percent = False
+   investment_type_foreign_insurance_related = False
+   adjustment_plan_violation_count = 0
+   investment_type_other_approved = False
+   investment_type_foreign_deposit = False
+   foreign_investment_compliance = True
+   approved_ratio = 3/10
+   foreign_investment_adjustment_plan_required = False
+   violate_article_146_1_2_3_5_or_146_5_3_4 = False
+   foreign_currency_investment_in_domestic_foreign_currency_securities = 0
+   violate_article_138_2_4_5_7_or_138_3_1_2_3 = False
+   violate_article_138_1_3_5_or_2 = False
+   foreign_investment_allowed_types = 1
+   violate_article_146_1_3_5_7_6_or_8 = False
+   violate_article_146_2_1_2_4 = False
+   violate_article_146_6_1_2_3 = False
+   violate_article_146_5_1_or_146_5_unauthorized_investment = False
+   violate_article_143_5_or_143_6_measures = False
+   violate_article_143 = False
+   foreign_investment_limit = 1
+   violate_article_146_3_3_loan_board_approval = False
+   violation_of_investment_regulations = False
+   violate_article_146_3_1_2_4 = False
+   violate_article_146_7_1_3_loan_or_transaction_limit = False
+   foreign_investment_exclusion_amount = 0
+   violate_article_146_3_3_loan_without_sufficient_collateral = False
+   violate_article_146_4_1_2_3 = False
+   foreign_investment_adjustment_plan_violation = False
+   violate_article_146_9_1_2_3 = False
+   penalty = False
+   foreign_investment_adjustment_plan_completed = False
+✅ Model saved to: outputs\case_126.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs\case_126.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs\case_126.smt2

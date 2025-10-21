@@ -1,0 +1,300 @@
+[
+  {
+    "id": "insurance:real_estate_investment_limit",
+    "desc": "不動產投資總額除自用不動產外不得超過資金30%，自用不動產總額不得超過業主權益總額",
+    "expr": [
+      "EQ",
+      "real_estate_investment_limit",
+      [
+        "AND",
+        [
+          "LE",
+          [
+            "SUB",
+            "total_real_estate_investment",
+            "self_use_real_estate_investment"
+          ],
+          [
+            "MUL",
+            "capital_fund",
+            30.0
+          ]
+        ],
+        [
+          "LE",
+          "self_use_real_estate_investment",
+          "owner_equity"
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_immediate_use_and_income",
+    "desc": "不動產投資以即時利用並有收益者為限，住宅法興辦社會住宅且僅供租賃者不受此限",
+    "expr": [
+      "EQ",
+      "real_estate_immediate_use_and_income",
+      [
+        "OR",
+        [
+          "EQ",
+          "social_housing_only_rental",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_immediate_use",
+          true
+        ],
+        [
+          "EQ",
+          "real_estate_has_income",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_valuation_required",
+    "desc": "不動產取得及處分應經合法不動產鑑價機構評價",
+    "expr": [
+      "EQ",
+      "real_estate_valuation_required",
+      [
+        "EQ",
+        "real_estate_valuation_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_audit_established",
+    "desc": "建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_and_audit_established",
+      [
+        "EQ",
+        "internal_control_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_system_established",
+    "desc": "建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_system_established",
+      [
+        "EQ",
+        "internal_handling_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著惡化, 4=嚴重不足）",
+    "expr": [
+      "EQ",
+      "capital_level",
+      [
+        "CASE",
+        [
+          "AND",
+          [
+            "LT",
+            "capital_level_value",
+            0
+          ],
+          [
+            "LT",
+            "capital_level_value",
+            0
+          ]
+        ],
+        4,
+        [
+          "LT",
+          "capital_level_value",
+          0
+        ],
+        4,
+        [
+          "LT",
+          "capital_level_value",
+          0
+        ],
+        4,
+        [
+          "LT",
+          "capital_level_value",
+          0
+        ],
+        4,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:capital_level_severe_insufficient_and_no_measures",
+    "desc": "資本嚴重不足且未依主管機關規定期限完成增資、改善計畫或合併",
+    "expr": [
+      "EQ",
+      "capital_level_severe_insufficient_and_no_measures",
+      [
+        "AND",
+        [
+          "EQ",
+          "capital_level",
+          4
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_improvement_measures_completed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_or_business_deterioration_and_no_improvement_plan",
+    "desc": "財務或業務狀況顯著惡化且未提出或未核定改善計畫",
+    "expr": [
+      "EQ",
+      "financial_or_business_deterioration_and_no_improvement_plan",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_or_business_deterioration",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_submitted_and_approved",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_and_handling_compliance",
+    "desc": "內部控制及稽核制度與內部處理制度及程序均已建立且執行",
+    "expr": [
+      "EQ",
+      "internal_control_and_handling_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反不動產投資限制、未經鑑價、未建立內部控制或內部處理制度，或資本嚴重不足且未完成改善措施",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "real_estate_immediate_use_and_income",
+              true
+            ],
+            [
+              "EQ",
+              "real_estate_investment_limit",
+              true
+            ],
+            [
+              "EQ",
+              "real_estate_valuation_required",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_and_handling_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "capital_level_severe_insufficient_and_no_measures",
+          true
+        ],
+        [
+          "EQ",
+          "financial_or_business_deterioration_and_no_improvement_plan",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

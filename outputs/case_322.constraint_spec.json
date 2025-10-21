@@ -1,0 +1,319 @@
+[
+  {
+    "id": "bank:internal_control_established",
+    "desc": "銀行已建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "internal_control_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_established",
+    "desc": "銀行已建立內部處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_handling_established",
+      [
+        "EQ",
+        "internal_handling_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_established",
+    "desc": "銀行已建立內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "internal_operation_established",
+      [
+        "EQ",
+        "internal_operation_system_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_executed",
+    "desc": "銀行內部控制及稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_executed",
+    "desc": "銀行內部處理制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_executed",
+      [
+        "EQ",
+        "internal_handling_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_executed",
+    "desc": "銀行內部作業制度及程序確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_executed",
+      [
+        "EQ",
+        "internal_operation_system_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_ok",
+    "desc": "銀行內部控制及稽核制度建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "銀行內部處理制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "銀行內部作業制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:inspection_refused",
+    "desc": "拒絕檢查或拒絕開啟金庫或其他庫房",
+    "expr": [
+      "EQ",
+      "inspection_refused",
+      [
+        "EQ",
+        "refused_inspection_or_open_vault",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:documents_concealed_or_destroyed",
+    "desc": "隱匿或毀損有關業務或財務狀況之帳冊文件",
+    "expr": [
+      "EQ",
+      "documents_concealed_or_destroyed",
+      [
+        "EQ",
+        "concealed_or_destroyed_documents",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:unjustified_no_response",
+    "desc": "對檢查人員詢問無正當理由不為答復或答復不實",
+    "expr": [
+      "EQ",
+      "unjustified_no_response",
+      [
+        "EQ",
+        "no_response_or_false_response",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:late_or_false_report",
+    "desc": "逾期提報財務報告、財產目錄或其他有關資料及報告，或提報不實、不全或未於規定期限內繳納查核費用",
+    "expr": [
+      "EQ",
+      "late_or_false_report",
+      [
+        "EQ",
+        "late_or_false_report_or_unpaid_fee",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_internal_control",
+    "desc": "未依規定建立或執行內部控制及稽核、內部處理、內部作業制度及程序",
+    "expr": [
+      "EQ",
+      "violation_internal_control",
+      [
+        "NOT",
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_ok",
+            true
+          ],
+          [
+            "EQ",
+            "internal_handling_ok",
+            true
+          ],
+          [
+            "EQ",
+            "internal_operation_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:violation_inspection",
+    "desc": "拒絕檢查、隱匿文件、無正當理由不答復或逾期提報等違規行為",
+    "expr": [
+      "EQ",
+      "violation_inspection",
+      [
+        "OR",
+        [
+          "EQ",
+          "inspection_refused",
+          true
+        ],
+        [
+          "EQ",
+          "documents_concealed_or_destroyed",
+          true
+        ],
+        [
+          "EQ",
+          "unjustified_no_response",
+          true
+        ],
+        [
+          "EQ",
+          "late_or_false_report",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反檢查規定或未建立或執行內部控制制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_inspection",
+          true
+        ],
+        [
+          "EQ",
+          "violation_internal_control",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

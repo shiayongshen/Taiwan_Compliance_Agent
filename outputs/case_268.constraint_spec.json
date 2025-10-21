@@ -1,0 +1,271 @@
+[
+  {
+    "id": "fhc:internal_control_established",
+    "desc": "金融控股公司已建立內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "EQ",
+        "fhc_internal_control_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_executed",
+    "desc": "金融控股公司已確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "fhc_internal_control_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_compliance",
+    "desc": "金融控股公司建立且確實執行內部控制及稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_components_compliant",
+    "desc": "內部控制制度包含五大組成要素且符合規定",
+    "expr": [
+      "EQ",
+      "internal_control_components_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_environment_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "control_activities_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "information_communication_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "monitoring_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_audit_duties_compliant",
+    "desc": "內部稽核單位履行規劃、督導及稽核計畫等職責",
+    "expr": [
+      "EQ",
+      "internal_audit_duties_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "audit_organization_planned",
+          true
+        ],
+        [
+          "EQ",
+          "audit_supervision_performed",
+          true
+        ],
+        [
+          "EQ",
+          "annual_audit_plan_prepared",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_scope_compliant",
+    "desc": "內部控制制度涵蓋所有營運活動並訂定適當政策及程序",
+    "expr": [
+      "EQ",
+      "internal_control_scope_compliant",
+      [
+        "AND",
+        [
+          "EQ",
+          "organization_rules_defined",
+          true
+        ],
+        [
+          "EQ",
+          "business_regulations_defined",
+          true
+        ],
+        [
+          "EQ",
+          "manuals_and_handbooks_defined",
+          true
+        ],
+        [
+          "EQ",
+          "salary_committee_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "audit_committee_management_included",
+          true
+        ],
+        [
+          "EQ",
+          "subsidiary_control_defined",
+          true
+        ],
+        [
+          "EQ",
+          "group_aml_ctf_plan_established",
+          true
+        ],
+        [
+          "EQ",
+          "regulations_revision_process_defined",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:internal_control_comprehensive_compliance",
+    "desc": "金融控股公司內部控制制度全面符合規定",
+    "expr": [
+      "EQ",
+      "internal_control_comprehensive_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_components_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_duties_compliant",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_scope_compliant",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：未建立或未確實執行內部控制及稽核制度，或內部控制制度不符合規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_established",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_executed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_components_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_audit_duties_compliant",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "internal_control_scope_compliant",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

@@ -1,0 +1,259 @@
+[
+  {
+    "id": "securities:prohibited_trading_period",
+    "desc": "負責人及關係人於基金持有期間不得從事該公司股票及具股權性質衍生商品交易",
+    "expr": [
+      "EQ",
+      "prohibited_trading_period",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "fund_holding_stock_or_equity_derivative",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "person_or_related_party_trading",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:reporting_obligation",
+    "desc": "負責人及關係人應依主管機關規定申報交易情形",
+    "expr": [
+      "EQ",
+      "reporting_obligation",
+      [
+        "EQ",
+        "reported_to_fund_company",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:related_party_definition",
+    "desc": "關係人定義符合主管機關規定",
+    "expr": [
+      "EQ",
+      "related_party_definition_ok",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "person_is_natural_person",
+            true
+          ],
+          [
+            "EQ",
+            "related_party_is_spouse_or_second_degree_blood_relative_or_enterprise_responsible_by_person_or_spouse",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "person_is_legal_person",
+            true
+          ],
+          [
+            "EQ",
+            "related_party_is_controlled_or_mutually_controlled_legal_person",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:fiduciary_duty",
+    "desc": "負責人及業務人員應以善良管理人注意義務及忠實義務執行業務",
+    "expr": [
+      "EQ",
+      "fiduciary_duty_met",
+      [
+        "EQ",
+        "duty_of_care_and_loyalty_followed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:prohibited_behaviors",
+    "desc": "不得有法令禁止之不當行為",
+    "expr": [
+      "EQ",
+      "no_prohibited_behaviors",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "insider_trading_or_leakage",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "self_dealing_or_undue_related_party_trading",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fraud_or_misleading_behavior",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "not_return_commission_or_benefits_to_fund",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "providing_or_receiving_undue_benefits_for_promotion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "selling_proxy_votes_for_money_or_benefits",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "manipulate_market_price_or_harm_investors",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transfer_orders_between_fund_and_other_accounts",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "publicly_recommend_or_forecast_specific_securities",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "use_nonprofessional_to_recruit_or_pay_unreasonable_commission",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unauthorized_agent_trading_except_legal_agent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_behaviors_harming_investors_or_company",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反禁止交易期間規定或未申報交易或違反禁止行為時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "fund_holding_stock_or_equity_derivative",
+            true
+          ],
+          [
+            "EQ",
+            "person_or_related_party_trading",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "reporting_obligation",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "no_prohibited_behaviors",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

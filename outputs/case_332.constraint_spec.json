@@ -1,0 +1,405 @@
+[
+  {
+    "id": "securities:annual_report_submitted",
+    "desc": "每會計年度終了後三個月內公告並申報經董事長、經理人及會計主管簽名或蓋章，經會計師查核簽證、董事會通過及監察人承認之年度財務報告",
+    "expr": [
+      "EQ",
+      "annual_report_submitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "annual_report_signed_by_ceo_cfo_accounting",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_audited_by_cpa",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_acknowledged_by_supervisors",
+          true
+        ],
+        [
+          "LE",
+          "days_after_fiscal_year_end",
+          90.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:quarterly_report_submitted",
+    "desc": "每會計年度第一季、第二季及第三季終了後四十五日內公告並申報經董事長、經理人及會計主管簽名或蓋章，經會計師核閱及提報董事會之財務報告",
+    "expr": [
+      "EQ",
+      "quarterly_report_submitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "quarterly_report_signed_by_ceo_cfo_accounting",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_report_reviewed_by_cpa",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_report_reported_to_board",
+          true
+        ],
+        [
+          "LE",
+          "days_after_quarter_end",
+          45.0
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "quarter",
+            1
+          ],
+          [
+            "EQ",
+            "quarter",
+            2
+          ],
+          [
+            "EQ",
+            "quarter",
+            3
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:monthly_operation_report_submitted",
+    "desc": "每月十日以前公告並申報上月份營運情形",
+    "expr": [
+      "EQ",
+      "monthly_operation_report_submitted",
+      [
+        "LE",
+        "day_of_month",
+        10.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:special_event_report_submitted",
+    "desc": "發生特定重大事項後二日內公告並申報",
+    "expr": [
+      "EQ",
+      "special_event_report_submitted",
+      [
+        "AND",
+        [
+          "EQ",
+          "special_event_occurred",
+          true
+        ],
+        [
+          "LE",
+          "days_since_special_event",
+          2.0
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "special_event_type",
+            1
+          ],
+          [
+            "EQ",
+            "special_event_type",
+            2
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:special_event_type_1",
+    "desc": "股東常會承認之年度財務報告與公告並申報之年度財務報告不一致",
+    "expr": [
+      "EQ",
+      "special_event_type_1",
+      [
+        "EQ",
+        "annual_report_inconsistent_with_shareholders_meeting",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:special_event_type_2",
+    "desc": "發生對股東權益或證券價格有重大影響之事項",
+    "expr": [
+      "EQ",
+      "special_event_type_2",
+      [
+        "EQ",
+        "major_impact_event_occurred",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_meeting_held",
+    "desc": "股票已上市或於證券商營業處所買賣之公司股東常會於每會計年度終了後六個月內召開",
+    "expr": [
+      "EQ",
+      "annual_meeting_held",
+      [
+        "AND",
+        [
+          "LE",
+          "days_after_fiscal_year_end",
+          180.0
+        ],
+        [
+          "EQ",
+          "stock_listed_or_traded",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:board_and_supervisors_term_expired_meeting_held",
+    "desc": "董事及監察人任期屆滿之年，董事會依規定召開股東常會改選董事、監察人",
+    "expr": [
+      "EQ",
+      "board_and_supervisors_term_expired_meeting_held",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "board_and_supervisors_term_expired_year",
+            true
+          ],
+          [
+            "EQ",
+            "stock_listed_or_traded",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "annual_meeting_held",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:board_and_supervisors_dismissed_if_meeting_not_held",
+    "desc": "董事會未依規定召開股東常會改選董事、監察人者，主管機關得限期召開，屆期仍不召開者，全體董事及監察人當然解任",
+    "expr": [
+      "EQ",
+      "board_and_supervisors_dismissed",
+      [
+        "AND",
+        [
+          "EQ",
+          "board_and_supervisors_term_expired_year",
+          true
+        ],
+        [
+          "EQ",
+          "stock_listed_or_traded",
+          true
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_meeting_held",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "regulator_forced_meeting_held",
+          false
+        ],
+        [
+          "EQ",
+          "deadline_passed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:major_impact_event_definition",
+    "desc": "重大影響事項定義",
+    "expr": [
+      "EQ",
+      "major_impact_event_occurred",
+      [
+        "OR",
+        [
+          "EQ",
+          "event_deposit_insufficient_or_bounced",
+          true
+        ],
+        [
+          "EQ",
+          "event_litigation_or_admin_action",
+          true
+        ],
+        [
+          "EQ",
+          "event_production_reduction_or_asset_lease",
+          true
+        ],
+        [
+          "EQ",
+          "event_company_law_185",
+          true
+        ],
+        [
+          "EQ",
+          "event_stock_transfer_prohibition",
+          true
+        ],
+        [
+          "EQ",
+          "event_board_or_ceo_change",
+          true
+        ],
+        [
+          "EQ",
+          "event_cpa_change",
+          true
+        ],
+        [
+          "EQ",
+          "event_important_memo_or_contract_change",
+          true
+        ],
+        [
+          "EQ",
+          "event_other_major_impact",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反公告及申報規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_submitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "quarterly_report_submitted",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "monthly_operation_report_submitted",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "special_event_occurred",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "special_event_report_submitted",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "board_and_supervisors_term_expired_year",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "annual_meeting_held",
+              true
+            ]
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

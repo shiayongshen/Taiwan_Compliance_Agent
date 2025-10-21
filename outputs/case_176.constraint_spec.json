@@ -1,0 +1,202 @@
+[
+  {
+    "id": "aml:internal_control_established",
+    "desc": "建立洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "internal_control_established",
+      [
+        "AND",
+        [
+          "EQ",
+          "control_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "training_held",
+          true
+        ],
+        [
+          "EQ",
+          "dedicated_personnel_assigned",
+          true
+        ],
+        [
+          "EQ",
+          "risk_assessment_report_updated",
+          true
+        ],
+        [
+          "EQ",
+          "audit_procedures_established",
+          true
+        ],
+        [
+          "EQ",
+          "other_designated_matters_complied",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:control_procedures_established",
+    "desc": "防制洗錢及打擊資恐之作業及控制程序已建立",
+    "expr": [
+      "EQ",
+      "control_procedures_established",
+      [
+        "EQ",
+        "control_procedures_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:training_held",
+    "desc": "定期舉辦或參加防制洗錢之在職訓練",
+    "expr": [
+      "EQ",
+      "training_held",
+      [
+        "EQ",
+        "training_held",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:dedicated_personnel_assigned",
+    "desc": "指派專責人員負責協調監督防制洗錢作業及控制程序執行",
+    "expr": [
+      "EQ",
+      "dedicated_personnel_assigned",
+      [
+        "EQ",
+        "dedicated_personnel_assigned",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:risk_assessment_report_updated",
+    "desc": "備置並定期更新防制洗錢及打擊資恐風險評估報告",
+    "expr": [
+      "EQ",
+      "risk_assessment_report_updated",
+      [
+        "EQ",
+        "risk_assessment_report_updated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:audit_procedures_established",
+    "desc": "建立稽核程序",
+    "expr": [
+      "EQ",
+      "audit_procedures_established",
+      [
+        "EQ",
+        "audit_procedures_established",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:other_designated_matters_complied",
+    "desc": "遵守其他經中央目的事業主管機關指定之事項",
+    "expr": [
+      "EQ",
+      "other_designated_matters_complied",
+      [
+        "EQ",
+        "other_designated_matters_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:internal_control_executed",
+    "desc": "洗錢防制內部控制與稽核制度確實執行",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "EQ",
+        "internal_control_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:compliance_ok",
+    "desc": "已建立且確實執行洗錢防制內部控制與稽核制度",
+    "expr": [
+      "EQ",
+      "compliance_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "aml"
+  },
+  {
+    "id": "aml:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "aml:penalty_conditions",
+    "desc": "處罰條件：未建立或未確實執行洗錢防制內部控制與稽核制度時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "compliance_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

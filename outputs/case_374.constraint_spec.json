@@ -1,0 +1,246 @@
+[
+  {
+    "id": "bank:industrial_bank_definition",
+    "desc": "工業銀行定義及主要業務",
+    "expr": [
+      "EQ",
+      "industrial_bank_definition",
+      [
+        "AND",
+        [
+          "EQ",
+          "bank_type_industrial",
+          true
+        ],
+        [
+          "EQ",
+          "main_business_long_term_credit",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_investment_scope",
+    "desc": "工業銀行得投資生產事業範圍由主管機關定之",
+    "expr": [
+      "EQ",
+      "industrial_bank_investment_scope_ok",
+      [
+        "EQ",
+        "investment_scope_defined_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_deposit_limit",
+    "desc": "工業銀行收受存款限於投資、授信之公司組織客戶、依法設立之保險業、財團法人及政府機關",
+    "expr": [
+      "EQ",
+      "industrial_bank_deposit_limit_ok",
+      [
+        "OR",
+        [
+          "EQ",
+          "deposit_from_invested_company",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_credited_company",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_legal_insurance",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_corporate_foundation",
+          true
+        ],
+        [
+          "EQ",
+          "deposit_from_government_agency",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_management_rules_defined",
+    "desc": "工業銀行設立標準及管理辦法由主管機關定之",
+    "expr": [
+      "EQ",
+      "industrial_bank_management_rules_defined",
+      [
+        "EQ",
+        "management_rules_defined_by_authority",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:industrial_bank_investment_securities_types",
+    "desc": "工業銀行得投資境內及境外有價證券種類",
+    "expr": [
+      "EQ",
+      "industrial_bank_investment_securities_types_ok",
+      [
+        "OR",
+        [
+          "GT",
+          "investment_in_government_bonds",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_short_term_notes",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_financial_and_corporate_bonds",
+          0
+        ],
+        [
+          "AND",
+          [
+            "GT",
+            "investment_in_stocks",
+            0
+          ],
+          [
+            "NOT",
+            [
+              "GT",
+              "investment_in_excluded_stocks",
+              0
+            ]
+          ]
+        ],
+        [
+          "GT",
+          "investment_in_fund_certificates",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_central_bank_cds_and_savings",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_beneficiary_securities",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_international_financial_org_bonds",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_trust_funds",
+          0
+        ],
+        [
+          "GT",
+          "investment_in_other_approved_securities",
+          0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_excluded_stocks_definition",
+    "desc": "第四款股票不包括變更交易方法有價證券及櫃檯買賣管理股票",
+    "expr": [
+      "EQ",
+      "investment_in_excluded_stocks",
+      [
+        "OR",
+        [
+          "EQ",
+          "stock_is_changed_trading_method",
+          true
+        ],
+        [
+          "EQ",
+          "stock_is_otc_controlled",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反工業銀行授信、投資、收受存款及發行金融債券範圍限制及管理辦法",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "industrial_bank_management_rules_defined",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "industrial_bank_deposit_limit_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "industrial_bank_investment_scope_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "industrial_bank_investment_securities_types_ok",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

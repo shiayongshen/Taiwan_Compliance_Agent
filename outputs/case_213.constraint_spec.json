@@ -1,0 +1,549 @@
+[
+  {
+    "id": "securities:annual_report_compliance",
+    "desc": "年度財務報告公告申報符合董事長、經理人及會計主管簽名或蓋章，會計師查核簽證，董事會通過及監察人承認",
+    "expr": [
+      "EQ",
+      "annual_report_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "annual_report_signed_by_ceo_manager_accountant",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_audited_by_accountant",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "annual_report_approved_by_supervisor",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_report_timing",
+    "desc": "年度財務報告於會計年度終了後三個月內公告申報",
+    "expr": [
+      "EQ",
+      "annual_report_timing",
+      [
+        "LE",
+        "days_after_fiscal_year_end",
+        90
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:quarterly_report_compliance",
+    "desc": "第一季、第二季及第三季財務報告公告申報符合董事長、經理人及會計主管簽名或蓋章，會計師核閱及提報董事會",
+    "expr": [
+      "EQ",
+      "quarterly_report_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "quarterly_report_signed_by_ceo_manager_accountant",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_report_reviewed_by_accountant",
+          true
+        ],
+        [
+          "EQ",
+          "quarterly_report_reported_to_board",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:quarterly_report_timing",
+    "desc": "第一季、第二季及第三季財務報告於季終了後四十五日內公告申報",
+    "expr": [
+      "EQ",
+      "quarterly_report_timing",
+      [
+        "LE",
+        "days_after_quarter_end",
+        45
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:monthly_operation_report_compliance",
+    "desc": "每月十日以前公告申報上月份營運情形",
+    "expr": [
+      "EQ",
+      "monthly_operation_report_compliance",
+      [
+        "LE",
+        "day_of_month",
+        10
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:monthly_operation_report_content",
+    "desc": "營運情形公告申報包含合併營業收入額、為他人背書及保證金額及主管機關所定事項",
+    "expr": [
+      "EQ",
+      "monthly_operation_report_content_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "monthly_report_includes_consolidated_revenue",
+          true
+        ],
+        [
+          "EQ",
+          "monthly_report_includes_guarantee_amount",
+          true
+        ],
+        [
+          "EQ",
+          "monthly_report_includes_other_required_items",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_report_consistency_report",
+    "desc": "股東常會承認之年度財務報告與公告申報之年度財務報告一致",
+    "expr": [
+      "EQ",
+      "annual_report_consistency",
+      [
+        "EQ",
+        "annual_report_shareholders_meeting_approved",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:significant_event_reported",
+    "desc": "重大影響股東權益或證券價格事項已公告申報",
+    "expr": [
+      "EQ",
+      "significant_event_reported",
+      [
+        "EQ",
+        "significant_event_reported_flag",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_report_distributed_to_shareholders",
+    "desc": "年度報告編製並於股東常會分送股東",
+    "expr": [
+      "EQ",
+      "annual_report_distributed",
+      [
+        "EQ",
+        "annual_report_prepared_and_distributed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:annual_shareholders_meeting_timing",
+    "desc": "股票上市或於證券商營業處所買賣之公司股東常會於會計年度終了後六個月內召開",
+    "expr": [
+      "EQ",
+      "annual_shareholders_meeting_timing",
+      [
+        "LE",
+        "days_after_fiscal_year_end",
+        180
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:board_and_supervisor_duties_in_reorganization",
+    "desc": "公司重整期間董事會及監察人職權由重整人及重整監督人行使",
+    "expr": [
+      "EQ",
+      "board_supervisor_duties_reorganization",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "company_in_reorganization",
+          true
+        ],
+        [
+          "EQ",
+          "duties_exercised_by_reorganizer",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:board_and_supervisor_dismissal_due_to_no_meeting",
+    "desc": "董事會未依規定召開股東常會改選董事監察人，主管機關得限期召開，屆期仍不召開者董事監察人解任",
+    "expr": [
+      "EQ",
+      "board_supervisor_dismissal_due_to_no_meeting",
+      [
+        "IMPLIES",
+        [
+          "AND",
+          [
+            "EQ",
+            "stock_listed_or_traded",
+            true
+          ],
+          [
+            "EQ",
+            "board_failed_to_call_meeting_for_election",
+            true
+          ],
+          [
+            "EQ",
+            "regulator_called_meeting_deadline_passed",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "board_and_supervisor_dismissed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:special_circumstances_extension_annual_report",
+    "desc": "未上市未上櫃公司因作業時間不及，年度財報公告申報期限可延長至四個月，且免公告申報第一季及第三季合併財報",
+    "expr": [
+      "EQ",
+      "special_circumstances_annual_report_extension",
+      [
+        "AND",
+        [
+          "EQ",
+          "not_listed_nor_over_the_counter",
+          true
+        ],
+        [
+          "LE",
+          "days_after_fiscal_year_end",
+          120
+        ],
+        [
+          "EQ",
+          "exempt_first_and_third_quarter_reports",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:second_listing_report_requirements",
+    "desc": "第二上市公司依註冊地或上市地國法令公告申報年度及期中合併財報，免公告申報每月營運情形，年度合併財報公告申報不得逾會計年度終了後六個月",
+    "expr": [
+      "EQ",
+      "second_listing_report_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "second_listing_company",
+          true
+        ],
+        [
+          "EQ",
+          "comply_registered_or_listed_country_laws",
+          true
+        ],
+        [
+          "EQ",
+          "exempt_monthly_operation_report",
+          true
+        ],
+        [
+          "LE",
+          "days_after_fiscal_year_end",
+          180
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:first_listing_second_quarter_report_requirements",
+    "desc": "第一上市公司自110會計年度起第二季財報須會計師查核簽證、董事會通過及監察人承認，公告申報不得逾第二季終了後兩個月",
+    "expr": [
+      "EQ",
+      "first_listing_second_quarter_report_requirements",
+      [
+        "AND",
+        [
+          "EQ",
+          "first_listing_company",
+          true
+        ],
+        [
+          "GE",
+          "accounting_year",
+          110
+        ],
+        [
+          "EQ",
+          "second_quarter_report_audited",
+          true
+        ],
+        [
+          "EQ",
+          "second_quarter_report_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "second_quarter_report_approved_by_supervisor",
+          true
+        ],
+        [
+          "LE",
+          "days_after_second_quarter_end",
+          60
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:large_capital_annual_report_deadline",
+    "desc": "實收資本額達100億元以上上市公司公告申報年度財報不得逾會計年度終了後75日",
+    "expr": [
+      "EQ",
+      "large_capital_annual_report_deadline",
+      [
+        "IMPLIES",
+        [
+          "GE",
+          "paid_in_capital",
+          100000000000
+        ],
+        [
+          "LE",
+          "days_after_fiscal_year_end",
+          75
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:violation_36_report_penalty",
+    "desc": "違反第36條公告申報規定之處罰",
+    "expr": [
+      "EQ",
+      "violation_36_report_penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_timing",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "quarterly_report_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "quarterly_report_timing",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "monthly_operation_report_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "monthly_operation_report_content_ok",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_consistency",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "significant_event_reported",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_report_distributed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "annual_shareholders_meeting_timing",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "board_and_supervisor_duties_reorganization",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "board_and_supervisor_dismissal_due_to_no_meeting",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "special_circumstances_annual_report_extension",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "second_listing_report_requirements",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "first_listing_second_quarter_report_requirements",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "large_capital_annual_report_deadline",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反證券交易法第36條公告申報規定時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "EQ",
+        "violation_36_report_penalty",
+        true
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]
