@@ -1,0 +1,142 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (11946 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (11940 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (19 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (41 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+      🔄 MIN(['MUL', 'funds', 0.01], 5000000000.0) → CASE
+   ✅ Replaced MIN/MAX in [insurance:non_related_party_real_estate_single_limit_low_capital_negative_equity]
+      🔄 MIN(['MUL', 'funds', 0.02], 10000000000.0) → CASE
+   ✅ Replaced MIN/MAX in [insurance:non_related_party_real_estate_total_limit_low_capital_negative_equity]
+            🔄 MIN(['MUL', 'funds', 0.01], 5000000000.0) → CASE
+            🔄 MIN(['MUL', 'funds', 0.02], 10000000000.0) → CASE
+   ✅ Replaced MIN/MAX in [meta:penalty_conditions]
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 3
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 3
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (19 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (39 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+❌ Facts validation failed: b'parser error'
+
+============================================================
+Step 7.2.1: Repair Facts
+============================================================
+✅ Facts repaired and validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (18 constraints (repaired))
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c36'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c36'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_448
+
+📊 Model (filtered):
+   information_disclosed_on_website = False
+   written_opinions_from_directors_and_supervisors = False
+   statutory_standard = 150
+   board_approval_quorum_met = False
+   total_real_estate_transaction_amount = 0
+   single_real_estate_transaction_amount = 0
+   single_transaction_amount = 400000000
+   total_transaction_amount = 500000000
+   board_approval_majority_met = False
+   evaluation_report_provided = False
+   owner_equity = 8000000000/7
+   funds = 10000000000
+   capital_to_risk_capital_ratio = 200
+   transaction_counterparty_is_government = False
+   approved_by_authority = False
+   capital_increase_plan_executed = False
+   asset_transaction_procedure_compliant = False
+   public_tender_or_auction = False
+   non_related_real_estate_single_limit_low_capital_negative_equity = 1
+   non_related_real_estate_single_limit_low_capital_positive_equity = 1
+   non_related_real_estate_total_limit_high_capital = 1
+   other_transaction_limit_total = 1
+   non_related_real_estate_total_limit_low_capital_positive_equity = 1
+   contract_has_termination_and_exemption_clause = True
+   non_related_real_estate_total_limit_low_capital_negative_equity = 1
+   prior_total_transaction_amount = 0
+   prior_limit_amount = 0
+   no_additional_transaction = False
+   prior_other_transaction_limit = 1
+   other_transaction_limit_total_max_2b = 1
+   government_transaction_single_limit_min_2b = 1
+   non_related_real_estate_single_limit_high_capital = 1
+   counted_in_total_amount = False
+   government_transaction_exclusion = True
+   penalty = False
+   non_related_real_estate_contract_clause = True
+   non_related_real_estate_conditions_low_capital_negative_equity = False
+   other_transaction_limit_single_min_1b = 1
+   non_related_real_estate_conditions_low_capital_positive_equity = False
+   other_transaction_limit_single = 1
+   government_transaction_single_limit = 1
+✅ Model saved to: outputs/case_448.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs/case_448.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs/case_448.smt2

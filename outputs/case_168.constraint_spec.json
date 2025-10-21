@@ -1,7 +1,7 @@
 [
   {
     "id": "insurance:license_and_guarantee_required",
-    "desc": "保險代理人、經紀人、公證人須經主管機關許可、繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，領有執業證照後始得經營或執行業務",
     "expr": [
       "EQ",
       "license_and_guarantee_required",
@@ -19,7 +19,7 @@
         ],
         [
           "EQ",
-          "relevant_insurance_covered",
+          "relevant_insurance_purchased",
           true
         ],
         [
@@ -33,42 +33,58 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:relevant_insurance_type",
-    "desc": "相關保險種類依身份區分：保險代理人、公證人為責任保險；保險經紀人為責任保險及保證保險",
+    "id": "insurance:relevant_insurance_type_correct",
+    "desc": "保險代理人、公證人投保責任保險；保險經紀人投保責任保險及保證保險",
     "expr": [
       "EQ",
-      "relevant_insurance_covered",
+      "relevant_insurance_type_correct",
       [
         "OR",
         [
           "AND",
           [
             "EQ",
-            "agent_or_notary",
-            true
+            "agent_type",
+            1
           ],
           [
             "EQ",
-            "responsibility_insurance_covered",
-            true
+            "insurance_type",
+            "liability_insurance"
           ]
         ],
         [
           "AND",
           [
             "EQ",
-            "broker",
-            true
+            "agent_type",
+            2
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insurance_type",
+              "liability_insurance"
+            ],
+            [
+              "EQ",
+              "insurance_type",
+              "guarantee_insurance"
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "agent_type",
+            3
           ],
           [
             "EQ",
-            "responsibility_insurance_covered",
-            true
-          ],
-          [
-            "EQ",
-            "guarantee_insurance_covered",
-            true
+            "insurance_type",
+            "liability_insurance"
           ]
         ]
       ]
@@ -77,148 +93,11 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:minimum_guarantee_deposit",
-    "desc": "繳存保證金及投保相關保險之最低金額及實施方式由主管機關定之",
+    "id": "insurance:single_license_only",
+    "desc": "兼有保險代理人、經紀人、公證人資格者僅得擇一申領執業證照",
     "expr": [
       "EQ",
-      "minimum_guarantee_deposit",
-      [
-        "VAR",
-        "authority_defined_minimum_guarantee_deposit"
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:qualification_and_management_rules_defined",
-    "desc": "資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則由主管機關定之",
-    "expr": [
-      "EQ",
-      "qualification_and_management_rules_defined",
-      [
-        "EQ",
-        "authority_defined_management_rules",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:bank_permission_for_agent_or_broker",
-    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
-    "expr": [
-      "EQ",
-      "bank_permission_for_agent_or_broker",
-      [
-        "AND",
-        [
-          "EQ",
-          "bank_approved_by_authority",
-          true
-        ],
-        [
-          "OR",
-          [
-            "EQ",
-            "bank_operate_agent",
-            true
-          ],
-          [
-            "EQ",
-            "bank_operate_broker",
-            true
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:broker_duty_of_care_and_fidelity",
-    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂契約或提供服務，並負忠實義務",
-    "expr": [
-      "EQ",
-      "broker_duty_of_care_and_fidelity",
-      [
-        "AND",
-        [
-          "EQ",
-          "broker_duty_of_care",
-          true
-        ],
-        [
-          "EQ",
-          "broker_fidelity_duty",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:broker_must_provide_written_report_and_disclose_fee",
-    "desc": "保險經紀人洽訂契約前，於主管機關指定範圍內，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
-    "expr": [
-      "EQ",
-      "broker_written_report_and_fee_disclosure",
-      [
-        "AND",
-        [
-          "EQ",
-          "written_report_provided",
-          true
-        ],
-        [
-          "IMPLIES",
-          [
-            "EQ",
-            "fee_charged",
-            true
-          ],
-          [
-            "EQ",
-            "fee_standard_disclosed",
-            true
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:fixed_office_and_accounting_required",
-    "desc": "保險代理人、經紀人、公證人應有固定業務處所，並專設帳簿記載業務收支",
-    "expr": [
-      "EQ",
-      "fixed_office_and_accounting_required",
-      [
-        "AND",
-        [
-          "EQ",
-          "fixed_office_established",
-          true
-        ],
-        [
-          "EQ",
-          "special_accounting_book_kept",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:single_license_for_multiple_qualifications",
-    "desc": "兼有保險代理人、經紀人、公證人資格者，僅得擇一申領執業證照",
-    "expr": [
-      "EQ",
-      "single_license_for_multiple_qualifications",
+      "single_license_only",
       [
         "LE",
         [
@@ -227,7 +106,7 @@
             "IF",
             [
               "EQ",
-              "has_agent_qualification",
+              "has_agent_license",
               true
             ],
             1,
@@ -237,7 +116,7 @@
             "IF",
             [
               "EQ",
-              "has_broker_qualification",
+              "has_broker_license",
               true
             ],
             1,
@@ -247,7 +126,7 @@
             "IF",
             [
               "EQ",
-              "has_notary_qualification",
+              "has_notary_license",
               true
             ],
             1,
@@ -261,18 +140,41 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:internal_control_and_audit_required_for_large_companies",
+    "id": "insurance:fixed_office_and_accounting",
+    "desc": "保險代理人、經紀人、公證人應有固定業務處所，並專設帳簿記載業務收支",
+    "expr": [
+      "EQ",
+      "fixed_office_and_accounting",
+      [
+        "AND",
+        [
+          "EQ",
+          "has_fixed_office",
+          true
+        ],
+        [
+          "EQ",
+          "has_dedicated_accounting_books",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_required",
     "desc": "保險代理人公司、經紀人公司為公開發行公司或具一定規模者，應建立內部控制、稽核制度與招攬處理制度及程序",
     "expr": [
       "EQ",
-      "internal_control_and_audit_required",
+      "internal_control_required",
       [
         "IMPLIES",
         [
           "OR",
           [
             "EQ",
-            "is_publicly_listed",
+            "is_public_company",
             true
           ],
           [
@@ -305,8 +207,152 @@
     "domain": "insurance"
   },
   {
+    "id": "insurance:internal_control_executed",
+    "desc": "保險代理人公司、經紀人公司應確實執行內部控制、稽核制度與招攬處理制度及程序",
+    "expr": [
+      "EQ",
+      "internal_control_executed",
+      [
+        "IMPLIES",
+        [
+          "OR",
+          [
+            "EQ",
+            "is_public_company",
+            true
+          ],
+          [
+            "EQ",
+            "has_certain_scale",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "internal_control_implemented",
+            true
+          ],
+          [
+            "EQ",
+            "audit_system_implemented",
+            true
+          ],
+          [
+            "EQ",
+            "solicitation_handling_system_implemented",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:compliance_with_management_rules",
+    "desc": "遵守主管機關定之管理規則，包括資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務與業務管理、教育訓練、廢止許可及其他事項",
+    "expr": [
+      "EQ",
+      "compliance_with_management_rules",
+      [
+        "EQ",
+        "management_rules_complied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務為被保險人洽訂保險契約或提供服務，並負忠實義務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_due_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fiduciary_duty",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_report_and_disclose_fee",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，應主動提供書面分析報告，向要保人或被保險人收取報酬者，應明確告知報酬收取標準",
+    "expr": [
+      "EQ",
+      "broker_report_and_fee_disclosure",
+      [
+        "AND",
+        [
+          "EQ",
+          "written_analysis_report_provided",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "fee_charged",
+            true
+          ],
+          [
+            "EQ",
+            "fee_standard_disclosed",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_for_agent_or_broker",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "bank_has_permission",
+          true
+        ],
+        [
+          "OR",
+          [
+            "EQ",
+            "bank_operate_as_agent",
+            true
+          ],
+          [
+            "EQ",
+            "bank_operate_as_broker",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
     "id": "insurance:violation_penalty_167_2",
-    "desc": "違反管理規則財務或業務管理規定、書面分析報告規定、固定業務處所及帳簿記載規定，應限期改正或處罰，情節重大者廢止許可並註銷執業證照",
+    "desc": "違反保險法第163條第四項管理規則財務或業務管理規定、第163條第七項規定，或違反第165條第一項或第163條第五項準用規定者，應限期改正或處罰鍰，情節重大者廢止許可並註銷執業證照",
     "expr": [
       "EQ",
       "violation_167_2",
@@ -316,7 +362,7 @@
           "NOT",
           [
             "EQ",
-            "qualification_and_management_rules_defined",
+            "compliance_with_management_rules",
             true
           ]
         ],
@@ -324,7 +370,7 @@
           "NOT",
           [
             "EQ",
-            "broker_written_report_and_fee_disclosure",
+            "internal_control_required",
             true
           ]
         ],
@@ -332,7 +378,7 @@
           "NOT",
           [
             "EQ",
-            "fixed_office_and_accounting_required",
+            "internal_control_executed",
             true
           ]
         ],
@@ -340,7 +386,15 @@
           "NOT",
           [
             "EQ",
-            "bank_permission_for_agent_or_broker",
+            "fixed_office_and_accounting",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "license_and_guarantee_required",
             true
           ]
         ]
@@ -351,7 +405,7 @@
   },
   {
     "id": "insurance:violation_penalty_167_3",
-    "desc": "違反未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序者，應限期改正或處罰",
+    "desc": "違反第165條第三項或第163條第五項準用規定，未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序者，應限期改正或處罰鍰",
     "expr": [
       "EQ",
       "violation_167_3",
@@ -369,7 +423,7 @@
           "NOT",
           [
             "EQ",
-            "internal_control_executed",
+            "internal_control_implemented",
             true
           ]
         ],
@@ -385,7 +439,7 @@
           "NOT",
           [
             "EQ",
-            "audit_system_executed",
+            "audit_system_implemented",
             true
           ]
         ],
@@ -401,7 +455,7 @@
           "NOT",
           [
             "EQ",
-            "solicitation_handling_system_executed",
+            "solicitation_handling_system_implemented",
             true
           ]
         ]
@@ -411,11 +465,11 @@
     "domain": "insurance"
   },
   {
-    "id": "finance:compensation_system_requirements",
-    "desc": "金融服務業應訂定業務人員酬金制度並提報董（理）事會通過，酬金制度應衡平考量客戶權益及風險，不得僅考量業績目標",
+    "id": "financial:compensation_system_established_and_approved",
+    "desc": "金融服務業應訂定業務人員酬金制度並提報董（理）事會通過",
     "expr": [
       "EQ",
-      "compensation_system_requirements",
+      "compensation_system_established_and_approved",
       [
         "AND",
         [
@@ -427,43 +481,69 @@
           "EQ",
           "compensation_system_approved_by_board",
           true
-        ],
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "financial:compensation_system_fair_and_risk_considered",
+    "desc": "酬金制度應衡平考量客戶權益及風險，不得僅考量業績目標達成情形",
+    "expr": [
+      "EQ",
+      "compensation_system_fair_and_risk_considered",
+      [
+        "AND",
         [
           "EQ",
           "compensation_system_considers_customer_interest",
           true
         ],
         [
+          "EQ",
+          "compensation_system_considers_risks",
+          true
+        ],
+        [
           "NOT",
           [
             "EQ",
-            "compensation_system_only_considers_performance",
+            "compensation_system_considers_only_performance",
             true
           ]
         ]
       ]
     ],
     "weight": 1,
-    "domain": "finance"
+    "domain": "financial"
   },
   {
-    "id": "finance:compensation_system_principles_defined",
-    "desc": "金融服務業業務人員酬金制度應遵行之原則由同業公會擬訂或主管機關指定公會擬訂，報主管機關核定",
+    "id": "financial:compensation_system_principles_approved",
+    "desc": "酬金制度應遵行原則由同業公會擬訂或主管機關指定公會擬訂，報主管機關核定",
     "expr": [
       "EQ",
-      "compensation_system_principles_defined",
+      "compensation_system_principles_approved",
       [
-        "EQ",
-        "compensation_principles_defined_by_association",
-        true
+        "AND",
+        [
+          "EQ",
+          "compensation_principles_drafted_by_association",
+          true
+        ],
+        [
+          "EQ",
+          "compensation_principles_approved_by_authority",
+          true
+        ]
       ]
     ],
     "weight": 1,
-    "domain": "finance"
+    "domain": "financial"
   },
   {
-    "id": "finance:penalty_for_violation_30_1",
-    "desc": "金融服務業違反廣告招攬規定、未充分瞭解消費者資料及適合度、未充分說明揭露風險、未訂定或未執行酬金制度者，處罰",
+    "id": "financial:violation_penalty_30_1",
+    "desc": "金融服務業違反廣告、招攬、促銷、適合度說明、酬金制度等規定者處罰鍰",
     "expr": [
       "EQ",
       "violation_30_1",
@@ -473,7 +553,7 @@
           "NOT",
           [
             "EQ",
-            "advertising_and_solicitation_compliant",
+            "compliance_advertising_rules",
             true
           ]
         ],
@@ -481,7 +561,7 @@
           "NOT",
           [
             "EQ",
-            "consumer_data_and_suitability_compliant",
+            "compliance_suitability_rules",
             true
           ]
         ],
@@ -489,7 +569,7 @@
           "NOT",
           [
             "EQ",
-            "disclosure_and_risk_explanation_compliant",
+            "compliance_disclosure_rules",
             true
           ]
         ],
@@ -497,29 +577,151 @@
           "NOT",
           [
             "EQ",
-            "compensation_system_requirements",
+            "compensation_system_established_and_approved",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compensation_system_fair_and_risk_considered",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compensation_system_principles_approved",
             true
           ]
         ]
       ]
     ],
     "weight": 1,
-    "domain": "finance"
+    "domain": "financial"
   },
   {
-    "id": "finance:penalty_for_formal_appearance_violation",
-    "desc": "金融服務業協助不符合條件者創造形式外觀者處罰",
+    "id": "financial:violation_penalty_30_1_major",
+    "desc": "金融服務業違反前項情形且情節重大者，主管機關得加重處罰",
     "expr": [
       "EQ",
-      "violation_formal_appearance",
+      "violation_30_1_major",
       [
-        "EQ",
-        "assisted_formal_appearance_violation",
-        true
+        "AND",
+        [
+          "EQ",
+          "violation_30_1",
+          true
+        ],
+        [
+          "EQ",
+          "violation_severe",
+          true
+        ]
       ]
     ],
     "weight": 1,
-    "domain": "finance"
+    "domain": "financial"
+  },
+  {
+    "id": "financial:violation_penalty_30_1_formal",
+    "desc": "金融服務業對未符合條件者協助創造形式上外觀條件者處罰",
+    "expr": [
+      "EQ",
+      "violation_30_1_formal",
+      [
+        "AND",
+        [
+          "NOT",
+          [
+            "EQ",
+            "client_meets_conditions",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "assist_create_formal_appearance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "financial"
+  },
+  {
+    "id": "insurance:insurance_type_classification",
+    "desc": "保險分類：財產保險與人身保險",
+    "expr": [
+      "EQ",
+      "insurance_type_classification",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_category",
+            1
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            2
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            3
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            4
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            5
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            6
+          ]
+        ],
+        1,
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance_category",
+            7
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            8
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            9
+          ],
+          [
+            "EQ",
+            "insurance_category",
+            10
+          ]
+        ],
+        2,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
   },
   {
     "id": "meta:penalty_default_false",
@@ -534,7 +736,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反保險法第167-2條、第167-3條及金融消費者保護法第30-1條規定時處罰",
+    "desc": "處罰條件：違反保險法及金融消費者保護法相關規定時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -557,7 +759,7 @@
         ],
         [
           "EQ",
-          "violation_formal_appearance",
+          "violation_30_1_formal",
           true
         ]
       ]

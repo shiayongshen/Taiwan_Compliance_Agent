@@ -1,6 +1,6 @@
 ; SMT2 file generated from compliance case automatic
 ; Case ID: case_33
-; Generated at: 2025-10-20T23:32:45.182875
+; Generated at: 2025-10-21T21:10:31.585567
 ;
 ; This file can be executed with Z3:
 ;   z3 case_33.smt2
@@ -13,154 +13,151 @@
 ; ============================================================
 
 (declare-const academic_performance_good Bool)
-(declare-const ad_discloses_commissioner_and_funder Bool)
-(declare-const advertisement_prohibited_behaviors Bool)
-(declare-const advisor_change_approval_required Bool)
-(declare-const advisor_revoke_license_for_illegal_suspend Bool)
-(declare-const advisor_suspend_limit Int)
-(declare-const applies_for_full_discretionary Bool)
-(declare-const asset_insufficient_improved Bool)
-(declare-const asset_insufficient_penalty Bool)
+(declare-const annual_report_audited Bool)
+(declare-const annual_report_board_approved Bool)
+(declare-const annual_report_submission_months_after_year_end Int)
+(declare-const annual_report_supervisor_approved Bool)
+(declare-const approval_reported_to_authority Bool)
+(declare-const asset_insufficient_liability_improvement_required Bool)
 (declare-const assets Real)
-(declare-const brokerage_firm_operates_full_discretionary Bool)
-(declare-const brokerage_qualification_requirements Bool)
+(declare-const business_guarantee_deposit_amount Real)
+(declare-const business_guarantee_deposit_change_requires_approval Bool)
+(declare-const business_guarantee_deposit_conditions Bool)
 (declare-const business_guarantee_deposit_required Bool)
-(declare-const business_guarantee_deposit_restrictions_ok Bool)
-(declare-const business_operation_months Int)
-(declare-const business_sanction_level Int)
-(declare-const change_business_scope Bool)
-(declare-const change_capital Bool)
-(declare-const change_company_name Bool)
-(declare-const change_office_location Bool)
-(declare-const client_delegated_assets Real)
-(declare-const custodian_performs_full_discretionary_custody Bool)
-(declare-const custodian_qualified_bank Bool)
-(declare-const damage_occurred Bool)
-(declare-const department_and_staffing_standard Bool)
-(declare-const department_head_qualified Bool)
-(declare-const deposit_change_reported Bool)
-(declare-const deposit_guarantee Bool)
-(declare-const deposit_no_pledge Bool)
-(declare-const deposit_not_distributed Bool)
-(declare-const dissolution_or_merger Bool)
-(declare-const education_recognized Bool)
-(declare-const exempted_by_other_regulations Bool)
-(declare-const false_approval_claim Bool)
+(declare-const department_and_staffing_requirements Bool)
+(declare-const department_head_adequate_and_qualified Bool)
+(declare-const deposit_amount_withdrawn Real)
+(declare-const deposit_exempted_by_fiduciary_management Bool)
+(declare-const deposit_exempted_by_overseas_fund Bool)
+(declare-const deposit_institution_changed Bool)
+(declare-const deposit_pledge_set Bool)
+(declare-const deposit_provide_guarantee Bool)
+(declare-const deposit_single_financial_institution Bool)
+(declare-const deposit_type_bank Bool)
+(declare-const deposit_type_cash Bool)
+(declare-const deposit_type_financial_bond Bool)
+(declare-const deposit_type_government_bond Bool)
 (declare-const financial_accounting_department_established Bool)
-(declare-const financial_report_audited Bool)
-(declare-const financial_report_board_approved Bool)
-(declare-const financial_report_compliance Bool)
-(declare-const financial_report_submission_months_after_year_end Int)
-(declare-const financial_report_supervisor_approved Bool)
-(declare-const full_discretionary_custodian_definition Bool)
-(declare-const full_discretionary_investment_applicability Bool)
-(declare-const full_discretionary_investment_definition Bool)
+(declare-const financial_report_annual_submission Bool)
 (declare-const general_manager_count Int)
 (declare-const general_manager_qualification Bool)
 (declare-const general_manager_required Bool)
 (declare-const guarantee_deposit_amount Real)
-(declare-const guarantee_deposit_restrictions_ok Bool)
-(declare-const guaranteed_profit_or_loss Bool)
-(declare-const impersonation_of_famous_persons Bool)
-(declare-const improvement_completed Bool)
+(declare-const has_approved_college_degree Bool)
+(declare-const has_securities_analyst_qualification Bool)
+(declare-const improvement_ordered_by_authority Bool)
 (declare-const improvement_period_months Int)
-(declare-const internet_media_advertisement_prohibition Bool)
-(declare-const internet_media_advertisement_requirements Bool)
-(declare-const internet_media_intentional_or_gross_negligence Bool)
-(declare-const internet_media_joint_liability Bool)
-(declare-const internet_media_liability_relief_conditions Bool)
-(declare-const internet_media_limits_access Bool)
-(declare-const internet_media_other_measures Bool)
-(declare-const internet_media_performed_required_measures Bool)
-(declare-const internet_media_publishes_non_securities_ad Bool)
-(declare-const internet_media_publishes_violating_ad Bool)
-(declare-const internet_media_received_financial_benefit Bool)
-(declare-const internet_media_removes_ad Bool)
-(declare-const internet_media_stops_broadcast Bool)
-(declare-const investment_analysis_and_solicitation Bool)
-(declare-const investment_decision_and_execution Bool)
-(declare-const investment_experience_years Int)
-(declare-const investment_in_securities_or_approved_items Bool)
 (declare-const investment_research_department_established Bool)
-(declare-const latest_net_asset_value_per_share Real)
 (declare-const liabilities Real)
-(declare-const manager_qualified Bool)
-(declare-const meets_analyst_qualification Bool)
-(declare-const misleading_recommendations Bool)
-(declare-const net_asset_value_improved Bool)
-(declare-const net_asset_value_improvement_exempt Bool)
-(declare-const net_asset_value_improvement_penalty Bool)
-(declare-const net_asset_value_improvement_required Bool)
+(declare-const license_duration_months Int)
+(declare-const manager_adequate_and_qualified Bool)
+(declare-const net_asset_value_below_par_improvement_required Bool)
+(declare-const net_asset_value_below_par_restriction Bool)
 (declare-const net_asset_value_per_share Real)
-(declare-const no_other_equivalent_manager Bool)
-(declare-const other_approval_matters Bool)
-(declare-const other_improper_recommendations Bool)
-(declare-const other_qualification_proven Bool)
+(declare-const no_other_equivalent_responsibility Bool)
+(declare-const other_qualifications_sufficient Bool)
 (declare-const paid_in_capital Real)
 (declare-const par_value_per_share Real)
 (declare-const penalty Bool)
-(declare-const recent_1_year_more_penalties_count Int)
-(declare-const recent_1_year_trading_suspension Bool)
-(declare-const recent_2_years_most_serious_penalties_count Int)
-(declare-const recent_3_months_major_penalties_count Int)
-(declare-const recent_6_months_other_penalties_count Int)
-(declare-const self_suspend_duration_months Int)
-(declare-const staff_qualified Bool)
-(declare-const suspend_application_once_only Bool)
-(declare-const suspend_application_submitted Bool)
-(declare-const suspend_period_months Int)
-(declare-const suspend_resume_cease_business Bool)
-(declare-const transfer_major_business_or_assets Bool)
-(declare-const trust_company_full_discretionary_application Bool)
-(declare-const trust_company_manages_approved_assets Bool)
-(declare-const trust_company_operates_full_discretionary Bool)
-(declare-const violation_dismissal Bool)
-(declare-const violation_other_measures Bool)
-(declare-const violation_revoke_license Bool)
-(declare-const violation_suspend_fund_or_new_business Bool)
-(declare-const violation_suspend_operation Bool)
-(declare-const violation_warning Bool)
+(declare-const professional_investment_experience_years Int)
+(declare-const reopen_application_approved Bool)
+(declare-const reopen_application_submitted Bool)
+(declare-const responsible_personnel_qualification_met Bool)
+(declare-const staff_adequate_and_qualified Bool)
+(declare-const stop_business_application_once Bool)
+(declare-const stop_business_application_submitted Bool)
+(declare-const stop_business_approval_limit Bool)
+(declare-const stop_business_duration_months Int)
+(declare-const stop_business_permit_revoked_if_no_reopen Bool)
+(declare-const stop_business_permit_revoked_if_unapproved_stop Bool)
+(declare-const unapproved_stop_duration_months Int)
 
 ; ============================================================
 ; Constraints (Legal Rules)
 ; ============================================================
 
-; [securities:business_sanction_level] 主管機關對違反法令事業之處分等級（1=警告,2=解除職務,3=停止募集或新增業務,4=停業,5=廢止營業許可,6=其他處置）
-(assert (let ((a!1 (ite violation_suspend_fund_or_new_business
-                3
-                (ite violation_suspend_operation
-                     4
-                     (ite violation_revoke_license
-                          5
-                          (ite violation_other_measures 6 0))))))
-  (= business_sanction_level
-     (ite violation_warning 1 (ite violation_dismissal 2 a!1)))))
+; [securities_advisory:stop_business_approval_limit] 停業申請以一次為限，停業期間自核准日起不得超過一年
+(assert (= stop_business_approval_limit
+   (and stop_business_application_once (>= 12 stop_business_duration_months))))
 
-; [securities:advisor_change_approval_required] 證券投資顧問事業變更事項需先報請本會核准
-(assert (= advisor_change_approval_required
-   (or dissolution_or_merger
-       change_capital
-       change_company_name
-       change_office_location
-       transfer_major_business_or_assets
-       change_business_scope
-       other_approval_matters
-       suspend_resume_cease_business)))
+; [securities_advisory:stop_business_permit_revoked_if_no_reopen] 停業屆期未申請復業或申請復業未獲核准，營業許可廢止
+(assert (= stop_business_permit_revoked_if_no_reopen
+   (or (not reopen_application_submitted) (not reopen_application_approved))))
 
-; [securities:advisor_suspend_limit] 證券投資顧問事業停業申請限制及期限
-(assert (= advisor_suspend_limit
-   (ite (and suspend_application_once_only (>= 12 suspend_period_months)) 1 0)))
+; [securities_advisory:stop_business_permit_revoked_if_unapproved_stop] 未依規定申請停業而自行停業連續三個月以上，營業許可廢止
+(assert (= stop_business_permit_revoked_if_unapproved_stop
+   (and (not stop_business_application_submitted)
+        (<= 3 unapproved_stop_duration_months))))
 
-; [securities:advisor_revoke_license_for_illegal_suspend] 未依規定申請停業且自行停業超過三個月者，得廢止營業許可
-(assert (= advisor_revoke_license_for_illegal_suspend
-   (and (not suspend_application_submitted)
-        (not (<= self_suspend_duration_months 3)))))
-
-; [securities:business_guarantee_deposit_required] 證券投資顧問事業應向符合條件金融機構提存營業保證金
+; [securities_advisory:business_guarantee_deposit_required] 應向符合條件金融機構提存新臺幣五百萬元營業保證金，除已依境外基金管理辦法或全權委託投資業務管理辦法提存者外
 (assert (= business_guarantee_deposit_required
-   (or deposit_guarantee (not exempted_by_other_regulations))))
+   (and (not deposit_exempted_by_overseas_fund)
+        (not deposit_exempted_by_fiduciary_management)
+        (= 5000000.0 guarantee_deposit_amount))))
 
-; [securities:business_guarantee_deposit_amount] 營業保證金提存金額依實收資本額分級
+; [securities_advisory:business_guarantee_deposit_conditions] 營業保證金應以現金、銀行存款、政府債券或金融債券提存，不得設定質權或以任何方式提供擔保，且不得分散提存於不同金融機構
+(assert (= business_guarantee_deposit_conditions
+   (and (or deposit_type_bank
+            deposit_type_cash
+            deposit_type_financial_bond
+            deposit_type_government_bond)
+        (not deposit_pledge_set)
+        (not deposit_provide_guarantee)
+        deposit_single_financial_institution)))
+
+; [securities_advisory:business_guarantee_deposit_change_requires_approval] 提存金融機構更換或營業保證金提取應函報本會核准後始得為之
+(assert (let ((a!1 (or approval_reported_to_authority
+               (not (or deposit_institution_changed
+                        (= deposit_amount_withdrawn 1.0))))))
+  (= business_guarantee_deposit_change_requires_approval a!1)))
+
+; [securities_advisory:financial_report_annual_submission] 每會計年度終了後三個月內，公告並向本會申報經會計師查核簽證、董事會通過及監察人承認之年度財務報告
+(assert (= financial_report_annual_submission
+   (and annual_report_audited
+        annual_report_board_approved
+        annual_report_supervisor_approved
+        (>= 3 annual_report_submission_months_after_year_end))))
+
+; [securities_advisory:net_asset_value_below_par_improvement_required] 每股淨值低於面額者，應於一年內改善
+(assert (= net_asset_value_below_par_improvement_required
+   (or (<= par_value_per_share net_asset_value_per_share)
+       (>= 12 improvement_period_months))))
+
+; [securities_advisory:net_asset_value_below_par_restriction] 屆期未改善者，本會得限制其於傳播媒體從事證券投資分析活動，但取得營業執照未滿一年者不在此限
+(assert (= net_asset_value_below_par_restriction
+   (and (not (<= improvement_period_months 12))
+        (not (= 0 license_duration_months))
+        (<= 12 license_duration_months))))
+
+; [securities_advisory:asset_insufficient_liability_improvement_required] 資產不足抵償負債，經本會命令限期改善，屆期仍未改善者，本會得廢止營業許可
+(assert (let ((a!1 (not (and (not (<= liabilities assets))
+                     improvement_ordered_by_authority))))
+  (= asset_insufficient_liability_improvement_required
+     (or a!1 (>= 0 improvement_period_months)))))
+
+; [securities_advisory:general_manager_required] 應置總經理一人，負責綜理全公司業務，且不得有其他職責相當之人
+(assert (= general_manager_required
+   (and (= 1 general_manager_count) no_other_equivalent_responsibility)))
+
+; [securities_advisory:general_manager_qualification] 總經理應具備資格之一：證券投資分析人員資格且具一年以上專業投資機構經驗，或國內外專科以上學校畢業且具四年以上專業投資機構經驗且成績優良，或其他具證券金融專業知識、經營經驗及領導能力
+(assert (= general_manager_qualification
+   (or other_qualifications_sufficient
+       (and has_approved_college_degree
+            (<= 4 professional_investment_experience_years)
+            academic_performance_good)
+       (and has_securities_analyst_qualification
+            (<= 1 professional_investment_experience_years)))))
+
+; [securities_advisory:department_and_staffing_requirements] 應至少設置投資研究、財務會計部門，配置適足、適任經理人、部門主管及業務人員，並符合負責人與業務人員管理規則資格條件
+(assert (= department_and_staffing_requirements
+   (and investment_research_department_established
+        financial_accounting_department_established
+        manager_adequate_and_qualified
+        department_head_adequate_and_qualified
+        staff_adequate_and_qualified
+        responsible_personnel_qualification_met)))
+
+; [securities_advisory:business_guarantee_deposit_amount] 依實收資本額分級提存營業保證金
 (assert (let ((a!1 (ite (and (<= 200000000.0 paid_in_capital)
                      (not (<= 300000000.0 paid_in_capital)))
                 20000000.0
@@ -169,257 +166,74 @@
                      (not (<= 200000000.0 paid_in_capital)))
                 15000000.0
                 a!1)))
-  (= guarantee_deposit_amount
+  (= business_guarantee_deposit_amount
      (ite (<= 100000000.0 paid_in_capital) a!2 10000000.0)))))
-
-; [securities:business_guarantee_deposit_restrictions] 營業保證金不得設定質權或分散提存，變更須報本會核准
-(assert (= guarantee_deposit_restrictions_ok
-   (and deposit_no_pledge deposit_not_distributed deposit_change_reported)))
-
-; [securities:financial_report_compliance] 證券投資顧問事業財務報告依規定編製並申報
-(assert (= financial_report_compliance
-   (and financial_report_audited
-        financial_report_board_approved
-        financial_report_supervisor_approved
-        (>= 3 financial_report_submission_months_after_year_end))))
-
-; [securities:net_asset_value_improvement_required] 每股淨值低於面額者應於一年內改善
-(assert (= net_asset_value_improvement_required
-   (and (not (<= par_value_per_share net_asset_value_per_share))
-        (>= 12 improvement_period_months))))
-
-; [securities:net_asset_value_improvement_exempt] 取得營業執照未滿一年者，不適用淨值改善規定
-(assert (not (= (<= 12 business_operation_months) net_asset_value_improvement_exempt)))
-
-; [securities:net_asset_value_improvement_penalty] 淨值低於面額且未改善者限制證券投資分析活動
-(assert (= net_asset_value_improvement_penalty
-   (and (not (<= par_value_per_share net_asset_value_per_share))
-        (not net_asset_value_improved)
-        (not net_asset_value_improvement_exempt))))
-
-; [securities:asset_insufficient_penalty] 資產不足抵償負債且未改善者，得廢止營業許可
-(assert (= asset_insufficient_penalty
-   (and (not (<= liabilities assets)) (not asset_insufficient_improved))))
-
-; [securities:general_manager_required] 證券投資顧問事業應置一名總經理且不得有其他相當職責人
-(assert (= general_manager_required
-   (and (= 1 general_manager_count) no_other_equivalent_manager)))
-
-; [securities:general_manager_qualification] 總經理應具備資格條件之一
-(assert (= general_manager_qualification
-   (or (and meets_analyst_qualification (<= 1 investment_experience_years))
-       other_qualification_proven
-       (and education_recognized
-            (<= 4 investment_experience_years)
-            academic_performance_good))))
-
-; [securities:department_and_staffing_standard] 證券投資顧問事業應設投資研究及財務會計部門，配置適任人員並符合資格條件
-(assert (= department_and_staffing_standard
-   (and investment_research_department_established
-        financial_accounting_department_established
-        manager_qualified
-        department_head_qualified
-        staff_qualified)))
-
-; [securities:full_discretionary_investment_definition] 全權委託投資業務定義
-(assert (= full_discretionary_investment_definition
-   (and (= client_delegated_assets 1.0)
-        investment_in_securities_or_approved_items
-        investment_decision_and_execution)))
-
-; [securities:full_discretionary_investment_applicability] 兼營全權委託投資業務者適用本辦法相關規定
-(assert (= full_discretionary_investment_applicability
-   (or brokerage_firm_operates_full_discretionary
-       trust_company_operates_full_discretionary)))
-
-; [securities:trust_company_full_discretionary_application] 信託業辦理特定全權委託投資業務應申請兼營並依規定辦理
-(assert (= trust_company_full_discretionary_application
-   (and trust_company_manages_approved_assets applies_for_full_discretionary)))
-
-; [securities:full_discretionary_custodian_definition] 全權委託保管機構定義
-(assert (= full_discretionary_custodian_definition
-   (and custodian_qualified_bank custodian_performs_full_discretionary_custody)))
-
-; [securities:advertisement_prohibited_behaviors] 非證券投資信託及顧問事業不得有不當廣告行為
-(assert (not (= (or guaranteed_profit_or_loss
-            false_approval_claim
-            investment_analysis_and_solicitation
-            other_improper_recommendations
-            impersonation_of_famous_persons
-            misleading_recommendations)
-        advertisement_prohibited_behaviors)))
-
-; [securities:internet_media_advertisement_requirements] 網路媒體刊登非證券投資信託及顧問事業廣告應載明委託及出資資訊
-(assert (= internet_media_advertisement_requirements
-   (or ad_discloses_commissioner_and_funder
-       (not internet_media_publishes_non_securities_ad))))
-
-; [securities:internet_media_advertisement_prohibition] 網路媒體不得刊登違規廣告，違規後應主動或通知移除等處置
-(assert (= internet_media_advertisement_prohibition
-   (or internet_media_removes_ad
-       (not internet_media_publishes_violating_ad)
-       internet_media_other_measures
-       internet_media_stops_broadcast
-       internet_media_limits_access)))
-
-; [securities:internet_media_joint_liability] 網路媒體刊登違規廣告致損害者，與委託及出資者負連帶賠償責任
-(assert (= internet_media_joint_liability
-   (and internet_media_publishes_violating_ad
-        damage_occurred
-        (not internet_media_performed_required_measures))))
-
-; [securities:internet_media_liability_relief_conditions] 網路媒體未獲利益或非故意重大過失者得減輕或免除責任
-(assert (= internet_media_liability_relief_conditions
-   (or (not internet_media_intentional_or_gross_negligence)
-       (not internet_media_received_financial_benefit))))
-
-; [securities:brokerage_qualification_requirements] 證券經紀商或期貨經紀商申請兼營證券投資顧問業務之資格條件
-(assert (= brokerage_qualification_requirements
-   (and (>= latest_net_asset_value_per_share par_value_per_share)
-        (not (<= 3 recent_3_months_major_penalties_count))
-        (not (<= 1 recent_6_months_other_penalties_count))
-        (not (<= 1 recent_1_year_more_penalties_count))
-        (not (<= 1 recent_2_years_most_serious_penalties_count))
-        improvement_completed
-        (not recent_1_year_trading_suspension))))
 
 ; [meta:penalty_default_false] 預設不處罰
 (assert (not penalty))
 
-; [meta:penalty_conditions] 處罰條件：違反法令或規定之任一情形時處罰
-(assert (let ((a!1 (or violation_revoke_license
-               (and (not suspend_application_submitted)
-                    (not (<= self_suspend_duration_months 3)))
-               (and (not (<= liabilities assets))
-                    (not asset_insufficient_improved))
-               (not internet_media_advertisement_requirements)
-               (not department_and_staffing_standard)
-               (not general_manager_qualification)
-               violation_warning
-               violation_suspend_operation
-               advisor_change_approval_required
-               (and internet_media_publishes_violating_ad
-                    damage_occurred
-                    (not internet_media_performed_required_measures))
-               (not financial_report_compliance)
-               (and (not (<= par_value_per_share net_asset_value_per_share))
-                    (not net_asset_value_improved)
-                    (not net_asset_value_improvement_exempt))
-               (not business_guarantee_deposit_required)
-               violation_suspend_fund_or_new_business
-               (not general_manager_required)
-               (not full_discretionary_investment_definition)
-               violation_other_measures
-               (not full_discretionary_investment_applicability)
-               violation_dismissal
-               (not (or (not internet_media_intentional_or_gross_negligence)
-                        (not internet_media_received_financial_benefit)))
-               (not brokerage_qualification_requirements)
-               (not business_guarantee_deposit_restrictions_ok)
-               (not full_discretionary_custodian_definition)
-               (not advertisement_prohibited_behaviors)
-               (and internet_media_publishes_violating_ad
-                    (not (or internet_media_removes_ad
-                             internet_media_other_measures
-                             internet_media_stops_broadcast
-                             internet_media_limits_access)))
-               (not trust_company_full_discretionary_application))))
-  (= penalty a!1)))
+; [meta:penalty_conditions] 處罰條件：違反停業申請規定、未依規定提存營業保證金、未按時申報財務報告、未改善淨值或資產負債狀況、未符合總經理資格、未設置必要部門及人員等情形
+(assert (= penalty
+   (or stop_business_permit_revoked_if_no_reopen
+       stop_business_permit_revoked_if_unapproved_stop
+       (not financial_report_annual_submission)
+       (not general_manager_qualification)
+       (not asset_insufficient_liability_improvement_required)
+       (not net_asset_value_below_par_improvement_required)
+       (not business_guarantee_deposit_required)
+       (not business_guarantee_deposit_conditions)
+       (not stop_business_approval_limit)
+       (not department_and_staffing_requirements)
+       (not general_manager_required)
+       (not business_guarantee_deposit_change_requires_approval))))
 
 ; ============================================================
 ; Facts (Case Specific)
 ; ============================================================
 
-(assert (= violation_revoke_license true))
-(assert (= advisor_change_approval_required true))
-(assert (= change_office_location true))
+(assert (= deposit_exempted_by_overseas_fund false))
+(assert (= deposit_exempted_by_fiduciary_management false))
+(assert (= guarantee_deposit_amount 5000000.0))
 (assert (= business_guarantee_deposit_required true))
-(assert (= deposit_guarantee false))
-(assert (= asset_insufficient_penalty true))
-(assert (= assets 4000000))
-(assert (= liabilities 5000000))
-(assert (= asset_insufficient_improved false))
-(assert (= general_manager_required false))
+(assert (= deposit_amount_withdrawn 5000000.0))
+(assert (= deposit_institution_changed false))
+(assert (= approval_reported_to_authority false))
+(assert (= business_guarantee_deposit_change_requires_approval false))
+(assert (= business_guarantee_deposit_conditions false))
+(assert (= annual_report_audited true))
+(assert (= annual_report_board_approved true))
+(assert (= annual_report_supervisor_approved true))
+(assert (= annual_report_submission_months_after_year_end 4))
+(assert (= assets 4000000.0))
+(assert (= liabilities 5000000.0))
+(assert (= improvement_ordered_by_authority true))
+(assert (= improvement_period_months 0))
+(assert (= asset_insufficient_liability_improvement_required true))
 (assert (= general_manager_count 0))
-(assert (= no_other_equivalent_manager true))
+(assert (= no_other_equivalent_responsibility true))
+(assert (= general_manager_required false))
 (assert (= general_manager_qualification false))
+(assert (= has_securities_analyst_qualification false))
+(assert (= has_approved_college_degree false))
+(assert (= professional_investment_experience_years 0))
+(assert (= academic_performance_good false))
+(assert (= other_qualifications_sufficient false))
 (assert (= investment_research_department_established false))
 (assert (= financial_accounting_department_established false))
-(assert (= manager_qualified false))
-(assert (= department_head_qualified false))
-(assert (= staff_qualified false))
-(assert (= department_and_staffing_standard false))
-(assert (= business_guarantee_deposit_restrictions_ok false))
-(assert (= deposit_no_pledge false))
-(assert (= deposit_not_distributed false))
-(assert (= deposit_change_reported false))
-(assert (= financial_report_audited false))
-(assert (= financial_report_board_approved false))
-(assert (= financial_report_supervisor_approved false))
-(assert (= financial_report_compliance false))
-(assert (= business_operation_months 24))
-(assert (= net_asset_value_per_share 8.0))
-(assert (= par_value_per_share 10.0))
-(assert (= net_asset_value_improved false))
-(assert (= net_asset_value_improvement_exempt false))
-(assert (= net_asset_value_improvement_penalty true))
-(assert (= improvement_period_months 24))
-(assert (= improvement_completed false))
-(assert (= violation_warning false))
-(assert (= violation_dismissal false))
-(assert (= violation_suspend_fund_or_new_business false))
-(assert (= violation_suspend_operation false))
-(assert (= violation_other_measures false))
-(assert (= change_company_name false))
-(assert (= change_capital false))
-(assert (= change_business_scope false))
-(assert (= transfer_major_business_or_assets false))
-(assert (= dissolution_or_merger false))
-(assert (= suspend_resume_cease_business false))
-(assert (= suspend_application_submitted false))
-(assert (= self_suspend_duration_months 0))
-(assert (= suspend_application_once_only true))
-(assert (= suspend_period_months 0))
-(assert (= false_approval_claim false))
-(assert (= investment_analysis_and_solicitation false))
-(assert (= guaranteed_profit_or_loss false))
-(assert (= misleading_recommendations false))
-(assert (= impersonation_of_famous_persons false))
-(assert (= other_improper_recommendations false))
-(assert (= internet_media_publishes_non_securities_ad false))
-(assert (= ad_discloses_commissioner_and_funder true))
-(assert (= internet_media_publishes_violating_ad false))
-(assert (= internet_media_removes_ad false))
-(assert (= internet_media_limits_access false))
-(assert (= internet_media_stops_broadcast false))
-(assert (= internet_media_other_measures false))
-(assert (= internet_media_performed_required_measures false))
-(assert (= internet_media_received_financial_benefit false))
-(assert (= internet_media_intentional_or_gross_negligence false))
-(assert (= damage_occurred false))
-(assert (= brokerage_firm_operates_full_discretionary false))
-(assert (= trust_company_operates_full_discretionary false))
-(assert (= applies_for_full_discretionary false))
-(assert (= trust_company_manages_approved_assets false))
-(assert (= trust_company_full_discretionary_application false))
-(assert (= custodian_qualified_bank false))
-(assert (= custodian_performs_full_discretionary_custody false))
-(assert (= full_discretionary_investment_definition false))
-(assert (= full_discretionary_investment_applicability false))
-(assert (= other_approval_matters false))
-(assert (= paid_in_capital 10000000))
-(assert (= guarantee_deposit_amount 10000000))
-(assert (= academic_performance_good false))
-(assert (= education_recognized false))
-(assert (= meets_analyst_qualification false))
-(assert (= investment_experience_years 0))
-(assert (= other_qualification_proven false))
-(assert (= brokerage_qualification_requirements false))
-(assert (= recent_3_months_major_penalties_count 1))
-(assert (= recent_6_months_other_penalties_count 1))
-(assert (= recent_1_year_more_penalties_count 1))
-(assert (= recent_2_years_most_serious_penalties_count 1))
-(assert (= recent_1_year_trading_suspension true))
+(assert (= manager_adequate_and_qualified false))
+(assert (= department_head_adequate_and_qualified false))
+(assert (= staff_adequate_and_qualified false))
+(assert (= responsible_personnel_qualification_met false))
+(assert (= department_and_staffing_requirements false))
+(assert (= stop_business_application_once false))
+(assert (= stop_business_duration_months 0))
+(assert (= stop_business_application_submitted false))
+(assert (= unapproved_stop_duration_months 0))
+(assert (= stop_business_permit_revoked_if_unapproved_stop false))
+(assert (= reopen_application_submitted false))
+(assert (= reopen_application_approved false))
+(assert (= stop_business_permit_revoked_if_no_reopen true))
+(assert (= paid_in_capital 10000000.0))
 
 ; ============================================================
 ; Check Satisfiability
@@ -431,9 +245,9 @@
 ; ============================================================
 ; Additional Information
 ; ============================================================
-; Total constraints: 27
-; Total variables: 108
-; Total facts: 90
+; Total constraints: 16
+; Total variables: 59
+; Total facts: 43
 ;
 ; Expected result:
 ;   - If UNSAT: Case violates legal rules

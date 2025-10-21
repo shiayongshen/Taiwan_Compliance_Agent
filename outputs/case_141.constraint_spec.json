@@ -1,7 +1,7 @@
 [
   {
     "id": "insurance:agent_min_capital_requirement",
-    "desc": "代理人公司最低實收資本額依時點及申請類型規定",
+    "desc": "代理人公司最低實收資本額依時期及申請類型規定",
     "expr": [
       "EQ",
       "agent_min_capital",
@@ -16,7 +16,7 @@
           ],
           [
             "EQ",
-            "agent_company_apply",
+            "agent_application",
             true
           ]
         ],
@@ -24,13 +24,18 @@
         [
           "AND",
           [
+            "GE",
+            "current_date",
+            20140624
+          ],
+          [
             "LT",
             "current_date",
             20170303
           ],
           [
             "EQ",
-            "agent_company_apply",
+            "agent_application",
             true
           ]
         ],
@@ -43,7 +48,7 @@
   },
   {
     "id": "insurance:agent_capital_adjustment_required",
-    "desc": "代理人公司於特定時點前應完成資本額調整",
+    "desc": "代理人公司已領執照且需依規定完成資本額調整",
     "expr": [
       "EQ",
       "agent_capital_adjustment_required",
@@ -54,77 +59,64 @@
           [
             "LT",
             "license_issue_date",
-            20170303
+            20140624
           ],
           [
             "LE",
-            "current_date",
+            "adjustment_deadline",
             20180624
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "agent_capital_adjusted",
+              true
+            ]
           ]
         ],
         [
           "AND",
           [
-            "GE",
+            "LT",
             "license_issue_date",
             20170303
           ],
           [
-            "LE",
+            "GE",
             "current_date",
-            20180624
+            20170303
           ],
           [
             "GE",
-            "agent_equity_or_capital_transfer_ratio",
+            "share_or_capital_transfer_ratio",
             0.5
           ],
           [
             "NOT",
             [
               "EQ",
-              "agent_equity_or_capital_transfer_is_inheritance",
+              "share_or_capital_transfer_due_to_inheritance",
+              true
+            ]
+          ],
+          [
+            "LE",
+            "capital_adjustment_due_date",
+            [
+              "ADD",
+              "share_or_capital_transfer_date",
+              183
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "agent_capital_adjusted",
               true
             ]
           ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:agent_capital_adjustment_completed",
-    "desc": "代理人公司已完成資本額調整",
-    "expr": [
-      "EQ",
-      "agent_capital_adjustment_completed",
-      [
-        "EQ",
-        "agent_capital_adjusted",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:agent_capital_compliance",
-    "desc": "代理人公司資本額符合最低要求或已完成調整",
-    "expr": [
-      "EQ",
-      "agent_capital_compliance",
-      [
-        "OR",
-        [
-          "GE",
-          "agent_actual_capital",
-          "agent_min_capital"
-        ],
-        [
-          "EQ",
-          "agent_capital_adjustment_completed",
-          true
         ]
       ]
     ],
@@ -148,7 +140,7 @@
   },
   {
     "id": "insurance:broker_min_capital_requirement",
-    "desc": "經紀人公司最低實收資本額依時點及申請類型規定",
+    "desc": "經紀人公司最低實收資本額依時期及申請類型規定",
     "expr": [
       "EQ",
       "broker_min_capital",
@@ -163,14 +155,14 @@
           ],
           [
             "EQ",
-            "broker_apply_insurance",
+            "broker_application_insurance",
             true
           ],
           [
             "NOT",
             [
               "EQ",
-              "broker_apply_reinsurance",
+              "broker_application_reinsurance",
               true
             ]
           ]
@@ -184,17 +176,17 @@
             20170303
           ],
           [
+            "EQ",
+            "broker_application_reinsurance",
+            true
+          ],
+          [
             "NOT",
             [
               "EQ",
-              "broker_apply_insurance",
+              "broker_application_insurance",
               true
             ]
-          ],
-          [
-            "EQ",
-            "broker_apply_reinsurance",
-            true
           ]
         ],
         20000000.0,
@@ -207,12 +199,12 @@
           ],
           [
             "EQ",
-            "broker_apply_insurance",
+            "broker_application_insurance",
             true
           ],
           [
             "EQ",
-            "broker_apply_reinsurance",
+            "broker_application_reinsurance",
             true
           ]
         ],
@@ -220,20 +212,25 @@
         [
           "AND",
           [
+            "GE",
+            "current_date",
+            20140624
+          ],
+          [
             "LT",
             "current_date",
             20170303
           ],
           [
             "EQ",
-            "broker_apply_insurance",
+            "broker_application_insurance",
             true
           ],
           [
             "NOT",
             [
               "EQ",
-              "broker_apply_reinsurance",
+              "broker_application_reinsurance",
               true
             ]
           ]
@@ -242,40 +239,50 @@
         [
           "AND",
           [
+            "GE",
+            "current_date",
+            20140624
+          ],
+          [
             "LT",
             "current_date",
             20170303
           ],
           [
+            "EQ",
+            "broker_application_reinsurance",
+            true
+          ],
+          [
             "NOT",
             [
               "EQ",
-              "broker_apply_insurance",
+              "broker_application_insurance",
               true
             ]
-          ],
-          [
-            "EQ",
-            "broker_apply_reinsurance",
-            true
           ]
         ],
         10000000.0,
         [
           "AND",
           [
+            "GE",
+            "current_date",
+            20140624
+          ],
+          [
             "LT",
             "current_date",
             20170303
           ],
           [
             "EQ",
-            "broker_apply_insurance",
+            "broker_application_insurance",
             true
           ],
           [
             "EQ",
-            "broker_apply_reinsurance",
+            "broker_application_reinsurance",
             true
           ]
         ],
@@ -288,7 +295,7 @@
   },
   {
     "id": "insurance:broker_capital_adjustment_required",
-    "desc": "經紀人公司於特定時點前應完成資本額調整",
+    "desc": "經紀人公司已領執照且需依規定完成資本額調整",
     "expr": [
       "EQ",
       "broker_capital_adjustment_required",
@@ -299,77 +306,64 @@
           [
             "LT",
             "license_issue_date",
-            20170303
+            20140624
           ],
           [
             "LE",
-            "current_date",
+            "adjustment_deadline",
             20180624
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "broker_capital_adjusted",
+              true
+            ]
           ]
         ],
         [
           "AND",
           [
-            "GE",
+            "LT",
             "license_issue_date",
             20170303
           ],
           [
-            "LE",
+            "GE",
             "current_date",
-            20180624
+            20170303
           ],
           [
             "GE",
-            "broker_equity_or_capital_transfer_ratio",
+            "share_or_capital_transfer_ratio",
             0.5
           ],
           [
             "NOT",
             [
               "EQ",
-              "broker_equity_or_capital_transfer_is_inheritance",
+              "share_or_capital_transfer_due_to_inheritance",
+              true
+            ]
+          ],
+          [
+            "LE",
+            "capital_adjustment_due_date",
+            [
+              "ADD",
+              "share_or_capital_transfer_date",
+              183
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "broker_capital_adjusted",
               true
             ]
           ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:broker_capital_adjustment_completed",
-    "desc": "經紀人公司已完成資本額調整",
-    "expr": [
-      "EQ",
-      "broker_capital_adjustment_completed",
-      [
-        "EQ",
-        "broker_capital_adjusted",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:broker_capital_compliance",
-    "desc": "經紀人公司資本額符合最低要求或已完成調整",
-    "expr": [
-      "EQ",
-      "broker_capital_compliance",
-      [
-        "OR",
-        [
-          "GE",
-          "broker_actual_capital",
-          "broker_min_capital"
-        ],
-        [
-          "EQ",
-          "broker_capital_adjustment_completed",
-          true
         ]
       ]
     ],
@@ -392,6 +386,51 @@
     "domain": "insurance"
   },
   {
+    "id": "insurance:violation_167_2",
+    "desc": "違反保險法第167-2條規定",
+    "expr": [
+      "EQ",
+      "violation_167_2",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_163_4_financial_or_business",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_163_7",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_165_1",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "compliance_163_5_applied_165_1",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
     "id": "meta:penalty_default_false",
     "desc": "預設不處罰",
     "expr": [
@@ -404,44 +443,14 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：代理人或經紀人公司違反資本額規定或未完成調整或出資非現金時處罰",
+    "desc": "處罰條件：違反保險法第167-2條規定時處罰",
     "expr": [
       "EQ",
       "penalty",
       [
-        "OR",
-        [
-          "NOT",
-          [
-            "EQ",
-            "agent_capital_compliance",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "agent_capital_cash_only",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "broker_capital_compliance",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "broker_capital_cash_only",
-            true
-          ]
-        ]
+        "EQ",
+        "violation_167_2",
+        true
       ]
     ],
     "weight": 0,

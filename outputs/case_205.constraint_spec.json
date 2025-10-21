@@ -7,20 +7,32 @@
       "high_risk_country",
       [
         "OR",
-        "international_aml_org_announced_serious_deficiency",
-        "international_aml_org_announced_non_compliance",
-        "other_concrete_evidence_high_risk"
+        [
+          "EQ",
+          "fatf_serious_deficiency_announced",
+          true
+        ],
+        [
+          "EQ",
+          "fatf_non_compliance_announced",
+          true
+        ],
+        [
+          "EQ",
+          "other_concrete_evidence_high_risk",
+          true
+        ]
       ]
     ],
     "weight": 1,
     "domain": "aml"
   },
   {
-    "id": "aml:enhanced_cdd_required",
+    "id": "aml:enhanced_cdd_measures_required",
     "desc": "對洗錢或資恐高風險國家或地區客戶應採取強化確認客戶身分措施",
     "expr": [
       "EQ",
-      "enhanced_cdd_required",
+      "enhanced_cdd_measures_required",
       [
         "EQ",
         "customer_from_high_risk_country",
@@ -31,11 +43,11 @@
     "domain": "aml"
   },
   {
-    "id": "aml:enhanced_cdd_measures_high_risk",
-    "desc": "高風險情形應採取強化確認客戶身分措施",
+    "id": "aml:enhanced_cdd_measures_for_high_risk",
+    "desc": "高風險情形應加強確認客戶身分及持續審查措施",
     "expr": [
       "EQ",
-      "enhanced_cdd_measures_high_risk",
+      "high_risk_cdd_measures",
       [
         "AND",
         [
@@ -47,7 +59,7 @@
           "AND",
           [
             "EQ",
-            "senior_management_approval_obtained",
+            "management_approval_obtained",
             true
           ],
           [
@@ -74,33 +86,15 @@
       "simplified_cdd_not_allowed",
       [
         "OR",
-        "customer_from_high_risk_country_not_effective_aml_measures",
-        "suspected_money_laundering_or_terrorist_financing"
-      ]
-    ],
-    "weight": 1,
-    "domain": "aml"
-  },
-  {
-    "id": "aml:simplified_cdd_allowed",
-    "desc": "較低風險情形得採取簡化措施",
-    "expr": [
-      "EQ",
-      "simplified_cdd_allowed",
-      [
-        "AND",
         [
           "EQ",
-          "low_risk_situation",
+          "customer_from_ineffective_aml_high_risk_area",
           true
         ],
         [
-          "NOT",
-          [
-            "EQ",
-            "simplified_cdd_not_allowed",
-            true
-          ]
+          "EQ",
+          "suspected_money_laundering_or_terrorist_financing",
+          true
         ]
       ]
     ],
@@ -108,55 +102,14 @@
     "domain": "aml"
   },
   {
-    "id": "aml:stored_value_card_named_registration_exemption",
-    "desc": "辦理儲值卡記名作業時，不適用高風險國家強化措施規定",
-    "expr": [
-      "EQ",
-      "stored_value_card_named_registration_exemption",
-      [
-        "EQ",
-        "stored_value_card_named_registration",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "aml"
-  },
-  {
-    "id": "aml:enhanced_cdd_required_for_stored_value_card",
-    "desc": "儲值卡記名作業不適用高風險國家強化措施",
-    "expr": [
-      "EQ",
-      "enhanced_cdd_required_for_stored_value_card",
-      [
-        "IMPLIES",
-        [
-          "EQ",
-          "stored_value_card_named_registration",
-          true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "enhanced_cdd_required",
-            true
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "aml"
-  },
-  {
-    "id": "aml:insurance_beneficiary_considered_for_enhanced_cdd",
+    "id": "aml:insurance_beneficiary_high_risk_consideration",
     "desc": "保險業應將人壽保險契約受益人納入強化確認客戶身分措施考量",
     "expr": [
       "EQ",
-      "insurance_beneficiary_considered_for_enhanced_cdd",
+      "insurance_beneficiary_high_risk_considered",
       [
         "EQ",
-        "insurance_industry",
+        "insurance_beneficiary_high_risk",
         true
       ]
     ],
@@ -164,21 +117,26 @@
     "domain": "aml"
   },
   {
-    "id": "aml:enhanced_cdd_for_high_risk_beneficiary",
+    "id": "aml:insurance_beneficiary_enhanced_cdd",
     "desc": "人壽保險契約受益人為法人或信託受託人且評估為較高風險者，應採取強化確認客戶身分措施",
     "expr": [
       "EQ",
-      "enhanced_cdd_for_high_risk_beneficiary",
+      "insurance_beneficiary_enhanced_cdd",
       [
         "AND",
         [
           "EQ",
-          "beneficiary_is_legal_person_or_trustee",
+          "insurance_beneficiary_is_corporate_or_trustee",
           true
         ],
         [
           "EQ",
-          "beneficiary_assessed_high_risk",
+          "insurance_beneficiary_high_risk",
+          true
+        ],
+        [
+          "EQ",
+          "enhanced_cdd_measures_taken_before_payout",
           true
         ]
       ]
@@ -187,30 +145,7 @@
     "domain": "aml"
   },
   {
-    "id": "aml:enhanced_cdd_measures_for_high_risk_beneficiary",
-    "desc": "對高風險受益人採取強化措施，包括給付保險金前辨識及驗證實質受益人身分",
-    "expr": [
-      "EQ",
-      "enhanced_cdd_measures_for_high_risk_beneficiary",
-      [
-        "AND",
-        [
-          "EQ",
-          "enhanced_cdd_for_high_risk_beneficiary",
-          true
-        ],
-        [
-          "EQ",
-          "reasonable_measures_to_identify_and_verify_beneficial_owner_before_payment",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "aml"
-  },
-  {
-    "id": "meta:penalty_default_false",
+    "id": "aml:penalty_default_false",
     "desc": "預設不處罰",
     "expr": [
       "EQ",
@@ -221,8 +156,8 @@
     "domain": "meta"
   },
   {
-    "id": "meta:penalty_conditions",
-    "desc": "處罰條件：未依規定採取強化確認客戶身分措施或持續審查措施時處罰",
+    "id": "aml:penalty_conditions",
+    "desc": "處罰條件：未對高風險國家或地區採取強化措施或違反簡化措施禁止規定時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -232,30 +167,35 @@
           "AND",
           [
             "EQ",
-            "enhanced_cdd_required",
+            "customer_from_high_risk_country",
             true
           ],
           [
             "NOT",
             [
               "EQ",
-              "enhanced_cdd_measures_high_risk",
+              "enhanced_cdd_measures_taken",
               true
             ]
           ]
         ],
         [
+          "EQ",
+          "simplified_cdd_not_allowed",
+          true
+        ],
+        [
           "AND",
           [
             "EQ",
-            "enhanced_cdd_for_high_risk_beneficiary",
+            "insurance_beneficiary_high_risk",
             true
           ],
           [
             "NOT",
             [
               "EQ",
-              "enhanced_cdd_measures_for_high_risk_beneficiary",
+              "enhanced_cdd_measures_taken_before_payout",
               true
             ]
           ]

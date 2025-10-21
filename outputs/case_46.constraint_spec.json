@@ -7,7 +7,7 @@
       "violation_occurred",
       [
         "EQ",
-        "fhc_violation_flag",
+        "violation_flag",
         true
       ]
     ],
@@ -15,8 +15,31 @@
     "domain": "fhc"
   },
   {
+    "id": "fhc:correction_ordered",
+    "desc": "主管機關已予以糾正並限期令其改善",
+    "expr": [
+      "EQ",
+      "correction_ordered",
+      [
+        "AND",
+        [
+          "EQ",
+          "correction_given",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_deadline_set",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
     "id": "fhc:penalty_measures",
-    "desc": "主管機關可採取之處分措施",
+    "desc": "主管機關依情節輕重採取處分措施",
     "expr": [
       "EQ",
       "penalty_measures",
@@ -24,7 +47,7 @@
         "OR",
         [
           "EQ",
-          "revoke_statutory_meeting_resolution",
+          "revoke_statutory_resolution",
           true
         ],
         [
@@ -49,7 +72,7 @@
         ],
         [
           "EQ",
-          "revoke_license",
+          "revoke_permit",
           true
         ],
         [
@@ -63,11 +86,11 @@
     "domain": "fhc"
   },
   {
-    "id": "fhc:director_supervisor_removal_notify",
-    "desc": "依第四款解除董事、監察人職務時，主管機關通知經濟部廢止登記",
+    "id": "fhc:notify_moe_on_remove_director_supervisor",
+    "desc": "依第四款解除董事、監察人職務時，主管機關通知經濟部廢止其登記",
     "expr": [
       "EQ",
-      "director_supervisor_removal_notify",
+      "notify_moe_on_remove_director_supervisor",
       [
         "IMPLIES",
         [
@@ -77,7 +100,7 @@
         ],
         [
           "EQ",
-          "notify_economic_ministry_to_revoke_registration",
+          "moe_notified_to_revoke_registration",
           true
         ]
       ]
@@ -86,58 +109,59 @@
     "domain": "fhc"
   },
   {
-    "id": "fhc:license_revocation_requirements",
-    "desc": "廢止許可時，應令金融控股公司於期限內處分股份及董事人數不符規定，並不得再使用名稱及辦理變更登記",
+    "id": "fhc:dispose_shares_and_deregister_after_revoke_permit",
+    "desc": "廢止許可後，限期內處分股份及董事人數不符規定，未完成則解散清算",
     "expr": [
       "EQ",
-      "license_revocation_requirements_met",
+      "dispose_shares_and_deregister_after_revoke_permit",
       [
-        "AND",
+        "IMPLIES",
         [
           "EQ",
-          "revoke_license",
+          "revoke_permit",
           true
         ],
         [
-          "EQ",
-          "dispose_shares_and_reduce_directors",
-          true
-        ],
-        [
-          "EQ",
-          "prohibit_use_name_and_change_registration",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "fhc"
-  },
-  {
-    "id": "fhc:license_revocation_penalty",
-    "desc": "未於期限內完成處分者，應令解散及清算",
-    "expr": [
-      "EQ",
-      "license_revocation_penalty",
-      [
-        "AND",
-        [
-          "EQ",
-          "revoke_license",
-          true
-        ],
-        [
-          "NOT",
+          "AND",
           [
             "EQ",
-            "dispose_shares_and_reduce_directors",
+            "dispose_shares_within_deadline",
             true
+          ],
+          [
+            "EQ",
+            "reduce_directors_to_meet_requirements",
+            true
+          ],
+          [
+            "EQ",
+            "forbid_use_fhc_name_and_change_registration",
+            true
+          ],
+          [
+            "IMPLIES",
+            [
+              "NOT",
+              [
+                "AND",
+                [
+                  "EQ",
+                  "dispose_shares_within_deadline",
+                  true
+                ],
+                [
+                  "EQ",
+                  "reduce_directors_to_meet_requirements",
+                  true
+                ]
+              ]
+            ],
+            [
+              "EQ",
+              "liquidation_ordered",
+              true
+            ]
           ]
-        ],
-        [
-          "EQ",
-          "dissolution_and_liquidation_ordered",
-          true
         ]
       ]
     ],
@@ -157,40 +181,29 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反法令或未依規定完成廢止許可相關處分時處罰",
+    "desc": "處罰條件：違反法令章程或有礙健全經營且未依規定接受處分時處罰",
     "expr": [
       "EQ",
       "penalty",
       [
-        "OR",
+        "AND",
         [
-          "AND",
+          "EQ",
+          "violation_occurred",
+          true
+        ],
+        [
+          "NOT",
           [
-            "EQ",
-            "violation_occurred",
-            true
-          ],
-          [
-            "NOT",
+            "OR",
             [
               "EQ",
               "penalty_measures",
               true
-            ]
-          ]
-        ],
-        [
-          "AND",
-          [
-            "EQ",
-            "revoke_license",
-            true
-          ],
-          [
-            "NOT",
+            ],
             [
               "EQ",
-              "dispose_shares_and_reduce_directors",
+              "correction_ordered",
               true
             ]
           ]

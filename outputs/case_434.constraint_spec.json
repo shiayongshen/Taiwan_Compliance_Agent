@@ -1,7 +1,7 @@
 [
   {
     "id": "securities:investment_decision_recorded",
-    "desc": "投資決定依據分析作成且交付執行時有紀錄",
+    "desc": "證券投資信託事業投資決定依據分析作成且交付執行時有紀錄",
     "expr": [
       "EQ",
       "investment_decision_recorded",
@@ -14,7 +14,7 @@
         ],
         [
           "EQ",
-          "execution_recorded",
+          "investment_execution_recorded",
           true
         ]
       ]
@@ -23,14 +23,29 @@
     "domain": "securities"
   },
   {
-    "id": "securities:monthly_review_submitted",
-    "desc": "按月提出檢討",
+    "id": "securities:investment_monthly_reviewed",
+    "desc": "證券投資信託事業按月提出投資檢討",
     "expr": [
       "EQ",
-      "monthly_review_submitted",
+      "investment_monthly_reviewed",
       [
         "EQ",
-        "monthly_review_done",
+        "investment_review_submitted_monthly",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:investment_analysis_reasonable",
+    "desc": "證券投資信託事業投資分析與決定有合理基礎及根據",
+    "expr": [
+      "EQ",
+      "investment_analysis_reasonable",
+      [
+        "EQ",
+        "investment_analysis_has_reasonable_basis",
         true
       ]
     ],
@@ -39,7 +54,7 @@
   },
   {
     "id": "securities:internal_control_defined_and_executed",
-    "desc": "內部控制制度訂定且確實執行，控制作業留存紀錄並保存期限符合規定",
+    "desc": "證券投資信託事業內部控制制度訂定且確實執行",
     "expr": [
       "EQ",
       "internal_control_defined_and_executed",
@@ -47,23 +62,36 @@
         "AND",
         [
           "EQ",
-          "internal_control_defined",
+          "internal_control_defined_in_system",
           true
         ],
         [
           "EQ",
           "internal_control_executed",
           true
-        ],
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:internal_control_recorded_and_retained",
+    "desc": "證券投資信託事業內部控制作業留存紀錄並保存一定期限",
+    "expr": [
+      "EQ",
+      "internal_control_recorded_and_retained",
+      [
+        "AND",
         [
           "EQ",
-          "control_operation_recorded",
+          "internal_control_records_retained",
           true
         ],
         [
           "GE",
-          "control_record_retention_period_years",
-          "regulator_defined_min_years"
+          "internal_control_records_retention_period_years",
+          5.0
         ]
       ]
     ],
@@ -71,98 +99,14 @@
     "domain": "securities"
   },
   {
-    "id": "securities:personnel_qualification_compliant",
-    "desc": "人員資格條件、行為規範、訓練、登記期限及程序符合主管機關規定",
+    "id": "securities:personnel_qualifications_compliant",
+    "desc": "證券投資信託事業及顧問事業人員資格條件及行為規範符合主管機關規定",
     "expr": [
       "EQ",
-      "personnel_qualification_compliant",
-      [
-        "AND",
-        [
-          "EQ",
-          "personnel_qualification_met",
-          true
-        ],
-        [
-          "EQ",
-          "personnel_behavior_compliant",
-          true
-        ],
-        [
-          "EQ",
-          "personnel_training_completed",
-          true
-        ],
-        [
-          "EQ",
-          "personnel_registration_valid",
-          true
-        ],
-        [
-          "EQ",
-          "personnel_procedures_followed",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:violation_penalty_conditions",
-    "desc": "違反本法或主管機關命令者處分條件",
-    "expr": [
-      "EQ",
-      "violation_penalty_conditions",
-      [
-        "OR",
-        [
-          "EQ",
-          "violation_of_law",
-          true
-        ],
-        [
-          "EQ",
-          "violation_of_regulator_orders",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:personnel_misconduct",
-    "desc": "董事、監察人、經理人或受僱人有違反法令且影響業務正常執行之行為",
-    "expr": [
-      "EQ",
-      "personnel_misconduct",
-      [
-        "AND",
-        [
-          "EQ",
-          "personnel_violated_law",
-          true
-        ],
-        [
-          "EQ",
-          "personnel_behavior_affects_business",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:penalty_for_personnel_misconduct",
-    "desc": "主管機關得命令停止執行業務或解除職務，並視情節輕重處分",
-    "expr": [
-      "EQ",
-      "penalty_for_personnel_misconduct",
+      "personnel_qualifications_compliant",
       [
         "EQ",
-        "personnel_misconduct",
+        "personnel_qualifications_and_conduct_compliant",
         true
       ]
     ],
@@ -170,127 +114,33 @@
     "domain": "securities"
   },
   {
-    "id": "securities:penalty_violation_fines",
-    "desc": "違反特定條文規定處罰罰鍰並責令限期改善，屆期不改善加重處罰",
+    "id": "securities:responsible_persons_duties_fulfilled",
+    "desc": "證券投資信託事業負責人及業務人員以善良管理人注意義務及忠實義務執行業務",
     "expr": [
       "EQ",
-      "penalty_violation_fines",
+      "responsible_persons_duties_fulfilled",
       [
-        "OR",
-        [
-          "EQ",
-          "violation_article_3_4_or_4_4",
-          true
-        ],
-        [
-          "EQ",
-          "violation_regulator_rules_14_1_18_1_56_1",
-          true
-        ],
-        [
-          "EQ",
-          "violation_regulator_rules_16_4",
-          true
-        ],
-        [
-          "EQ",
-          "violation_article_16_1_19_1_51_1_59",
-          true
-        ],
-        [
-          "EQ",
-          "violation_regulator_rules_58_2",
-          true
-        ],
-        [
-          "EQ",
-          "violation_article_63_1",
-          true
-        ],
-        [
-          "EQ",
-          "violation_regulator_rules_69",
-          true
-        ],
-        [
-          "EQ",
-          "violation_regulator_rules_70",
-          true
-        ],
-        [
-          "EQ",
-          "violation_regulator_rules_72_1",
-          true
-        ]
+        "EQ",
+        "duties_fulfilled_with_diligence_and_loyalty",
+        true
       ]
     ],
     "weight": 1,
     "domain": "securities"
   },
   {
-    "id": "securities:penalty_violation_fines_extended",
-    "desc": "違反罰鍰規定屆期不改善者，按次加重處罰",
+    "id": "securities:prohibited_behaviors_absent",
+    "desc": "證券投資信託事業人員無法令禁止之不當行為",
     "expr": [
       "EQ",
-      "penalty_violation_fines_extended",
-      [
-        "AND",
-        [
-          "EQ",
-          "penalty_violation_fines",
-          true
-        ],
-        [
-          "EQ",
-          "improvement_not_made_by_deadline",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:reporting_and_recording_compliance",
-    "desc": "依規定申報、製作、備置、保存帳簿及相關文件",
-    "expr": [
-      "EQ",
-      "reporting_and_recording_compliance",
-      [
-        "AND",
-        [
-          "EQ",
-          "reporting_to_regulator_compliant",
-          true
-        ],
-        [
-          "EQ",
-          "record_preparation_compliant",
-          true
-        ],
-        [
-          "EQ",
-          "document_storage_compliant",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:conflict_of_interest_avoided",
-    "desc": "避免利益衝突及損害受益人或客戶權益",
-    "expr": [
-      "EQ",
-      "conflict_of_interest_avoided",
+      "prohibited_behaviors_absent",
       [
         "AND",
         [
           "NOT",
           [
             "EQ",
-            "conflict_of_interest_occurred",
+            "insider_information_leaked",
             true
           ]
         ],
@@ -298,7 +148,87 @@
           "NOT",
           [
             "EQ",
-            "damaged_beneficiary_or_client",
+            "self_dealing_or_conflict_of_interest",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fraudulent_or_misleading_acts",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_fee_or_benefit_handling",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_promotion_or_benefit_provision",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "vote_proxy_trading_for_benefit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "market_manipulation_or_investor_harm",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_account_transfer",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "improper_public_recommendation_or_forecast",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unreasonable_commission_or_nonprofessional_recruitment",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "unauthorized_securities_investment_agent",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "other_acts_harming_investors_or_business",
             true
           ]
         ]
@@ -308,340 +238,15 @@
     "domain": "securities"
   },
   {
-    "id": "securities:refusal_to_accept_designated_successor_prohibited",
-    "desc": "無正當理由拒絕主管機關指定承受者違規",
+    "id": "securities:confidentiality_maintained",
+    "desc": "證券投資信託事業人員對客戶資料保守秘密",
     "expr": [
       "EQ",
-      "refusal_to_accept_designated_successor_prohibited",
-      [
-        "NOT",
-        [
-          "EQ",
-          "refused_designated_successor_without_reason",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:timely_financial_and_business_reports_submitted",
-    "desc": "依限提出財務、業務報告及相關資料",
-    "expr": [
-      "EQ",
-      "timely_financial_and_business_reports_submitted",
+      "confidentiality_maintained",
       [
         "EQ",
-        "reports_submitted_on_time",
+        "client_data_kept_confidential",
         true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:personnel_duty_of_care_and_loyalty",
-    "desc": "負責人及業務人員以善良管理人注意義務及忠實義務執行業務",
-    "expr": [
-      "EQ",
-      "personnel_duty_of_care_and_loyalty",
-      [
-        "EQ",
-        "personnel_perform_duties_faithfully",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:personnel_prohibited_behaviors",
-    "desc": "人員不得有洩漏消息、利益衝突、詐欺、損害基金投資人權益等違法行為",
-    "expr": [
-      "EQ",
-      "personnel_prohibited_behaviors",
-      [
-        "NOT",
-        [
-          "OR",
-          [
-            "EQ",
-            "leaked_confidential_info",
-            true
-          ],
-          [
-            "EQ",
-            "self_or_others_benefit_trading",
-            true
-          ],
-          [
-            "EQ",
-            "fraudulent_behavior",
-            true
-          ],
-          [
-            "EQ",
-            "not_return_commission_to_fund",
-            true
-          ],
-          [
-            "EQ",
-            "provided_specific_benefits_to_promote",
-            true
-          ],
-          [
-            "EQ",
-            "received_money_for_proxy_vote",
-            true
-          ],
-          [
-            "EQ",
-            "manipulated_security_prices",
-            true
-          ],
-          [
-            "EQ",
-            "changed_trade_account_improperly",
-            true
-          ],
-          [
-            "EQ",
-            "improper_public_recommendation",
-            true
-          ],
-          [
-            "EQ",
-            "unreasonable_commission_to_nonprofessionals",
-            true
-          ],
-          [
-            "EQ",
-            "unauthorized_agent_trading",
-            true
-          ],
-          [
-            "EQ",
-            "other_harmful_behaviors",
-            true
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:personnel_confidentiality_obligation",
-    "desc": "人員對受益人或客戶資料應保守秘密",
-    "expr": [
-      "EQ",
-      "personnel_confidentiality_obligation",
-      [
-        "EQ",
-        "personnel_keep_client_info_confidential",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:fund_operation_record_retention_period",
-    "desc": "基金運用相關紀錄保存期限不得少於五年",
-    "expr": [
-      "EQ",
-      "fund_operation_record_retention_period",
-      [
-        "GE",
-        "fund_operation_record_retention_years",
-        5.0
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:internal_control_organization_and_responsibility_defined",
-    "desc": "內部控制制度訂定明確組織結構、呈報體系及權限責任",
-    "expr": [
-      "EQ",
-      "internal_control_organization_and_responsibility_defined",
-      [
-        "AND",
-        [
-          "EQ",
-          "internal_control_organization_defined",
-          true
-        ],
-        [
-          "EQ",
-          "reporting_system_defined",
-          true
-        ],
-        [
-          "EQ",
-          "authority_and_responsibility_defined",
-          true
-        ],
-        [
-          "EQ",
-          "manager_appointment_and_dismissal_defined",
-          true
-        ],
-        [
-          "EQ",
-          "manager_authority_defined",
-          true
-        ],
-        [
-          "EQ",
-          "salary_and_compensation_policy_defined",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:internal_control_execution_and_review",
-    "desc": "內部控制制度確實執行並隨時檢討以確保持續有效",
-    "expr": [
-      "EQ",
-      "internal_control_execution_and_review",
-      [
-        "AND",
-        [
-          "EQ",
-          "internal_control_executed",
-          true
-        ],
-        [
-          "EQ",
-          "internal_control_reviewed_regularly",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:internal_control_subsidiary_definition",
-    "desc": "子公司依財務報告編製規範認定",
-    "expr": [
-      "EQ",
-      "internal_control_subsidiary_definition",
-      [
-        "EQ",
-        "subsidiary_defined_by_financial_reporting",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:serious_internal_management_failures_responsibility",
-    "desc": "內部管理不善或重大弊端時相關人員負失職責任",
-    "expr": [
-      "EQ",
-      "serious_internal_management_failures_responsibility",
-      [
-        "IMPLIES",
-        [
-          "OR",
-          [
-            "EQ",
-            "internal_management_poor",
-            true
-          ],
-          [
-            "EQ",
-            "internal_control_inadequate",
-            true
-          ],
-          [
-            "EQ",
-            "internal_audit_not_implemented",
-            true
-          ],
-          [
-            "EQ",
-            "law_compliance_not_implemented",
-            true
-          ],
-          [
-            "EQ",
-            "regulator_inspection_followup_deficient",
-            true
-          ],
-          [
-            "EQ",
-            "internal_audit_concealed_findings",
-            true
-          ]
-        ],
-        [
-          "EQ",
-          "responsible_personnel_duty_breach",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:internal_audit_reward_for_loss_prevention",
-    "desc": "內部稽核人員發現重大弊端並使事業免於重大損失者應予獎勵",
-    "expr": [
-      "EQ",
-      "internal_audit_reward_for_loss_prevention",
-      [
-        "IMPLIES",
-        [
-          "AND",
-          [
-            "EQ",
-            "internal_audit_found_major_issue",
-            true
-          ],
-          [
-            "EQ",
-            "internal_audit_prevented_major_loss",
-            true
-          ]
-        ],
-        [
-          "EQ",
-          "internal_audit_rewarded",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:internal_audit_disciplinary_recommendation",
-    "desc": "內部稽核單位對重大缺失有懲處建議權並於報告中揭露失職人員",
-    "expr": [
-      "EQ",
-      "internal_audit_disciplinary_recommendation",
-      [
-        "AND",
-        [
-          "EQ",
-          "internal_audit_recommend_discipline",
-          true
-        ],
-        [
-          "EQ",
-          "internal_audit_report_discloses_responsible_personnel",
-          true
-        ]
       ]
     ],
     "weight": 1,
@@ -651,188 +256,16 @@
     "id": "meta:penalty_default_false",
     "desc": "預設不處罰",
     "expr": [
-      "IMPLIES",
-      [
-        "NOT",
-        [
-          "OR",
-          [
-            "NOT",
-            [
-              "EQ",
-              "investment_decision_recorded",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "monthly_review_submitted",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "internal_control_defined_and_executed",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "personnel_qualification_compliant",
-              true
-            ]
-          ],
-          [
-            "EQ",
-            "violation_penalty_conditions",
-            true
-          ],
-          [
-            "EQ",
-            "personnel_misconduct",
-            true
-          ],
-          [
-            "EQ",
-            "penalty_violation_fines",
-            true
-          ],
-          [
-            "AND",
-            [
-              "EQ",
-              "penalty_violation_fines",
-              true
-            ],
-            [
-              "EQ",
-              "improvement_not_made_by_deadline",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "reporting_and_recording_compliance",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "conflict_of_interest_avoided",
-              true
-            ]
-          ],
-          [
-            "EQ",
-            "refused_designated_successor_without_reason",
-            true
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "timely_financial_and_business_reports_submitted",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "personnel_duty_of_care_and_loyalty",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "personnel_prohibited_behaviors",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "personnel_confidentiality_obligation",
-              true
-            ]
-          ],
-          [
-            "LT",
-            "fund_operation_record_retention_years",
-            5.0
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "internal_control_organization_and_responsibility_defined",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "internal_control_execution_and_review",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "internal_control_subsidiary_definition",
-              true
-            ]
-          ],
-          [
-            "EQ",
-            "responsible_personnel_duty_breach",
-            true
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "internal_audit_reward_for_loss_prevention",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "internal_audit_disciplinary_recommendation",
-              true
-            ]
-          ]
-        ]
-      ],
-      [
-        "EQ",
-        "penalty",
-        false
-      ]
+      "EQ",
+      "penalty",
+      false
     ],
     "weight": 0,
     "domain": "meta"
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反投資決定紀錄、內部控制、資格規定、法令或命令等任一規定時處罰",
+    "desc": "處罰條件：違反投資決定紀錄、內部控制、資格條件、禁止行為或保密義務等規定時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -850,7 +283,15 @@
           "NOT",
           [
             "EQ",
-            "monthly_review_submitted",
+            "investment_monthly_reviewed",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_analysis_reasonable",
             true
           ]
         ],
@@ -866,35 +307,7 @@
           "NOT",
           [
             "EQ",
-            "personnel_qualification_compliant",
-            true
-          ]
-        ],
-        [
-          "EQ",
-          "violation_penalty_conditions",
-          true
-        ],
-        [
-          "EQ",
-          "personnel_misconduct",
-          true
-        ],
-        [
-          "EQ",
-          "penalty_violation_fines",
-          true
-        ],
-        [
-          "AND",
-          [
-            "EQ",
-            "penalty_violation_fines",
-            true
-          ],
-          [
-            "EQ",
-            "improvement_not_made_by_deadline",
+            "internal_control_recorded_and_retained",
             true
           ]
         ],
@@ -902,7 +315,7 @@
           "NOT",
           [
             "EQ",
-            "reporting_and_recording_compliance",
+            "personnel_qualifications_compliant",
             true
           ]
         ],
@@ -910,20 +323,7 @@
           "NOT",
           [
             "EQ",
-            "conflict_of_interest_avoided",
-            true
-          ]
-        ],
-        [
-          "EQ",
-          "refused_designated_successor_without_reason",
-          true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "timely_financial_and_business_reports_submitted",
+            "responsible_persons_duties_fulfilled",
             true
           ]
         ],
@@ -931,7 +331,7 @@
           "NOT",
           [
             "EQ",
-            "personnel_duty_of_care_and_loyalty",
+            "prohibited_behaviors_absent",
             true
           ]
         ],
@@ -939,65 +339,7 @@
           "NOT",
           [
             "EQ",
-            "personnel_prohibited_behaviors",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "personnel_confidentiality_obligation",
-            true
-          ]
-        ],
-        [
-          "LT",
-          "fund_operation_record_retention_years",
-          5.0
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_control_organization_and_responsibility_defined",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_control_execution_and_review",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_control_subsidiary_definition",
-            true
-          ]
-        ],
-        [
-          "EQ",
-          "responsible_personnel_duty_breach",
-          true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_audit_reward_for_loss_prevention",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_audit_disciplinary_recommendation",
+            "confidentiality_maintained",
             true
           ]
         ]

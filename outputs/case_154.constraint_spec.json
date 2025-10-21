@@ -1,7 +1,7 @@
 [
   {
     "id": "insurance:violation_163_4_7_165_1_163_5",
-    "desc": "違反保險法第163條第4項、第7項、第165條第1項及第163條第5項準用規定",
+    "desc": "違反保險法第163條第4項、第7項或第165條第1項及第163條第5項準用規定",
     "expr": [
       "EQ",
       "violation_163_4_7_165_1_163_5",
@@ -19,95 +19,8 @@
         ],
         [
           "EQ",
-          "violate_165_1",
+          "violate_165_1_or_163_5_applied",
           true
-        ],
-        [
-          "EQ",
-          "violate_163_5_applied",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:correction_order_issued",
-    "desc": "已限期改正違規事項",
-    "expr": [
-      "EQ",
-      "correction_order_issued",
-      [
-        "EQ",
-        "violation_163_4_7_165_1_163_5",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:penalty_fine_applicable",
-    "desc": "違反規定且處以罰鍰",
-    "expr": [
-      "EQ",
-      "penalty_fine_applicable",
-      [
-        "AND",
-        [
-          "EQ",
-          "violation_163_4_7_165_1_163_5",
-          true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "correction_order_issued",
-            true
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:severe_violation",
-    "desc": "情節重大違反",
-    "expr": [
-      "EQ",
-      "severe_violation",
-      [
-        "EQ",
-        "violation_163_4_7_165_1_163_5",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:license_revoked",
-    "desc": "因情節重大而廢止許可並註銷執業證照",
-    "expr": [
-      "EQ",
-      "license_revoked",
-      [
-        "AND",
-        [
-          "EQ",
-          "severe_violation",
-          true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "correction_order_issued",
-            true
-          ]
         ]
       ]
     ],
@@ -116,7 +29,7 @@
   },
   {
     "id": "insurance:agent_misconduct",
-    "desc": "代理人違反保險代理人管理規則第49條任一款行為",
+    "desc": "代理人管理規則第49條列舉之違規行為",
     "expr": [
       "EQ",
       "agent_misconduct",
@@ -124,152 +37,157 @@
         "OR",
         [
           "EQ",
-          "false_report_on_license_application",
+          "misconduct_1_false_report_on_license_application",
           true
         ],
         [
           "EQ",
-          "unauthorized_insurance_agency_operation",
+          "misconduct_2_unapproved_insurance_business",
           true
         ],
         [
           "EQ",
-          "unauthorized_insurance_business_execution",
+          "misconduct_3_unapproved_insurance_operations",
           true
         ],
         [
           "EQ",
-          "intentional_concealment_of_important_contract_info",
+          "misconduct_4_conceal_important_contract_info",
           true
         ],
         [
           "EQ",
-          "coercion_or_illegal_inducement_or_restriction",
+          "misconduct_5_coerce_or_induce_contracting_freedom_restriction",
           true
         ],
         [
           "EQ",
-          "false_or_misleading_promotion_or_recruitment",
+          "misconduct_6_false_or_misleading_promotion_or_recruitment",
           true
         ],
         [
           "EQ",
-          "improper_inducement_of_policyholder_to_cancel_or_transfer_or_loan",
+          "misconduct_7_improper_inducement_of_policyholder",
           true
         ],
         [
           "EQ",
-          "misappropriation_or_embezzlement_of_premiums_or_claims",
+          "misconduct_8_misappropriation_or_embezzlement",
           true
         ],
         [
           "EQ",
-          "unauthorized_use_of_license_by_others",
+          "misconduct_9_unauthorized_use_of_license",
           true
         ],
         [
           "EQ",
-          "conviction_of_fraud_or_breach_of_trust_or_forgery",
+          "misconduct_10_conviction_of_fraud_or_breach_of_trust",
           true
         ],
         [
           "EQ",
-          "operation_outside_license_scope",
+          "misconduct_11_operate_outside_license_scope",
           true
         ],
         [
           "EQ",
-          "illegal_collection_of_money_or_goods_or_other_benefits",
+          "misconduct_12_illegal_collection_of_money_or_benefits",
           true
         ],
         [
           "EQ",
-          "illegal_insurance_claims",
+          "misconduct_13_illegal_insurance_payments",
           true
         ],
         [
           "EQ",
-          "spreading_false_information_disturbing_financial_order",
+          "misconduct_14_spread_false_information_disturb_financial_order",
           true
         ],
         [
           "EQ",
-          "authorization_of_others_to_operate_or_use_others_name",
+          "misconduct_15_authorize_others_to_operate_or_use_others_name",
           true
         ],
         [
           "EQ",
-          "transfer_of_policy_documents_to_unauthorized_agents_or_brokers",
+          "misconduct_16_illegal_transfer_of_policy_documents",
           true
         ],
         [
           "EQ",
-          "employing_unqualified_insurance_salespersons",
+          "misconduct_17_employ_unqualified_insurance_recruiters",
           true
         ],
         [
           "EQ",
-          "failure_to_cancel_license_within_specified_period",
+          "misconduct_18_fail_to_cancel_license_within_deadline",
           true
         ],
         [
           "EQ",
-          "unauthorized_suspension_or_resumption_or_termination_of_business",
+          "misconduct_19_unauthorized_suspension_or_termination_of_business",
           true
         ],
         [
           "EQ",
-          "failure_to_report_to_agent_trade_association",
+          "misconduct_20_fail_to_appoint_agent_after_resignation",
           true
         ],
         [
           "EQ",
-          "unauthorized_use_of_insurance_advertisement_or_promotion",
+          "misconduct_21_fail_to_report_to_agent_association",
           true
         ],
         [
           "EQ",
-          "payment_of_commission_to_non_actual_salespersons",
+          "misconduct_22_use_unapproved_advertisement_content",
           true
         ],
         [
           "EQ",
-          "failure_to_confirm_suitability_of_insurance_products_for_consumers",
+          "misconduct_23_pay_commission_to_non_actual_recruiters",
           true
         ],
         [
           "EQ",
-          "sale_of_unapproved_foreign_policy_discount_benefit_certificates",
+          "misconduct_24_fail_to_confirm_suitability_for_financial_consumers",
           true
         ],
         [
           "EQ",
-          "submission_of_false_or_incomplete_business_or_financial_reports",
+          "misconduct_25_sell_unapproved_foreign_policy_discount_products",
           true
         ],
         [
           "EQ",
-          "holding_positions_in_insurance_or_association_or_registered_salesperson",
+          "misconduct_26_submit_false_or_incomplete_business_or_financial_reports",
           true
         ],
         [
           "EQ",
-          "inducement_to_terminate_contract_or_use_loan_or_deposit_to_pay_premiums",
+          "misconduct_27_hold_positions_in_insurance_or_association_conflict",
           true
         ],
         [
           "EQ",
-          "failure_to_fill_out_sales_report_truthfully",
+          "misconduct_28_induce_contract_termination_or_use_loans_to_pay_premiums",
           true
         ],
         [
           "EQ",
-          "other_violations_of_rules_or_laws",
+          "misconduct_29_fail_to_fill_recruitment_report_truthfully",
           true
         ],
         [
           "EQ",
-          "other_behaviors_damaging_insurance_image",
+          "misconduct_30_other_violations_of_rules_or_laws",
+          true
+        ],
+        [
+          "EQ",
+          "misconduct_31_other_behaviors_damaging_insurance_image",
           true
         ]
       ]
@@ -278,7 +196,7 @@
     "domain": "insurance"
   },
   {
-    "id": "meta:penalty_default_false",
+    "id": "insurance:penalty_default_false",
     "desc": "預設不處罰",
     "expr": [
       "EQ",
@@ -289,8 +207,8 @@
     "domain": "meta"
   },
   {
-    "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反相關管理規則或代理人管理規則第49條任一規定時處罰",
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反保險法第163條第4項、第7項、第165條第1項或第163條第5項準用規定，或代理人管理規則第49條任一違規行為時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -298,12 +216,7 @@
         "OR",
         [
           "EQ",
-          "penalty_fine_applicable",
-          true
-        ],
-        [
-          "EQ",
-          "license_revoked",
+          "violation_163_4_7_165_1_163_5",
           true
         ],
         [

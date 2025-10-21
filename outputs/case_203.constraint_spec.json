@@ -91,7 +91,7 @@
   },
   {
     "id": "bank:internal_control_ok",
-    "desc": "內部控制及稽核制度建立且確實執行",
+    "desc": "建立並確實執行內部控制及稽核制度",
     "expr": [
       "EQ",
       "internal_control_ok",
@@ -114,7 +114,7 @@
   },
   {
     "id": "bank:internal_handling_ok",
-    "desc": "內部處理制度及程序建立且確實執行",
+    "desc": "建立並確實執行內部處理制度及程序",
     "expr": [
       "EQ",
       "internal_handling_ok",
@@ -137,7 +137,7 @@
   },
   {
     "id": "bank:internal_operation_ok",
-    "desc": "內部作業制度及程序建立且確實執行",
+    "desc": "建立並確實執行內部作業制度及程序",
     "expr": [
       "EQ",
       "internal_operation_ok",
@@ -189,12 +189,7 @@
               ],
               [
                 "EQ",
-                "passed_equivalent_exam",
-                true
-              ],
-              [
-                "EQ",
-                "passed_cia_exam",
+                "passed_international_audit_exam",
                 true
               ]
             ],
@@ -219,7 +214,7 @@
           "NOT",
           [
             "EQ",
-            "audit_staff_disciplinary_record",
+            "audit_staff_bad_record",
             true
           ]
         ]
@@ -230,7 +225,7 @@
   },
   {
     "id": "bank:internal_audit_staff_leader_experience",
-    "desc": "內部稽核人員充任領隊具備經驗",
+    "desc": "內部稽核人員領隊具備經驗條件",
     "expr": [
       "EQ",
       "internal_audit_staff_leader_experience",
@@ -269,8 +264,8 @@
         "OR",
         [
           "EQ",
-          "foreign_audit_staff_meet_local_requirements",
-          true
+          "local_regulation_defined",
+          false
         ],
         [
           "EQ",
@@ -304,14 +299,6 @@
           "EQ",
           "internal_audit_staff_foreign_compliance",
           true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "audit_staff_violation_found",
-            true
-          ]
         ]
       ]
     ],
@@ -319,18 +306,18 @@
     "domain": "bank"
   },
   {
-    "id": "bank:internal_audit_staff_violation_improved",
-    "desc": "內部稽核人員違反規定已於二個月內改善",
+    "id": "bank:internal_audit_staff_no_violation_or_improved",
+    "desc": "內部稽核人員無違反規定或已於二個月內改善",
     "expr": [
       "EQ",
-      "internal_audit_staff_violation_improved",
+      "internal_audit_staff_no_violation_or_improved",
       [
         "OR",
         [
           "NOT",
           [
             "EQ",
-            "audit_staff_violation_found",
+            "internal_audit_staff_violation_found",
             true
           ]
         ],
@@ -345,11 +332,49 @@
     "domain": "bank"
   },
   {
-    "id": "bank:internal_control_comprehensive",
-    "desc": "內部控制制度包含控制環境、風險評估、控制作業、資訊與溝通、監督作業",
+    "id": "bank:internal_control_compliance",
+    "desc": "內部控制及稽核制度符合規定",
     "expr": [
       "EQ",
-      "internal_control_comprehensive",
+      "internal_control_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_control_ok",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_ok",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_ok",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_staff_compliance",
+          true
+        ],
+        [
+          "EQ",
+          "internal_audit_staff_no_violation_or_improved",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_control_supervision_effective",
+    "desc": "內部控制制度監督作業有效",
+    "expr": [
+      "EQ",
+      "internal_control_supervision_effective",
       [
         "AND",
         [
@@ -395,7 +420,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：未建立或未確實執行內部控制、內部處理、內部作業制度，或內部稽核人員資格不符且未改善時處罰",
+    "desc": "處罰條件：未建立或未確實執行內部控制、內部處理、內部作業制度或內部稽核人員資格不符且未改善時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -437,7 +462,7 @@
           "NOT",
           [
             "EQ",
-            "internal_audit_staff_violation_improved",
+            "internal_audit_staff_no_violation_or_improved",
             true
           ]
         ]

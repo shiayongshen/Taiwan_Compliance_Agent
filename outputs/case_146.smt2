@@ -1,6 +1,6 @@
 ; SMT2 file generated from compliance case automatic
 ; Case ID: case_146
-; Generated at: 2025-10-21T03:08:15.395132
+; Generated at: 2025-10-21T21:58:10.938185
 ;
 ; This file can be executed with Z3:
 ;   z3 case_146.smt2
@@ -13,115 +13,77 @@
 ; ============================================================
 
 (declare-const advertisement_and_promotion_management Bool)
-(declare-const agent_violation_1 Bool)
-(declare-const agent_violation_10 Bool)
-(declare-const agent_violation_11 Bool)
-(declare-const agent_violation_12 Bool)
-(declare-const agent_violation_13 Bool)
-(declare-const agent_violation_14 Bool)
-(declare-const agent_violation_15 Bool)
-(declare-const agent_violation_16 Bool)
-(declare-const agent_violation_17 Bool)
-(declare-const agent_violation_18 Bool)
-(declare-const agent_violation_19 Bool)
-(declare-const agent_violation_2 Bool)
-(declare-const agent_violation_20 Bool)
-(declare-const agent_violation_21 Bool)
-(declare-const agent_violation_22 Bool)
-(declare-const agent_violation_23 Bool)
-(declare-const agent_violation_24 Bool)
-(declare-const agent_violation_25 Bool)
-(declare-const agent_violation_26 Bool)
-(declare-const agent_violation_27 Bool)
-(declare-const agent_violation_28 Bool)
-(declare-const agent_violation_29 Bool)
-(declare-const agent_violation_3 Bool)
-(declare-const agent_violation_30 Bool)
-(declare-const agent_violation_31 Bool)
-(declare-const agent_violation_4 Bool)
-(declare-const agent_violation_5 Bool)
-(declare-const agent_violation_6 Bool)
-(declare-const agent_violation_7 Bool)
-(declare-const agent_violation_8 Bool)
-(declare-const agent_violation_9 Bool)
+(declare-const agent_misconduct_49 Bool)
+(declare-const audit_committee_control_6 Bool)
 (declare-const audit_committee_established Bool)
-(declare-const audit_committee_management_included Bool)
-(declare-const audit_committee_management_included_flag Bool)
 (declare-const audit_system_established Bool)
 (declare-const audit_system_executed Bool)
-(declare-const authorize_others_to_operate_or_use_others_name Bool)
-(declare-const business_outside_license_scope Bool)
-(declare-const coerce_or_induce_or_limit_contract_freedom_or_extra_fee Bool)
+(declare-const authorize_third_party_to_operate Bool)
+(declare-const collect_illegal_fees_or_benefits Bool)
 (declare-const compensation_and_risk_linkage Bool)
-(declare-const conceal_important_contract_info Bool)
-(declare-const correction_ordered Bool)
-(declare-const criminal_conviction_for_fraud_or_breach Bool)
+(declare-const conceal_important_insurance_contract_info Bool)
+(declare-const convicted_of_fraud_or_breach_of_trust_or_forgery Bool)
 (declare-const customer_complaints_handling Bool)
-(declare-const customer_need_and_suitability_assessment Bool)
-(declare-const dismiss_director_supervisor Bool)
-(declare-const dismiss_manager_staff Bool)
-(declare-const employ_unqualified_solicitors Bool)
-(declare-const fail_to_appoint_agent_after_resignation Bool)
-(declare-const fail_to_cancel_license_in_time Bool)
-(declare-const fail_to_confirm_product_suitability Bool)
+(declare-const customer_needs_and_suitability_assessment Bool)
+(declare-const dismiss_director_or_supervisor_or_suspend_duties Bool)
+(declare-const dismiss_manager_or_staff Bool)
+(declare-const employ_unqualified_insurance_solicitors Bool)
+(declare-const fail_to_appoint_agent_upon_agent_resignation Bool)
+(declare-const fail_to_cancel_license_within_deadline Bool)
+(declare-const fail_to_confirm_suitability_for_financial_consumers Bool)
 (declare-const fail_to_fill_solicitation_report_truthfully Bool)
-(declare-const fail_to_report_to_agent_association Bool)
-(declare-const false_or_incomplete_report Bool)
-(declare-const false_or_misleading_promotion_or_recruitment Bool)
+(declare-const fail_to_report_to_agent_trade_association Bool)
 (declare-const false_report_on_license_application Bool)
-(declare-const fine_imposed Bool)
-(declare-const hold_conflicting_positions Bool)
-(declare-const illegal_insurance_payment Bool)
-(declare-const improper_collection_of_funds_or_rewards Bool)
-(declare-const improper_inducement_of_policyholder Bool)
-(declare-const improper_transfer_of_solicitation_documents Bool)
-(declare-const induce_contract_termination_or_loan_payment Bool)
+(declare-const hold_positions_in_insurance_or_association_while_registered_as_agent Bool)
+(declare-const illegal_insurance_claims Bool)
+(declare-const improper_coercion_or_inducement Bool)
+(declare-const improper_inducement_to_cancel_or_transfer_policy Bool)
+(declare-const induce_clients_to_cancel_or_terminate_contracts Bool)
+(declare-const insurance_product_information_disclosure Bool)
 (declare-const internal_control_established Bool)
 (declare-const internal_control_executed Bool)
-(declare-const internal_control_system_defined Bool)
+(declare-const internal_control_includes_audit_committee_management Bool)
+(declare-const internal_control_requirements_6 Bool)
 (declare-const internal_control_system_established Bool)
-(declare-const license_revoked Bool)
-(declare-const license_used_by_others Bool)
-(declare-const limit_business_scope Bool)
-(declare-const misappropriation_of_premiums_or_claims Bool)
-(declare-const notification_sent Bool)
-(declare-const notify_deregistration Bool)
-(declare-const other_behavior_harm_insurance_image Bool)
-(declare-const other_designated_matters Bool)
-(declare-const other_rule_or_law_violation Bool)
-(declare-const pay_commission_to_non_actual_solicitor Bool)
-(declare-const penalty_dismiss_director_supervisor Bool)
-(declare-const penalty_dismiss_manager_staff Bool)
-(declare-const penalty_fine_or_license_revocation Bool)
-(declare-const penalty_internal_control_violation Bool)
-(declare-const penalty_limit_business_scope Bool)
-(declare-const penalty_measures_applicable Bool)
-(declare-const penalty_measures_taken Bool)
+(declare-const internal_control_system_reviewed_and_revised Bool)
+(declare-const misappropriation_or_embezzlement_of_premiums_or_claims Bool)
+(declare-const misleading_advertisement_or_promotion Bool)
+(declare-const operate_outside_license_scope Bool)
+(declare-const other_behaviors_damaging_insurance_image Bool)
+(declare-const other_matters_designated_by_authority Bool)
+(declare-const other_necessary_measures Bool)
+(declare-const other_violations_of_rules_or_laws Bool)
+(declare-const pay_commission_to_non_actual_solicitors Bool)
+(declare-const penalty Bool)
+(declare-const penalty_measures Bool)
+(declare-const personnel_qualification_and_management Bool)
 (declare-const pre_submission_check_mechanism Bool)
 (declare-const premium_collection_and_management Bool)
-(declare-const product_information_disclosure Bool)
-(declare-const qualification_and_solicitation_management Bool)
-(declare-const sell_unapproved_foreign_policy_discount Bool)
+(declare-const restrict_business_scope Bool)
+(declare-const sell_unapproved_foreign_policy_discount_products Bool)
 (declare-const solicitation_document_control_and_storage Bool)
-(declare-const solicitation_handling_minimum_requirements Bool)
-(declare-const solicitation_handling_system_defined Bool)
+(declare-const solicitation_handling_exclusion_property_insurance_7 Bool)
+(declare-const solicitation_handling_minimum_requirements_7 Bool)
 (declare-const solicitation_handling_system_established Bool)
 (declare-const solicitation_handling_system_executed Bool)
-(declare-const spread_false_information_disturb_financial_order Bool)
+(declare-const soliciting_property_insurance Bool)
+(declare-const spread_false_information_disturbing_financial_order Bool)
+(declare-const submit_false_or_incomplete_business_or_financial_reports Bool)
+(declare-const transfer_policy_documents_to_unauthorized_agents Bool)
 (declare-const truthful_solicitation_report_management Bool)
-(declare-const unapproved_insurance_agent_business Bool)
-(declare-const unapproved_insurance_business Bool)
-(declare-const unauthorized_suspend_or_terminate_business Bool)
-(declare-const use_unapproved_advertisement Bool)
-(declare-const violate_finance_or_business_management_rules Bool)
-(declare-const violate_internal_control_or_audit Bool)
-(declare-const violate_rule_163_4 Bool)
-(declare-const violate_rule_163_5 Bool)
-(declare-const violate_rule_163_7 Bool)
-(declare-const violate_rule_165_1 Bool)
+(declare-const unauthorized_insurance_agent_operation Bool)
+(declare-const unauthorized_insurance_business_operation Bool)
+(declare-const unauthorized_suspension_or_resumption_of_business Bool)
+(declare-const unauthorized_use_of_insurance_related_advertisement Bool)
+(declare-const unauthorized_use_of_license Bool)
+(declare-const violate_163_4_financial_or_business_management Bool)
+(declare-const violate_163_5_applied_165_1 Bool)
+(declare-const violate_163_7 Bool)
+(declare-const violate_165_1 Bool)
+(declare-const violation_167_2 Bool)
+(declare-const violation_167_3 Bool)
 (declare-const violation_flag Bool)
 (declare-const violation_occurred Bool)
-(declare-const penalty Bool)
 
 ; ============================================================
 ; Constraints (Legal Rules)
@@ -130,186 +92,134 @@
 ; [insurance:violation_occurred] 保險代理人、經紀人、公證人違反法令或有礙健全經營
 (assert (= violation_occurred violation_flag))
 
-; [insurance:penalty_measures_applicable] 主管機關得視情節輕重採取處分措施
-(assert (= penalty_measures_applicable (and violation_occurred penalty_measures_taken)))
+; [insurance:penalty_measures] 主管機關可依情節輕重採取處分措施
+(assert (= penalty_measures
+   (or dismiss_director_or_supervisor_or_suspend_duties
+       other_necessary_measures
+       restrict_business_scope
+       dismiss_manager_or_staff)))
 
-; [insurance:penalty_limit_business_scope] 限制經營或執行業務範圍處分
-(assert (= limit_business_scope penalty_limit_business_scope))
+; [insurance:violation_167_2] 違反保險法第163條相關財務或業務管理規定
+(assert (= violation_167_2
+   (or violate_165_1
+       violate_163_5_applied_165_1
+       violate_163_7
+       violate_163_4_financial_or_business_management)))
 
-; [insurance:penalty_dismiss_manager_staff] 命公司解除經理人或職員職務處分
-(assert (= dismiss_manager_staff penalty_dismiss_manager_staff))
-
-; [insurance:penalty_dismiss_director_supervisor] 解除公司董事、監察人職務或停止執行職務處分
-(assert (= dismiss_director_supervisor penalty_dismiss_director_supervisor))
-
-; [insurance:notify_deregistration] 主管機關通知公司登記主管機關註銷董事或監察人登記
-(assert (= notify_deregistration (and dismiss_director_supervisor notification_sent)))
-
-; [insurance:violate_finance_or_business_management_rules] 違反財務或業務管理規定
-(assert (= violate_finance_or_business_management_rules
-   (or violate_rule_163_4
-       violate_rule_163_5
-       violate_rule_163_7
-       violate_rule_165_1)))
-
-; [insurance:penalty_fine_or_license_revocation] 限期改正或處罰鍰，情節重大廢止許可並註銷執業證照
-(assert (= penalty_fine_or_license_revocation
-   (or correction_ordered fine_imposed license_revoked)))
-
-; [insurance:violate_internal_control_or_audit] 未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序
-(assert (= violate_internal_control_or_audit
-   (or (not solicitation_handling_system_executed)
+; [insurance:violation_167_3] 違反未建立或未確實執行內部控制、稽核制度、招攬處理制度或程序
+(assert (= violation_167_3
+   (or (not audit_system_executed)
        (not internal_control_executed)
-       (not audit_system_executed)
        (not solicitation_handling_system_established)
-       (not audit_system_established)
-       (not internal_control_established))))
+       (not internal_control_established)
+       (not solicitation_handling_system_executed)
+       (not audit_system_established))))
 
-; [insurance:penalty_internal_control_violation] 限期改正或處罰鍰因內部控制或稽核制度違反
-(assert (= penalty_internal_control_violation (or correction_ordered fine_imposed)))
+; [insurance:agent_misconduct_49] 保險代理人管理規則第49條列舉之違規行為
+(assert (= agent_misconduct_49
+   (or transfer_policy_documents_to_unauthorized_agents
+       fail_to_cancel_license_within_deadline
+       false_report_on_license_application
+       misleading_advertisement_or_promotion
+       fail_to_fill_solicitation_report_truthfully
+       collect_illegal_fees_or_benefits
+       unauthorized_use_of_license
+       fail_to_report_to_agent_trade_association
+       other_violations_of_rules_or_laws
+       convicted_of_fraud_or_breach_of_trust_or_forgery
+       operate_outside_license_scope
+       other_behaviors_damaging_insurance_image
+       sell_unapproved_foreign_policy_discount_products
+       improper_inducement_to_cancel_or_transfer_policy
+       pay_commission_to_non_actual_solicitors
+       employ_unqualified_insurance_solicitors
+       spread_false_information_disturbing_financial_order
+       authorize_third_party_to_operate
+       submit_false_or_incomplete_business_or_financial_reports
+       improper_coercion_or_inducement
+       unauthorized_insurance_agent_operation
+       unauthorized_suspension_or_resumption_of_business
+       illegal_insurance_claims
+       hold_positions_in_insurance_or_association_while_registered_as_agent
+       fail_to_confirm_suitability_for_financial_consumers
+       induce_clients_to_cancel_or_terminate_contracts
+       misappropriation_or_embezzlement_of_premiums_or_claims
+       unauthorized_use_of_insurance_related_advertisement
+       conceal_important_insurance_contract_info
+       fail_to_appoint_agent_upon_agent_resignation
+       unauthorized_insurance_business_operation)))
 
-; [insurance:agent_violation_1] 申領執業證照時具報不實
-(assert (= agent_violation_1 false_report_on_license_application))
+; [insurance:internal_control_requirements_6] 保險代理人公司等應依業務性質及規模訂定內部控制及招攬處理制度並適時檢討修訂
+(assert (= internal_control_requirements_6
+   (and internal_control_system_established
+        solicitation_handling_system_established
+        internal_control_system_reviewed_and_revised)))
 
-; [insurance:agent_violation_2] 為未經核准登記之保險業代理經營或執行業務
-(assert (= agent_violation_2 unapproved_insurance_agent_business))
+; [insurance:audit_committee_control_6] 設置審計委員會者，內部控制制度應包括審計委員會議事運作管理
+(assert (= audit_committee_control_6
+   (or internal_control_includes_audit_committee_management
+       (not audit_committee_established))))
 
-; [insurance:agent_violation_3] 為保險業代理經營或執行未經主管機關核准之保險業務
-(assert (= agent_violation_3 unapproved_insurance_business))
-
-; [insurance:agent_violation_4] 故意隱匿保險契約之重要事項
-(assert (= agent_violation_4 conceal_important_contract_info))
-
-; [insurance:agent_violation_5] 利用職務或業務便利強迫、引誘或限制締約自由或索取額外報酬
-(assert (= agent_violation_5 coerce_or_induce_or_limit_contract_freedom_or_extra_fee))
-
-; [insurance:agent_violation_6] 以誇大不實、引人錯誤之宣傳、廣告或其他不當方法經營或執行業務或招聘人員
-(assert (= agent_violation_6 false_or_misleading_promotion_or_recruitment))
-
-; [insurance:agent_violation_7] 以不當手段慫恿保戶退保、轉保或貸款等行為
-(assert (= agent_violation_7 improper_inducement_of_policyholder))
-
-; [insurance:agent_violation_8] 挪用或侵占保險費、保險金
-(assert (= agent_violation_8 misappropriation_of_premiums_or_claims))
-
-; [insurance:agent_violation_9] 本人未執行業務而以執業證照供他人使用
-(assert (= agent_violation_9 license_used_by_others))
-
-; [insurance:agent_violation_10] 侵占、詐欺、背信、偽造文書行為受刑宣告
-(assert (= agent_violation_10 criminal_conviction_for_fraud_or_breach))
-
-; [insurance:agent_violation_11] 經營或執行執業證照範圍以外之保險業務
-(assert (= agent_violation_11 business_outside_license_scope))
-
-; [insurance:agent_violation_12] 除合約佣酬及費用外，以其他名目或第三人名義向保險人收取金錢或其他報酬
-(assert (= agent_violation_12 improper_collection_of_funds_or_rewards))
-
-; [insurance:agent_violation_13] 以不法方式使保險人為不當保險給付
-(assert (= agent_violation_13 illegal_insurance_payment))
-
-; [insurance:agent_violation_14] 散播不實言論或文宣擾亂金融秩序
-(assert (= agent_violation_14 spread_false_information_disturb_financial_order))
-
-; [insurance:agent_violation_15] 授權第三人代為經營或以他人名義經營或執行業務
-(assert (= agent_violation_15 authorize_others_to_operate_or_use_others_name))
-
-; [insurance:agent_violation_16] 將非所任用代理人或非所屬登錄保險業務員招攬之要保文件轉報保險人或轉由他人交付
-(assert (= agent_violation_16 improper_transfer_of_solicitation_documents))
-
-; [insurance:agent_violation_17] 聘用未具保險招攬資格者為招攬保險業務
-(assert (= agent_violation_17 employ_unqualified_solicitors))
-
-; [insurance:agent_violation_18] 未依規定期限辦理繳銷執業證照
-(assert (= agent_violation_18 fail_to_cancel_license_in_time))
-
-; [insurance:agent_violation_19] 擅自停業、暫停業務、復業、解散或終止業務
-(assert (= agent_violation_19 unauthorized_suspend_or_terminate_business))
-
-; [insurance:agent_violation_20] 代理人公司或銀行未於代理人離職時依規定任用代理人
-(assert (= agent_violation_20 fail_to_appoint_agent_after_resignation))
-
-; [insurance:agent_violation_21] 未依主管機關規定向代理人商業同業公會報備
-(assert (= agent_violation_21 fail_to_report_to_agent_association))
-
-; [insurance:agent_violation_22] 使用非保險業提供或未經同意之廣告、宣傳內容
-(assert (= agent_violation_22 use_unapproved_advertisement))
-
-; [insurance:agent_violation_23] 將佣酬支付予非實際招攬之保險業務員及其主管
-(assert (= agent_violation_23 pay_commission_to_non_actual_solicitor))
-
-; [insurance:agent_violation_24] 未確認金融消費者對保險商品之適合度，含65歲以上客戶提供不適合商品
-(assert (= agent_violation_24 fail_to_confirm_product_suitability))
-
-; [insurance:agent_violation_25] 銷售未經主管機關許可之國外保單貼現受益權憑證商品
-(assert (= agent_violation_25 sell_unapproved_foreign_policy_discount))
-
-; [insurance:agent_violation_26] 提報業務或財務報表資料不實或不全
-(assert (= agent_violation_26 false_or_incomplete_report))
-
-; [insurance:agent_violation_27] 任職於保險業、擔任公會現職人員或登錄為保險業務員
-(assert (= agent_violation_27 hold_conflicting_positions))
-
-; [insurance:agent_violation_28] 勸誘客戶解除或終止契約，或以貸款、定存解約或保險單借款繳交保險費
-(assert (= agent_violation_28 induce_contract_termination_or_loan_payment))
-
-; [insurance:agent_violation_29] 未據實填寫招攬報告書，未載明客戶辨識能力及保險商品適合度評估
-(assert (= agent_violation_29 fail_to_fill_solicitation_report_truthfully))
-
-; [insurance:agent_violation_30] 其他違反本規則或相關法令
-(assert (= agent_violation_30 other_rule_or_law_violation))
-
-; [insurance:agent_violation_31] 其他有損保險形象行為
-(assert (= agent_violation_31 other_behavior_harm_insurance_image))
-
-; [insurance:internal_control_system_established] 保險代理人公司、經紀人公司、銀行依業務性質及規模訂定內部控制及招攬處理制度
-(assert (= internal_control_system_established
-   (and internal_control_system_defined solicitation_handling_system_defined)))
-
-; [insurance:audit_committee_management_included] 設置審計委員會者，內部控制制度包括審計委員會議事運作管理
-(assert (= audit_committee_management_included
-   (or (not audit_committee_established)
-       audit_committee_management_included_flag)))
-
-; [insurance:solicitation_handling_minimum_requirements] 招攬處理制度及程序至少包括規定之十一項內容
-(assert (= solicitation_handling_minimum_requirements
-   (and qualification_and_solicitation_management
+; [insurance:solicitation_handling_minimum_requirements_7] 招攬處理制度及程序至少應包括第7條規定之11項內容
+(assert (= solicitation_handling_minimum_requirements_7
+   (and personnel_qualification_and_management
         compensation_and_risk_linkage
         premium_collection_and_management
-        product_information_disclosure
+        insurance_product_information_disclosure
         advertisement_and_promotion_management
-        customer_need_and_suitability_assessment
+        customer_needs_and_suitability_assessment
         truthful_solicitation_report_management
         pre_submission_check_mechanism
         solicitation_document_control_and_storage
         customer_complaints_handling
-        other_designated_matters)))
+        other_matters_designated_by_authority)))
+
+; [insurance:solicitation_handling_exclusion_property_insurance_7] 第7條第七款規定於招攬財產保險時不適用
+(assert (= solicitation_handling_exclusion_property_insurance_7
+   (or (not soliciting_property_insurance)
+       (not truthful_solicitation_report_management))))
+
+; [meta:penalty_default_false] 預設不處罰
+(assert (not penalty))
+
+; [meta:penalty_conditions] 處罰條件：違反任一法令或規定時處罰
+(assert (= penalty
+   (or violation_167_3
+       violation_occurred
+       (not audit_committee_control_6)
+       agent_misconduct_49
+       (not internal_control_requirements_6)
+       (not solicitation_handling_minimum_requirements_7)
+       violation_167_2)))
 
 ; ============================================================
 ; Facts (Case Specific)
 ; ============================================================
 
 (assert (= violation_flag true))
-(assert (= violation_occurred true))
-(assert (= penalty_measures_taken true))
-(assert (= correction_ordered true))
-(assert (= fine_imposed true))
-(assert (= violate_internal_control_or_audit true))
+(assert (= fail_to_confirm_suitability_for_financial_consumers true))
 (assert (= internal_control_established false))
 (assert (= internal_control_executed false))
 (assert (= audit_system_established false))
 (assert (= audit_system_executed false))
 (assert (= solicitation_handling_system_established false))
 (assert (= solicitation_handling_system_executed false))
-(assert (= fail_to_confirm_product_suitability true))
-(assert (= fail_to_fill_solicitation_report_truthfully true))
+(assert (= agent_misconduct_49 true))
+(assert (= customer_needs_and_suitability_assessment false))
 (assert (= truthful_solicitation_report_management false))
-(assert (= customer_need_and_suitability_assessment false))
-(assert (= customer_complaints_handling false))
-(assert (= other_rule_or_law_violation false))
 (assert (= advertisement_and_promotion_management false))
-(assert (= penalty_fine_or_license_revocation true))
-(assert (= penalty_internal_control_violation true))
-(assert (= penalty_measures_applicable true))
+(assert (= customer_complaints_handling false))
+(assert (= internal_control_system_established false))
+(assert (= solicitation_handling_minimum_requirements_7 false))
+(assert (= penalty_measures false))
+(assert (= restrict_business_scope false))
+(assert (= dismiss_manager_or_staff false))
+(assert (= dismiss_director_or_supervisor_or_suspend_duties false))
+(assert (= other_necessary_measures false))
+(assert (= violation_occurred true))
+(assert (= violation_167_2 false))
+(assert (= violation_167_3 true))
+(assert (= penalty true))
 
 ; ============================================================
 ; Check Satisfiability
@@ -321,9 +231,9 @@
 ; ============================================================
 ; Additional Information
 ; ============================================================
-; Total constraints: 44
-; Total variables: 110
-; Total facts: 22
+; Total constraints: 11
+; Total variables: 72
+; Total facts: 24
 ;
 ; Expected result:
 ;   - If UNSAT: Case violates legal rules

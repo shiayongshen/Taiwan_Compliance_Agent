@@ -2,14 +2,14 @@
   "case_id": "case_371",
   "success": true,
   "error_message": null,
-  "total_time_sec": 142.72,
+  "total_time_sec": 201.96,
   "repair_attempts": 0,
   "total_agent_calls": 5,
-  "total_input_tokens": 39461,
-  "total_output_tokens": 11025,
-  "total_tokens": 50486,
-  "total_cost_usd": 0.033424,
-  "timestamp": "2025-10-21T08:17:34.360768",
+  "total_input_tokens": 41065,
+  "total_output_tokens": 12840,
+  "total_tokens": 53905,
+  "total_cost_usd": 0.03697,
+  "timestamp": "2025-10-21T22:27:07.883109",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -22,471 +22,126 @@
   "step7_case_mapper": "PASS",
   "step7_facts_validation": "NOT_RUN",
   "step7_z3_validation": "PASS",
-  "step8_case_law_check": "FAIL",
-  "step8_repair_success": "FAIL",
-  "step8_violation_detected": "SKIP",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
   "step9_z3_optimize": "PASS",
   "consistency_check": "PASS",
-  "case_law_repair_start": "PASS",
-  "case_law_repair": "FAIL",
   "agent_calls": [
     {
       "agent": "parser",
       "input_tokens": 8836,
-      "output_tokens": 3517,
-      "elapsed_time": 42.46903157234192,
-      "cost": 0.0091616
+      "output_tokens": 4093,
+      "elapsed_time": 67.03529024124146,
+      "cost": 0.0100832
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 21553,
-      "output_tokens": 3395,
-      "elapsed_time": 42.654295444488525,
-      "cost": 0.014053200000000002
+      "input_tokens": 22129,
+      "output_tokens": 4150,
+      "elapsed_time": 67.63397479057312,
+      "cost": 0.015491600000000001
     },
     {
       "agent": "varspec",
-      "input_tokens": 439,
-      "output_tokens": 1768,
-      "elapsed_time": 23.333260774612427,
-      "cost": 0.0030044000000000004
+      "input_tokens": 502,
+      "output_tokens": 1957,
+      "elapsed_time": 29.446951866149902,
+      "cost": 0.0033320000000000003
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 439,
-      "output_tokens": 1678,
-      "elapsed_time": 24.170077562332153,
-      "cost": 0.0028604000000000004
+      "input_tokens": 502,
+      "output_tokens": 1957,
+      "elapsed_time": 26.98842978477478,
+      "cost": 0.0033320000000000003
     },
     {
       "agent": "mapper",
-      "input_tokens": 8194,
-      "output_tokens": 667,
-      "elapsed_time": 10.02700424194336,
-      "cost": 0.0043448
+      "input_tokens": 9096,
+      "output_tokens": 683,
+      "elapsed_time": 10.748737096786499,
+      "cost": 0.0047312000000000005
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "10498 chars",
-      "timestamp": 42.46903157234192
+      "details": "11834 chars",
+      "timestamp": 67.03530764579773
     },
     "step2_completion": {
       "passed": true,
-      "details": "10083 chars",
-      "timestamp": 85.12332701683044
+      "details": "11990 chars",
+      "timestamp": 134.66934490203857
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "24 constraints",
-      "timestamp": 85.12332701683044
+      "details": "31 constraints",
+      "timestamp": 134.66973900794983
     },
     "step4_varspec": {
       "passed": true,
-      "details": "63 varspecs",
-      "timestamp": 108.45658779144287
+      "details": "73 varspecs",
+      "timestamp": 164.11715483665466
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "24 constraints",
-      "timestamp": 108.46658563613892
+      "details": "31 constraints",
+      "timestamp": 164.13391160964966
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
-      "details": "ERROR",
-      "timestamp": 108.46858787536621
+      "details": "SAT",
+      "timestamp": 164.14872074127197
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 108.46858787536621
+      "timestamp": 164.14872288703918
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "57 facts",
-      "timestamp": 142.66767144203186
+      "details": "61 facts",
+      "timestamp": 201.89032769203186
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
       "passed": true,
-      "details": "57 constraints",
-      "timestamp": 142.66967344284058
+      "details": "61 constraints",
+      "timestamp": 201.89394783973694
     },
     "step8_case_law_check": {
-      "passed": false,
-      "details": "Failed to build constraint {'id': 'insurance:capital_level_severe_insufficiency', 'desc': '資本等級為嚴重不足', 'expr': ['EQ', 'capital_level_severe_insufficiency', ['EQ', 'capital_level', 4]], 'weight': 1, 'domain': 'insurance'}: b'named assertion defined twice'",
-      "timestamp": 142.67167329788208
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 201.91782975196838
     },
-    "step8_repair_success": {
-      "passed": false,
-      "details": "Repair failed",
-      "timestamp": 142.67867350578308
-    },
+    "step8_repair_success": null,
     "step8_violation_detected": {
-      "passed": null,
-      "details": "REPAIR_FAILED",
-      "timestamp": 142.67867350578308
+      "passed": true,
+      "details": "['c91', 'meta:penalty_default_false']",
+      "timestamp": 201.91783380508423
     },
     "step9_z3_optimize": {
       "passed": true,
       "details": "success",
-      "timestamp": 142.70867347717285
+      "timestamp": 201.94760394096375
     },
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 0 attempts",
-      "timestamp": 108.46858787536621
-    },
-    "case_law_repair_start": {
-      "passed": true,
-      "details": "Starting repair with 24 constraints",
-      "timestamp": 142.67167329788208
-    },
-    "case_law_repair": {
-      "passed": false,
-      "details": "No problematic constraints found",
-      "timestamp": 142.67867350578308
+      "timestamp": 164.14871501922607
     }
   },
   "fix_logs": [
-    {
-      "id": "insurance:real_estate_investment_limits_compliant",
-      "rule": "MIN/MAX to CASE",
-      "before": [
-        "EQ",
-        "real_estate_investment_limits_compliant",
-        [
-          "OR",
-          [
-            "AND",
-            [
-              "GE",
-              "capital_adequacy_ratio",
-              "statutory_standard"
-            ],
-            [
-              "LE",
-              "single_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.015
-              ]
-            ],
-            [
-              "LE",
-              "total_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.03
-              ]
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_adequacy_ratio",
-              "statutory_standard"
-            ],
-            [
-              "GT",
-              "owner_equity",
-              0.0
-            ],
-            [
-              "EQ",
-              "capital_increase_plan_submitted",
-              true
-            ],
-            [
-              "LE",
-              "single_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.01
-              ]
-            ],
-            [
-              "LE",
-              "total_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.02
-              ]
-            ],
-            [
-              "EQ",
-              "public_tender_or_auction",
-              true
-            ],
-            [
-              "EQ",
-              "real_estate_transaction_procedures_compliant",
-              true
-            ],
-            [
-              "EQ",
-              "board_approval_obtained",
-              true
-            ],
-            [
-              "EQ",
-              "board_decision_documents_complete",
-              true
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_adequacy_ratio",
-              "statutory_standard"
-            ],
-            [
-              "LE",
-              "owner_equity",
-              0.0
-            ],
-            [
-              "EQ",
-              "capital_increase_plan_submitted",
-              true
-            ],
-            [
-              "LE",
-              "single_real_estate_transaction_amount",
-              [
-                "MIN",
-                [
-                  "MUL",
-                  "funds",
-                  0.01
-                ],
-                5000000000.0
-              ]
-            ],
-            [
-              "LE",
-              "total_real_estate_transaction_amount",
-              [
-                "MIN",
-                [
-                  "MUL",
-                  "funds",
-                  0.02
-                ],
-                10000000000.0
-              ]
-            ],
-            [
-              "EQ",
-              "public_tender_or_auction",
-              true
-            ],
-            [
-              "EQ",
-              "real_estate_transaction_procedures_compliant",
-              true
-            ],
-            [
-              "EQ",
-              "board_approval_obtained",
-              true
-            ],
-            [
-              "EQ",
-              "board_decision_documents_complete",
-              true
-            ]
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "real_estate_investment_limits_compliant",
-        [
-          "OR",
-          [
-            "AND",
-            [
-              "GE",
-              "capital_adequacy_ratio",
-              "statutory_standard"
-            ],
-            [
-              "LE",
-              "single_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.015
-              ]
-            ],
-            [
-              "LE",
-              "total_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.03
-              ]
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_adequacy_ratio",
-              "statutory_standard"
-            ],
-            [
-              "GT",
-              "owner_equity",
-              0.0
-            ],
-            [
-              "EQ",
-              "capital_increase_plan_submitted",
-              true
-            ],
-            [
-              "LE",
-              "single_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.01
-              ]
-            ],
-            [
-              "LE",
-              "total_real_estate_transaction_amount",
-              [
-                "MUL",
-                "funds",
-                0.02
-              ]
-            ],
-            [
-              "EQ",
-              "public_tender_or_auction",
-              true
-            ],
-            [
-              "EQ",
-              "real_estate_transaction_procedures_compliant",
-              true
-            ],
-            [
-              "EQ",
-              "board_approval_obtained",
-              true
-            ],
-            [
-              "EQ",
-              "board_decision_documents_complete",
-              true
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_adequacy_ratio",
-              "statutory_standard"
-            ],
-            [
-              "LE",
-              "owner_equity",
-              0.0
-            ],
-            [
-              "EQ",
-              "capital_increase_plan_submitted",
-              true
-            ],
-            [
-              "LE",
-              "single_real_estate_transaction_amount",
-              [
-                "CASE",
-                [
-                  "LE",
-                  [
-                    "MUL",
-                    "funds",
-                    0.01
-                  ],
-                  5000000000.0
-                ],
-                [
-                  "MUL",
-                  "funds",
-                  0.01
-                ],
-                5000000000.0
-              ]
-            ],
-            [
-              "LE",
-              "total_real_estate_transaction_amount",
-              [
-                "CASE",
-                [
-                  "LE",
-                  [
-                    "MUL",
-                    "funds",
-                    0.02
-                  ],
-                  10000000000.0
-                ],
-                [
-                  "MUL",
-                  "funds",
-                  0.02
-                ],
-                10000000000.0
-              ]
-            ],
-            [
-              "EQ",
-              "public_tender_or_auction",
-              true
-            ],
-            [
-              "EQ",
-              "real_estate_transaction_procedures_compliant",
-              true
-            ],
-            [
-              "EQ",
-              "board_approval_obtained",
-              true
-            ],
-            [
-              "EQ",
-              "board_decision_documents_complete",
-              true
-            ]
-          ]
-        ]
-      ],
-      "timestamp": 108.46
-    },
     {
       "id": "varspec:capital_level",
       "rule": "Auto convert to Real",
       "before": "Int",
       "after": "Real",
-      "timestamp": 108.46
+      "timestamp": 164.12
     }
   ]
 }

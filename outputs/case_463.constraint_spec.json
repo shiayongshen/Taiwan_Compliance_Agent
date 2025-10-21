@@ -1,7 +1,7 @@
 [
   {
     "id": "bank:internal_control_established",
-    "desc": "建立內部控制制度",
+    "desc": "已建立內部控制制度",
     "expr": [
       "EQ",
       "internal_control_established",
@@ -15,11 +15,11 @@
     "domain": "bank"
   },
   {
-    "id": "bank:internal_control_effective",
+    "id": "bank:internal_control_executed",
     "desc": "內部控制制度持續有效執行",
     "expr": [
       "EQ",
-      "internal_control_effective",
+      "internal_control_executed",
       [
         "EQ",
         "internal_control_system_effective",
@@ -30,16 +30,16 @@
     "domain": "bank"
   },
   {
-    "id": "bank:overall_strategy_planned",
-    "desc": "規劃整體經營策略、風險管理政策與指導準則",
+    "id": "bank:overall_management_planned",
+    "desc": "已規劃整體經營策略、風險管理政策與指導準則，並擬定經營計畫、風險管理程序及執行準則",
     "expr": [
       "EQ",
-      "overall_strategy_planned",
+      "overall_management_planned",
       [
         "AND",
         [
           "EQ",
-          "business_strategy_planned",
+          "management_strategy_planned",
           true
         ],
         [
@@ -51,28 +51,15 @@
           "EQ",
           "guidelines_planned",
           true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "bank"
-  },
-  {
-    "id": "bank:business_plan_prepared",
-    "desc": "擬定經營計畫、風險管理程序及執行準則",
-    "expr": [
-      "EQ",
-      "business_plan_prepared",
-      [
-        "AND",
+        ],
         [
           "EQ",
-          "business_plan_prepared_flag",
+          "business_plan_prepared",
           true
         ],
         [
           "EQ",
-          "risk_management_procedure_prepared",
+          "risk_management_procedures_prepared",
           true
         ],
         [
@@ -86,11 +73,11 @@
     "domain": "bank"
   },
   {
-    "id": "bank:control_environment_ok",
-    "desc": "控制環境符合要求",
+    "id": "bank:control_environment_established",
+    "desc": "已建立控制環境，包括誠信與道德價值、董（理）事會及監察人治理監督責任、組織結構、權責分派、人力資源政策、績效衡量及獎懲等",
     "expr": [
       "EQ",
-      "control_environment_ok",
+      "control_environment_established",
       [
         "AND",
         [
@@ -100,12 +87,12 @@
         ],
         [
           "EQ",
-          "board_and_audit_committee_responsibility_established",
+          "board_and_supervisory_responsibility_established",
           true
         ],
         [
           "EQ",
-          "organizational_structure_defined",
+          "organizational_structure_established",
           true
         ],
         [
@@ -115,12 +102,12 @@
         ],
         [
           "EQ",
-          "human_resource_policy_defined",
+          "human_resources_policy_established",
           true
         ],
         [
           "EQ",
-          "performance_measurement_and_rewards_defined",
+          "performance_measurement_and_rewards_established",
           true
         ],
         [
@@ -134,11 +121,11 @@
     "domain": "bank"
   },
   {
-    "id": "bank:risk_assessment_ok",
-    "desc": "風險評估符合要求",
+    "id": "bank:risk_assessment_performed",
+    "desc": "已執行風險評估，包含確立目標、考量外部環境與商業模式改變及舞弊情事，並設計、修正及執行控制作業",
     "expr": [
       "EQ",
-      "risk_assessment_ok",
+      "risk_assessment_performed",
       [
         "AND",
         [
@@ -148,22 +135,17 @@
         ],
         [
           "EQ",
-          "linkage_to_units_established",
+          "external_environment_and_business_model_considered",
           true
         ],
         [
           "EQ",
-          "consider_external_environment_changes",
+          "fraud_risk_considered",
           true
         ],
         [
           "EQ",
-          "consider_fraud_risk",
-          true
-        ],
-        [
-          "EQ",
-          "assessment_results_used_for_control_design",
+          "control_activities_designed_and_executed",
           true
         ]
       ]
@@ -172,26 +154,21 @@
     "domain": "bank"
   },
   {
-    "id": "bank:control_activities_ok",
-    "desc": "控制作業符合要求",
+    "id": "bank:control_activities_executed",
+    "desc": "控制作業執行，包括所有層級、業務流程階段、科技環境、子公司監督與管理及適當職務分工，且無責任衝突",
     "expr": [
       "EQ",
-      "control_activities_ok",
+      "control_activities_executed",
       [
         "AND",
         [
           "EQ",
-          "appropriate_policies_and_procedures_adopted",
+          "all_levels_covered",
           true
         ],
         [
           "EQ",
-          "risk_controlled_within_tolerance",
-          true
-        ],
-        [
-          "EQ",
-          "all_levels_and_processes_covered",
+          "all_process_stages_covered",
           true
         ],
         [
@@ -210,12 +187,9 @@
           true
         ],
         [
-          "NOT",
-          [
-            "EQ",
-            "conflicting_duties_assigned",
-            true
-          ]
+          "EQ",
+          "no_conflicting_responsibilities",
+          true
         ]
       ]
     ],
@@ -223,11 +197,11 @@
     "domain": "bank"
   },
   {
-    "id": "bank:information_and_communication_ok",
-    "desc": "資訊與溝通符合要求",
+    "id": "bank:information_and_communication_effective",
+    "desc": "資訊與溝通有效，包含攸關且具品質資訊蒐集、產生及使用，內外部有效溝通及完整財務、營運及遵循資訊",
     "expr": [
       "EQ",
-      "information_and_communication_ok",
+      "information_and_communication_effective",
       [
         "AND",
         [
@@ -237,22 +211,12 @@
         ],
         [
           "EQ",
-          "information_supports_internal_control",
+          "internal_and_external_communication_effective",
           true
         ],
         [
           "EQ",
-          "effective_communication_channels_established",
-          true
-        ],
-        [
-          "EQ",
-          "timely_information_accessible",
-          true
-        ],
-        [
-          "EQ",
-          "complete_financial_operational_compliance_information_retained",
+          "complete_financial_operational_compliance_information",
           true
         ]
       ]
@@ -261,31 +225,26 @@
     "domain": "bank"
   },
   {
-    "id": "bank:monitoring_activities_ok",
-    "desc": "監督作業符合要求",
+    "id": "bank:monitoring_activities_performed",
+    "desc": "監督作業持續進行，包括持續性評估、個別評估及缺失溝通與改善",
     "expr": [
       "EQ",
-      "monitoring_activities_ok",
+      "monitoring_activities_performed",
       [
         "AND",
         [
           "EQ",
-          "ongoing_and_separate_evaluations_performed",
+          "ongoing_evaluations_performed",
           true
         ],
         [
           "EQ",
-          "internal_audit_and_board_evaluations_performed",
+          "separate_evaluations_performed",
           true
         ],
         [
           "EQ",
-          "deficiencies_reported_and_communicated",
-          true
-        ],
-        [
-          "EQ",
-          "timely_corrections_made",
+          "deficiencies_communicated_and_corrected",
           true
         ]
       ]
@@ -295,7 +254,7 @@
   },
   {
     "id": "bank:internal_control_compliance",
-    "desc": "內部控制制度完整且持續有效執行",
+    "desc": "內部控制制度符合第3條、第4條及第7條規定",
     "expr": [
       "EQ",
       "internal_control_compliance",
@@ -308,42 +267,37 @@
         ],
         [
           "EQ",
-          "internal_control_effective",
+          "internal_control_executed",
           true
         ],
         [
           "EQ",
-          "overall_strategy_planned",
+          "overall_management_planned",
           true
         ],
         [
           "EQ",
-          "business_plan_prepared",
+          "control_environment_established",
           true
         ],
         [
           "EQ",
-          "control_environment_ok",
+          "risk_assessment_performed",
           true
         ],
         [
           "EQ",
-          "risk_assessment_ok",
+          "control_activities_executed",
           true
         ],
         [
           "EQ",
-          "control_activities_ok",
+          "information_and_communication_effective",
           true
         ],
         [
           "EQ",
-          "information_and_communication_ok",
-          true
-        ],
-        [
-          "EQ",
-          "monitoring_activities_ok",
+          "monitoring_activities_performed",
           true
         ]
       ]

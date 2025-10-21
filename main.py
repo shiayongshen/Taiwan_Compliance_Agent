@@ -445,9 +445,67 @@ def run_pipeline(team, case_id, case_text, statute_text):
             stats.log_checkpoint("step7_z3_validation", True, f"{len(test_constraints)} constraints")
         except Exception as e:
             print(f"❌ Facts validation failed: {e}")
-            stats.log_checkpoint("step7_z3_validation", False, str(e))
-            raise
-
+            # 🔑 嘗試修復 facts
+            print("\n" + "="*60)
+            print("Step 7.2.1: Repair Facts")
+            print("="*60)
+            try:
+                old_facts = facts.copy()  # 記錄修復前的 facts
+                # 重新呼叫 mapper agent 生成 facts
+                mapper_prompt_repair = (
+                    f"【法律案例】\n{case_text}\n\n"
+                    f"【相關 Constraints】\n{json.dumps(constraints, ensure_ascii=False, indent=2)}\n\n"
+                    f"【需用到的變數與型別】\n{json.dumps(varspecs, ensure_ascii=False, indent=2)}\n\n"
+                    "——請根據案例內容，輸出 facts（JSON 物件）。\n\n"
+                    "⚠️ **重要規則**：\n"
+                    "1. **禁止使用 null/None**\n"
+                    "2. **只能使用 VarSpec 中的變數**\n"
+                    "3. 若某些變數可從其他變數推導，請僅設定基礎變數\n"
+                    "4. **因為這是違規案例，請設定 facts 使之違反至少一個 constraint**（確保整體檢查為 UNSAT）\n\n"
+                    "5. 若涉及到計算的部分，請確保單位一致以免出現計算錯誤\n"
+                    "6. 僅輸出 JSON 物件，不要包含 markdown 標記、註解\n\n"
+                    f"⚠️ **修復提示**：之前的 facts 驗證失敗 ({str(e)})，請修正並重新輸出。\n\n"
+                    "範例（不要包含註解）：\n"
+                    "```json\n"
+                    "{\n"
+                    '  "stop_profit_distribution": false,\n'
+                    '  "capital_ratio": 0.0,\n'
+                    '  "violation_count": 0\n'
+                    "}\n"
+                    "```"
+                )
+                mapper_messages_repair = [{"role": "user", "content": mapper_prompt_repair}]
+                
+                start = time.time()
+                mapper_reply_repair, input_tokens, output_tokens = get_reply_with_tokens(team["mapper"], mapper_messages_repair)
+                elapsed = time.time() - start
+                stats.log_agent_call("mapper_repair", input_tokens, output_tokens, elapsed)
+                
+                mapper_reply_repair = clean_json_response(mapper_reply_repair)
+                import re
+                mapper_reply_repair = re.sub(r'//.*', '', mapper_reply_repair)
+                mapper_reply_repair = re.sub(r'/\*.*?\*/', '', mapper_reply_repair, flags=re.DOTALL)
+                
+                facts = json.loads(mapper_reply_repair)
+                if "facts" in facts:
+                    facts = facts["facts"]
+                
+                # 重新過濾
+                filtered_facts = {k: v for k, v in facts.items() if k in z3_var_names}
+                if len(filtered_facts) < len(facts):
+                    removed_keys = set(facts.keys()) - set(filtered_facts.keys())
+                    print(f"⚠️ Removed invalid keys from facts after repair: {removed_keys}")
+                    facts = filtered_facts
+                
+                # 重新驗證
+                test_constraints = build_facts_dict(facts, z3_vars)
+                print("✅ Facts repaired and validated with Z3")
+                stats.log_checkpoint("step7_z3_validation", True, f"{len(test_constraints)} constraints (repaired)")
+                stats.log_fix("facts_repair", "Regenerate facts", old_facts, facts)  # 記錄修復 log
+            except Exception as repair_e:
+                print(f"❌ Facts repair failed: {repair_e}")
+                stats.log_checkpoint("step7_z3_validation", False, f"Repair failed: {str(repair_e)}")
+                raise
         
         # === Step 8: Case+Law Hard Check ===  
         print("\n" + "="*60)
@@ -491,17 +549,20 @@ def run_pipeline(team, case_id, case_text, statute_text):
                     stats.log_checkpoint("step8_case_law_check", True, "SAT")
                     stats.log_checkpoint("step8_violation_detected", False, "SAT after repair")
                     stats.log_checkpoint("step8_repair_success", False, "Repair did not achieve UNSAT")
+                    raise RuntimeError("Step 8 failed: No violation detected after repair")
                 else:
                     print(f"❌ Still error after repair: {info}")
                     violation = None
                     stats.log_checkpoint("step8_case_law_check", False, f"REPAIR_FAILED: {info}")
                     stats.log_checkpoint("step8_violation_detected", None, str(info))
                     stats.log_checkpoint("step8_repair_success", False, "Repair failed")
+                    raise RuntimeError("Step 8 failed: Repair failed")
             else:
                 print("❌ Constraint repair failed")
                 violation = None
                 stats.log_checkpoint("step8_violation_detected", None, "REPAIR_FAILED")
                 stats.log_checkpoint("step8_repair_success", False, "Repair failed")
+                raise RuntimeError("Step 8 failed: Constraint repair failed")
   
         elif sat_result == "UNSAT":
             print(f"✅ Case+Law UNSAT → 違規案例 (Unsat core: {info})")
@@ -550,7 +611,12 @@ def run_pipeline(team, case_id, case_text, statute_text):
                 violation = False
                 stats.log_checkpoint("step8_violation_detected", False, "SAT and repair failed")
                 stats.log_checkpoint("step8_repair_success", False, "SAT→UNSAT repair failed")
+                raise RuntimeError("Step 8 failed: SAT→UNSAT repair failed")
 
+        # 🔑 如果沒有檢測到違規，raise 異常
+        if violation is not True:
+            raise RuntimeError("Step 8 failed: No violation detected")
+        
          # === Step 9: Z3 Optimize ===
         print("\n" + "="*60)
         print("Step 9: Z3 Optimize")
@@ -645,13 +711,15 @@ def repair_loop_with_rounds_with_stats(team, constraints, varspecs, build_expr, 
     return result
 
 
-def main():
+def main(failed_indices=None):
     
     team = build_team(llm_config)
     df = pd.read_csv(DATA)
     all_stats = []
 
     for idx, row in df.iterrows():
+        if failed_indices is not None and idx not in failed_indices:
+            continue  
         case_id = f"case_{idx}"
         case_text = str(row["法律案例"])
         statute_text = str(row["相關法條"])
@@ -747,4 +815,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    fail_list_path =  [76, 87, 146, 216, 223, 225, 240, 251, 255, 257, 305, 306, 308, 324, 352, 360, 371, 378, 379, 403, 410, 411, 429, 430, 434, 448, 453, 454, 463]
+    main(failed_indices=fail_list_path)

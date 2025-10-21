@@ -106,6 +106,231 @@
     "domain": "insurance"
   },
   {
+    "id": "insurance:underwriting_training_compliance",
+    "desc": "核保人員每年參加公平對待65歲以上客戶相關教育訓練",
+    "expr": [
+      "EQ",
+      "underwriting_training_compliance",
+      [
+        "EQ",
+        "underwriting_training_completed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_qualification_compliance",
+    "desc": "核保人員具資格執行核保簽署作業",
+    "expr": [
+      "EQ",
+      "underwriting_qualification_compliance",
+      [
+        "EQ",
+        "underwriting_staff_qualified",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_policy_compliance",
+    "desc": "依規定訂定核保處理制度及程序並執行",
+    "expr": [
+      "EQ",
+      "underwriting_policy_compliance",
+      [
+        "EQ",
+        "underwriting_policy_established_and_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_document_compliance",
+    "desc": "審閱要保人及被保險人簽章及相關證據文件",
+    "expr": [
+      "EQ",
+      "underwriting_document_compliance",
+      [
+        "EQ",
+        "underwriting_documents_reviewed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:financial_underwriting_compliance",
+    "desc": "落實財務核保程序及保險通報機制並保留相關文件",
+    "expr": [
+      "EQ",
+      "financial_underwriting_compliance",
+      [
+        "EQ",
+        "financial_underwriting_and_reporting_done",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:fund_source_assessment_compliance",
+    "desc": "評估繳交保險費資金來源是否為解約、貸款或保險單借款並評估適當性",
+    "expr": [
+      "EQ",
+      "fund_source_assessment_compliance",
+      [
+        "EQ",
+        "fund_source_assessed_and_appropriate",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:prohibited_underwriting_practices",
+    "desc": "無違反禁止事項（如無資格人員執行核保、未依規定評估適合度等）",
+    "expr": [
+      "EQ",
+      "prohibited_underwriting_practices",
+      [
+        "NOT",
+        [
+          "EQ",
+          "prohibited_practices_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:personal_data_handling_compliance",
+    "desc": "未承保件個人資料保存及銷毀符合規定",
+    "expr": [
+      "EQ",
+      "personal_data_handling_compliance",
+      [
+        "EQ",
+        "personal_data_handled_according_to_law",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_control_penalty",
+    "desc": "違反內部控制及稽核制度建立或執行規定",
+    "expr": [
+      "EQ",
+      "internal_control_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_control_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:internal_handling_penalty",
+    "desc": "違反內部處理制度及程序建立或執行規定",
+    "expr": [
+      "EQ",
+      "internal_handling_penalty",
+      [
+        "NOT",
+        [
+          "EQ",
+          "internal_handling_ok",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:underwriting_penalty",
+    "desc": "違反核保相關規定",
+    "expr": [
+      "EQ",
+      "underwriting_penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_training_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_qualification_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_policy_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "underwriting_document_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_underwriting_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "fund_source_assessment_compliance",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "prohibited_practices_occurred",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
     "id": "meta:penalty_default_false",
     "desc": "預設不處罰",
     "expr": [
@@ -118,27 +343,26 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：未建立或未執行內部控制或稽核制度，或未建立或未執行內部處理制度或程序時處罰",
+    "desc": "處罰條件：違反內部控制、內部處理制度或核保相關規定時處罰",
     "expr": [
       "EQ",
       "penalty",
       [
         "OR",
         [
-          "NOT",
-          [
-            "EQ",
-            "internal_control_ok",
-            true
-          ]
+          "EQ",
+          "internal_control_penalty",
+          true
         ],
         [
-          "NOT",
-          [
-            "EQ",
-            "internal_handling_ok",
-            true
-          ]
+          "EQ",
+          "internal_handling_penalty",
+          true
+        ],
+        [
+          "EQ",
+          "underwriting_penalty",
+          true
         ]
       ]
     ],

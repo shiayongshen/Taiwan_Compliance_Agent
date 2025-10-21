@@ -1,0 +1,139 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (7310 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (7107 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (15 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (46 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   🔍 Detected: broker_minimum_capital_requirement should be Real (CASE with Real ops)
+   Found 1 variables to convert: {'broker_minimum_capital_requirement'}
+
+🔧 Phase 3: Updating VarSpecs...
+   ✅ broker_minimum_capital_requirement: Bool → Real
+
+🔧 Phase 4: Fixing CASE expressions...
+  ⚠️ CASE 缺少 default，補上 0.0
+   ✅ Fixed constraint [insurance:broker_minimum_capital_requirement]
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 1
+   - CASE fixes: 1
+   - Total fixes: 2
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (15 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (43 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (43 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'meta:penalty_conditions', 'c27'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'meta:penalty_conditions', 'c27'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_87
+
+📊 Model (filtered):
+   bank_license_permitted = False
+   bank_follow_agent_broker_regulations = False
+   violate_financial_or_business_management_rules = True
+   transfer_due_to_inheritance = False
+   broker_fulfill_fidelity_duty = True
+   broker_provide_written_report = False
+   related_insurance_purchased = True
+   is_notary = False
+   share_or_capital_transfer_ratio = 50
+   business_type_insurance_broker = True
+   insurance_type_responsibility = True
+   is_agent = False
+   bank_engage_agent = False
+   bank_engage_broker = False
+   paid_in_capital = 3000000
+   penalty_imposed = True
+   contribution_is_cash_only = True
+   license_held = True
+   capital_adjusted_within_6_months = False
+   application_date_after_110_03_03 = False
+   broker_charge_fee = False
+   business_type_reinsurance_broker = False
+   minor_offense_no_penalty = False
+   repeat_penalty_imposed = False
+   broker_minimum_capital_requirement = False
+   broker_exercise_duty_of_care = True
+   broker_disclose_fee_standard = False
+   capital_minimum_amount_and_implementation_ok = False
+   insurance_type_guarantee = True
+   agent_broker_notary_license_and_insurance_ok = True
+   guarantee_deposit_paid = True
+   broker_duty_of_care_and_fidelity = True
+   license_permitted = True
+   related_insurance_type_ok = True
+   management_rules_compliance = True
+   management_rules_followed = True
+   violation_financial_or_business_management_rules = True
+   capital_minimum_amount_compliance = False
+   broker_capital_adjustment_compliance = False
+   penalty = False
+   penalty_imposed_for_violation = True
+   bank_permitted_to_engage_agent_or_broker = False
+   practice_certificate_held = True
+   penalty_repeat_offense = False
+   broker_provide_written_report_and_disclose_fee = False
+   broker_contribution_cash_only = True
+✅ Model saved to: outputs/case_87.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs/case_87.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs/case_87.smt2

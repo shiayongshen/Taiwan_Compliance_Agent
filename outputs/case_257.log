@@ -1,0 +1,171 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (10766 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (10766 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (22 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (82 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (22 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (73 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (73 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c73', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c73', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_257
+
+📊 Model (filtered):
+   credit_is_secured = False
+   major_shareholder_total_share_percent = 2
+   invest_in_futures = False
+   remove_or_suspend_director_or_supervisor = False
+   other_necessary_measures = False
+   adjustment_extension_times = 0
+   investment_performed = True
+   revoke_statutory_meeting_resolution = True
+   apply_company_change_registration = False
+   remove_manager_or_staff = False
+   remove_director_or_supervisor = False
+   regulator_order_adjust = True
+   credit_conditions_better_than_similar = True
+   adjustment_period_years = 0
+   invest_in_bank = True
+   credit_to_staff = False
+   violate_law = True
+   board_attendance_ratio = 6667/10000
+   invest_in_credit_card = False
+   invest_in_foreign_financial_institution = False
+   subsidiary_capital_reduction = False
+   not_use_fhc_name = False
+   must_liquidate = False
+   invest_in_other_related_financial = False
+   notify_economic_ministry_to_cancel_registration = False
+   invest_in_insurance = False
+   order_dispose_subsidiary_shares = False
+   credit_is_unsecured = False
+   subsidiary_investment_exceed_limit = False
+   impede_sound_operation = True
+   dispose_shares_within_deadline = False
+   suspend_subsidiary_business_part_or_all = True
+   credit_to_related_person_of_responsible_or_credit_staff = True
+   invest_in_securities = False
+   board_approval_ratio = 3/4
+   invest_in_fhc = True
+   invest_in_trust = False
+   regulator_impose_sanctions = True
+   credit_amount_to_enterprise_percent = 717/10
+   regulator_defined_threshold = 50000000
+   credit_amount = 100000000
+   adjustment_extension_years_per_time = 0
+   loan_is_government_loan = True
+   capital_reduction_approval_applied = False
+   shares_have_no_voting_right = False
+   shares_not_counted_in_total = False
+   invest_in_venture_capital = False
+   credit_has_full_collateral = False
+   revoke_permit = False
+   credit_to_responsible_person = True
+   subsidiary_business_exceed_limit = False
+   loan_is_consumer_loan = False
+   credit_to_major_shareholder = False
+   invest_in_bill_finance = False
+   regulator_order_dispose_illegal_investment = True
+   major_shareholder_spouse_share_percent = 1/2
+   major_shareholder_minor_children_share_percent = 0
+   fhc_manager_is_venture_invested_company_manager = False
+   no_unsecured_credit_to_related_persons = True
+   revoke_permit_must_dispose_shares_and_restrict_name_use = True
+   investment_without_approval_prohibited = True
+   remove_director_supervisor_notify_economic_ministry = True
+   no_unsecured_credit_over_3_percent = True
+   regulator_order_disposal = True
+   subsidiary_business_management = True
+   investment_approved = True
+   excess_business_or_investment_must_adjust = True
+   investment_no_voting_rights_if_no_approval = True
+   major_shareholder_own_share_percent = 3/2
+   secured_credit_over_threshold_must_board_approval = True
+   sanction_types = 1
+   prohibited_manager_in_venture_invested_company = True
+   subsidiary_capital_reduction_approval_required = True
+   penalty = False
+   subsidiary_business_scope_ok = True
+   secured_credit_over_5_percent_requirements = True
+   consumer_and_government_loans_exempted = True
+   regulator_may_impose_sanctions = True
+   fail_to_dispose_shares_must_liquidate = True
+   subsidiary_business_investment = True
+   adjustment_period_limit = 1
+   major_shareholder_definition = 1
+✅ Model saved to: outputs/case_257.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs/case_257.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs/case_257.smt2

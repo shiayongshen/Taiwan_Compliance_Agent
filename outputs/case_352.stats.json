@@ -1,76 +1,147 @@
 {
   "case_id": "case_352",
-  "success": false,
-  "error_message": "object of type 'NoneType' has no len()",
-  "total_time_sec": 35.23,
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 100.07,
   "repair_attempts": 0,
-  "total_agent_calls": 2,
-  "total_input_tokens": 6549,
-  "total_output_tokens": 2372,
-  "total_tokens": 8921,
-  "total_cost_usd": 0.006415,
-  "timestamp": "2025-10-21T07:49:03.424820",
+  "total_agent_calls": 5,
+  "total_input_tokens": 14054,
+  "total_output_tokens": 6389,
+  "total_tokens": 20443,
+  "total_cost_usd": 0.015844,
+  "timestamp": "2025-10-21T22:21:58.088746",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
-  "step3_json_valid": "FAIL",
-  "step4_varspec": "NOT_RUN",
-  "step5_constraints_parseable": "NOT_RUN",
+  "step3_json_valid": "PASS",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
   "step5_repair_needed": "FAIL",
   "step5_repair_success": "NOT_RUN",
-  "step6_consistency_check": "NOT_RUN",
-  "step6_repair_success": "NOT_RUN",
-  "step7_case_mapper": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
   "step7_facts_validation": "NOT_RUN",
-  "step7_z3_validation": "NOT_RUN",
-  "step8_case_law_check": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
   "step8_repair_success": "NOT_RUN",
-  "step8_violation_detected": "NOT_RUN",
-  "step9_z3_optimize": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
   "agent_calls": [
     {
       "agent": "parser",
       "input_tokens": 2061,
-      "output_tokens": 1,
-      "elapsed_time": 0.0009987354278564453,
-      "cost": 0.0008260000000000001
+      "output_tokens": 2035,
+      "elapsed_time": 27.892250776290894,
+      "cost": 0.0040804000000000005
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 4488,
-      "output_tokens": 2371,
-      "elapsed_time": 34.73900103569031,
-      "cost": 0.0055888000000000005
+      "input_tokens": 6521,
+      "output_tokens": 2341,
+      "elapsed_time": 37.9441351890564,
+      "cost": 0.006354
+    },
+    {
+      "agent": "varspec",
+      "input_tokens": 211,
+      "output_tokens": 870,
+      "elapsed_time": 14.431283235549927,
+      "cost": 0.0014764000000000003
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 211,
+      "output_tokens": 870,
+      "elapsed_time": 14.525073289871216,
+      "cost": 0.0014764000000000003
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 5050,
+      "output_tokens": 273,
+      "elapsed_time": 5.220036029815674,
+      "cost": 0.0024568000000000003
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "4 chars",
-      "timestamp": 0.0009987354278564453
+      "details": "5842 chars",
+      "timestamp": 27.89228081703186
     },
     "step2_completion": {
       "passed": true,
-      "details": "6539 chars",
-      "timestamp": 34.739999771118164
+      "details": "6576 chars",
+      "timestamp": 65.83647990226746
     },
     "step3_json_valid": {
-      "passed": false,
-      "details": "object of type 'NoneType' has no len()",
-      "timestamp": 35.22468972206116
+      "passed": true,
+      "details": "17 constraints",
+      "timestamp": 65.83673810958862
     },
-    "step4_varspec": null,
-    "step5_constraints_parseable": null,
+    "step4_varspec": {
+      "passed": true,
+      "details": "33 varspecs",
+      "timestamp": 80.26822876930237
+    },
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "17 constraints",
+      "timestamp": 80.27833485603333
+    },
     "step5_repair_needed": false,
     "step5_repair_success": null,
-    "step6_consistency_check": null,
-    "step6_repair_success": null,
-    "step7_case_mapper": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 80.28811001777649
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 80.28811192512512
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "26 facts",
+      "timestamp": 100.03544187545776
+    },
     "step7_facts_validation": null,
-    "step7_z3_validation": null,
-    "step8_case_law_check": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "26 constraints",
+      "timestamp": 100.03700685501099
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 100.05127096176147
+    },
     "step8_repair_success": null,
-    "step8_violation_detected": null,
-    "step9_z3_optimize": null
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c42', 'securities:penalty_default_false']",
+      "timestamp": 100.05127692222595
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 100.06603074073792
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 80.2881019115448
+    }
   },
-  "fix_logs": []
+  "fix_logs": [
+    {
+      "id": "varspec:restriction_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 80.27
+    }
+  ]
 }

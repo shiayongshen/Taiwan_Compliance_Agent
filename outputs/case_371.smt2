@@ -1,6 +1,6 @@
 ; SMT2 file generated from compliance case automatic
 ; Case ID: case_371
-; Generated at: 2025-10-21T08:17:34.347767
+; Generated at: 2025-10-21T22:27:07.871531
 ;
 ; This file can be executed with Z3:
 ;   z3 case_371.smt2
@@ -12,78 +12,104 @@
 ; Variable Declarations
 ; ============================================================
 
-(declare-const accelerated_deterioration_or_no_improvement Bool)
-(declare-const application_submitted Bool)
-(declare-const audit_report_retained_5_years Bool)
-(declare-const audit_training_plan_established Bool)
-(declare-const board_approval_obtained Bool)
-(declare-const board_decision_documents_complete Bool)
+(declare-const accelerated_deterioration Bool)
+(declare-const accelerated_deterioration_and_no_improvement Bool)
+(declare-const annual_regular_audit_done Bool)
+(declare-const audit_report_retention_years Int)
+(declare-const audit_training_plan_implemented Bool)
+(declare-const board_approval Bool)
+(declare-const board_authorization_submitted Bool)
 (declare-const capital_adequacy_ratio Real)
-(declare-const capital_increase_plan_submitted Bool)
+(declare-const capital_funds Real)
 (declare-const capital_level Int)
+(declare-const capital_level_1_adequate Bool)
+(declare-const capital_level_2_measures_executed Bool)
+(declare-const capital_level_3_measures_completed Bool)
+(declare-const capital_level_3_measures_executed Bool)
+(declare-const capital_level_4_measures_completed Bool)
+(declare-const capital_level_4_measures_executed Bool)
 (declare-const capital_level_adequate Bool)
 (declare-const capital_level_insufficient Bool)
 (declare-const capital_level_severe_insufficiency Bool)
-(declare-const capital_level_significant_insufficiency Bool)
-(declare-const derivative_financial_product_management_compliant Bool)
+(declare-const capital_level_significant_deterioration Bool)
+(declare-const compliance_statement_submitted Bool)
+(declare-const compliance_with_internal_control_and_handling Bool)
+(declare-const derivative_trading_approval_submitted Bool)
+(declare-const derivative_trading_procedure_approved Bool)
 (declare-const financial_or_business_deterioration Bool)
-(declare-const funds Real)
 (declare-const improvement_plan_approved Bool)
-(declare-const improvement_plan_approved_flag Bool)
-(declare-const improvement_plan_completed Bool)
 (declare-const improvement_plan_executed Bool)
-(declare-const improvement_plan_executed_flag Bool)
 (declare-const improvement_plan_submitted Bool)
-(declare-const internal_audit_frequency_per_year Int)
+(declare-const improvement_plan_submitted_and_approved Bool)
+(declare-const insufficient_and_no_measures Bool)
+(declare-const internal_audit_report_retained Bool)
+(declare-const internal_audit_system_created Bool)
 (declare-const internal_audit_system_established Bool)
-(declare-const internal_audit_system_implemented Bool)
-(declare-const internal_control_and_audit_established Bool)
-(declare-const internal_control_and_audit_system_established Bool)
-(declare-const internal_handling_system_established Bool)
-(declare-const internal_handling_system_established_flag Bool)
-(declare-const internal_procedures_established Bool)
-(declare-const legal_compliance_evaluation_data_retained_5_years Bool)
-(declare-const legal_compliance_evaluation_frequency_per_half_year Int)
-(declare-const legal_compliance_evaluation_performed Bool)
-(declare-const legal_compliance_evaluation_plan_established Bool)
-(declare-const legal_compliance_evaluation_results_reported Bool)
-(declare-const loan_and_other_transaction_limits_compliant Bool)
+(declare-const internal_audit_training_plan_established Bool)
+(declare-const internal_control_and_audit_ok Bool)
+(declare-const internal_control_established Bool)
+(declare-const internal_control_executed Bool)
+(declare-const internal_handling_established Bool)
+(declare-const internal_handling_executed Bool)
+(declare-const internal_handling_ok Bool)
+(declare-const legal_violations_fines Bool)
+(declare-const loan_and_other_transaction_limits_ok Bool)
 (declare-const net_worth Real)
 (declare-const net_worth_ratio Real)
-(declare-const no_improvement_after_guidance Bool)
 (declare-const owner_equity Real)
 (declare-const penalty Bool)
-(declare-const profit_loss_accelerated_deterioration Bool)
-(declare-const prohibited_acts_without_regulator_consent Bool)
-(declare-const public_tender_or_auction Bool)
-(declare-const real_estate_investment_limits_compliant Bool)
-(declare-const real_estate_transaction_procedures_compliant Bool)
-(declare-const regulator_consent_contract_commitment Bool)
-(declare-const regulator_consent_other_major_financial_matters Bool)
-(declare-const regulator_consent_payment_exceed_limit Bool)
-(declare-const regulatory_action_condition Bool)
-(declare-const regulatory_action_executed Bool)
-(declare-const regulatory_action_taken Bool)
-(declare-const required_documents_submitted Bool)
-(declare-const risk_management_policies_established Bool)
-(declare-const risk_to_insured Bool)
-(declare-const severe_insufficiency_penalty_condition Bool)
-(declare-const significant_deterioration_condition Bool)
-(declare-const single_real_estate_transaction_amount Real)
+(declare-const personnel_experience_proof_submitted Bool)
+(declare-const project_audit_done_as_needed Bool)
+(declare-const real_estate_investment_limits_ok Bool)
+(declare-const real_estate_investment_meets_internal_procedures Bool)
+(declare-const real_estate_investment_special_cases_ok Bool)
+(declare-const real_estate_investment_total Real)
+(declare-const regulatory_action_required Bool)
+(declare-const risk_management_policy_submitted Bool)
+(declare-const risk_to_insured_rights Bool)
+(declare-const self_use_real_estate_total Real)
+(declare-const severe_insufficiency_and_no_measures Bool)
+(declare-const significant_deterioration_and_no_measures Bool)
 (declare-const single_transaction_amount Real)
-(declare-const statutory_standard Bool)
-(declare-const total_real_estate_transaction_amount Real)
-(declare-const total_transaction_balance Real)
+(declare-const social_housing_rental_only Bool)
+(declare-const total_transaction_amount Real)
+(declare-const trading_procedure_submitted Bool)
+(declare-const transaction_object_is_government_or_public Bool)
+(declare-const unable_to_fulfill_contract Bool)
 (declare-const unable_to_pay_debt Bool)
+(declare-const violate_article_143 Bool)
+(declare-const violate_article_143_5_or_143_6_measures Bool)
+(declare-const violate_business_scope_regulations Bool)
+(declare-const violate_fund_usage_regulations Bool)
+(declare-const violate_internal_control_penalty Bool)
+(declare-const violate_loan_guarantee_regulations Bool)
+(declare-const violate_loan_limit_regulations Bool)
+(declare-const violate_reserve_fund_regulations Bool)
 
 ; ============================================================
 ; Constraints (Legal Rules)
 ; ============================================================
 
-; [insurance:capital_level_severe_insufficiency] 資本等級為嚴重不足
-(assert (not (= (<= 2 capital_level) capital_level_severe_insufficiency)))
+; [insurance:capital_level_severe_insufficiency] 資本等級嚴重不足判定
+(assert (= capital_level_severe_insufficiency
+   (or (not (<= 0.0 net_worth)) (not (<= 50.0 capital_adequacy_ratio)))))
 
-; [insurance:capital_level] 資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）
+; [insurance:capital_level_significant_deterioration] 資本等級顯著惡化判定
+(assert (= capital_level_significant_deterioration
+   (and (<= 50.0 capital_adequacy_ratio)
+        (not (<= 150.0 capital_adequacy_ratio))
+        (<= 0.0 net_worth_ratio)
+        (not (<= 2.0 net_worth_ratio)))))
+
+; [insurance:capital_level_insufficient] 資本等級不足判定
+(assert (= capital_level_insufficient
+   (and (<= 150.0 capital_adequacy_ratio)
+        (not (<= 200.0 capital_adequacy_ratio)))))
+
+; [insurance:capital_level_adequate] 資本等級適足判定
+(assert (= capital_level_adequate (<= 200.0 capital_adequacy_ratio)))
+
+; [insurance:capital_level] 資本等級分類（1=適足, 2=不足, 3=顯著惡化, 4=嚴重不足, 0=未分類）
 (assert (let ((a!1 (ite (and (<= 150.0 capital_adequacy_ratio)
                      (not (<= 200.0 capital_adequacy_ratio)))
                 2
@@ -100,205 +126,197 @@
                 a!2)))
   (= capital_level a!3)))))
 
-; [insurance:capital_level_severe_insufficiency] 資本等級為嚴重不足
-(assert (= capital_level_severe_insufficiency (= 4 capital_level)))
+; [insurance:capital_level_4_measures_executed] 資本嚴重不足等級措施已執行
+(assert (= capital_level_4_measures_executed capital_level_4_measures_completed))
 
-; [insurance:capital_level_significant_insufficiency] 資本等級為顯著不足
-(assert (= capital_level_significant_insufficiency (= 3 capital_level)))
+; [insurance:capital_level_3_measures_executed] 資本顯著惡化等級措施已執行
+(assert (= capital_level_3_measures_executed capital_level_3_measures_completed))
 
-; [insurance:capital_level_insufficient] 資本等級為不足
-(assert (= capital_level_insufficient (= 2 capital_level)))
+; [insurance:capital_level_2_measures_executed] 資本不足等級措施已執行
+(assert (= capital_level_2_measures_executed
+   (and improvement_plan_submitted improvement_plan_executed)))
 
-; [insurance:capital_level_adequate] 資本等級為適足
-(assert (= capital_level_adequate (= 1 capital_level)))
+; [insurance:capital_level_1_adequate] 資本適足等級
+(assert (= capital_level_1_adequate capital_level_adequate))
 
-; [insurance:improvement_plan_completed] 增資、財務或業務改善計畫或合併已於主管機關規定期限完成
-(assert (= improvement_plan_completed improvement_plan_submitted))
+; [insurance:severe_insufficiency_and_no_measures] 資本嚴重不足且未完成增資、改善計畫或合併
+(assert (= severe_insufficiency_and_no_measures
+   (and (= 4 capital_level) (not capital_level_4_measures_executed))))
 
-; [insurance:improvement_plan_executed] 增資、財務或業務改善計畫或合併已執行完成
-(assert (= improvement_plan_executed improvement_plan_executed_flag))
+; [insurance:significant_deterioration_and_no_measures] 資本顯著惡化且未完成改善計畫
+(assert (= significant_deterioration_and_no_measures
+   (and (= 3 capital_level) (not capital_level_3_measures_executed))))
 
-; [insurance:severe_insufficiency_penalty_condition] 資本嚴重不足且未於期限完成增資或改善計畫
-(assert (= severe_insufficiency_penalty_condition
-   (and (= 4 capital_level)
-        (or (not improvement_plan_completed) (not improvement_plan_executed)))))
+; [insurance:insufficient_and_no_measures] 資本不足且未完成改善計畫
+(assert (= insufficient_and_no_measures
+   (and (= 2 capital_level) (not capital_level_2_measures_executed))))
 
-; [insurance:significant_deterioration_condition] 財務或業務狀況顯著惡化且不能支付債務或有損及被保險人權益之虞
-(assert (= significant_deterioration_condition
-   (and financial_or_business_deterioration
-        (or risk_to_insured unable_to_pay_debt))))
+; [insurance:financial_or_business_deterioration] 財務或業務狀況顯著惡化，不能支付債務或有損及被保險人權益之虞
+(assert (= financial_or_business_deterioration
+   (or unable_to_pay_debt risk_to_insured_rights unable_to_fulfill_contract)))
 
-; [insurance:improvement_plan_approved] 主管機關核定財務或業務改善計畫
-(assert (= improvement_plan_approved improvement_plan_approved_flag))
+; [insurance:improvement_plan_submitted_and_approved] 已提出並經主管機關核定財務或業務改善計畫
+(assert (= improvement_plan_submitted_and_approved
+   (and improvement_plan_submitted improvement_plan_approved)))
 
-; [insurance:accelerated_deterioration_or_no_improvement] 損益、淨值加速惡化或經輔導仍未改善
-(assert (= accelerated_deterioration_or_no_improvement
-   (or profit_loss_accelerated_deterioration no_improvement_after_guidance)))
+; [insurance:accelerated_deterioration_and_no_improvement] 損益、淨值加速惡化且經輔導仍未改善
+(assert (= accelerated_deterioration_and_no_improvement
+   (and accelerated_deterioration (not improvement_plan_executed))))
 
-; [insurance:regulatory_action_condition] 應為監管、接管、勒令停業清理或命令解散之處分
-(assert (= regulatory_action_condition
-   (or severe_insufficiency_penalty_condition
-       (and (not severe_insufficiency_penalty_condition)
-            significant_deterioration_condition
-            improvement_plan_approved
-            accelerated_deterioration_or_no_improvement))))
+; [insurance:regulatory_action_required] 應為監管、接管、勒令停業清理或命令解散之處分
+(assert (= regulatory_action_required
+   (or severe_insufficiency_and_no_measures
+       (and (not severe_insufficiency_and_no_measures)
+            financial_or_business_deterioration
+            improvement_plan_submitted_and_approved
+            accelerated_deterioration_and_no_improvement))))
 
-; [insurance:regulatory_action_taken] 主管機關已為監管、接管、勒令停業清理或命令解散之處分
-(assert (= regulatory_action_taken regulatory_action_executed))
+; [insurance:internal_control_and_audit_ok] 建立內部控制及稽核制度且確實執行
+(assert (= internal_control_and_audit_ok
+   (and internal_control_established internal_control_executed)))
 
-; [insurance:prohibited_acts_without_regulator_consent] 保險業非經監管人同意不得為禁止行為
-(assert (= prohibited_acts_without_regulator_consent
-   (and (not regulator_consent_payment_exceed_limit)
-        (not regulator_consent_contract_commitment)
-        (not regulator_consent_other_major_financial_matters))))
+; [insurance:internal_handling_ok] 建立內部處理制度及程序且確實執行
+(assert (= internal_handling_ok
+   (and internal_handling_established internal_handling_executed)))
 
-; [insurance:internal_control_and_audit_established] 建立內部控制及稽核制度
-(assert (= internal_control_and_audit_established
-   internal_control_and_audit_system_established))
+; [insurance:derivative_trading_approval_submitted] 衍生性金融商品交易申請核准文件已提交
+(assert (= derivative_trading_approval_submitted
+   (and compliance_statement_submitted
+        board_authorization_submitted
+        personnel_experience_proof_submitted
+        trading_procedure_submitted
+        risk_management_policy_submitted)))
 
-; [insurance:internal_handling_system_established] 建立內部處理制度及程序
-(assert (= internal_handling_system_established
-   internal_handling_system_established_flag))
+; [insurance:derivative_trading_procedure_approved] 衍生性金融商品交易處理程序經董（理）事會通過
+(assert (= derivative_trading_procedure_approved board_approval))
 
-; [insurance:derivative_financial_product_management_compliant] 衍生性金融商品交易管理符合主管機關規定
-(assert (= derivative_financial_product_management_compliant
-   (and application_submitted
-        required_documents_submitted
-        board_approval_obtained
-        internal_procedures_established
-        risk_management_policies_established)))
+; [insurance:loan_and_other_transaction_limits_ok] 同一人、同一關係人或同一關係企業之放款及其他交易限額符合規定
+(assert (let ((a!1 (and (or (<= single_transaction_amount (* (/ 7.0 20.0) owner_equity))
+                    transaction_object_is_government_or_public)
+                (or transaction_object_is_government_or_public
+                    (<= total_transaction_amount (* (/ 7.0 10.0) owner_equity)))
+                (or (<= 100000000.0 single_transaction_amount)
+                    (>= 100000000.0 single_transaction_amount))
+                (or (<= 200000000.0 total_transaction_amount)
+                    (>= 200000000.0 total_transaction_amount)))))
+  (= loan_and_other_transaction_limits_ok a!1)))
 
-; [insurance:loan_and_other_transaction_limits_compliant] 同一人、同一關係人或同一關係企業之放款及其他交易限額符合規定
-(assert (= loan_and_other_transaction_limits_compliant
-   (and (<= single_transaction_amount (* (/ 7.0 20.0) owner_equity))
-        (<= total_transaction_balance (* (/ 7.0 10.0) owner_equity)))))
+; [insurance:real_estate_investment_limits_ok] 不動產投資限額符合規定
+(assert (= real_estate_investment_limits_ok
+   (and (<= real_estate_investment_total (* (/ 3.0 10.0) capital_funds))
+        (<= self_use_real_estate_total owner_equity))))
 
-; [insurance:real_estate_investment_limits_compliant] 不動產投資限額符合規定
-(assert (let ((a!1 (and (not (<= (ite statutory_standard 1.0 0.0)
-                         capital_adequacy_ratio))
-                (not (<= owner_equity 0.0))
-                capital_increase_plan_submitted
-                (<= single_real_estate_transaction_amount
-                    (* (/ 1.0 100.0) funds))
-                (<= total_real_estate_transaction_amount (* (/ 1.0 50.0) funds))
-                public_tender_or_auction
-                real_estate_transaction_procedures_compliant
-                board_approval_obtained
-                board_decision_documents_complete))
-      (a!2 (and (not (<= (ite statutory_standard 1.0 0.0)
-                         capital_adequacy_ratio))
-                (>= 0.0 owner_equity)
-                capital_increase_plan_submitted
-                (<= single_real_estate_transaction_amount
-                    (ite (<= funds 500000000000.0)
-                         (* (/ 1.0 100.0) funds)
-                         5000000000.0))
-                (<= total_real_estate_transaction_amount
-                    (ite (<= funds 500000000000.0)
-                         (* (/ 1.0 50.0) funds)
-                         10000000000.0))
-                public_tender_or_auction
-                real_estate_transaction_procedures_compliant
-                board_approval_obtained
-                board_decision_documents_complete)))
-(let ((a!3 (or (and (>= capital_adequacy_ratio (ite statutory_standard 1.0 0.0))
-                    (<= single_real_estate_transaction_amount
-                        (* (/ 3.0 200.0) funds))
-                    (<= total_real_estate_transaction_amount
-                        (* (/ 3.0 100.0) funds)))
-               a!1
-               a!2)))
-  (= real_estate_investment_limits_compliant a!3))))
+; [insurance:real_estate_investment_special_cases_ok] 不動產投資特殊情形符合規定
+(assert (= real_estate_investment_special_cases_ok
+   (or social_housing_rental_only
+       real_estate_investment_meets_internal_procedures)))
 
-; [insurance:internal_audit_system_implemented] 建立自行查核制度並執行
-(assert (= internal_audit_system_implemented
-   (and internal_audit_system_established
-        (<= 1 internal_audit_frequency_per_year)
-        audit_report_retained_5_years
-        audit_training_plan_established)))
+; [insurance:internal_audit_system_established] 建立自行查核制度且執行
+(assert (= internal_audit_system_established
+   (and internal_audit_system_created
+        annual_regular_audit_done
+        project_audit_done_as_needed)))
 
-; [insurance:legal_compliance_evaluation_performed] 依法令遵循計畫執行自行評估
-(assert (= legal_compliance_evaluation_performed
-   (and legal_compliance_evaluation_plan_established
-        (<= 1 legal_compliance_evaluation_frequency_per_half_year)
-        legal_compliance_evaluation_results_reported
-        legal_compliance_evaluation_data_retained_5_years)))
+; [insurance:internal_audit_report_retained] 自行查核報告及工作底稿至少保存五年
+(assert (= internal_audit_report_retained (<= 5 audit_report_retention_years)))
+
+; [insurance:internal_audit_training_plan_established] 訂定自行查核訓練計畫並持續施訓
+(assert (= internal_audit_training_plan_established audit_training_plan_implemented))
+
+; [insurance:compliance_with_internal_control_and_handling] 符合內部控制及稽核制度與內部處理制度規定
+(assert (= compliance_with_internal_control_and_handling
+   (and internal_control_and_audit_ok internal_handling_ok)))
+
+; [insurance:legal_violations_fines] 違反相關法令規定之罰鍰處分
+(assert (= legal_violations_fines
+   (or violate_loan_guarantee_regulations
+       violate_loan_limit_regulations
+       violate_article_143
+       violate_reserve_fund_regulations
+       violate_business_scope_regulations
+       violate_article_143_5_or_143_6_measures
+       violate_fund_usage_regulations)))
+
+; [insurance:violate_internal_control_penalty] 違反內部控制及稽核制度規定罰鍰
+(assert (= violate_internal_control_penalty
+   (or (not internal_control_and_audit_ok) (not internal_handling_ok))))
 
 ; [meta:penalty_default_false] 預設不處罰
 (assert (not penalty))
 
-; [meta:penalty_conditions] 處罰條件：違反資本嚴重不足未完成改善計畫、財務或業務顯著惡化未改善、未建立內部控制或處理制度、違反衍生性金融商品管理規定、不符交易限額、不符不動產投資限額、未執行自行查核或法令遵循評估時處罰
+; [meta:penalty_conditions] 處罰條件：資本嚴重不足且未完成增資或改善計畫，或資本顯著惡化且未完成改善計畫，或資本不足且未完成改善計畫，或違反內部控制及稽核制度規定，或違反相關法令規定時處罰
 (assert (= penalty
-   (or (not regulatory_action_taken)
-       (not internal_handling_system_established)
-       (not derivative_financial_product_management_compliant)
-       (not internal_control_and_audit_established)
-       (not loan_and_other_transaction_limits_compliant)
-       (not real_estate_investment_limits_compliant)
-       (not legal_compliance_evaluation_performed)
-       (not internal_audit_system_implemented))))
+   (or (not internal_control_and_audit_ok)
+       (and (= 3 capital_level) (not capital_level_3_measures_executed))
+       (and (= 2 capital_level) (not capital_level_2_measures_executed))
+       (and (= 4 capital_level) (not capital_level_4_measures_executed))
+       legal_violations_fines)))
 
 ; ============================================================
 ; Facts (Case Specific)
 ; ============================================================
 
-(assert (= capital_adequacy_ratio 40.0))
-(assert (= net_worth -1000000.0))
-(assert (= net_worth_ratio -5.0))
-(assert (= capital_level 4))
+(assert (= capital_adequacy_ratio 100.0))
+(assert (= net_worth 1000000))
+(assert (= net_worth_ratio (/ 3.0 2.0)))
+(assert (= capital_funds 5000000))
+(assert (= owner_equity 3000000))
+(assert (= real_estate_investment_total 2000000))
+(assert (= self_use_real_estate_total 3500000))
+(assert (= single_transaction_amount 200000000))
+(assert (= total_transaction_amount 400000000))
+(assert (= transaction_object_is_government_or_public false))
+(assert (= compliance_statement_submitted false))
+(assert (= board_authorization_submitted false))
+(assert (= personnel_experience_proof_submitted false))
+(assert (= trading_procedure_submitted false))
+(assert (= risk_management_policy_submitted false))
+(assert (= board_approval false))
+(assert (= internal_control_established false))
+(assert (= internal_control_executed false))
+(assert (= internal_handling_established false))
+(assert (= internal_handling_executed false))
+(assert (= legal_violations_fines true))
 (assert (= improvement_plan_submitted false))
-(assert (= improvement_plan_completed false))
-(assert (= improvement_plan_executed_flag false))
-(assert (= improvement_plan_executed false))
-(assert (= financial_or_business_deterioration true))
-(assert (= unable_to_pay_debt false))
-(assert (= risk_to_insured true))
-(assert (= internal_control_and_audit_system_established false))
-(assert (= internal_control_and_audit_established false))
-(assert (= internal_handling_system_established_flag false))
-(assert (= internal_handling_system_established false))
-(assert (= application_submitted false))
-(assert (= required_documents_submitted false))
-(assert (= board_approval_obtained false))
-(assert (= internal_procedures_established false))
-(assert (= risk_management_policies_established false))
-(assert (= loan_and_other_transaction_limits_compliant false))
-(assert (= owner_equity 1000000000.0))
-(assert (= single_transaction_amount 400000000.0))
-(assert (= total_transaction_balance 800000000.0))
-(assert (= real_estate_investment_limits_compliant false))
-(assert (= capital_increase_plan_submitted false))
-(assert (= funds 10000000000.0))
-(assert (= single_real_estate_transaction_amount 200000000.0))
-(assert (= total_real_estate_transaction_amount 400000000.0))
-(assert (= public_tender_or_auction false))
-(assert (= real_estate_transaction_procedures_compliant false))
-(assert (= board_decision_documents_complete false))
-(assert (= internal_audit_system_established false))
-(assert (= internal_audit_frequency_per_year 0))
-(assert (= internal_audit_system_implemented false))
-(assert (= audit_report_retained_5_years false))
-(assert (= audit_training_plan_established false))
-(assert (= legal_compliance_evaluation_plan_established false))
-(assert (= legal_compliance_evaluation_frequency_per_half_year 0))
-(assert (= legal_compliance_evaluation_results_reported false))
-(assert (= legal_compliance_evaluation_data_retained_5_years false))
-(assert (= legal_compliance_evaluation_performed false))
-(assert (= profit_loss_accelerated_deterioration true))
-(assert (= no_improvement_after_guidance true))
-(assert (= accelerated_deterioration_or_no_improvement true))
-(assert (= improvement_plan_approved_flag false))
 (assert (= improvement_plan_approved false))
-(assert (= regulatory_action_executed false))
-(assert (= regulatory_action_taken false))
-(assert (= regulatory_action_condition false))
-(assert (= prohibited_acts_without_regulator_consent true))
-(assert (= severe_insufficiency_penalty_condition true))
-(assert (= significant_deterioration_condition true))
-(assert (= capital_level_severe_insufficiency true))
-(assert (= capital_level_significant_insufficiency false))
-(assert (= capital_level_insufficient false))
-(assert (= capital_level_adequate false))
+(assert (= improvement_plan_executed false))
+(assert (= capital_level_4_measures_completed false))
+(assert (= capital_level_4_measures_executed false))
+(assert (= capital_level_3_measures_completed false))
+(assert (= capital_level_3_measures_executed false))
+(assert (= capital_level_2_measures_executed false))
+(assert (= financial_or_business_deterioration true))
+(assert (= risk_to_insured_rights true))
+(assert (= unable_to_pay_debt false))
+(assert (= unable_to_fulfill_contract false))
+(assert (= accelerated_deterioration false))
+(assert (= audit_report_retention_years 3))
+(assert (= annual_regular_audit_done false))
+(assert (= audit_training_plan_implemented false))
+(assert (= internal_audit_system_created false))
+(assert (= project_audit_done_as_needed false))
+(assert (= internal_audit_report_retained false))
+(assert (= internal_audit_training_plan_established false))
+(assert (= internal_audit_system_established false))
+(assert (= internal_control_and_audit_ok false))
+(assert (= internal_handling_ok false))
+(assert (= compliance_with_internal_control_and_handling false))
+(assert (= derivative_trading_approval_submitted false))
+(assert (= derivative_trading_procedure_approved false))
+(assert (= loan_and_other_transaction_limits_ok false))
+(assert (= real_estate_investment_limits_ok false))
+(assert (= real_estate_investment_meets_internal_procedures false))
+(assert (= real_estate_investment_special_cases_ok false))
+(assert (= social_housing_rental_only false))
+(assert (= violate_internal_control_penalty true))
+(assert (= violate_business_scope_regulations true))
+(assert (= violate_reserve_fund_regulations false))
+(assert (= violate_article_143 false))
+(assert (= violate_article_143_5_or_143_6_measures false))
+(assert (= violate_fund_usage_regulations false))
+(assert (= violate_loan_guarantee_regulations false))
+(assert (= violate_loan_limit_regulations false))
+(assert (= penalty true))
 
 ; ============================================================
 ; Check Satisfiability
@@ -310,9 +328,9 @@
 ; ============================================================
 ; Additional Information
 ; ============================================================
-; Total constraints: 24
-; Total variables: 63
-; Total facts: 57
+; Total constraints: 31
+; Total variables: 73
+; Total facts: 61
 ;
 ; Expected result:
 ;   - If UNSAT: Case violates legal rules

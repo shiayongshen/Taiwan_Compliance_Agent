@@ -90,54 +90,68 @@
     "domain": "bank"
   },
   {
-    "id": "bank:internal_control_and_handling_and_operation_ok",
-    "desc": "內部控制、處理及作業制度均建立且確實執行",
+    "id": "bank:internal_control_ok",
+    "desc": "內部控制及稽核制度建立且確實執行",
     "expr": [
       "EQ",
-      "internal_control_and_handling_and_operation_ok",
+      "internal_control_ok",
       [
         "AND",
         [
-          "AND",
-          [
-            "AND",
-            [
-              "EQ",
-              "internal_control_established",
-              true
-            ],
-            [
-              "EQ",
-              "internal_control_executed",
-              true
-            ]
-          ],
-          [
-            "AND",
-            [
-              "EQ",
-              "internal_handling_established",
-              true
-            ],
-            [
-              "EQ",
-              "internal_handling_executed",
-              true
-            ]
-          ]
+          "EQ",
+          "internal_control_established",
+          true
         ],
         [
-          "AND",
-          [
-            "EQ",
-            "internal_operation_established",
-            true
-          ],
-          [
-            "EQ",
-            "internal_operation_executed",
-            true
-          ]
+          "EQ",
+          "internal_control_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_handling_ok",
+    "desc": "內部處理制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_handling_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_handling_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_handling_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:internal_operation_ok",
+    "desc": "內部作業制度及程序建立且確實執行",
+    "expr": [
+      "EQ",
+      "internal_operation_ok",
+      [
+        "AND",
+        [
+          "EQ",
+          "internal_operation_established",
+          true
+        ],
+        [
+          "EQ",
+          "internal_operation_executed",
+          true
         ]
       ]
     ],
@@ -157,7 +171,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：未依規定建立或執行內部控制、處理或作業制度時處罰",
+    "desc": "處罰條件：未依規定建立或執行內部控制、內部處理或內部作業制度時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -167,7 +181,7 @@
           "NOT",
           [
             "EQ",
-            "internal_control_established",
+            "internal_control_ok",
             true
           ]
         ],
@@ -175,7 +189,7 @@
           "NOT",
           [
             "EQ",
-            "internal_control_executed",
+            "internal_handling_ok",
             true
           ]
         ],
@@ -183,31 +197,7 @@
           "NOT",
           [
             "EQ",
-            "internal_handling_established",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_handling_executed",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_operation_established",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_operation_executed",
+            "internal_operation_ok",
             true
           ]
         ]

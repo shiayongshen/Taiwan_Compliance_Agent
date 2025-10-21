@@ -19,7 +19,7 @@
         ],
         [
           "EQ",
-          "relevant_insurance_covered",
+          "relevant_insurance_subscribed",
           true
         ],
         [
@@ -33,23 +33,23 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:relevant_insurance_covered",
-    "desc": "保險代理人、公證人投保責任保險；保險經紀人投保責任保險及保證保險",
+    "id": "insurance:relevant_insurance_type_compliance",
+    "desc": "相關保險類型依身份區分：代理人、公證人為責任保險；經紀人為責任保險及保證保險",
     "expr": [
       "EQ",
-      "relevant_insurance_covered",
+      "relevant_insurance_type_compliance",
       [
         "OR",
         [
           "AND",
           [
             "EQ",
-            "agent_type",
-            1
+            "agent",
+            true
           ],
           [
             "EQ",
-            "liability_insurance_covered",
+            "insurance_type_responsibility",
             true
           ]
         ],
@@ -57,33 +57,30 @@
           "AND",
           [
             "EQ",
-            "agent_type",
-            2
+            "broker",
+            true
           ],
           [
-            "AND",
-            [
-              "EQ",
-              "liability_insurance_covered",
-              true
-            ],
-            [
-              "EQ",
-              "guarantee_insurance_covered",
-              true
-            ]
+            "EQ",
+            "insurance_type_responsibility",
+            true
+          ],
+          [
+            "EQ",
+            "insurance_type_guarantee",
+            true
           ]
         ],
         [
           "AND",
           [
             "EQ",
-            "agent_type",
-            3
+            "notary",
+            true
           ],
           [
             "EQ",
-            "liability_insurance_covered",
+            "insurance_type_responsibility",
             true
           ]
         ]
@@ -93,175 +90,14 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:minimum_guarantee_deposit",
-    "desc": "主管機關定最低保證金及實施方式，考量經營業務範圍及規模",
+    "id": "insurance:minimum_guarantee_deposit_and_insurance_amount_set_by_authority",
+    "desc": "主管機關依經營及執行業務範圍及規模定最低保證金及保險金額",
     "expr": [
       "EQ",
-      "minimum_guarantee_deposit",
-      [
-        "CASE",
-        [
-          "EQ",
-          "agent_type",
-          1
-        ],
-        "min_deposit_agent",
-        [
-          "EQ",
-          "agent_type",
-          2
-        ],
-        "min_deposit_broker",
-        [
-          "EQ",
-          "agent_type",
-          3
-        ],
-        "min_deposit_notary",
-        0.0
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:good_faith_and_diligence",
-    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
-    "expr": [
-      "EQ",
-      "good_faith_and_diligence",
-      [
-        "AND",
-        [
-          "EQ",
-          "duty_of_care",
-          true
-        ],
-        [
-          "EQ",
-          "duty_of_loyalty",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:written_analysis_report_provided",
-    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，主動提供書面分析報告",
-    "expr": [
-      "EQ",
-      "written_analysis_report_provided",
-      [
-        "IMPLIES",
-        [
-          "EQ",
-          "within_authority_scope",
-          true
-        ],
-        [
-          "EQ",
-          "analysis_report_provided",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:disclose_fee_standard",
-    "desc": "保險經紀人向要保人或被保險人收取報酬時，應明確告知報酬收取標準",
-    "expr": [
-      "EQ",
-      "disclose_fee_standard",
-      [
-        "IMPLIES",
-        [
-          "EQ",
-          "fee_charged",
-          true
-        ],
-        [
-          "EQ",
-          "fee_standard_disclosed",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:violation_finance_or_business_management",
-    "desc": "違反財務或業務管理規定",
-    "expr": [
-      "EQ",
-      "violation_finance_or_business_management",
-      [
-        "OR",
-        [
-          "EQ",
-          "violate_finance_management",
-          true
-        ],
-        [
-          "EQ",
-          "violate_business_management",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:violation_broker_duties",
-    "desc": "違反保險經紀人善良管理人注意義務或忠實義務",
-    "expr": [
-      "EQ",
-      "violation_broker_duties",
-      [
-        "OR",
-        [
-          "NOT",
-          [
-            "EQ",
-            "good_faith_and_diligence",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "written_analysis_report_provided",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "disclose_fee_standard",
-            true
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:document_retention_compliance",
-    "desc": "個人執業經紀人、經紀人公司及銀行應留存文件備查",
-    "expr": [
-      "EQ",
-      "document_retention_compliance",
+      "minimum_guarantee_deposit_and_insurance_amount_set_by_authority",
       [
         "EQ",
-        "documents_retained",
+        "authority_set_minimum_amount",
         true
       ]
     ],
@@ -269,77 +105,43 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:contact_info_collection_compliance",
-    "desc": "電子保單出單時，應取得要保人及被保險人聯絡方式並提供保險人",
+    "id": "insurance:management_rules_set_by_authority",
+    "desc": "主管機關定管理規則涵蓋資格、申請、程序、文件、董事監察人經理人資格、解任、分支機構、財務業務管理、教育訓練、廢止許可及其他事項",
     "expr": [
       "EQ",
-      "contact_info_collection_compliance",
+      "management_rules_set_by_authority",
       [
-        "IMPLIES",
+        "EQ",
+        "authority_set_management_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_for_agent_or_broker",
+    "desc": "銀行經主管機關許可擇一兼營保險代理人或經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_for_agent_or_broker",
+      [
+        "AND",
         [
           "EQ",
-          "policy_issued_electronically",
+          "bank_approved_by_authority",
           true
         ],
         [
-          "AND",
+          "OR",
           [
-            "OR",
-            [
-              "NOT",
-              [
-                "EQ",
-                "applicant_phone",
-                false
-              ]
-            ],
-            [
-              "NOT",
-              [
-                "EQ",
-                "applicant_email",
-                false
-              ]
-            ],
-            [
-              "NOT",
-              [
-                "EQ",
-                "applicant_other_contact",
-                false
-              ]
-            ]
-          ],
-          [
-            "OR",
-            [
-              "NOT",
-              [
-                "EQ",
-                "insured_phone",
-                false
-              ]
-            ],
-            [
-              "NOT",
-              [
-                "EQ",
-                "insured_email",
-                false
-              ]
-            ],
-            [
-              "NOT",
-              [
-                "EQ",
-                "insured_other_contact",
-                false
-              ]
-            ]
+            "EQ",
+            "bank_operate_as_agent",
+            true
           ],
           [
             "EQ",
-            "contact_info_provided_to_insurer",
+            "bank_operate_as_broker",
             true
           ]
         ]
@@ -349,11 +151,203 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:internal_operation_compliance",
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_exercise_fidelity",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_provide_written_analysis_report_and_disclose_fee",
+    "desc": "保險經紀人於主管機關指定範圍內洽訂保險契約前，主動提供書面分析報告，收取報酬者明確告知報酬標準",
+    "expr": [
+      "EQ",
+      "broker_provide_written_analysis_report_and_disclose_fee",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_provide_written_report",
+          true
+        ],
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "broker_charge_fee",
+            true
+          ],
+          [
+            "EQ",
+            "broker_disclose_fee_standard",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:violation_financial_or_business_management_rules",
+    "desc": "違反財務或業務管理規定或相關規定者，應限期改正或處罰",
+    "expr": [
+      "EQ",
+      "violation_financial_or_business_management_rules",
+      [
+        "OR",
+        [
+          "EQ",
+          "violate_financial_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_business_management_rules",
+          true
+        ],
+        [
+          "EQ",
+          "violate_related_regulations",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_duty_of_care_and_fidelity_compliance",
+    "desc": "經紀人執行或經營業務時盡善良管理人注意及忠實義務，維護被保險人利益並充分揭露資訊",
+    "expr": [
+      "EQ",
+      "broker_duty_of_care_and_fidelity_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "broker_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_exercise_fidelity",
+          true
+        ],
+        [
+          "EQ",
+          "broker_maintain_client_interest",
+          true
+        ],
+        [
+          "EQ",
+          "broker_disclose_main_content_and_rights",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_document_retention",
+    "desc": "經紀人及銀行應留存相關文件備查",
+    "expr": [
+      "EQ",
+      "broker_document_retention",
+      [
+        "EQ",
+        "broker_documents_retained",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_obtain_contact_info_for_e_policy",
+    "desc": "招攬電子保單業務時，應取得要保人及被保險人聯絡方式並提供保險人",
+    "expr": [
+      "EQ",
+      "broker_obtain_contact_info_for_e_policy",
+      [
+        "IMPLIES",
+        [
+          "EQ",
+          "insurance_policy_is_electronic",
+          true
+        ],
+        [
+          "AND",
+          [
+            "OR",
+            [
+              "EQ",
+              "applicant_mobile_phone",
+              true
+            ],
+            [
+              "EQ",
+              "applicant_email",
+              true
+            ],
+            [
+              "EQ",
+              "applicant_other_contact",
+              true
+            ]
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "insured_mobile_phone",
+              true
+            ],
+            [
+              "EQ",
+              "insured_email",
+              true
+            ],
+            [
+              "EQ",
+              "insured_other_contact",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "provide_contact_to_insurer",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:broker_internal_operation_compliance",
     "desc": "經紀人公司及銀行應訂定並落實內部作業規範，確保遵循法令及保障高齡消費者權益",
     "expr": [
       "EQ",
-      "internal_operation_compliance",
+      "broker_internal_operation_compliance",
       [
         "AND",
         [
@@ -368,7 +362,12 @@
         ],
         [
           "EQ",
-          "senior_consumer_protection_included",
+          "comply_with_laws_and_regulations",
+          true
+        ],
+        [
+          "EQ",
+          "protect_senior_consumer_rights",
           true
         ]
       ]
@@ -377,38 +376,33 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:broker_understanding_and_reporting",
-    "desc": "經紀人洽訂保險契約前應充分瞭解要保人及被保險人基本資料、需求及風險屬性，並依主管機關規定提供書面分析報告及報酬標準",
+    "id": "insurance:broker_understand_client_and_provide_report_before_contract",
+    "desc": "經紀人洽訂保險契約前應充分瞭解要保人及被保險人基本資料、需求及風險屬性，並依主管機關規定提供書面分析報告及明確告知報酬標準",
     "expr": [
       "EQ",
-      "broker_understanding_and_reporting",
+      "broker_understand_client_and_provide_report_before_contract",
       [
         "AND",
         [
           "EQ",
-          "basic_info_understood",
+          "broker_understand_client_info",
           true
         ],
         [
           "EQ",
-          "needs_and_risk_understood",
-          true
-        ],
-        [
-          "EQ",
-          "written_analysis_report_provided",
+          "broker_provide_written_report",
           true
         ],
         [
           "IMPLIES",
           [
             "EQ",
-            "fee_charged",
+            "broker_charge_fee",
             true
           ],
           [
             "EQ",
-            "disclose_fee_standard",
+            "broker_disclose_fee_standard",
             true
           ]
         ]
@@ -418,51 +412,30 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:shareholding_disclosure",
-    "desc": "經紀人於洽訂保險契約前，應揭露與保險公司持股超過10%之資訊",
+    "id": "insurance:broker_disclose_shareholding_info_before_contract",
+    "desc": "經紀人於洽訂保險契約前應揭露與保險公司持股超過10%之資訊",
     "expr": [
       "EQ",
-      "shareholding_disclosure",
+      "broker_disclose_shareholding_info_before_contract",
       [
-        "OR",
+        "IMPLIES",
         [
-          "AND",
+          "OR",
           [
             "GT",
             "broker_company_shareholding_in_insurer",
             10.0
           ],
           [
-            "EQ",
-            "disclosed_to_applicant",
-            true
-          ]
-        ],
-        [
-          "AND",
-          [
             "GT",
             "insurer_shareholding_in_broker_company",
             10.0
-          ],
-          [
-            "EQ",
-            "disclosed_to_applicant",
-            true
           ]
         ],
         [
-          "AND",
-          [
-            "LE",
-            "broker_company_shareholding_in_insurer",
-            10.0
-          ],
-          [
-            "LE",
-            "insurer_shareholding_in_broker_company",
-            10.0
-          ]
+          "EQ",
+          "broker_disclose_shareholding_info",
+          true
         ]
       ]
     ],
@@ -482,7 +455,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反許可、保證金、保險投保、執業證照規定，或違反財務、業務管理規定，或違反經紀人義務，或未留存文件，或未取得聯絡方式，或未訂定或執行內部作業規範，或未揭露持股資訊時處罰",
+    "desc": "處罰條件：違反許可、保證金、保險、執業證照規定或違反財務、業務管理規定，或違反善良管理人及忠實義務，或未依規定提供書面報告及揭露資訊時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -497,20 +470,10 @@
           ]
         ],
         [
-          "EQ",
-          "violation_finance_or_business_management",
-          true
-        ],
-        [
-          "EQ",
-          "violation_broker_duties",
-          true
-        ],
-        [
           "NOT",
           [
             "EQ",
-            "document_retention_compliance",
+            "relevant_insurance_type_compliance",
             true
           ]
         ],
@@ -518,7 +481,7 @@
           "NOT",
           [
             "EQ",
-            "contact_info_collection_compliance",
+            "management_rules_set_by_authority",
             true
           ]
         ],
@@ -526,7 +489,15 @@
           "NOT",
           [
             "EQ",
-            "internal_operation_compliance",
+            "violation_financial_or_business_management_rules",
+            false
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_duty_of_care_and_fidelity_compliance",
             true
           ]
         ],
@@ -534,7 +505,47 @@
           "NOT",
           [
             "EQ",
-            "shareholding_disclosure",
+            "broker_provide_written_analysis_report_and_disclose_fee",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_document_retention",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_obtain_contact_info_for_e_policy",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_internal_operation_compliance",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_understand_client_and_provide_report_before_contract",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "broker_disclose_shareholding_info_before_contract",
             true
           ]
         ]

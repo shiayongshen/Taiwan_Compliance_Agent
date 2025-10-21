@@ -39,21 +39,13 @@
       [
         "OR",
         [
-          "AND",
-          [
-            "EQ",
-            "real_estate_in_use",
-            true
-          ],
-          [
-            "EQ",
-            "real_estate_has_income",
-            true
-          ]
+          "EQ",
+          "social_housing_only_rental",
+          true
         ],
         [
           "EQ",
-          "social_housing_rental_only",
+          "real_estate_immediate_use_and_income",
           true
         ]
       ]
@@ -78,7 +70,7 @@
   },
   {
     "id": "insurance:loan_type_limit",
-    "desc": "放款類型限銀行或主管機關認可信用保證機構保證、以動產不動產擔保、有價證券質押、人壽保險單質押",
+    "desc": "放款類型限銀行或主管機關認可信用保證、動產不動產擔保、有價證券質押、人壽保險單質押",
     "expr": [
       "EQ",
       "loan_type_limit",
@@ -148,28 +140,22 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:related_party_loan_guarantee_conditions",
-    "desc": "對負責人、職員、主要股東及其利害關係人擔保放款應有十足擔保且條件不得優於其他同類放款",
+    "id": "insurance:related_party_loan_guarantee_condition",
+    "desc": "對負責人、職員、主要股東及利害關係人擔保放款應有十足擔保且條件不得優於其他同類放款",
     "expr": [
       "EQ",
-      "related_party_loan_guarantee_conditions",
+      "related_party_loan_guarantee_condition",
       [
         "AND",
         [
           "EQ",
-          "related_party_loan_fully_secured",
+          "related_party_loan_full_guarantee",
           true
         ],
         [
-          "NOT",
-          [
-            "AND",
-            "related_party_loan_conditions",
-            [
-              "NOT",
-              "other_similar_loan_conditions"
-            ]
-          ]
+          "EQ",
+          "related_party_loan_condition_not_better",
+          true
         ]
       ]
     ],
@@ -177,17 +163,17 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:related_party_loan_approval_required",
-    "desc": "利害關係人擔保放款達主管機關規定金額以上，須董事會三分之二以上出席及四分之三以上同意",
+    "id": "insurance:related_party_loan_approval",
+    "desc": "利害關係人放款達主管機關規定金額以上須經三分之二以上董事出席及四分之三以上同意",
     "expr": [
       "EQ",
-      "related_party_loan_approval_required",
+      "related_party_loan_approval",
       [
         "IMPLIES",
         [
           "GE",
           "related_party_loan_amount",
-          "authority_specified_amount"
+          "authority_threshold"
         ],
         [
           "AND",
@@ -208,11 +194,11 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:combined_investment_and_pledge_limit",
-    "desc": "同一公司有價證券投資與以該公司有價證券為質放款合併計算不得超過資金10%及該公司業主權益10%",
+    "id": "insurance:combined_investment_and_loan_limit",
+    "desc": "同一公司有價證券投資與以該公司有價證券為質放款合計不得超過資金10%及該公司業主權益10%",
     "expr": [
       "EQ",
-      "combined_investment_and_pledge_limit",
+      "combined_investment_and_loan_limit",
       [
         "AND",
         [
@@ -220,7 +206,7 @@
           [
             "ADD",
             "investment_in_company_securities",
-            "pledged_loan_by_company_securities"
+            "loan_secured_by_company_securities"
           ],
           [
             "MUL",
@@ -233,7 +219,7 @@
           [
             "ADD",
             "investment_in_company_securities",
-            "pledged_loan_by_company_securities"
+            "loan_secured_by_company_securities"
           ],
           [
             "MUL",
@@ -248,13 +234,13 @@
   },
   {
     "id": "insurance:internal_control_and_audit_established",
-    "desc": "保險業應建立內部控制及稽核制度",
+    "desc": "建立內部控制及稽核制度",
     "expr": [
       "EQ",
       "internal_control_and_audit_established",
       [
         "EQ",
-        "internal_control_established",
+        "internal_control_and_audit_system_established",
         true
       ]
     ],
@@ -263,13 +249,13 @@
   },
   {
     "id": "insurance:internal_handling_system_established",
-    "desc": "應建立資產品質評估、準備金提存、逾期放款、催收款清理、呆帳轉銷及保單招攬核保理賠之內部處理制度及程序",
+    "desc": "建立資產品質評估、準備金提存、逾期放款、催收款清理、呆帳轉銷及保單招攬核保理賠等內部處理制度及程序",
     "expr": [
       "EQ",
       "internal_handling_system_established",
       [
         "EQ",
-        "internal_handling_established",
+        "internal_handling_system_and_procedure_established",
         true
       ]
     ],
@@ -288,8 +274,8 @@
     "domain": "meta"
   },
   {
-    "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反不動產投資限制、放款限制、內部控制及稽核制度或相關規定時處罰",
+    "id": "insurance:penalty_conditions",
+    "desc": "處罰條件：違反不動產投資限制、放款限制、利害關係人擔保放款條件、內部控制及內部處理制度規定時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -298,58 +284,73 @@
         [
           "NOT",
           [
-            "AND",
-            [
-              "EQ",
-              "real_estate_use_and_income",
-              true
-            ],
-            [
-              "EQ",
-              "real_estate_valuation_required",
-              true
-            ],
-            [
-              "EQ",
-              "real_estate_investment_limit",
-              true
-            ]
+            "EQ",
+            "real_estate_investment_limit",
+            true
           ]
         ],
         [
           "NOT",
           [
-            "AND",
-            [
-              "EQ",
-              "loan_type_limit",
-              true
-            ],
-            [
-              "EQ",
-              "single_loan_amount_limit",
-              true
-            ],
-            [
-              "EQ",
-              "total_loan_amount_limit",
-              true
-            ],
-            [
-              "EQ",
-              "related_party_loan_guarantee_conditions",
-              true
-            ],
-            [
-              "EQ",
-              "related_party_loan_approval_required",
-              true
-            ],
-            [
-              "EQ",
-              "combined_investment_and_pledge_limit",
-              true
-            ]
+            "EQ",
+            "real_estate_use_and_income",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "real_estate_valuation_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "loan_type_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "single_loan_amount_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "total_loan_amount_limit",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_guarantee_condition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_approval",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "combined_investment_and_loan_limit",
+            true
           ]
         ],
         [

@@ -1,1 +1,428 @@
-null
+[
+  {
+    "id": "securities:financial_report_compliance",
+    "desc": "證券投資信託及顧問事業財務、業務報告及相關資料符合法令規定",
+    "expr": [
+      "EQ",
+      "financial_report_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_report_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "financial_report_legal_compliance",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:net_asset_value_below_par",
+    "desc": "每股淨值低於面額",
+    "expr": [
+      "EQ",
+      "net_asset_value_below_par",
+      [
+        "LT",
+        "net_asset_value_per_share",
+        "par_value_per_share"
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:improvement_plan_required",
+    "desc": "每股淨值低於面額且需於一年內改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_required",
+      [
+        "AND",
+        [
+          "EQ",
+          "net_asset_value_below_par",
+          true
+        ],
+        [
+          "GT",
+          "business_operation_duration_years",
+          1.0
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:improvement_plan_submitted_and_executed",
+    "desc": "改善計畫已提交且執行",
+    "expr": [
+      "EQ",
+      "improvement_plan_submitted_and_executed",
+      [
+        "AND",
+        [
+          "EQ",
+          "improvement_plan_submitted",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_plan_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:improvement_plan_compliance",
+    "desc": "每股淨值低於面額者已於一年內改善",
+    "expr": [
+      "EQ",
+      "improvement_plan_compliance",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "improvement_plan_required",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "improvement_plan_submitted_and_executed",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:net_asset_value_below_half_par",
+    "desc": "每股淨值低於面額二分之一",
+    "expr": [
+      "EQ",
+      "net_asset_value_below_half_par",
+      [
+        "LT",
+        "net_asset_value_per_share",
+        [
+          "MUL",
+          "par_value_per_share",
+          0.5
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:restriction_level",
+    "desc": "證券投資信託事業每股淨值限制等級（1=無限制, 2=限制私募, 3=限制募集及私募）",
+    "expr": [
+      "EQ",
+      "restriction_level",
+      [
+        "CASE",
+        [
+          "AND",
+          [
+            "GE",
+            "net_asset_value_per_share",
+            [
+              "MUL",
+              "par_value_per_share",
+              0.5
+            ]
+          ],
+          [
+            "LT",
+            "net_asset_value_per_share",
+            "par_value_per_share"
+          ]
+        ],
+        1,
+        [
+          "LT",
+          "net_asset_value_per_share",
+          [
+            "MUL",
+            "par_value_per_share",
+            0.5
+          ]
+        ],
+        2,
+        0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:restriction_applied",
+    "desc": "限制措施已執行",
+    "expr": [
+      "EQ",
+      "restriction_applied",
+      [
+        "EQ",
+        "restriction_measures_executed",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_license_duration_ok",
+    "desc": "營業執照已滿完整會計年度",
+    "expr": [
+      "EQ",
+      "business_license_duration_ok",
+      [
+        "GE",
+        "business_operation_duration_years",
+        1.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:business_license_duration_ok_trust",
+    "desc": "證券投資信託事業營業執照已滿二個完整會計年度",
+    "expr": [
+      "EQ",
+      "business_license_duration_ok_trust",
+      [
+        "GE",
+        "business_operation_duration_years",
+        2.0
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:asset_insufficient_to_cover_liabilities",
+    "desc": "資產不足抵償負債",
+    "expr": [
+      "EQ",
+      "asset_insufficient_to_cover_liabilities",
+      [
+        "LT",
+        "net_assets",
+        "liabilities"
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:asset_insufficient_improvement_ordered",
+    "desc": "資產不足抵償負債且已被命令限期改善",
+    "expr": [
+      "EQ",
+      "asset_insufficient_improvement_ordered",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_insufficient_to_cover_liabilities",
+          true
+        ],
+        [
+          "EQ",
+          "improvement_ordered",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:asset_insufficient_improved",
+    "desc": "資產不足抵償負債已改善",
+    "expr": [
+      "EQ",
+      "asset_insufficient_improved",
+      [
+        "AND",
+        [
+          "EQ",
+          "asset_insufficient_to_cover_liabilities",
+          false
+        ],
+        [
+          "EQ",
+          "improvement_ordered",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:financial_report_submitted_on_time",
+    "desc": "年度財務報告於三個月內公告並申報",
+    "expr": [
+      "EQ",
+      "financial_report_submitted_on_time",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_report_approved_by_board",
+          true
+        ],
+        [
+          "EQ",
+          "financial_report_signed_by_executives",
+          true
+        ],
+        [
+          "EQ",
+          "financial_report_audited_by_accountant",
+          true
+        ],
+        [
+          "LE",
+          "financial_report_submission_days",
+          90
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:legal_compliance",
+    "desc": "財務報告依相關法令及一般公認會計原則編製",
+    "expr": [
+      "EQ",
+      "legal_compliance",
+      [
+        "AND",
+        [
+          "EQ",
+          "financial_report_comply_laws",
+          true
+        ],
+        [
+          "EQ",
+          "financial_report_comply_gaap",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反財務報告法令規定、未依規定改善或未執行限制措施時處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_report_compliance",
+            true
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "improvement_plan_required",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "improvement_plan_submitted_and_executed",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "business_license_duration_ok_trust",
+            true
+          ],
+          [
+            "EQ",
+            "net_asset_value_below_half_par",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "restriction_applied",
+              true
+            ]
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "asset_insufficient_improvement_ordered",
+            true
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "asset_insufficient_improved",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "financial_report_submitted_on_time",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  }
+]

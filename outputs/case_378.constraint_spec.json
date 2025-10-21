@@ -12,11 +12,15 @@
           [
             "LT",
             [
-              "DIV",
-              "own_capital",
-              "risk_capital"
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
             ],
-            0.25
+            25.0
           ],
           [
             "LT",
@@ -30,20 +34,28 @@
           [
             "GE",
             [
-              "DIV",
-              "own_capital",
-              "risk_capital"
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
             ],
-            0.25
+            25.0
           ],
           [
             "LT",
             [
-              "DIV",
-              "own_capital",
-              "risk_capital"
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
             ],
-            1.0
+            100.0
           ]
         ],
         3,
@@ -52,31 +64,43 @@
           [
             "GE",
             [
-              "DIV",
-              "own_capital",
-              "risk_capital"
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
             ],
-            1.0
+            100.0
           ],
           [
             "LT",
-            [
-              "DIV",
-              "own_capital",
-              "risk_capital"
-            ],
-            1.5
+            "net_worth_ratio",
+            100.0
           ]
         ],
         2,
         [
-          "GE",
+          "AND",
           [
-            "DIV",
-            "own_capital",
-            "risk_capital"
+            "GE",
+            [
+              "MUL",
+              [
+                "DIV",
+                "own_capital",
+                "risk_capital"
+              ],
+              100.0
+            ],
+            100.0
           ],
-          1.5
+          [
+            "GE",
+            "net_worth_ratio",
+            100.0
+          ]
         ],
         1,
         0
@@ -86,121 +110,81 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:capital_ratio_minimum_met",
-    "desc": "自有資本與風險資本比率及淨值比率均不低於最低標準",
+    "id": "insurance:capital_ratio_minimum",
+    "desc": "自有資本與風險資本比率不得低於一定比率",
     "expr": [
       "EQ",
-      "capital_ratio_minimum_met",
+      "capital_ratio_minimum",
       [
-        "AND",
+        "GE",
         [
-          "GE",
+          "MUL",
           [
             "DIV",
             "own_capital",
             "risk_capital"
           ],
-          0.25
+          100.0
         ],
-        [
-          "GE",
-          "net_worth_ratio",
-          0.0
-        ]
+        "minimum_capital_ratio"
       ]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "insurance:reporting_annual_compliance",
-    "desc": "每營業年度終了後三個月內申報經會計師查核之資本適足率及淨值比率",
+    "id": "insurance:net_worth_ratio_minimum",
+    "desc": "淨值比率不得低於一定比率",
     "expr": [
       "EQ",
-      "reporting_annual_compliance",
+      "net_worth_ratio_minimum",
       [
-        "AND",
-        [
-          "EQ",
-          "annual_report_submitted",
-          true
-        ],
-        [
-          "EQ",
-          "annual_report_audited",
-          true
-        ],
-        [
-          "LE",
-          "annual_report_submission_days",
-          90
-        ]
+        "GE",
+        "net_worth_ratio",
+        "minimum_net_worth_ratio"
       ]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "insurance:reporting_semiannual_compliance",
-    "desc": "每半營業年度終了後二個月內申報經會計師核閱之資本適足率及經會計師查核之淨值比率",
+    "id": "insurance:capital_reporting_compliance",
+    "desc": "保險業依規定申報資本等級相關資訊",
     "expr": [
       "EQ",
-      "reporting_semiannual_compliance",
-      [
-        "AND",
-        [
-          "EQ",
-          "semiannual_report_submitted",
-          true
-        ],
-        [
-          "EQ",
-          "semiannual_report_reviewed",
-          true
-        ],
-        [
-          "EQ",
-          "semiannual_report_audited_net_worth",
-          true
-        ],
-        [
-          "LE",
-          "semiannual_report_submission_days",
-          60
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:reporting_exemption",
-    "desc": "依法接管之保險業不適用申報規定",
-    "expr": [
-      "EQ",
-      "reporting_exemption",
-      [
-        "EQ",
-        "under_supervision",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:reporting_compliance",
-    "desc": "申報符合規定（申報合規或依法接管免申報）",
-    "expr": [
-      "EQ",
-      "reporting_compliance",
+      "capital_reporting_compliance",
       [
         "OR",
-        "reporting_exemption",
         [
           "AND",
-          "reporting_annual_compliance",
-          "reporting_semiannual_compliance"
+          [
+            "EQ",
+            "annual_report_submitted",
+            true
+          ],
+          [
+            "LE",
+            "annual_report_submission_days",
+            90
+          ]
+        ],
+        [
+          "AND",
+          [
+            "EQ",
+            "semiannual_report_submitted",
+            true
+          ],
+          [
+            "LE",
+            "semiannual_report_submission_days",
+            60
+          ]
+        ],
+        [
+          "EQ",
+          "under_supervision",
+          true
         ]
       ]
     ],
@@ -220,7 +204,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：資本比率低於最低標準或未依規定申報時處罰",
+    "desc": "處罰條件：資本比率或淨值比率低於最低標準，或未依規定申報資本等級資訊時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -230,7 +214,7 @@
           "NOT",
           [
             "EQ",
-            "capital_ratio_minimum_met",
+            "capital_ratio_minimum",
             true
           ]
         ],
@@ -238,7 +222,15 @@
           "NOT",
           [
             "EQ",
-            "reporting_compliance",
+            "net_worth_ratio_minimum",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "capital_reporting_compliance",
             true
           ]
         ]

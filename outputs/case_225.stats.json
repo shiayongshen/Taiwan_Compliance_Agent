@@ -1,15 +1,15 @@
 {
   "case_id": "case_225",
-  "success": false,
-  "error_message": "b'parser error'",
-  "total_time_sec": 39.96,
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 57.87,
   "repair_attempts": 0,
   "total_agent_calls": 5,
-  "total_input_tokens": 14147,
-  "total_output_tokens": 2599,
-  "total_tokens": 16746,
-  "total_cost_usd": 0.009817,
-  "timestamp": "2025-10-21T04:58:51.528404",
+  "total_input_tokens": 15574,
+  "total_output_tokens": 3903,
+  "total_tokens": 19477,
+  "total_cost_usd": 0.012474,
+  "timestamp": "2025-10-21T22:01:22.538456",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -21,331 +21,119 @@
   "step6_repair_success": "PASS",
   "step7_case_mapper": "PASS",
   "step7_facts_validation": "NOT_RUN",
-  "step7_z3_validation": "FAIL",
-  "step8_case_law_check": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
   "step8_repair_success": "NOT_RUN",
-  "step8_violation_detected": "NOT_RUN",
-  "step9_z3_optimize": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
   "consistency_check": "PASS",
   "agent_calls": [
     {
       "agent": "parser",
       "input_tokens": 3378,
-      "output_tokens": 723,
-      "elapsed_time": 11.084713459014893,
-      "cost": 0.0025080000000000002
+      "output_tokens": 1062,
+      "elapsed_time": 16.345213890075684,
+      "cost": 0.0030504
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 7843,
-      "output_tokens": 972,
-      "elapsed_time": 12.075406789779663,
-      "cost": 0.0046924
+      "input_tokens": 8182,
+      "output_tokens": 1059,
+      "elapsed_time": 13.724694967269897,
+      "cost": 0.004967200000000001
     },
     {
       "agent": "varspec",
-      "input_tokens": 116,
-      "output_tokens": 379,
-      "elapsed_time": 6.004878520965576,
-      "cost": 0.0006528000000000001
+      "input_tokens": 264,
+      "output_tokens": 717,
+      "elapsed_time": 9.623646974563599,
+      "cost": 0.0012528
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 116,
-      "output_tokens": 379,
-      "elapsed_time": 8.227046489715576,
-      "cost": 0.0006528000000000001
+      "input_tokens": 264,
+      "output_tokens": 717,
+      "elapsed_time": 12.678768157958984,
+      "cost": 0.0012528
     },
     {
       "agent": "mapper",
-      "input_tokens": 2694,
-      "output_tokens": 146,
-      "elapsed_time": 2.5623104572296143,
-      "cost": 0.0013112000000000002
+      "input_tokens": 3486,
+      "output_tokens": 348,
+      "elapsed_time": 5.444085121154785,
+      "cost": 0.0019512000000000002
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "1915 chars",
-      "timestamp": 11.084713459014893
+      "details": "3145 chars",
+      "timestamp": 16.34522795677185
     },
     "step2_completion": {
       "passed": true,
-      "details": "2619 chars",
-      "timestamp": 23.160120248794556
+      "details": "3137 chars",
+      "timestamp": 30.069941997528076
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "6 constraints",
-      "timestamp": 23.160120248794556
+      "details": "8 constraints",
+      "timestamp": 30.069979906082153
     },
     "step4_varspec": {
       "passed": true,
-      "details": "15 varspecs",
-      "timestamp": 29.164998769760132
+      "details": "25 varspecs",
+      "timestamp": 39.69373369216919
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "6 constraints",
-      "timestamp": 29.166999101638794
+      "details": "8 constraints",
+      "timestamp": 39.69731092453003
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
       "details": "SAT",
-      "timestamp": 29.168996810913086
+      "timestamp": 39.70184803009033
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 29.168996810913086
+      "timestamp": 39.701849699020386
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "14 facts",
-      "timestamp": 39.959352016448975
+      "details": "25 facts",
+      "timestamp": 57.82574272155762
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
-      "passed": false,
-      "details": "b'parser error'",
-      "timestamp": 39.959352016448975
+      "passed": true,
+      "details": "25 constraints",
+      "timestamp": 57.82689380645752
     },
-    "step8_case_law_check": null,
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 57.85304498672485
+    },
     "step8_repair_success": null,
-    "step8_violation_detected": null,
-    "step9_z3_optimize": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c32', 'meta:penalty_default_false']",
+      "timestamp": 57.85304880142212
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 57.86411380767822
+    },
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 0 attempts",
-      "timestamp": 29.168996810913086
+      "timestamp": 39.70184278488159
     }
   },
-  "fix_logs": [
-    {
-      "id": "fhc:reporting_required",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "fhc:reporting_required",
-        [
-          "AND",
-          [
-            "EQ",
-            "transaction_amount_or_ratio_reached",
-            true
-          ],
-          [
-            "EQ",
-            "report_submitted_within_30_days_after_quarter",
-            true
-          ],
-          [
-            "EQ",
-            "disclosure_made_via_official_channel",
-            true
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "reporting_required",
-        [
-          "AND",
-          [
-            "EQ",
-            "transaction_amount_or_ratio_reached",
-            true
-          ],
-          [
-            "EQ",
-            "report_submitted_within_30_days_after_quarter",
-            true
-          ],
-          [
-            "EQ",
-            "disclosure_made_via_official_channel",
-            true
-          ]
-        ]
-      ],
-      "timestamp": 29.16
-    },
-    {
-      "id": "fhc:related_party_scope_defined",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "fhc:related_party_scope_defined",
-        [
-          "AND",
-          [
-            "EQ",
-            "same_person_defined",
-            true
-          ],
-          [
-            "EQ",
-            "same_related_person_defined",
-            true
-          ],
-          [
-            "EQ",
-            "same_related_corporate_defined",
-            true
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "related_party_scope_defined",
-        [
-          "AND",
-          [
-            "EQ",
-            "same_person_defined",
-            true
-          ],
-          [
-            "EQ",
-            "same_related_person_defined",
-            true
-          ],
-          [
-            "EQ",
-            "same_related_corporate_defined",
-            true
-          ]
-        ]
-      ],
-      "timestamp": 29.16
-    },
-    {
-      "id": "fhc:related_person_definition",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "fhc:related_person_definition",
-        [
-          "AND",
-          [
-            "EQ",
-            "self_included",
-            true
-          ],
-          [
-            "EQ",
-            "spouse_included",
-            true
-          ],
-          [
-            "EQ",
-            "second_degree_blood_relative_included",
-            true
-          ],
-          [
-            "EQ",
-            "enterprises_controlled_by_self_or_spouse_included",
-            true
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "related_person_definition",
-        [
-          "AND",
-          [
-            "EQ",
-            "self_included",
-            true
-          ],
-          [
-            "EQ",
-            "spouse_included",
-            true
-          ],
-          [
-            "EQ",
-            "second_degree_blood_relative_included",
-            true
-          ],
-          [
-            "EQ",
-            "enterprises_controlled_by_self_or_spouse_included",
-            true
-          ]
-        ]
-      ],
-      "timestamp": 29.16
-    },
-    {
-      "id": "fhc:related_corporate_definition",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "fhc:related_corporate_definition",
-        true
-      ],
-      "after": [
-        "EQ",
-        "related_corporate_definition",
-        true
-      ],
-      "timestamp": 29.16
-    },
-    {
-      "id": "fhc:penalty_conditions",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "penalty",
-        [
-          "OR",
-          [
-            "NOT",
-            [
-              "EQ",
-              "fhc:reporting_required",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "fhc:related_party_scope_defined",
-              true
-            ]
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "penalty",
-        [
-          "OR",
-          [
-            "NOT",
-            [
-              "EQ",
-              "reporting_required",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "related_party_scope_defined",
-              true
-            ]
-          ]
-        ]
-      ],
-      "timestamp": 29.16
-    }
-  ]
+  "fix_logs": []
 }

@@ -15,14 +15,14 @@
     "domain": "int_finance"
   },
   {
-    "id": "int_finance:investment_prohibited_related_company_securities",
+    "id": "int_finance:investment_prohibited_related_securities",
     "desc": "國際金融業務分行不得投資於所屬銀行負責人擔任董事、監察人或經理人之公司所發行、承兌或保證之有價證券",
     "expr": [
       "EQ",
-      "investment_prohibited_related_company_securities",
+      "investment_prohibited_related_securities",
       [
         "EQ",
-        "invested_related_company_securities",
+        "invested_related_securities",
         false
       ]
     ],
@@ -31,7 +31,7 @@
   },
   {
     "id": "int_finance:investment_limit_total",
-    "desc": "國際金融業務分行投資有價證券與所屬銀行投資有價證券金額合計不得超過金管會規定限額",
+    "desc": "國際金融業務分行投資有價證券與所屬銀行投資有價證券金額合計不得超過金管會對總行規定之限額",
     "expr": [
       "EQ",
       "investment_limit_total",
@@ -49,21 +49,16 @@
     "domain": "int_finance"
   },
   {
-    "id": "int_finance:foreign_currency_securities_approval",
-    "desc": "國際金融業務分行應檢附董事會同意文件向金管會申請核准外幣有價證券種類及限額，並依核准內容辦理",
+    "id": "int_finance:investment_approval_document",
+    "desc": "國際金融業務分行應檢附董事會或授權單位同意文件，申請核准外幣有價證券種類、總投資限額及對同一發行人投資限額，並依核准內容辦理",
     "expr": [
       "EQ",
-      "foreign_currency_securities_approval",
+      "investment_approval_document",
       [
         "AND",
         [
           "EQ",
           "approval_document_submitted",
-          true
-        ],
-        [
-          "EQ",
-          "approval_granted",
           true
         ],
         [
@@ -131,7 +126,7 @@
   },
   {
     "id": "int_finance:compliance_investment_limit",
-    "desc": "遵守主管機關資金運用中投資外幣有價證券種類及限額規定",
+    "desc": "遵守主管機關對資金運用中投資外幣有價證券種類及限額規定",
     "expr": [
       "EQ",
       "compliance_investment_limit",
@@ -199,7 +194,7 @@
           "NOT",
           [
             "EQ",
-            "investment_prohibited_related_company_securities",
+            "investment_prohibited_related_securities",
             true
           ]
         ],
@@ -215,7 +210,7 @@
           "NOT",
           [
             "EQ",
-            "foreign_currency_securities_approval",
+            "investment_approval_document",
             true
           ]
         ]

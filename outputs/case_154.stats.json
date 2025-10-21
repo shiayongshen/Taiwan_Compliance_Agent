@@ -1,87 +1,557 @@
 {
   "case_id": "case_154",
-  "success": false,
-  "error_message": "Expecting value: line 1 column 1 (char 0)",
-  "total_time_sec": 43.29,
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 81.64,
   "repair_attempts": 0,
-  "total_agent_calls": 3,
-  "total_input_tokens": 10160,
-  "total_output_tokens": 3146,
-  "total_tokens": 13306,
-  "total_cost_usd": 0.009098,
-  "timestamp": "2025-10-21T03:25:39.456035",
+  "total_agent_calls": 5,
+  "total_input_tokens": 13665,
+  "total_output_tokens": 5539,
+  "total_tokens": 19204,
+  "total_cost_usd": 0.014328,
+  "timestamp": "2025-10-21T21:33:00.741604",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
-  "step4_varspec": "FAIL",
-  "step5_constraints_parseable": "NOT_RUN",
+  "step4_varspec": "PASS",
+  "step5_constraints_parseable": "PASS",
   "step5_repair_needed": "FAIL",
   "step5_repair_success": "NOT_RUN",
-  "step6_consistency_check": "NOT_RUN",
-  "step6_repair_success": "NOT_RUN",
-  "step7_case_mapper": "NOT_RUN",
+  "step6_consistency_check": "PASS",
+  "step6_repair_success": "PASS",
+  "step7_case_mapper": "PASS",
   "step7_facts_validation": "NOT_RUN",
-  "step7_z3_validation": "NOT_RUN",
-  "step8_case_law_check": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
   "step8_repair_success": "NOT_RUN",
-  "step8_violation_detected": "NOT_RUN",
-  "step9_z3_optimize": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
+  "consistency_check": "PASS",
   "agent_calls": [
     {
       "agent": "parser",
       "input_tokens": 2644,
-      "output_tokens": 1439,
-      "elapsed_time": 18.225932598114014,
-      "cost": 0.00336
+      "output_tokens": 1153,
+      "elapsed_time": 19.638153076171875,
+      "cost": 0.0029024000000000003
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 7091,
-      "output_tokens": 1706,
-      "elapsed_time": 25.066843509674072,
-      "cost": 0.005566000000000001
+      "input_tokens": 6805,
+      "output_tokens": 1413,
+      "elapsed_time": 22.624320030212402,
+      "cost": 0.004982800000000001
     },
     {
       "agent": "varspec",
-      "input_tokens": 425,
-      "output_tokens": 1,
-      "elapsed_time": 0.0,
-      "cost": 0.00017160000000000002
+      "input_tokens": 463,
+      "output_tokens": 1176,
+      "elapsed_time": 16.976966857910156,
+      "cost": 0.0020668
+    },
+    {
+      "agent": "varspec_post_repair",
+      "input_tokens": 463,
+      "output_tokens": 1176,
+      "elapsed_time": 13.635113000869751,
+      "cost": 0.0020668
+    },
+    {
+      "agent": "mapper",
+      "input_tokens": 3290,
+      "output_tokens": 621,
+      "elapsed_time": 8.722590923309326,
+      "cost": 0.0023096
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "4504 chars",
-      "timestamp": 18.225932598114014
+      "details": "3640 chars",
+      "timestamp": 19.63817000389099
     },
     "step2_completion": {
       "passed": true,
-      "details": "5247 chars",
-      "timestamp": 43.292776107788086
+      "details": "4218 chars",
+      "timestamp": 42.262523889541626
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "8 constraints",
-      "timestamp": 43.292776107788086
+      "details": "4 constraints",
+      "timestamp": 42.26259398460388
     },
     "step4_varspec": {
-      "passed": false,
-      "details": "Expecting value: line 1 column 1 (char 0)",
-      "timestamp": 43.292776107788086
+      "passed": true,
+      "details": "37 varspecs",
+      "timestamp": 59.24217176437378
     },
-    "step5_constraints_parseable": null,
+    "step5_constraints_parseable": {
+      "passed": true,
+      "details": "4 constraints",
+      "timestamp": 59.249040842056274
+    },
     "step5_repair_needed": false,
     "step5_repair_success": null,
-    "step6_consistency_check": null,
-    "step6_repair_success": null,
-    "step7_case_mapper": null,
+    "step6_consistency_check": {
+      "passed": true,
+      "details": "SAT",
+      "timestamp": 59.253167152404785
+    },
+    "step6_repair_success": {
+      "passed": true,
+      "details": "Repair successful",
+      "timestamp": 59.25316786766052
+    },
+    "step7_case_mapper": {
+      "passed": true,
+      "details": "37 facts",
+      "timestamp": 81.61283493041992
+    },
     "step7_facts_validation": null,
-    "step7_z3_validation": null,
-    "step8_case_law_check": null,
+    "step7_z3_validation": {
+      "passed": true,
+      "details": "37 constraints",
+      "timestamp": 81.61474084854126
+    },
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 81.62635707855225
+    },
     "step8_repair_success": null,
-    "step8_violation_detected": null,
-    "step9_z3_optimize": null
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['c40', 'insurance:penalty_default_false']",
+      "timestamp": 81.62636280059814
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 81.63707900047302
+    },
+    "consistency_check": {
+      "passed": true,
+      "details": "Consistent after 0 attempts",
+      "timestamp": 59.25316286087036
+    }
   },
-  "fix_logs": []
+  "fix_logs": [
+    {
+      "id": "insurance:violation_163_4_7_165_1_163_5",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:violation_163_4_7_165_1_163_5",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_163_4_financial_or_business_management",
+            true
+          ],
+          [
+            "EQ",
+            "violate_163_7",
+            true
+          ],
+          [
+            "EQ",
+            "violate_165_1_or_163_5_applied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violation_163_4_7_165_1_163_5",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_163_4_financial_or_business_management",
+            true
+          ],
+          [
+            "EQ",
+            "violate_163_7",
+            true
+          ],
+          [
+            "EQ",
+            "violate_165_1_or_163_5_applied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 59.24
+    },
+    {
+      "id": "insurance:agent_misconduct",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:agent_misconduct",
+        [
+          "OR",
+          [
+            "EQ",
+            "misconduct_1_false_report_on_license_application",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_2_unapproved_insurance_business",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_3_unapproved_insurance_operations",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_4_conceal_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_5_coerce_or_induce_contracting_freedom_restriction",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_6_false_or_misleading_promotion_or_recruitment",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_7_improper_inducement_of_policyholder",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_8_misappropriation_or_embezzlement",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_9_unauthorized_use_of_license",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_10_conviction_of_fraud_or_breach_of_trust",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_11_operate_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_12_illegal_collection_of_money_or_benefits",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_13_illegal_insurance_payments",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_14_spread_false_information_disturb_financial_order",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_15_authorize_others_to_operate_or_use_others_name",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_16_illegal_transfer_of_policy_documents",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_17_employ_unqualified_insurance_recruiters",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_18_fail_to_cancel_license_within_deadline",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_19_unauthorized_suspension_or_termination_of_business",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_20_fail_to_appoint_agent_after_resignation",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_21_fail_to_report_to_agent_association",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_22_use_unapproved_advertisement_content",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_23_pay_commission_to_non_actual_recruiters",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_24_fail_to_confirm_suitability_for_financial_consumers",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_25_sell_unapproved_foreign_policy_discount_products",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_26_submit_false_or_incomplete_business_or_financial_reports",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_27_hold_positions_in_insurance_or_association_conflict",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_28_induce_contract_termination_or_use_loans_to_pay_premiums",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_29_fail_to_fill_recruitment_report_truthfully",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_30_other_violations_of_rules_or_laws",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_31_other_behaviors_damaging_insurance_image",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "agent_misconduct",
+        [
+          "OR",
+          [
+            "EQ",
+            "misconduct_1_false_report_on_license_application",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_2_unapproved_insurance_business",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_3_unapproved_insurance_operations",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_4_conceal_important_contract_info",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_5_coerce_or_induce_contracting_freedom_restriction",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_6_false_or_misleading_promotion_or_recruitment",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_7_improper_inducement_of_policyholder",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_8_misappropriation_or_embezzlement",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_9_unauthorized_use_of_license",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_10_conviction_of_fraud_or_breach_of_trust",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_11_operate_outside_license_scope",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_12_illegal_collection_of_money_or_benefits",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_13_illegal_insurance_payments",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_14_spread_false_information_disturb_financial_order",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_15_authorize_others_to_operate_or_use_others_name",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_16_illegal_transfer_of_policy_documents",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_17_employ_unqualified_insurance_recruiters",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_18_fail_to_cancel_license_within_deadline",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_19_unauthorized_suspension_or_termination_of_business",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_20_fail_to_appoint_agent_after_resignation",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_21_fail_to_report_to_agent_association",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_22_use_unapproved_advertisement_content",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_23_pay_commission_to_non_actual_recruiters",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_24_fail_to_confirm_suitability_for_financial_consumers",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_25_sell_unapproved_foreign_policy_discount_products",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_26_submit_false_or_incomplete_business_or_financial_reports",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_27_hold_positions_in_insurance_or_association_conflict",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_28_induce_contract_termination_or_use_loans_to_pay_premiums",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_29_fail_to_fill_recruitment_report_truthfully",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_30_other_violations_of_rules_or_laws",
+            true
+          ],
+          [
+            "EQ",
+            "misconduct_31_other_behaviors_damaging_insurance_image",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 59.24
+    },
+    {
+      "id": "insurance:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "insurance:violation_163_4_7_165_1_163_5",
+            true
+          ],
+          [
+            "EQ",
+            "insurance:agent_misconduct",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "EQ",
+            "violation_163_4_7_165_1_163_5",
+            true
+          ],
+          [
+            "EQ",
+            "agent_misconduct",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 59.24
+    }
+  ]
 }

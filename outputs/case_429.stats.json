@@ -2,14 +2,14 @@
   "case_id": "case_429",
   "success": false,
   "error_message": "b'parser error'",
-  "total_time_sec": 452.46,
+  "total_time_sec": 338.28,
   "repair_attempts": 1,
-  "total_agent_calls": 6,
-  "total_input_tokens": 32525,
-  "total_output_tokens": 20964,
-  "total_tokens": 53489,
-  "total_cost_usd": 0.046552,
-  "timestamp": "2025-10-21T09:32:47.158363",
+  "total_agent_calls": 7,
+  "total_input_tokens": 45496,
+  "total_output_tokens": 24097,
+  "total_tokens": 69593,
+  "total_cost_usd": 0.056754,
+  "timestamp": "2025-10-21T22:40:41.307976",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -31,94 +31,101 @@
     {
       "agent": "parser",
       "input_tokens": 3293,
-      "output_tokens": 4649,
-      "elapsed_time": 63.387505769729614,
-      "cost": 0.0087556
+      "output_tokens": 5325,
+      "elapsed_time": 66.57881021499634,
+      "cost": 0.0098372
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 11599,
-      "output_tokens": 4658,
-      "elapsed_time": 67.78962182998657,
-      "cost": 0.012092400000000001
+      "input_tokens": 12275,
+      "output_tokens": 5325,
+      "elapsed_time": 69.88612294197083,
+      "cost": 0.013430000000000001
     },
     {
       "agent": "varspec",
-      "input_tokens": 624,
-      "output_tokens": 2453,
-      "elapsed_time": 41.59520602226257,
-      "cost": 0.0041744
+      "input_tokens": 717,
+      "output_tokens": 2647,
+      "elapsed_time": 39.77787399291992,
+      "cost": 0.004522000000000001
     },
     {
       "agent": "consistency_repair_agent",
-      "input_tokens": 5801,
-      "output_tokens": 5904,
-      "elapsed_time": 221.4863166809082,
-      "cost": 0.011766800000000001
+      "input_tokens": 6546,
+      "output_tokens": 5952,
+      "elapsed_time": 80.91766381263733,
+      "cost": 0.0121416
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 624,
-      "output_tokens": 2409,
-      "elapsed_time": 39.06342530250549,
-      "cost": 0.004104
+      "input_tokens": 726,
+      "output_tokens": 2698,
+      "elapsed_time": 41.45379114151001,
+      "cost": 0.0046072
     },
     {
       "agent": "mapper",
-      "input_tokens": 10584,
-      "output_tokens": 891,
-      "elapsed_time": 19.087594270706177,
-      "cost": 0.0056592000000000005
+      "input_tokens": 10948,
+      "output_tokens": 1129,
+      "elapsed_time": 19.780813932418823,
+      "cost": 0.006185600000000001
+    },
+    {
+      "agent": "mapper_repair",
+      "input_tokens": 10991,
+      "output_tokens": 1021,
+      "elapsed_time": 19.820257902145386,
+      "cost": 0.006030000000000001
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "13217 chars",
-      "timestamp": 63.387505769729614
+      "details": "14873 chars",
+      "timestamp": 66.57883286476135
     },
     "step2_completion": {
       "passed": true,
-      "details": "13302 chars",
-      "timestamp": 131.1771275997162
+      "details": "14873 chars",
+      "timestamp": 136.4649999141693
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "24 constraints",
-      "timestamp": 131.1771275997162
+      "details": "26 constraints",
+      "timestamp": 136.46520709991455
     },
     "step4_varspec": {
       "passed": true,
-      "details": "81 varspecs",
-      "timestamp": 172.7733335494995
+      "details": "87 varspecs",
+      "timestamp": 176.24345016479492
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "24 constraints",
-      "timestamp": 172.78533554077148
+      "details": "26 constraints",
+      "timestamp": 176.26118993759155
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
-      "details": "SAT",
-      "timestamp": 394.3006525039673
+      "details": "ERROR",
+      "timestamp": 257.2048530578613
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 394.3006525039673
+      "timestamp": 257.20485496520996
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "75 facts",
-      "timestamp": 452.45367193222046
+      "details": "82 facts",
+      "timestamp": 318.44306802749634
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
       "passed": false,
-      "details": "b'parser error'",
-      "timestamp": 452.4546740055084
+      "details": "Repair failed: b'parser error'",
+      "timestamp": 338.2705101966858
     },
     "step8_case_law_check": null,
     "step8_repair_success": null,
@@ -127,81 +134,75 @@
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 1 attempts",
-      "timestamp": 394.3006525039673
+      "timestamp": 257.20481300354004
     }
   },
   "fix_logs": [
     {
-      "id": "insurance:agent_broker_not_permitted_without_license",
+      "id": "insurance:agent_broker_not_permitted_without_license_and_guarantee",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:agent_broker_not_permitted_without_license",
+        "insurance:agent_broker_not_permitted_without_license_and_guarantee",
         [
-          "NOT",
+          "AND",
           [
-            "AND",
-            [
-              "EQ",
-              "license_permitted",
-              true
-            ],
-            [
-              "EQ",
-              "deposit_guarantee",
-              true
-            ],
-            [
-              "EQ",
-              "insurance_policy_subscribed",
-              true
-            ],
-            [
-              "EQ",
-              "license_issued",
-              true
-            ]
+            "EQ",
+            "license_permitted",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ],
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ],
+          [
+            "EQ",
+            "license_held",
+            true
           ]
         ]
       ],
       "after": [
         "EQ",
-        "agent_broker_not_permitted_without_license",
+        "agent_broker_not_permitted_without_license_and_guarantee",
         [
-          "NOT",
+          "AND",
           [
-            "AND",
-            [
-              "EQ",
-              "license_permitted",
-              true
-            ],
-            [
-              "EQ",
-              "deposit_guarantee",
-              true
-            ],
-            [
-              "EQ",
-              "insurance_policy_subscribed",
-              true
-            ],
-            [
-              "EQ",
-              "license_issued",
-              true
-            ]
+            "EQ",
+            "license_permitted",
+            true
+          ],
+          [
+            "EQ",
+            "guarantee_deposit_paid",
+            true
+          ],
+          [
+            "EQ",
+            "related_insurance_purchased",
+            true
+          ],
+          [
+            "EQ",
+            "license_held",
+            true
           ]
         ]
       ],
-      "timestamp": 172.77
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:insurance_policy_type_correct",
+      "id": "insurance:related_insurance_type_correct",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:insurance_policy_type_correct",
+        "insurance:related_insurance_type_correct",
         [
           "AND",
           [
@@ -213,8 +214,8 @@
             ],
             [
               "EQ",
-              "insurance_policy_type",
-              "liability_insurance"
+              "liability_insurance_purchased",
+              true
             ]
           ],
           [
@@ -228,12 +229,12 @@
               "AND",
               [
                 "EQ",
-                "insurance_policy_type",
-                "liability_insurance"
+                "liability_insurance_purchased",
+                true
               ],
               [
                 "EQ",
-                "insurance_policy_type_guarantee",
+                "guarantee_insurance_purchased",
                 true
               ]
             ]
@@ -242,7 +243,7 @@
       ],
       "after": [
         "EQ",
-        "insurance_policy_type_correct",
+        "related_insurance_type_correct",
         [
           "AND",
           [
@@ -254,8 +255,8 @@
             ],
             [
               "EQ",
-              "insurance_policy_type",
-              "liability_insurance"
+              "liability_insurance_purchased",
+              true
             ]
           ],
           [
@@ -269,19 +270,74 @@
               "AND",
               [
                 "EQ",
-                "insurance_policy_type",
-                "liability_insurance"
+                "liability_insurance_purchased",
+                true
               ],
               [
                 "EQ",
-                "insurance_policy_type_guarantee",
+                "guarantee_insurance_purchased",
                 true
               ]
             ]
           ]
         ]
       ],
-      "timestamp": 172.77
+      "timestamp": 176.25
+    },
+    {
+      "id": "insurance:bank_permitted_to_operate_agent_or_broker",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:bank_permitted_to_operate_agent_or_broker",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank_license_permitted",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "bank_operate_agent",
+              true
+            ],
+            [
+              "EQ",
+              "bank_operate_broker",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_permitted_to_operate_agent_or_broker",
+        [
+          "AND",
+          [
+            "EQ",
+            "bank_license_permitted",
+            true
+          ],
+          [
+            "OR",
+            [
+              "EQ",
+              "bank_operate_agent",
+              true
+            ],
+            [
+              "EQ",
+              "bank_operate_broker",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 176.25
     },
     {
       "id": "insurance:broker_duty_of_care_and_fidelity",
@@ -293,12 +349,12 @@
           "AND",
           [
             "EQ",
-            "broker_duty_of_care",
+            "broker_exercise_duty_of_care",
             true
           ],
           [
             "EQ",
-            "broker_duty_of_fidelity",
+            "broker_fulfill_fidelity",
             true
           ]
         ]
@@ -310,41 +366,41 @@
           "AND",
           [
             "EQ",
-            "broker_duty_of_care",
+            "broker_exercise_duty_of_care",
             true
           ],
           [
             "EQ",
-            "broker_duty_of_fidelity",
+            "broker_fulfill_fidelity",
             true
           ]
         ]
       ],
-      "timestamp": 172.77
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:broker_must_provide_written_report_and_disclose_fee",
+      "id": "insurance:broker_provide_written_analysis_and_disclose_fee",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:broker_must_provide_written_report_and_disclose_fee",
+        "insurance:broker_provide_written_analysis_and_disclose_fee",
         [
           "AND",
           [
             "EQ",
-            "written_report_provided",
+            "broker_provide_written_analysis_report",
             true
           ],
           [
             "IMPLIES",
             [
               "EQ",
-              "fee_charged",
+              "broker_charge_fee",
               true
             ],
             [
               "EQ",
-              "fee_disclosed",
+              "broker_disclose_fee_standard",
               true
             ]
           ]
@@ -352,30 +408,99 @@
       ],
       "after": [
         "EQ",
-        "broker_must_provide_written_report_and_disclose_fee",
+        "broker_provide_written_analysis_and_disclose_fee",
         [
           "AND",
           [
             "EQ",
-            "written_report_provided",
+            "broker_provide_written_analysis_report",
             true
           ],
           [
             "IMPLIES",
             [
               "EQ",
-              "fee_charged",
+              "broker_charge_fee",
               true
             ],
             [
               "EQ",
-              "fee_disclosed",
+              "broker_disclose_fee_standard",
               true
             ]
           ]
         ]
       ],
-      "timestamp": 172.77
+      "timestamp": 176.25
+    },
+    {
+      "id": "insurance:violate_finance_or_business_management_or_broker_rules",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:violate_finance_or_business_management_or_broker_rules",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_finance_management_rule",
+            true
+          ],
+          [
+            "EQ",
+            "violate_business_management_rule",
+            true
+          ],
+          [
+            "EQ",
+            "violate_broker_rule_163_7",
+            true
+          ],
+          [
+            "EQ",
+            "violate_rule_165_1",
+            true
+          ],
+          [
+            "EQ",
+            "violate_rule_163_5_applied",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "violate_finance_or_business_management_or_broker_rules",
+        [
+          "OR",
+          [
+            "EQ",
+            "violate_finance_management_rule",
+            true
+          ],
+          [
+            "EQ",
+            "violate_business_management_rule",
+            true
+          ],
+          [
+            "EQ",
+            "violate_broker_rule_163_7",
+            true
+          ],
+          [
+            "EQ",
+            "violate_rule_165_1",
+            true
+          ],
+          [
+            "EQ",
+            "violate_rule_163_5_applied",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 176.25
     },
     {
       "id": "insurance:broker_company_must_report_stop_resume_dissolve",
@@ -387,17 +512,17 @@
           "OR",
           [
             "EQ",
-            "broker_company_stop_reported",
+            "broker_company_report_stop",
             true
           ],
           [
             "EQ",
-            "broker_company_resume_reported",
+            "broker_company_report_resume",
             true
           ],
           [
             "EQ",
-            "broker_company_dissolve_reported",
+            "broker_company_report_dissolve",
             true
           ]
         ]
@@ -409,22 +534,22 @@
           "OR",
           [
             "EQ",
-            "broker_company_stop_reported",
+            "broker_company_report_stop",
             true
           ],
           [
             "EQ",
-            "broker_company_resume_reported",
+            "broker_company_report_resume",
             true
           ],
           [
             "EQ",
-            "broker_company_dissolve_reported",
+            "broker_company_report_dissolve",
             true
           ]
         ]
       ],
-      "timestamp": 172.77
+      "timestamp": 176.25
     },
     {
       "id": "insurance:broker_company_stop_period_limit_and_extension",
@@ -447,22 +572,22 @@
               true
             ],
             [
-              "LE",
-              "broker_company_stop_extension_times",
-              1
+              "EQ",
+              "broker_company_stop_extension_once",
+              true
             ]
           ],
           [
             "IMPLIES",
             [
               "EQ",
-              "broker_company_stop_period_expiring",
+              "broker_company_stop_period_expiring_soon",
               true
             ],
             [
-              "GE",
-              "days_before_expiry_to_apply",
-              15
+              "EQ",
+              "broker_company_stop_extension_applied",
+              true
             ]
           ]
         ]
@@ -485,77 +610,38 @@
               true
             ],
             [
-              "LE",
-              "broker_company_stop_extension_times",
-              1
+              "EQ",
+              "broker_company_stop_extension_once",
+              true
             ]
           ],
           [
             "IMPLIES",
             [
               "EQ",
-              "broker_company_stop_period_expiring",
+              "broker_company_stop_period_expiring_soon",
               true
             ],
             [
-              "GE",
-              "days_before_expiry_to_apply",
-              15
+              "EQ",
+              "broker_company_stop_extension_applied",
+              true
             ]
           ]
         ]
       ],
-      "timestamp": 172.77
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:broker_company_must_reappoint_broker_on_resume",
+      "id": "insurance:broker_company_must_cancel_license_if_stop_or_dissolve",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:broker_company_must_reappoint_broker_on_resume",
-        [
-          "IMPLIES",
-          [
-            "EQ",
-            "broker_company_resume_applied",
-            true
-          ],
-          [
-            "EQ",
-            "broker_reappointed",
-            true
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "broker_company_must_reappoint_broker_on_resume",
-        [
-          "IMPLIES",
-          [
-            "EQ",
-            "broker_company_resume_applied",
-            true
-          ],
-          [
-            "EQ",
-            "broker_reappointed",
-            true
-          ]
-        ]
-      ],
-      "timestamp": 172.77
-    },
-    {
-      "id": "insurance:broker_company_must_cancel_broker_license_on_stop_or_dissolve",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "insurance:broker_company_must_cancel_broker_license_on_stop_or_dissolve",
+        "insurance:broker_company_must_cancel_license_if_stop_or_dissolve",
         [
           "AND",
           [
-            "IMPLIES",
+            "OR",
             [
               "EQ",
               "broker_company_stop_applied",
@@ -563,9 +649,14 @@
             ],
             [
               "EQ",
-              "broker_license_cancelled",
+              "broker_company_dissolve_applied",
               true
             ]
+          ],
+          [
+            "EQ",
+            "broker_company_cancel_broker_license",
+            true
           ],
           [
             "IMPLIES",
@@ -575,28 +666,20 @@
               true
             ],
             [
-              "AND",
-              [
-                "EQ",
-                "broker_license_cancelled",
-                true
-              ],
-              [
-                "EQ",
-                "company_license_cancelled",
-                true
-              ]
+              "EQ",
+              "broker_company_cancel_company_license",
+              true
             ]
           ]
         ]
       ],
       "after": [
         "EQ",
-        "broker_company_must_cancel_broker_license_on_stop_or_dissolve",
+        "broker_company_must_cancel_license_if_stop_or_dissolve",
         [
           "AND",
           [
-            "IMPLIES",
+            "OR",
             [
               "EQ",
               "broker_company_stop_applied",
@@ -604,9 +687,14 @@
             ],
             [
               "EQ",
-              "broker_license_cancelled",
+              "broker_company_dissolve_applied",
               true
             ]
+          ],
+          [
+            "EQ",
+            "broker_company_cancel_broker_license",
+            true
           ],
           [
             "IMPLIES",
@@ -616,29 +704,60 @@
               true
             ],
             [
-              "AND",
-              [
-                "EQ",
-                "broker_license_cancelled",
-                true
-              ],
-              [
-                "EQ",
-                "company_license_cancelled",
-                true
-              ]
+              "EQ",
+              "broker_company_cancel_company_license",
+              true
             ]
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:broker_must_cancel_license_within_30_days_after_company_stop_dissolve_or_license_revoked",
+      "id": "insurance:broker_company_must_cancel_broker_license_with_revocation",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:broker_must_cancel_license_within_30_days_after_company_stop_dissolve_or_license_revoked",
+        "insurance:broker_company_must_cancel_broker_license_with_revocation",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "broker_company_license_revoked",
+            true
+          ],
+          [
+            "EQ",
+            "broker_company_cancel_broker_license_within_30_days",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "broker_company_must_cancel_broker_license_with_revocation",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "broker_company_license_revoked",
+            true
+          ],
+          [
+            "EQ",
+            "broker_company_cancel_broker_license_within_30_days",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 176.25
+    },
+    {
+      "id": "insurance:broker_company_stop_or_dissolve_or_revocation_must_cancel_broker_license",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:broker_company_stop_or_dissolve_or_revocation_must_cancel_broker_license",
         [
           "IMPLIES",
           [
@@ -660,15 +779,15 @@
             ]
           ],
           [
-            "LE",
-            "days_since_event",
-            30
+            "EQ",
+            "broker_company_cancel_broker_license_within_30_days",
+            true
           ]
         ]
       ],
       "after": [
         "EQ",
-        "broker_must_cancel_license_within_30_days_after_company_stop_dissolve_or_license_revoked",
+        "broker_company_stop_or_dissolve_or_revocation_must_cancel_broker_license",
         [
           "IMPLIES",
           [
@@ -690,408 +809,341 @@
             ]
           ],
           [
-            "LE",
-            "days_since_event",
-            30
+            "EQ",
+            "broker_company_cancel_broker_license_within_30_days",
+            true
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:bank_must_report_stop_or_terminate_brokerage",
+      "id": "insurance:bank_apply_stop_or_terminate_broker_business_must_report",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:bank_must_report_stop_or_terminate_brokerage",
+        "insurance:bank_apply_stop_or_terminate_broker_business_must_report",
         [
-          "OR",
+          "AND",
           [
             "EQ",
-            "bank_stop_brokerage_reported",
+            "bank_apply_stop_or_terminate_broker_business",
             true
           ],
           [
             "EQ",
-            "bank_terminate_brokerage_reported",
+            "bank_report_to_authority",
             true
           ]
         ]
       ],
       "after": [
         "EQ",
-        "bank_must_report_stop_or_terminate_brokerage",
+        "bank_apply_stop_or_terminate_broker_business_must_report",
         [
-          "OR",
+          "AND",
           [
             "EQ",
-            "bank_stop_brokerage_reported",
+            "bank_apply_stop_or_terminate_broker_business",
             true
           ],
           [
             "EQ",
-            "bank_terminate_brokerage_reported",
+            "bank_report_to_authority",
             true
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:bank_must_cancel_broker_license_on_stop_or_terminate",
+      "id": "insurance:bank_apply_stop_must_cancel_broker_license",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:bank_must_cancel_broker_license_on_stop_or_terminate",
+        "insurance:bank_apply_stop_must_cancel_broker_license",
         [
-          "AND",
+          "IMPLIES",
           [
-            "IMPLIES",
-            [
-              "EQ",
-              "bank_stop_brokerage_applied",
-              true
-            ],
-            [
-              "EQ",
-              "broker_license_cancelled",
-              true
-            ]
+            "EQ",
+            "bank_apply_stop_broker_business",
+            true
           ],
           [
-            "IMPLIES",
+            "EQ",
+            "bank_cancel_broker_license",
+            true
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "bank_apply_stop_must_cancel_broker_license",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "bank_apply_stop_broker_business",
+            true
+          ],
+          [
+            "EQ",
+            "bank_cancel_broker_license",
+            true
+          ]
+        ]
+      ],
+      "timestamp": 176.25
+    },
+    {
+      "id": "insurance:bank_apply_terminate_must_cancel_broker_and_business_license",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:bank_apply_terminate_must_cancel_broker_and_business_license",
+        [
+          "IMPLIES",
+          [
+            "EQ",
+            "bank_apply_terminate_broker_business",
+            true
+          ],
+          [
+            "AND",
             [
               "EQ",
-              "bank_terminate_brokerage_applied",
+              "bank_cancel_broker_license",
               true
             ],
             [
-              "AND",
-              [
-                "EQ",
-                "broker_license_cancelled",
-                true
-              ],
-              [
-                "EQ",
-                "brokerage_license_cancelled",
-                true
-              ]
+              "EQ",
+              "bank_cancel_broker_business_license",
+              true
             ]
           ]
         ]
       ],
       "after": [
         "EQ",
-        "bank_must_cancel_broker_license_on_stop_or_terminate",
+        "bank_apply_terminate_must_cancel_broker_and_business_license",
         [
-          "AND",
+          "IMPLIES",
           [
-            "IMPLIES",
-            [
-              "EQ",
-              "bank_stop_brokerage_applied",
-              true
-            ],
-            [
-              "EQ",
-              "broker_license_cancelled",
-              true
-            ]
+            "EQ",
+            "bank_apply_terminate_broker_business",
+            true
           ],
           [
-            "IMPLIES",
+            "AND",
             [
               "EQ",
-              "bank_terminate_brokerage_applied",
+              "bank_cancel_broker_license",
               true
             ],
             [
-              "AND",
-              [
-                "EQ",
-                "broker_license_cancelled",
-                true
-              ],
-              [
-                "EQ",
-                "brokerage_license_cancelled",
-                true
-              ]
+              "EQ",
+              "bank_cancel_broker_business_license",
+              true
             ]
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:broker_must_cancel_license_within_30_days_after_bank_stop_terminate_or_license_revoked",
+      "id": "insurance:bank_stop_or_terminate_or_license_revoked_must_cancel_broker_license",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:broker_must_cancel_license_within_30_days_after_bank_stop_terminate_or_license_revoked",
+        "insurance:bank_stop_or_terminate_or_license_revoked_must_cancel_broker_license",
         [
           "IMPLIES",
           [
             "OR",
             [
               "EQ",
-              "bank_stop_brokerage",
+              "bank_stop_broker_business_approved",
               true
             ],
             [
               "EQ",
-              "bank_terminate_brokerage",
+              "bank_terminate_broker_business_approved",
               true
             ],
             [
               "EQ",
-              "bank_brokerage_license_revoked",
+              "bank_broker_license_revoked",
               true
             ]
           ],
           [
-            "LE",
-            "days_since_event",
-            30
+            "EQ",
+            "bank_cancel_broker_license_within_30_days",
+            true
           ]
         ]
       ],
       "after": [
         "EQ",
-        "broker_must_cancel_license_within_30_days_after_bank_stop_terminate_or_license_revoked",
+        "bank_stop_or_terminate_or_license_revoked_must_cancel_broker_license",
         [
           "IMPLIES",
           [
             "OR",
             [
               "EQ",
-              "bank_stop_brokerage",
+              "bank_stop_broker_business_approved",
               true
             ],
             [
               "EQ",
-              "bank_terminate_brokerage",
+              "bank_terminate_broker_business_approved",
               true
             ],
             [
               "EQ",
-              "bank_brokerage_license_revoked",
+              "bank_broker_license_revoked",
               true
             ]
           ],
           [
-            "LE",
-            "days_since_event",
-            30
+            "EQ",
+            "bank_cancel_broker_license_within_30_days",
+            true
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:individual_broker_training_hours",
+      "id": "insurance:individual_broker_annual_training_hours",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:individual_broker_training_hours",
+        "insurance:individual_broker_annual_training_hours",
         [
           "AND",
           [
             "GE",
-            "avg_annual_onjob_training_hours",
+            "individual_broker_avg_annual_training_hours",
             16.0
           ],
           [
             "GE",
-            "avg_annual_legal_training_hours_last_2_years",
+            "individual_broker_avg_annual_law_course_hours_2years",
             8.0
           ]
         ]
       ],
       "after": [
         "EQ",
-        "individual_broker_training_hours",
+        "individual_broker_annual_training_hours",
         [
           "AND",
           [
             "GE",
-            "avg_annual_onjob_training_hours",
+            "individual_broker_avg_annual_training_hours",
             16.0
           ],
           [
             "GE",
-            "avg_annual_legal_training_hours_last_2_years",
+            "individual_broker_avg_annual_law_course_hours_2years",
             8.0
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:compliance_officer_training_hours",
+      "id": "insurance:compliance_officer_annual_training_hours",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:compliance_officer_training_hours",
+        "insurance:compliance_officer_annual_training_hours",
         [
           "GE",
-          "compliance_officer_training_hours",
+          "compliance_officer_annual_training_hours",
           15.0
         ]
       ],
       "after": [
         "EQ",
-        "compliance_officer_training_hours",
+        "compliance_officer_annual_training_hours",
         [
           "GE",
-          "compliance_officer_training_hours",
+          "compliance_officer_annual_training_hours",
           15.0
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:training_organization_approved",
+      "id": "insurance:broker_must_attend_and_pass_elderly_customer_training",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:training_organization_approved",
+        "insurance:broker_must_attend_and_pass_elderly_customer_training",
         [
           "EQ",
-          "training_organization_approved_by_authority",
+          "broker_attended_and_passed_elderly_customer_training",
           true
         ]
       ],
       "after": [
         "EQ",
-        "training_organization_approved",
+        "broker_must_attend_and_pass_elderly_customer_training",
         [
           "EQ",
-          "training_organization_approved_by_authority",
+          "broker_attended_and_passed_elderly_customer_training",
           true
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:broker_must_attend_and_pass_fair_treatment_training",
+      "id": "insurance:broker_company_or_bank_cancel_broker_elderly_customer_qualification_if_not_attend",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:broker_must_attend_and_pass_fair_treatment_training",
-        [
-          "GE",
-          "fair_treatment_training_hours_passed",
-          2.0
-        ]
-      ],
-      "after": [
-        "EQ",
-        "broker_must_attend_and_pass_fair_treatment_training",
-        [
-          "GE",
-          "fair_treatment_training_hours_passed",
-          2.0
-        ]
-      ],
-      "timestamp": 172.78
-    },
-    {
-      "id": "insurance:broker_restriction_if_not_attend_fair_treatment_training",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "insurance:broker_restriction_if_not_attend_fair_treatment_training",
+        "insurance:broker_company_or_bank_cancel_broker_elderly_customer_qualification_if_not_attend",
         [
           "IMPLIES",
           [
             "NOT",
             [
               "EQ",
-              "insurance:broker_must_attend_and_pass_fair_treatment_training",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "allowed_to_solicit_65_plus",
-              true
-            ]
-          ]
-        ]
-      ],
-      "after": [
-        "EQ",
-        "broker_restriction_if_not_attend_fair_treatment_training",
-        [
-          "IMPLIES",
-          [
-            "NOT",
-            [
-              "EQ",
-              "broker_must_attend_and_pass_fair_treatment_training",
-              true
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "EQ",
-              "allowed_to_solicit_65_plus",
-              true
-            ]
-          ]
-        ]
-      ],
-      "timestamp": 172.78
-    },
-    {
-      "id": "insurance:broker_company_or_bank_must_cancel_broker_65_plus_qualification_if_training_not_met",
-      "rule": "Remove colon prefix",
-      "before": [
-        "EQ",
-        "insurance:broker_company_or_bank_must_cancel_broker_65_plus_qualification_if_training_not_met",
-        [
-          "IMPLIES",
-          [
-            "NOT",
-            [
-              "EQ",
-              "insurance:broker_must_attend_and_pass_fair_treatment_training",
+              "broker_attended_and_passed_elderly_customer_training",
               true
             ]
           ],
           [
             "EQ",
-            "broker_65_plus_qualification_cancelled",
+            "broker_elderly_customer_qualification_canceled_next_year",
             true
           ]
         ]
       ],
       "after": [
         "EQ",
-        "broker_company_or_bank_must_cancel_broker_65_plus_qualification_if_training_not_met",
+        "broker_company_or_bank_cancel_broker_elderly_customer_qualification_if_not_attend",
         [
           "IMPLIES",
           [
             "NOT",
             [
               "EQ",
-              "broker_must_attend_and_pass_fair_treatment_training",
+              "broker_attended_and_passed_elderly_customer_training",
               true
             ]
           ],
           [
             "EQ",
-            "broker_65_plus_qualification_cancelled",
+            "broker_elderly_customer_qualification_canceled_next_year",
             true
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
       "id": "insurance:property_insurance_reinsurance_rate_compliance",
@@ -1114,14 +1166,14 @@
           true
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:property_insurance_retention_rate_proportional_reinsurance",
+      "id": "insurance:property_insurance_proportional_reinsurance_retention_rate_limit",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:property_insurance_retention_rate_proportional_reinsurance",
+        "insurance:property_insurance_proportional_reinsurance_retention_rate_limit",
         [
           "AND",
           [
@@ -1132,13 +1184,13 @@
           [
             "GE",
             "retention_rate",
-            "policy_issuance_fee_rate"
+            "ceding_commission_rate"
           ]
         ]
       ],
       "after": [
         "EQ",
-        "property_insurance_retention_rate_proportional_reinsurance",
+        "property_insurance_proportional_reinsurance_retention_rate_limit",
         [
           "AND",
           [
@@ -1149,77 +1201,85 @@
           [
             "GE",
             "retention_rate",
-            "policy_issuance_fee_rate"
+            "ceding_commission_rate"
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:property_insurance_retention_rate_nonproportional_reinsurance",
+      "id": "insurance:property_insurance_nonproportional_reinsurance_rate_limit",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:property_insurance_retention_rate_nonproportional_reinsurance",
+        "insurance:property_insurance_nonproportional_reinsurance_rate_limit",
         [
           "AND",
           [
             "GE",
-            "retention_rate_layer",
+            "retention_layer_rate",
             "higher_layer_rate"
           ],
           [
             "GE",
-            "retention_rate_layer",
+            "retention_layer_rate",
             "weighted_avg_reinsurance_rate_same_layer"
           ]
         ]
       ],
       "after": [
         "EQ",
-        "property_insurance_retention_rate_nonproportional_reinsurance",
+        "property_insurance_nonproportional_reinsurance_rate_limit",
         [
           "AND",
           [
             "GE",
-            "retention_rate_layer",
+            "retention_layer_rate",
             "higher_layer_rate"
           ],
           [
             "GE",
-            "retention_rate_layer",
+            "retention_layer_rate",
             "weighted_avg_reinsurance_rate_same_layer"
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     },
     {
-      "id": "insurance:property_insurance_original_policy_no_temporary_reinsurance",
+      "id": "insurance:property_insurance_no_temporary_reinsurance_after_temporary_cession",
       "rule": "Remove colon prefix",
       "before": [
         "EQ",
-        "insurance:property_insurance_original_policy_no_temporary_reinsurance",
+        "insurance:property_insurance_no_temporary_reinsurance_after_temporary_cession",
         [
           "IMPLIES",
           [
-            "NOT",
+            "AND",
             [
-              "OR",
+              "EQ",
+              "temporary_cession_arranged",
+              true
+            ],
+            [
+              "NOT",
               [
-                "EQ",
-                "insurance_type",
-                "aviation"
-              ],
-              [
-                "EQ",
-                "insurance_type",
-                "nuclear"
-              ],
-              [
-                "EQ",
-                "insurance_type",
-                "exclusive_reinsurance"
+                "OR",
+                [
+                  "EQ",
+                  "aviation_insurance",
+                  true
+                ],
+                [
+                  "EQ",
+                  "nuclear_insurance",
+                  true
+                ],
+                [
+                  "EQ",
+                  "exclusive_reinsurance",
+                  true
+                ]
               ]
             ]
           ],
@@ -1235,27 +1295,35 @@
       ],
       "after": [
         "EQ",
-        "property_insurance_original_policy_no_temporary_reinsurance",
+        "property_insurance_no_temporary_reinsurance_after_temporary_cession",
         [
           "IMPLIES",
           [
-            "NOT",
+            "AND",
             [
-              "OR",
+              "EQ",
+              "temporary_cession_arranged",
+              true
+            ],
+            [
+              "NOT",
               [
-                "EQ",
-                "insurance_type",
-                "aviation"
-              ],
-              [
-                "EQ",
-                "insurance_type",
-                "nuclear"
-              ],
-              [
-                "EQ",
-                "insurance_type",
-                "exclusive_reinsurance"
+                "OR",
+                [
+                  "EQ",
+                  "aviation_insurance",
+                  true
+                ],
+                [
+                  "EQ",
+                  "nuclear_insurance",
+                  true
+                ],
+                [
+                  "EQ",
+                  "exclusive_reinsurance",
+                  true
+                ]
               ]
             ]
           ],
@@ -1269,7 +1337,62 @@
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
+    },
+    {
+      "id": "insurance:property_insurance_reinsurance_rate_violation_penalty",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "insurance:property_insurance_reinsurance_rate_violation_penalty",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "insurance:property_insurance_reinsurance_rate_compliance",
+              true
+            ],
+            [
+              "EQ",
+              "insurance:property_insurance_proportional_reinsurance_retention_rate_limit",
+              true
+            ],
+            [
+              "EQ",
+              "insurance:property_insurance_nonproportional_reinsurance_rate_limit",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "property_insurance_reinsurance_rate_violation_penalty",
+        [
+          "NOT",
+          [
+            "AND",
+            [
+              "EQ",
+              "property_insurance_reinsurance_rate_compliance",
+              true
+            ],
+            [
+              "EQ",
+              "property_insurance_proportional_reinsurance_retention_rate_limit",
+              true
+            ],
+            [
+              "EQ",
+              "property_insurance_nonproportional_reinsurance_rate_limit",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 176.25
     },
     {
       "id": "meta:penalty_conditions",
@@ -1280,15 +1403,26 @@
         [
           "OR",
           [
-            "EQ",
-            "insurance:agent_broker_not_permitted_without_license",
-            true
+            "NOT",
+            [
+              "EQ",
+              "insurance:agent_broker_not_permitted_without_license_and_guarantee",
+              true
+            ]
           ],
           [
             "NOT",
             [
               "EQ",
-              "insurance:insurance_policy_type_correct",
+              "insurance:related_insurance_type_correct",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "insurance:bank_permitted_to_operate_agent_or_broker",
               true
             ]
           ],
@@ -1304,9 +1438,14 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_must_provide_written_report_and_disclose_fee",
+              "insurance:broker_provide_written_analysis_and_disclose_fee",
               true
             ]
+          ],
+          [
+            "EQ",
+            "insurance:violate_finance_or_business_management_or_broker_rules",
+            true
           ],
           [
             "NOT",
@@ -1328,7 +1467,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_company_must_reappoint_broker_on_resume",
+              "insurance:broker_company_must_cancel_license_if_stop_or_dissolve",
               true
             ]
           ],
@@ -1336,7 +1475,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_company_must_cancel_broker_license_on_stop_or_dissolve",
+              "insurance:broker_company_must_cancel_broker_license_with_revocation",
               true
             ]
           ],
@@ -1344,7 +1483,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_must_cancel_license_within_30_days_after_company_stop_dissolve_or_license_revoked",
+              "insurance:broker_company_stop_or_dissolve_or_revocation_must_cancel_broker_license",
               true
             ]
           ],
@@ -1352,7 +1491,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:bank_must_report_stop_or_terminate_brokerage",
+              "insurance:bank_apply_stop_or_terminate_broker_business_must_report",
               true
             ]
           ],
@@ -1360,7 +1499,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:bank_must_cancel_broker_license_on_stop_or_terminate",
+              "insurance:bank_apply_stop_must_cancel_broker_license",
               true
             ]
           ],
@@ -1368,7 +1507,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_must_cancel_license_within_30_days_after_bank_stop_terminate_or_license_revoked",
+              "insurance:bank_apply_terminate_must_cancel_broker_and_business_license",
               true
             ]
           ],
@@ -1376,7 +1515,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:individual_broker_training_hours",
+              "insurance:bank_stop_or_terminate_or_license_revoked_must_cancel_broker_license",
               true
             ]
           ],
@@ -1384,7 +1523,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:compliance_officer_training_hours",
+              "insurance:individual_broker_annual_training_hours",
               true
             ]
           ],
@@ -1392,7 +1531,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:training_organization_approved",
+              "insurance:compliance_officer_annual_training_hours",
               true
             ]
           ],
@@ -1400,7 +1539,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_must_attend_and_pass_fair_treatment_training",
+              "insurance:broker_must_attend_and_pass_elderly_customer_training",
               true
             ]
           ],
@@ -1408,7 +1547,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:broker_company_or_bank_must_cancel_broker_65_plus_qualification_if_training_not_met",
+              "insurance:broker_company_or_bank_cancel_broker_elderly_customer_qualification_if_not_attend",
               true
             ]
           ],
@@ -1424,7 +1563,7 @@
             "NOT",
             [
               "EQ",
-              "insurance:property_insurance_retention_rate_proportional_reinsurance",
+              "insurance:property_insurance_proportional_reinsurance_retention_rate_limit",
               true
             ]
           ],
@@ -1432,17 +1571,14 @@
             "NOT",
             [
               "EQ",
-              "insurance:property_insurance_retention_rate_nonproportional_reinsurance",
+              "insurance:property_insurance_nonproportional_reinsurance_rate_limit",
               true
             ]
           ],
           [
-            "NOT",
-            [
-              "EQ",
-              "insurance:property_insurance_original_policy_no_temporary_reinsurance",
-              true
-            ]
+            "EQ",
+            "insurance:property_insurance_reinsurance_rate_violation_penalty",
+            true
           ]
         ]
       ],
@@ -1452,15 +1588,26 @@
         [
           "OR",
           [
-            "EQ",
-            "agent_broker_not_permitted_without_license",
-            true
+            "NOT",
+            [
+              "EQ",
+              "agent_broker_not_permitted_without_license_and_guarantee",
+              true
+            ]
           ],
           [
             "NOT",
             [
               "EQ",
-              "insurance_policy_type_correct",
+              "related_insurance_type_correct",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank_permitted_to_operate_agent_or_broker",
               true
             ]
           ],
@@ -1476,9 +1623,14 @@
             "NOT",
             [
               "EQ",
-              "broker_must_provide_written_report_and_disclose_fee",
+              "broker_provide_written_analysis_and_disclose_fee",
               true
             ]
+          ],
+          [
+            "EQ",
+            "violate_finance_or_business_management_or_broker_rules",
+            true
           ],
           [
             "NOT",
@@ -1500,7 +1652,7 @@
             "NOT",
             [
               "EQ",
-              "broker_company_must_reappoint_broker_on_resume",
+              "broker_company_must_cancel_license_if_stop_or_dissolve",
               true
             ]
           ],
@@ -1508,7 +1660,7 @@
             "NOT",
             [
               "EQ",
-              "broker_company_must_cancel_broker_license_on_stop_or_dissolve",
+              "broker_company_must_cancel_broker_license_with_revocation",
               true
             ]
           ],
@@ -1516,7 +1668,7 @@
             "NOT",
             [
               "EQ",
-              "broker_must_cancel_license_within_30_days_after_company_stop_dissolve_or_license_revoked",
+              "broker_company_stop_or_dissolve_or_revocation_must_cancel_broker_license",
               true
             ]
           ],
@@ -1524,7 +1676,7 @@
             "NOT",
             [
               "EQ",
-              "bank_must_report_stop_or_terminate_brokerage",
+              "bank_apply_stop_or_terminate_broker_business_must_report",
               true
             ]
           ],
@@ -1532,7 +1684,7 @@
             "NOT",
             [
               "EQ",
-              "bank_must_cancel_broker_license_on_stop_or_terminate",
+              "bank_apply_stop_must_cancel_broker_license",
               true
             ]
           ],
@@ -1540,7 +1692,7 @@
             "NOT",
             [
               "EQ",
-              "broker_must_cancel_license_within_30_days_after_bank_stop_terminate_or_license_revoked",
+              "bank_apply_terminate_must_cancel_broker_and_business_license",
               true
             ]
           ],
@@ -1548,7 +1700,7 @@
             "NOT",
             [
               "EQ",
-              "individual_broker_training_hours",
+              "bank_stop_or_terminate_or_license_revoked_must_cancel_broker_license",
               true
             ]
           ],
@@ -1556,7 +1708,7 @@
             "NOT",
             [
               "EQ",
-              "compliance_officer_training_hours",
+              "individual_broker_annual_training_hours",
               true
             ]
           ],
@@ -1564,7 +1716,7 @@
             "NOT",
             [
               "EQ",
-              "training_organization_approved",
+              "compliance_officer_annual_training_hours",
               true
             ]
           ],
@@ -1572,7 +1724,7 @@
             "NOT",
             [
               "EQ",
-              "broker_must_attend_and_pass_fair_treatment_training",
+              "broker_must_attend_and_pass_elderly_customer_training",
               true
             ]
           ],
@@ -1580,7 +1732,7 @@
             "NOT",
             [
               "EQ",
-              "broker_company_or_bank_must_cancel_broker_65_plus_qualification_if_training_not_met",
+              "broker_company_or_bank_cancel_broker_elderly_customer_qualification_if_not_attend",
               true
             ]
           ],
@@ -1596,7 +1748,7 @@
             "NOT",
             [
               "EQ",
-              "property_insurance_retention_rate_proportional_reinsurance",
+              "property_insurance_proportional_reinsurance_retention_rate_limit",
               true
             ]
           ],
@@ -1604,21 +1756,18 @@
             "NOT",
             [
               "EQ",
-              "property_insurance_retention_rate_nonproportional_reinsurance",
+              "property_insurance_nonproportional_reinsurance_rate_limit",
               true
             ]
           ],
           [
-            "NOT",
-            [
-              "EQ",
-              "property_insurance_original_policy_no_temporary_reinsurance",
-              true
-            ]
+            "EQ",
+            "property_insurance_reinsurance_rate_violation_penalty",
+            true
           ]
         ]
       ],
-      "timestamp": 172.78
+      "timestamp": 176.25
     }
   ]
 }

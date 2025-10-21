@@ -1,7 +1,7 @@
 [
   {
     "id": "securities:violation_penalty_level",
-    "desc": "主管機關依違反法令情節輕重決定處分等級（1=警告,2=解除職務,3=停止募集或新增業務,4=停業,5=廢止營業許可,6=其他處置）",
+    "desc": "違反證券投資信託及顧問法之處分等級（1=警告,2=解除職務,3=停止募集或新增業務,4=停業,5=廢止營業許可,6=其他處置,0=無處分）",
     "expr": [
       "EQ",
       "violation_penalty_level",
@@ -50,14 +50,14 @@
     "domain": "securities"
   },
   {
-    "id": "securities:violation_warning",
-    "desc": "違反法令情節輕重達警告標準",
+    "id": "securities:personnel_violation",
+    "desc": "董事、監察人、經理人或受僱人違反法令且影響業務正常執行",
     "expr": [
       "EQ",
-      "violation_warning",
+      "personnel_violation",
       [
         "EQ",
-        "violation_level_warning",
+        "personnel_violation_occurred",
         true
       ]
     ],
@@ -65,106 +65,16 @@
     "domain": "securities"
   },
   {
-    "id": "securities:violation_dismiss_officer",
-    "desc": "違反法令情節輕重達解除董事、監察人或經理人職務標準",
-    "expr": [
-      "EQ",
-      "violation_dismiss_officer",
-      [
-        "EQ",
-        "violation_level_dismiss_officer",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:violation_suspend_fund_or_business",
-    "desc": "違反法令情節輕重達停止募集或新增受託業務標準",
-    "expr": [
-      "EQ",
-      "violation_suspend_fund_or_business",
-      [
-        "EQ",
-        "violation_level_suspend_fund_or_business",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:violation_suspend_operation",
-    "desc": "違反法令情節輕重達停業標準",
-    "expr": [
-      "EQ",
-      "violation_suspend_operation",
-      [
-        "EQ",
-        "violation_level_suspend_operation",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:violation_revoke_license",
-    "desc": "違反法令情節輕重達廢止營業許可標準",
-    "expr": [
-      "EQ",
-      "violation_revoke_license",
-      [
-        "EQ",
-        "violation_level_revoke_license",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:violation_other_measures",
-    "desc": "違反法令情節輕重達其他必要處置標準",
-    "expr": [
-      "EQ",
-      "violation_other_measures",
-      [
-        "EQ",
-        "violation_level_other_measures",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:personnel_violation_affect_business",
-    "desc": "董事、監察人、經理人或受僱人違反法令且足以影響業務正常執行",
-    "expr": [
-      "EQ",
-      "personnel_violation_affect_business",
-      [
-        "EQ",
-        "personnel_violation",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:personnel_violation_penalty",
+    "id": "securities:personnel_suspension_or_dismissal",
     "desc": "主管機關命令停止執行業務或解除職務",
     "expr": [
       "EQ",
-      "personnel_violation_penalty",
+      "personnel_suspension_or_dismissal",
       [
         "OR",
         [
           "EQ",
-          "order_stop_business_within_one_year",
+          "order_suspend_business_within_one_year",
           true
         ],
         [
@@ -179,101 +89,35 @@
   },
   {
     "id": "securities:violation_fine_and_improvement",
-    "desc": "違反第111條規定之違法行為",
+    "desc": "違反第111條規定且罰鍰及限期改善",
     "expr": [
       "EQ",
-      "violation_111",
+      "violation_fine_and_improvement",
       [
-        "OR",
-        [
-          "EQ",
-          "violate_unapproved_business",
-          true
-        ],
-        [
-          "EQ",
-          "violate_investment_scope_limit_14_1_18_1_56_1",
-          true
-        ],
-        [
-          "EQ",
-          "violate_investment_scope_limit_16_4",
-          true
-        ],
-        [
-          "EQ",
-          "violate_16_1_19_1_51_1_59",
-          true
-        ],
-        [
-          "EQ",
-          "violate_diversification_58_2",
-          true
-        ],
-        [
-          "EQ",
-          "operate_without_license_63_1",
-          true
-        ],
-        [
-          "EQ",
-          "violate_behavior_rules_69",
-          true
-        ],
-        [
-          "EQ",
-          "violate_restriction_rules_70",
-          true
-        ],
-        [
-          "EQ",
-          "violate_branch_establishment_72_1",
-          true
-        ]
+        "EQ",
+        "violation_111_occurred",
+        true
       ]
     ],
     "weight": 1,
     "domain": "securities"
   },
   {
-    "id": "securities:fine_imposed",
-    "desc": "違反第111條規定處罰罰鍰並責令限期改善",
+    "id": "securities:violation_111_repeat_fine",
+    "desc": "第111條違規屢次未改善，罰鍰加倍",
     "expr": [
       "EQ",
-      "fine_imposed",
+      "violation_111_repeat_fine",
       [
         "AND",
         [
           "EQ",
-          "violation_111",
+          "violation_111_occurred",
           true
         ],
         [
           "EQ",
-          "improvement_ordered",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:fine_double_penalty",
-    "desc": "屆期不改善按次處二倍至五倍罰鍰",
-    "expr": [
-      "EQ",
-      "fine_double_penalty",
-      [
-        "AND",
-        [
-          "EQ",
-          "improvement_ordered",
-          true
-        ],
-        [
-          "EQ",
-          "improvement_not_done",
+          "violation_111_not_improved",
           true
         ]
       ]
@@ -289,7 +133,7 @@
       "fiduciary_duty_compliance",
       [
         "EQ",
-        "duty_of_care_and_loyalty",
+        "duty_of_care_and_loyalty_observed",
         true
       ]
     ],
@@ -298,17 +142,17 @@
   },
   {
     "id": "securities:prohibited_behaviors",
-    "desc": "負責人及業務人員未有禁止行為",
+    "desc": "未有證券投資信託事業負責人與業務人員管理規則第13條禁止行為",
     "expr": [
       "EQ",
-      "no_prohibited_behavior",
+      "no_prohibited_behaviors",
       [
         "AND",
         [
           "NOT",
           [
             "EQ",
-            "leak_confidential_info",
+            "behavior_leak_info",
             true
           ]
         ],
@@ -316,7 +160,7 @@
           "NOT",
           [
             "EQ",
-            "self_dealing_or_relative_trading",
+            "behavior_self_dealing",
             true
           ]
         ],
@@ -324,7 +168,7 @@
           "NOT",
           [
             "EQ",
-            "fraudulent_behavior",
+            "behavior_false_or_fraud",
             true
           ]
         ],
@@ -332,7 +176,7 @@
           "NOT",
           [
             "EQ",
-            "not_return_commission_to_fund",
+            "behavior_not_return_commission",
             true
           ]
         ],
@@ -340,7 +184,7 @@
           "NOT",
           [
             "EQ",
-            "provide_special_benefits_to_promote",
+            "behavior_offer_special_benefit",
             true
           ]
         ],
@@ -348,7 +192,7 @@
           "NOT",
           [
             "EQ",
-            "sell_proxy_votes_for_benefits",
+            "behavior_transfer_proxy_vote_for_benefit",
             true
           ]
         ],
@@ -356,7 +200,7 @@
           "NOT",
           [
             "EQ",
-            "manipulate_market_price",
+            "behavior_manipulate_market_price",
             true
           ]
         ],
@@ -364,7 +208,7 @@
           "NOT",
           [
             "EQ",
-            "transfer_orders_to_other_accounts",
+            "behavior_change_account_without_reason",
             true
           ]
         ],
@@ -372,7 +216,7 @@
           "NOT",
           [
             "EQ",
-            "public_recommendation_or_forecast",
+            "behavior_public_promotion_or_forecast",
             true
           ]
         ],
@@ -380,7 +224,7 @@
           "NOT",
           [
             "EQ",
-            "use_nonprofessional_to_recruit",
+            "behavior_unreasonable_commission",
             true
           ]
         ],
@@ -388,7 +232,7 @@
           "NOT",
           [
             "EQ",
-            "unreasonable_commission",
+            "behavior_agent_for_others",
             true
           ]
         ],
@@ -396,15 +240,7 @@
           "NOT",
           [
             "EQ",
-            "act_as_agent_except_legal_agent",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "other_harmful_behavior",
+            "behavior_other_harmful",
             true
           ]
         ]
@@ -414,14 +250,14 @@
     "domain": "securities"
   },
   {
-    "id": "securities:confidentiality_obligation",
-    "desc": "負責人及業務人員保守受益人及客戶資料秘密",
+    "id": "securities:confidentiality_compliance",
+    "desc": "遵守保守秘密義務",
     "expr": [
       "EQ",
-      "confidentiality_obligation",
+      "confidentiality_compliance",
       [
         "EQ",
-        "keep_client_data_confidential",
+        "confidentiality_observed",
         true
       ]
     ],
@@ -429,16 +265,16 @@
     "domain": "securities"
   },
   {
-    "id": "securities:insider_trading_restriction",
-    "desc": "負責人及關係人不得從事特定公司股票及股權性質衍生商品交易",
+    "id": "securities:restricted_trading_prohibition",
+    "desc": "負責人等及其關係人不得從事特定股票及衍生商品交易",
     "expr": [
       "EQ",
-      "insider_trading_restriction",
+      "restricted_trading_prohibition",
       [
         "NOT",
         [
           "EQ",
-          "engage_restricted_stock_derivative_trading",
+          "restricted_trading_occurred",
           true
         ]
       ]
@@ -447,14 +283,14 @@
     "domain": "securities"
   },
   {
-    "id": "securities:insider_trading_declaration",
-    "desc": "負責人及關係人應申報特定公司股票及股權性質衍生商品交易",
+    "id": "securities:restricted_trading_reporting",
+    "desc": "負責人等及其關係人應申報特定股票及衍生商品交易",
     "expr": [
       "EQ",
-      "insider_trading_declaration",
+      "restricted_trading_reporting",
       [
         "EQ",
-        "declare_restricted_stock_derivative_trading",
+        "restricted_trading_reported",
         true
       ]
     ],
@@ -462,33 +298,18 @@
     "domain": "securities"
   },
   {
-    "id": "securities:insider_trading_relation_definition",
-    "desc": "關係人定義符合規定",
+    "id": "securities:prohibited_behavior_full_trust_investment",
+    "desc": "全權委託投資業務禁止行為",
     "expr": [
       "EQ",
-      "insider_trading_relation_definition",
-      [
-        "EQ",
-        "relation_definition_compliant",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "securities"
-  },
-  {
-    "id": "securities:prohibited_behavior_fiduciary",
-    "desc": "全權委託投資業務不得有禁止行為",
-    "expr": [
-      "EQ",
-      "full_discretion_prohibited_behavior_ok",
+      "no_prohibited_behavior_full_trust",
       [
         "AND",
         [
           "NOT",
           [
             "EQ",
-            "full_discretion_use_info_for_others",
+            "full_trust_behavior_use_info_for_others",
             true
           ]
         ],
@@ -496,7 +317,7 @@
           "NOT",
           [
             "EQ",
-            "full_discretion_harm_client",
+            "full_trust_behavior_harm_client",
             true
           ]
         ],
@@ -504,7 +325,7 @@
           "NOT",
           [
             "EQ",
-            "full_discretion_profit_sharing_agreement",
+            "full_trust_behavior_profit_loss_sharing",
             true
           ]
         ],
@@ -512,7 +333,55 @@
           "NOT",
           [
             "EQ",
-            "full_discretion_self_or_others_trading",
+            "full_trust_behavior_self_dealing",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "full_trust_behavior_relative_trading",
+              true
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "full_trust_behavior_relative_trading",
+              true
+            ],
+            [
+              "EQ",
+              "full_trust_relative_trading_not_intentional",
+              true
+            ]
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "full_trust_behavior_use_client_account",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "full_trust_behavior_subcontract_or_transfer",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "full_trust_behavior_subcontract_or_transfer_exempted",
             true
           ]
         ],
@@ -520,7 +389,23 @@
           "NOT",
           [
             "EQ",
-            "full_discretion_relative_trading",
+            "full_trust_behavior_change_account_without_reason",
+            true
+          ]
+        ],
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "full_trust_behavior_no_reason_investment_decision",
+              true
+            ]
+          ],
+          [
+            "EQ",
+            "full_trust_behavior_reasonable_explanation",
             true
           ]
         ],
@@ -528,39 +413,7 @@
           "NOT",
           [
             "EQ",
-            "full_discretion_use_client_account",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "full_discretion_delegate_or_transfer",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "full_discretion_illegal_order_transfer",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "full_discretion_no_reason_investment_decision",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "full_discretion_other_harmful_behavior",
+            "full_trust_behavior_other_harmful",
             true
           ]
         ]
@@ -570,16 +423,16 @@
     "domain": "securities"
   },
   {
-    "id": "securities:insider_trading_restriction_full_discretion",
-    "desc": "全權委託投資業務專責人員及關係人不得從事特定公司股票及股權性質衍生商品交易",
+    "id": "securities:restricted_trading_prohibition_full_trust",
+    "desc": "全權委託投資業務負責人等及其關係人不得從事特定股票及衍生商品交易",
     "expr": [
       "EQ",
-      "insider_trading_restriction_full_discretion",
+      "restricted_trading_prohibition_full_trust",
       [
         "NOT",
         [
           "EQ",
-          "full_discretion_engage_restricted_stock_derivative_trading",
+          "restricted_trading_full_trust_occurred",
           true
         ]
       ]
@@ -600,16 +453,19 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反法令或命令，或違反人員義務，或違反第111條規定，或未遵守禁止行為及申報義務時處罰",
+    "desc": "處罰條件：違反任一法令規定或管理規則禁止行為時處罰",
     "expr": [
       "EQ",
       "penalty",
       [
         "OR",
         [
-          "EQ",
-          "violation_111",
-          true
+          "NOT",
+          [
+            "EQ",
+            "no_prohibited_behaviors",
+            true
+          ]
         ],
         [
           "NOT",
@@ -623,7 +479,7 @@
           "NOT",
           [
             "EQ",
-            "no_prohibited_behavior",
+            "confidentiality_compliance",
             true
           ]
         ],
@@ -631,7 +487,7 @@
           "NOT",
           [
             "EQ",
-            "confidentiality_obligation",
+            "restricted_trading_prohibition",
             true
           ]
         ],
@@ -639,7 +495,7 @@
           "NOT",
           [
             "EQ",
-            "insider_trading_restriction",
+            "restricted_trading_reporting",
             true
           ]
         ],
@@ -647,7 +503,7 @@
           "NOT",
           [
             "EQ",
-            "insider_trading_declaration",
+            "no_prohibited_behavior_full_trust",
             true
           ]
         ],
@@ -655,7 +511,7 @@
           "NOT",
           [
             "EQ",
-            "insider_trading_relation_definition",
+            "restricted_trading_prohibition_full_trust",
             true
           ]
         ],
@@ -663,16 +519,16 @@
           "NOT",
           [
             "EQ",
-            "full_discretion_prohibited_behavior_ok",
-            true
+            "violation_fine_and_improvement",
+            false
           ]
         ],
         [
           "NOT",
           [
             "EQ",
-            "insider_trading_restriction_full_discretion",
-            true
+            "personnel_violation",
+            false
           ]
         ]
       ]

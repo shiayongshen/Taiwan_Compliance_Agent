@@ -1,0 +1,158 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (8098 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (8088 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (16 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (58 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+❌ Checkpoint [step5_constraints_parseable]: FAIL (Unsupported operator: NEQ)
+⚠️ Found 1 problematic constraints:
+  - [insurance:broker_obtain_contact_info_for_e_policy] Unsupported operator: NEQ
+⚠️ Constraints parse failed: Unsupported operator: NEQ
+🔄 Repair attempt 1
+📍 Found 1 problematic constraint(s):
+   [insurance:broker_obtain_contact_info_for_e_policy] Unsupported operator: NEQ
+
+🔧 修復 constraint [insurance:broker_obtain_contact_info_for_e_policy]
+   ✅ 修復成功（第 1 次嘗試）
+   ✅ Constraint [insurance:broker_obtain_contact_info_for_e_policy] 修復成功
+✅ 修復完成於第 1 輪
+✅ Repair success after 1 round(s)
+✅ Checkpoint [step5_repair_success]: PASS (1 rounds)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (42 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (42 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c57'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c57'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_115
+
+📊 Model (filtered):
+   insurance_type_responsibility = True
+   broker_company_shareholding_in_insurer = 0
+   notary = True
+   guarantee_deposit_amount = 500000
+   broker_charge_fee = 0
+   minimum_guarantee_deposit = 500000
+   insured_email = False
+   broker_disclose_shareholding_info = True
+   insurance_policy_is_electronic = False
+   applicant_other_contact = False
+   applicant_mobile_phone = False
+   insured_other_contact = False
+   insurance_type_guarantee = True
+   broker = True
+   provide_contact_to_insurer = False
+   applicant_email = False
+   agent = False
+   broker_disclose_fee_standard = True
+   insurer_shareholding_in_broker_company = 0
+   insured_mobile_phone = False
+   broker_document_retention = True
+   violate_related_regulations = False
+   bank_approved_by_authority = False
+   bank_operate_as_agent = False
+   bank_operate_as_broker = False
+   bank_permission_for_agent_or_broker = False
+   broker_disclose_main_content_and_rights = True
+   broker_duty_of_care_and_fidelity = True
+   management_rules_set_by_authority = True
+   broker_exercise_fidelity = True
+   broker_provide_written_analysis_report_and_disclose_fee = True
+   broker_understand_client_info = True
+   violation_financial_or_business_management_rules = False
+   protect_senior_consumer_rights = True
+   approved_by_authority = True
+   broker_provide_written_report = True
+   internal_operation_rules_executed = True
+   broker_documents_retained = True
+   violate_business_management_rules = False
+   broker_maintain_client_interest = True
+   broker_exercise_duty_of_care = True
+   broker_obtain_contact_info_for_e_policy = True
+   relevant_insurance_type_compliance = True
+   license_and_guarantee_compliance = True
+   broker_internal_operation_compliance = True
+   authority_set_management_rules = True
+   broker_disclose_shareholding_info_before_contract = True
+   broker_duty_of_care_and_fidelity_compliance = True
+   broker_understand_client_and_provide_report_before_contract = True
+   internal_operation_rules_established = True
+   penalty = False
+   violate_financial_management_rules = False
+   comply_with_laws_and_regulations = True
+   authority_set_minimum_amount = 0
+   minimum_guarantee_deposit_and_insurance_amount_set_by_authority = False
+   license_issued = True
+   relevant_insurance_subscribed = True
+✅ Model saved to: outputs/case_115.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs/case_115.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs/case_115.smt2

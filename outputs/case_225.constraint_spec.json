@@ -1,63 +1,7 @@
 [
   {
-    "id": "fhc:reporting_required",
-    "desc": "金融控股公司子公司對特定對象交易達一定金額或比率須申報揭露",
-    "expr": [
-      "EQ",
-      "reporting_required",
-      [
-        "AND",
-        [
-          "EQ",
-          "transaction_amount_or_ratio_reached",
-          true
-        ],
-        [
-          "EQ",
-          "report_submitted_within_30_days_after_quarter",
-          true
-        ],
-        [
-          "EQ",
-          "disclosure_made_via_official_channel",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "fhc"
-  },
-  {
-    "id": "fhc:related_party_scope_defined",
-    "desc": "同一人、同一關係人及同一關係企業定義範圍",
-    "expr": [
-      "EQ",
-      "related_party_scope_defined",
-      [
-        "AND",
-        [
-          "EQ",
-          "same_person_defined",
-          true
-        ],
-        [
-          "EQ",
-          "same_related_person_defined",
-          true
-        ],
-        [
-          "EQ",
-          "same_related_corporate_defined",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "fhc"
-  },
-  {
     "id": "fhc:related_person_definition",
-    "desc": "同一關係人範圍包含本人、配偶、二親等以內血親及本人或配偶負責企業",
+    "desc": "同一人、同一關係人及同一關係企業定義",
     "expr": [
       "EQ",
       "related_person_definition",
@@ -65,22 +9,37 @@
         "AND",
         [
           "EQ",
-          "self_included",
+          "same_person_is_natural_or_legal",
           true
         ],
         [
           "EQ",
-          "spouse_included",
+          "related_person_includes_spouse_and_2nd_degree_blood",
           true
         ],
         [
           "EQ",
-          "second_degree_blood_relative_included",
+          "related_person_includes_enterprise_responsible_by_person_or_spouse",
           true
         ],
         [
           "EQ",
-          "enterprises_controlled_by_self_or_spouse_included",
+          "related_corporate_person_includes_chairman_and_manager_and_spouse_and_2nd_degree_blood",
+          true
+        ],
+        [
+          "EQ",
+          "related_corporate_person_includes_enterprise_with_1_3_share_or_control",
+          true
+        ],
+        [
+          "EQ",
+          "related_corporate_person_includes_enterprise_with_chairman_manager_or_majority_board",
+          true
+        ],
+        [
+          "EQ",
+          "related_enterprise_applies_company_law_369_1_to_369_3_369_9_369_11",
           true
         ]
       ]
@@ -89,18 +48,145 @@
     "domain": "fhc"
   },
   {
-    "id": "fhc:related_corporate_definition",
-    "desc": "同一關係企業範圍依公司法相關條文規定",
+    "id": "fhc:transaction_reporting_required",
+    "desc": "子公司對同一人、同一關係人及同一關係企業交易達一定金額或比率須申報揭露",
     "expr": [
       "EQ",
-      "related_corporate_definition",
-      true
+      "transaction_reporting_required",
+      [
+        "AND",
+        [
+          "GE",
+          "transaction_amount_or_ratio",
+          "threshold_amount_or_ratio"
+        ],
+        [
+          "EQ",
+          "report_within_30_days_after_quarter_end",
+          true
+        ],
+        [
+          "EQ",
+          "report_to_authority",
+          true
+        ],
+        [
+          "EQ",
+          "disclose_publicly",
+          true
+        ]
+      ]
     ],
     "weight": 1,
     "domain": "fhc"
   },
   {
-    "id": "fhc:penalty_default_false",
+    "id": "fhc:transaction_scope",
+    "desc": "交易行為範圍",
+    "expr": [
+      "EQ",
+      "transaction_scope_valid",
+      [
+        "OR",
+        [
+          "EQ",
+          "transaction_is_credit",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_short_term_note_guarantee_or_endorsement",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_repurchase_of_note_or_bond",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_investment_or_purchase_of_issuer_securities",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_derivative_financial_product",
+          true
+        ],
+        [
+          "EQ",
+          "transaction_is_other_regulated_by_authority",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_46",
+    "desc": "違反第46條申報或揭露規定",
+    "expr": [
+      "EQ",
+      "violation_article_46",
+      [
+        "OR",
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_reporting_required",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "transaction_scope_valid",
+            true
+          ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_15",
+    "desc": "違反第60條第十五款：違反第46條申報或揭露規定",
+    "expr": [
+      "EQ",
+      "violation_article_60_15",
+      [
+        "EQ",
+        "violation_article_46",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "fhc:violation_article_60_any",
+    "desc": "違反第60條任一款規定",
+    "expr": [
+      "EQ",
+      "violation_article_60_any",
+      [
+        "OR",
+        [
+          "EQ",
+          "violation_article_60_15",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "fhc"
+  },
+  {
+    "id": "meta:penalty_default_false",
     "desc": "預設不處罰",
     "expr": [
       "EQ",
@@ -111,28 +197,17 @@
     "domain": "meta"
   },
   {
-    "id": "fhc:penalty_conditions",
-    "desc": "處罰條件：未依規定申報或揭露交易行為時處罰",
+    "id": "meta:penalty_conditions",
+    "desc": "處罰條件：違反第60條第十五款規定時處罰",
     "expr": [
       "EQ",
       "penalty",
       [
         "OR",
         [
-          "NOT",
-          [
-            "EQ",
-            "reporting_required",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "related_party_scope_defined",
-            true
-          ]
+          "EQ",
+          "violation_article_60_15",
+          true
         ]
       ]
     ],

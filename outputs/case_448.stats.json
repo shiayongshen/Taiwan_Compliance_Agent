@@ -1,15 +1,15 @@
 {
   "case_id": "case_448",
-  "success": false,
-  "error_message": "b'parser error'",
-  "total_time_sec": 117.91,
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 156.94,
   "repair_attempts": 0,
-  "total_agent_calls": 5,
-  "total_input_tokens": 18883,
-  "total_output_tokens": 7047,
-  "total_tokens": 25930,
-  "total_cost_usd": 0.018828,
-  "timestamp": "2025-10-21T10:04:56.402637",
+  "total_agent_calls": 6,
+  "total_input_tokens": 28732,
+  "total_output_tokens": 10611,
+  "total_tokens": 39343,
+  "total_cost_usd": 0.02847,
+  "timestamp": "2025-10-21T22:46:25.101083",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -21,239 +21,195 @@
   "step6_repair_success": "PASS",
   "step7_case_mapper": "PASS",
   "step7_facts_validation": "NOT_RUN",
-  "step7_z3_validation": "FAIL",
-  "step8_case_law_check": "NOT_RUN",
+  "step7_z3_validation": "PASS",
+  "step8_case_law_check": "PASS",
   "step8_repair_success": "NOT_RUN",
-  "step8_violation_detected": "NOT_RUN",
-  "step9_z3_optimize": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
   "consistency_check": "PASS",
   "agent_calls": [
     {
       "agent": "parser",
       "input_tokens": 3562,
-      "output_tokens": 2481,
-      "elapsed_time": 40.58194327354431,
-      "cost": 0.005394400000000001
+      "output_tokens": 3863,
+      "elapsed_time": 54.35598921775818,
+      "cost": 0.0076056000000000006
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 9969,
-      "output_tokens": 2480,
-      "elapsed_time": 37.392842292785645,
-      "cost": 0.0079556
+      "input_tokens": 11351,
+      "output_tokens": 3862,
+      "elapsed_time": 56.44997501373291,
+      "cost": 0.0107196
     },
     {
       "agent": "varspec",
-      "input_tokens": 243,
-      "output_tokens": 924,
-      "elapsed_time": 19.003164768218994,
-      "cost": 0.0015756000000000001
+      "input_tokens": 326,
+      "output_tokens": 1105,
+      "elapsed_time": 17.29940366744995,
+      "cost": 0.0018984000000000002
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 243,
-      "output_tokens": 946,
-      "elapsed_time": 16.89472723007202,
-      "cost": 0.0016108000000000001
+      "input_tokens": 326,
+      "output_tokens": 1105,
+      "elapsed_time": 15.833383083343506,
+      "cost": 0.0018984000000000002
     },
     {
       "agent": "mapper",
-      "input_tokens": 4866,
-      "output_tokens": 216,
-      "elapsed_time": 4.010934352874756,
-      "cost": 0.002292
+      "input_tokens": 6562,
+      "output_tokens": 481,
+      "elapsed_time": 8.93474292755127,
+      "cost": 0.0033944
+    },
+    {
+      "agent": "mapper_repair",
+      "input_tokens": 6605,
+      "output_tokens": 195,
+      "elapsed_time": 3.9604339599609375,
+      "cost": 0.0029540000000000005
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "7483 chars",
-      "timestamp": 40.58194327354431
+      "details": "11946 chars",
+      "timestamp": 54.35600423812866
     },
     "step2_completion": {
       "passed": true,
-      "details": "7477 chars",
-      "timestamp": 77.97478556632996
+      "details": "11940 chars",
+      "timestamp": 110.80602288246155
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "15 constraints",
-      "timestamp": 77.97478556632996
+      "details": "19 constraints",
+      "timestamp": 110.80634903907776
     },
     "step4_varspec": {
       "passed": true,
-      "details": "37 varspecs",
-      "timestamp": 96.97795033454895
+      "details": "41 varspecs",
+      "timestamp": 128.10605692863464
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "15 constraints",
-      "timestamp": 96.98795247077942
+      "details": "19 constraints",
+      "timestamp": 128.12439513206482
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
       "details": "SAT",
-      "timestamp": 97.00195264816284
+      "timestamp": 128.1427390575409
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 97.00195264816284
+      "timestamp": 128.14274096488953
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "20 facts",
-      "timestamp": 117.90861248970032
+      "details": "39 facts",
+      "timestamp": 152.91339707374573
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
-      "passed": false,
-      "details": "b'parser error'",
-      "timestamp": 117.90961027145386
+      "passed": true,
+      "details": "18 constraints (repaired)",
+      "timestamp": 156.87911915779114
     },
-    "step8_case_law_check": null,
+    "step8_case_law_check": {
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 156.9012689590454
+    },
     "step8_repair_success": null,
-    "step8_violation_detected": null,
-    "step9_z3_optimize": null,
+    "step8_violation_detected": {
+      "passed": true,
+      "details": "['meta:penalty_default_false', 'c36']",
+      "timestamp": 156.9012758731842
+    },
+    "step9_z3_optimize": {
+      "passed": true,
+      "details": "success",
+      "timestamp": 156.92244410514832
+    },
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 0 attempts",
-      "timestamp": 97.00195264816284
+      "timestamp": 128.14273405075073
     }
   },
   "fix_logs": [
     {
-      "id": "insurance:non_related_party_real_estate_single_limit",
+      "id": "insurance:non_related_party_real_estate_single_limit_low_capital_negative_equity",
       "rule": "MIN/MAX to CASE",
       "before": [
         "EQ",
-        "non_related_real_estate_single_limit",
+        "non_related_real_estate_single_limit_low_capital_negative_equity",
         [
-          "CASE",
-          [
-            "GE",
-            "capital_to_risk_capital_ratio",
-            "legal_standard"
-          ],
-          [
-            "LE",
-            "real_estate_single_amount",
-            [
-              "MUL",
-              "funds",
-              1.5
-            ]
-          ],
+          "IMPLIES",
           [
             "AND",
             [
               "LT",
               "capital_to_risk_capital_ratio",
-              "legal_standard"
-            ],
-            [
-              "GT",
-              "policyholder_equity",
-              0
-            ]
-          ],
-          [
-            "LE",
-            "real_estate_single_amount",
-            [
-              "MUL",
-              "funds",
-              1.0
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_to_risk_capital_ratio",
-              "legal_standard"
+              "statutory_standard"
             ],
             [
               "LE",
-              "policyholder_equity",
-              0
+              "owner_equity",
+              0.0
+            ],
+            [
+              "EQ",
+              "approved_by_authority",
+              true
             ]
           ],
           [
             "LE",
-            "real_estate_single_amount",
+            "single_real_estate_transaction_amount",
             [
               "MIN",
               [
                 "MUL",
                 "funds",
-                1.0
+                0.01
               ],
               5000000000.0
             ]
-          ],
-          false
+          ]
         ]
       ],
       "after": [
         "EQ",
-        "non_related_real_estate_single_limit",
+        "non_related_real_estate_single_limit_low_capital_negative_equity",
         [
-          "CASE",
-          [
-            "GE",
-            "capital_to_risk_capital_ratio",
-            "legal_standard"
-          ],
-          [
-            "LE",
-            "real_estate_single_amount",
-            [
-              "MUL",
-              "funds",
-              1.5
-            ]
-          ],
+          "IMPLIES",
           [
             "AND",
             [
               "LT",
               "capital_to_risk_capital_ratio",
-              "legal_standard"
-            ],
-            [
-              "GT",
-              "policyholder_equity",
-              0
-            ]
-          ],
-          [
-            "LE",
-            "real_estate_single_amount",
-            [
-              "MUL",
-              "funds",
-              1.0
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_to_risk_capital_ratio",
-              "legal_standard"
+              "statutory_standard"
             ],
             [
               "LE",
-              "policyholder_equity",
-              0
+              "owner_equity",
+              0.0
+            ],
+            [
+              "EQ",
+              "approved_by_authority",
+              true
             ]
           ],
           [
             "LE",
-            "real_estate_single_amount",
+            "single_real_estate_transaction_amount",
             [
               "CASE",
               [
@@ -261,153 +217,89 @@
                 [
                   "MUL",
                   "funds",
-                  1.0
+                  0.01
                 ],
                 5000000000.0
               ],
               [
                 "MUL",
                 "funds",
-                1.0
+                0.01
               ],
               5000000000.0
             ]
-          ],
-          false
+          ]
         ]
       ],
-      "timestamp": 96.98
+      "timestamp": 128.11
     },
     {
-      "id": "insurance:non_related_party_real_estate_total_limit",
+      "id": "insurance:non_related_party_real_estate_total_limit_low_capital_negative_equity",
       "rule": "MIN/MAX to CASE",
       "before": [
         "EQ",
-        "non_related_real_estate_total_limit",
+        "non_related_real_estate_total_limit_low_capital_negative_equity",
         [
-          "CASE",
-          [
-            "GE",
-            "capital_to_risk_capital_ratio",
-            "legal_standard"
-          ],
-          [
-            "LE",
-            "real_estate_total_amount",
-            [
-              "MUL",
-              "funds",
-              3.0
-            ]
-          ],
+          "IMPLIES",
           [
             "AND",
             [
               "LT",
               "capital_to_risk_capital_ratio",
-              "legal_standard"
-            ],
-            [
-              "GT",
-              "policyholder_equity",
-              0
-            ]
-          ],
-          [
-            "LE",
-            "real_estate_total_amount",
-            [
-              "MUL",
-              "funds",
-              2.0
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_to_risk_capital_ratio",
-              "legal_standard"
+              "statutory_standard"
             ],
             [
               "LE",
-              "policyholder_equity",
-              0
+              "owner_equity",
+              0.0
+            ],
+            [
+              "EQ",
+              "approved_by_authority",
+              true
             ]
           ],
           [
             "LE",
-            "real_estate_total_amount",
+            "total_real_estate_transaction_amount",
             [
               "MIN",
               [
                 "MUL",
                 "funds",
-                2.0
+                0.02
               ],
               10000000000.0
             ]
-          ],
-          false
+          ]
         ]
       ],
       "after": [
         "EQ",
-        "non_related_real_estate_total_limit",
+        "non_related_real_estate_total_limit_low_capital_negative_equity",
         [
-          "CASE",
-          [
-            "GE",
-            "capital_to_risk_capital_ratio",
-            "legal_standard"
-          ],
-          [
-            "LE",
-            "real_estate_total_amount",
-            [
-              "MUL",
-              "funds",
-              3.0
-            ]
-          ],
+          "IMPLIES",
           [
             "AND",
             [
               "LT",
               "capital_to_risk_capital_ratio",
-              "legal_standard"
-            ],
-            [
-              "GT",
-              "policyholder_equity",
-              0
-            ]
-          ],
-          [
-            "LE",
-            "real_estate_total_amount",
-            [
-              "MUL",
-              "funds",
-              2.0
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "capital_to_risk_capital_ratio",
-              "legal_standard"
+              "statutory_standard"
             ],
             [
               "LE",
-              "policyholder_equity",
-              0
+              "owner_equity",
+              0.0
+            ],
+            [
+              "EQ",
+              "approved_by_authority",
+              true
             ]
           ],
           [
             "LE",
-            "real_estate_total_amount",
+            "total_real_estate_transaction_amount",
             [
               "CASE",
               [
@@ -415,22 +307,562 @@
                 [
                   "MUL",
                   "funds",
-                  2.0
+                  0.02
                 ],
                 10000000000.0
               ],
               [
                 "MUL",
                 "funds",
-                2.0
+                0.02
               ],
               10000000000.0
             ]
-          ],
-          false
+          ]
         ]
       ],
-      "timestamp": 96.98
+      "timestamp": 128.11
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "MIN/MAX to CASE",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_counterparty_is_government",
+                true
+              ]
+            ],
+            [
+              "OR",
+              [
+                "GT",
+                "single_transaction_amount",
+                [
+                  "MUL",
+                  "owner_equity",
+                  0.35
+                ]
+              ],
+              [
+                "GT",
+                "total_transaction_amount",
+                [
+                  "MUL",
+                  "owner_equity",
+                  0.7
+                ]
+              ],
+              [
+                "AND",
+                [
+                  "LT",
+                  "single_transaction_amount",
+                  100000000.0
+                ],
+                [
+                  "GT",
+                  "single_transaction_amount",
+                  100000000.0
+                ]
+              ],
+              [
+                "AND",
+                [
+                  "LT",
+                  "single_transaction_amount",
+                  100000000.0
+                ],
+                [
+                  "GT",
+                  "total_transaction_amount",
+                  200000000.0
+                ]
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "transaction_counterparty_is_government",
+              true
+            ],
+            [
+              "OR",
+              [
+                "GT",
+                "single_transaction_amount",
+                "owner_equity"
+              ],
+              [
+                "AND",
+                [
+                  "LT",
+                  "single_transaction_amount",
+                  200000000.0
+                ],
+                [
+                  "GT",
+                  "single_transaction_amount",
+                  200000000.0
+                ]
+              ]
+            ]
+          ],
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "GE",
+                "capital_to_risk_capital_ratio",
+                "statutory_standard"
+              ],
+              [
+                "OR",
+                [
+                  "GT",
+                  "single_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.015
+                  ]
+                ],
+                [
+                  "GT",
+                  "total_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.03
+                  ]
+                ]
+              ]
+            ],
+            [
+              "AND",
+              [
+                "AND",
+                [
+                  "LT",
+                  "capital_to_risk_capital_ratio",
+                  "statutory_standard"
+                ],
+                [
+                  "GT",
+                  "owner_equity",
+                  0.0
+                ],
+                [
+                  "EQ",
+                  "approved_by_authority",
+                  true
+                ]
+              ],
+              [
+                "OR",
+                [
+                  "GT",
+                  "single_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.01
+                  ]
+                ],
+                [
+                  "GT",
+                  "total_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.02
+                  ]
+                ]
+              ]
+            ],
+            [
+              "AND",
+              [
+                "AND",
+                [
+                  "LT",
+                  "capital_to_risk_capital_ratio",
+                  "statutory_standard"
+                ],
+                [
+                  "LE",
+                  "owner_equity",
+                  0.0
+                ],
+                [
+                  "EQ",
+                  "approved_by_authority",
+                  true
+                ]
+              ],
+              [
+                "OR",
+                [
+                  "GT",
+                  "single_real_estate_transaction_amount",
+                  [
+                    "MIN",
+                    [
+                      "MUL",
+                      "funds",
+                      0.01
+                    ],
+                    5000000000.0
+                  ]
+                ],
+                [
+                  "GT",
+                  "total_real_estate_transaction_amount",
+                  [
+                    "MIN",
+                    [
+                      "MUL",
+                      "funds",
+                      0.02
+                    ],
+                    10000000000.0
+                  ]
+                ]
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "contract_has_termination_and_exemption_clause",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "AND",
+            [
+              "NOT",
+              [
+                "EQ",
+                "transaction_counterparty_is_government",
+                true
+              ]
+            ],
+            [
+              "OR",
+              [
+                "GT",
+                "single_transaction_amount",
+                [
+                  "MUL",
+                  "owner_equity",
+                  0.35
+                ]
+              ],
+              [
+                "GT",
+                "total_transaction_amount",
+                [
+                  "MUL",
+                  "owner_equity",
+                  0.7
+                ]
+              ],
+              [
+                "AND",
+                [
+                  "LT",
+                  "single_transaction_amount",
+                  100000000.0
+                ],
+                [
+                  "GT",
+                  "single_transaction_amount",
+                  100000000.0
+                ]
+              ],
+              [
+                "AND",
+                [
+                  "LT",
+                  "single_transaction_amount",
+                  100000000.0
+                ],
+                [
+                  "GT",
+                  "total_transaction_amount",
+                  200000000.0
+                ]
+              ]
+            ]
+          ],
+          [
+            "AND",
+            [
+              "EQ",
+              "transaction_counterparty_is_government",
+              true
+            ],
+            [
+              "OR",
+              [
+                "GT",
+                "single_transaction_amount",
+                "owner_equity"
+              ],
+              [
+                "AND",
+                [
+                  "LT",
+                  "single_transaction_amount",
+                  200000000.0
+                ],
+                [
+                  "GT",
+                  "single_transaction_amount",
+                  200000000.0
+                ]
+              ]
+            ]
+          ],
+          [
+            "OR",
+            [
+              "AND",
+              [
+                "GE",
+                "capital_to_risk_capital_ratio",
+                "statutory_standard"
+              ],
+              [
+                "OR",
+                [
+                  "GT",
+                  "single_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.015
+                  ]
+                ],
+                [
+                  "GT",
+                  "total_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.03
+                  ]
+                ]
+              ]
+            ],
+            [
+              "AND",
+              [
+                "AND",
+                [
+                  "LT",
+                  "capital_to_risk_capital_ratio",
+                  "statutory_standard"
+                ],
+                [
+                  "GT",
+                  "owner_equity",
+                  0.0
+                ],
+                [
+                  "EQ",
+                  "approved_by_authority",
+                  true
+                ]
+              ],
+              [
+                "OR",
+                [
+                  "GT",
+                  "single_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.01
+                  ]
+                ],
+                [
+                  "GT",
+                  "total_real_estate_transaction_amount",
+                  [
+                    "MUL",
+                    "funds",
+                    0.02
+                  ]
+                ]
+              ]
+            ],
+            [
+              "AND",
+              [
+                "AND",
+                [
+                  "LT",
+                  "capital_to_risk_capital_ratio",
+                  "statutory_standard"
+                ],
+                [
+                  "LE",
+                  "owner_equity",
+                  0.0
+                ],
+                [
+                  "EQ",
+                  "approved_by_authority",
+                  true
+                ]
+              ],
+              [
+                "OR",
+                [
+                  "GT",
+                  "single_real_estate_transaction_amount",
+                  [
+                    "CASE",
+                    [
+                      "LE",
+                      [
+                        "MUL",
+                        "funds",
+                        0.01
+                      ],
+                      5000000000.0
+                    ],
+                    [
+                      "MUL",
+                      "funds",
+                      0.01
+                    ],
+                    5000000000.0
+                  ]
+                ],
+                [
+                  "GT",
+                  "total_real_estate_transaction_amount",
+                  [
+                    "CASE",
+                    [
+                      "LE",
+                      [
+                        "MUL",
+                        "funds",
+                        0.02
+                      ],
+                      10000000000.0
+                    ],
+                    [
+                      "MUL",
+                      "funds",
+                      0.02
+                    ],
+                    10000000000.0
+                  ]
+                ]
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "contract_has_termination_and_exemption_clause",
+                true
+              ]
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 128.11
+    },
+    {
+      "id": "facts_repair",
+      "rule": "Regenerate facts",
+      "before": {
+        "transaction_counterparty_is_government": false,
+        "single_transaction_amount": 400000000,
+        "total_transaction_amount": 500000000,
+        "owner_equity": 1000000000,
+        "capital_to_risk_capital_ratio": 200,
+        "statutory_standard": 150,
+        "funds": 10000000000,
+        "single_real_estate_transaction_amount": 200000000,
+        "total_real_estate_transaction_amount": 400000000,
+        "approved_by_authority": false,
+        "public_tender_or_auction": false,
+        "asset_transaction_procedure_compliant": false,
+        "information_disclosed_on_website": false,
+        "board_approval_quorum_met": false,
+        "board_approval_majority_met": false,
+        "evaluation_report_provided": false,
+        "written_opinions_from_directors_and_supervisors": false,
+        "capital_increase_plan_executed": false,
+        "contract_has_termination_and_exemption_clause": false,
+        "prior_total_transaction_amount": 0,
+        "prior_limit_amount": 0,
+        "no_additional_transaction": false,
+        "other_transaction_limit_single": false,
+        "other_transaction_limit_total": false,
+        "other_transaction_limit_single_min_1b": false,
+        "other_transaction_limit_total_max_2b": false,
+        "government_transaction_exclusion": false,
+        "government_transaction_single_limit": 0,
+        "government_transaction_single_limit_min_2b": 0,
+        "non_related_real_estate_conditions_low_capital_positive_equity": false,
+        "non_related_real_estate_conditions_low_capital_negative_equity": false,
+        "non_related_real_estate_contract_clause": false,
+        "non_related_real_estate_single_limit_high_capital": 0,
+        "non_related_real_estate_single_limit_low_capital_negative_equity": 0,
+        "non_related_real_estate_single_limit_low_capital_positive_equity": 0,
+        "non_related_real_estate_total_limit_high_capital": 0,
+        "non_related_real_estate_total_limit_low_capital_negative_equity": 0,
+        "non_related_real_estate_total_limit_low_capital_positive_equity": 0,
+        "penalty": true
+      },
+      "after": {
+        "transaction_counterparty_is_government": false,
+        "single_transaction_amount": 400000000,
+        "total_transaction_amount": 500000000,
+        "owner_equity": 1000000000,
+        "capital_to_risk_capital_ratio": 200,
+        "statutory_standard": 150,
+        "funds": 10000000000,
+        "approved_by_authority": false,
+        "public_tender_or_auction": false,
+        "asset_transaction_procedure_compliant": false,
+        "information_disclosed_on_website": false,
+        "board_approval_quorum_met": false,
+        "board_approval_majority_met": false,
+        "evaluation_report_provided": false,
+        "written_opinions_from_directors_and_supervisors": false,
+        "capital_increase_plan_executed": false,
+        "contract_has_termination_and_exemption_clause": false,
+        "penalty": true
+      },
+      "timestamp": 156.88
     }
   ]
 }

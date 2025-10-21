@@ -1,0 +1,114 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (3145 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (3137 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (8 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (25 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (8 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (25 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+✅ Facts validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (25 constraints)
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c32', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['c32', 'meta:penalty_default_false'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_225
+
+📊 Model (filtered):
+   transaction_amount_or_ratio = 10000000
+   related_person_includes_spouse_and_2nd_degree_blood = True
+   related_corporate_person_includes_enterprise_with_chairman_manager_or_majority_board = True
+   related_corporate_person_includes_chairman_and_manager_and_spouse_and_2nd_degree_blood = True
+   transaction_is_other_regulated_by_authority = False
+   threshold_amount_or_ratio = 5000000
+   transaction_is_short_term_note_guarantee_or_endorsement = False
+   transaction_is_credit = True
+   related_enterprise_applies_company_law_369_1_to_369_3_369_9_369_11 = True
+   transaction_is_investment_or_purchase_of_issuer_securities = False
+   same_person_is_natural_or_legal = True
+   related_person_includes_enterprise_responsible_by_person_or_spouse = True
+   related_corporate_person_includes_enterprise_with_1_3_share_or_control = True
+   transaction_is_derivative_financial_product = False
+   transaction_is_repurchase_of_note_or_bond = False
+   report_to_authority = True
+   report_within_30_days_after_quarter_end = True
+   disclose_publicly = True
+   violation_article_60_15 = False
+   transaction_scope_valid = True
+   related_person_definition = True
+   transaction_reporting_required = True
+   penalty = False
+   violation_article_46 = False
+   violation_article_60_any = False
+✅ Model saved to: outputs/case_225.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs/case_225.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs/case_225.smt2

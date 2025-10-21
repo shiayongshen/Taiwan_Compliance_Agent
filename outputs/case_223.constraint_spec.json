@@ -1,7 +1,7 @@
 [
   {
     "id": "insurance:capital_level",
-    "desc": "保險業資本等級分類（1=資本適足, 2=資本不足, 3=資本顯著不足, 4=資本嚴重不足, 0=未分類）",
+    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
     "expr": [
       "EQ",
       "capital_level",
@@ -69,28 +69,38 @@
           [
             "AND",
             [
-              "NOT",
-              [
-                "GE",
-                "net_worth_ratio",
-                2.0
-              ]
+              "LT",
+              "net_worth_ratio",
+              3.0
             ],
             [
-              "NOT",
-              [
-                "LT",
-                "net_worth_ratio",
-                0.0
-              ]
+              "GE",
+              "net_worth_ratio",
+              2.0
             ]
           ]
         ],
         2,
         [
-          "GE",
-          "capital_adequacy_ratio",
-          200.0
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            200.0
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "net_worth_ratio",
+              3.0
+            ],
+            [
+              "GE",
+              "net_worth_ratio_prev",
+              3.0
+            ]
+          ]
         ],
         1,
         0
@@ -100,177 +110,46 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:capital_severely_insufficient",
-    "desc": "資本嚴重不足判定",
+    "id": "insurance:capital_insufficient_measures_submitted",
+    "desc": "資本不足者已提出增資、財務或業務改善計畫",
     "expr": [
       "EQ",
-      "capital_severely_insufficient",
+      "capital_insufficient_measures_submitted",
       [
-        "OR",
-        [
-          "LT",
-          "capital_adequacy_ratio",
-          50.0
-        ],
-        [
-          "LT",
-          "net_worth",
-          0.0
-        ]
+        "EQ",
+        "improvement_plan_submitted",
+        true
       ]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "insurance:capital_significantly_insufficient",
-    "desc": "資本顯著不足判定",
+    "id": "insurance:capital_insufficient_measures_executed",
+    "desc": "資本不足者已確實執行增資、財務或業務改善計畫",
     "expr": [
       "EQ",
-      "capital_significantly_insufficient",
+      "capital_insufficient_measures_executed",
       [
-        "OR",
-        [
-          "AND",
-          [
-            "GE",
-            "capital_adequacy_ratio",
-            50.0
-          ],
-          [
-            "LT",
-            "capital_adequacy_ratio",
-            150.0
-          ]
-        ],
-        [
-          "AND",
-          [
-            "LT",
-            "net_worth_ratio",
-            2.0
-          ],
-          [
-            "GE",
-            "net_worth_ratio",
-            0.0
-          ]
-        ]
+        "EQ",
+        "improvement_plan_executed",
+        true
       ]
     ],
     "weight": 1,
     "domain": "insurance"
   },
   {
-    "id": "insurance:capital_insufficient",
-    "desc": "資本不足判定",
+    "id": "insurance:capital_significantly_insufficient_measures_executed",
+    "desc": "資本顯著不足者已執行主管機關規定之措施",
     "expr": [
       "EQ",
-      "capital_insufficient",
-      [
-        "OR",
-        [
-          "AND",
-          [
-            "GE",
-            "capital_adequacy_ratio",
-            150.0
-          ],
-          [
-            "LT",
-            "capital_adequacy_ratio",
-            200.0
-          ]
-        ],
-        [
-          "AND",
-          [
-            "NOT",
-            [
-              "GE",
-              "net_worth_ratio",
-              2.0
-            ]
-          ],
-          [
-            "NOT",
-            [
-              "LT",
-              "net_worth_ratio",
-              0.0
-            ]
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_adequate",
-    "desc": "資本適足判定",
-    "expr": [
-      "EQ",
-      "capital_adequate",
-      [
-        "AND",
-        [
-          "GE",
-          "capital_adequacy_ratio",
-          200.0
-        ],
-        [
-          "OR",
-          [
-            "GE",
-            "net_worth_ratio",
-            3.0
-          ],
-          [
-            "GE",
-            "net_worth_ratio_prev",
-            3.0
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_insufficient_measures_ok",
-    "desc": "資本不足等級措施執行完成",
-    "expr": [
-      "EQ",
-      "capital_insufficient_measures_ok",
+      "capital_significantly_insufficient_measures_executed",
       [
         "AND",
         [
           "EQ",
-          "improvement_plan_submitted",
-          true
-        ],
-        [
-          "EQ",
-          "improvement_plan_executed",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_significantly_insufficient_measures_ok",
-    "desc": "資本顯著不足等級措施執行完成",
-    "expr": [
-      "EQ",
-      "capital_significantly_insufficient_measures_ok",
-      [
-        "AND",
-        [
-          "EQ",
-          "capital_insufficient_measures_ok",
+          "capital_insufficient_measures_executed",
           true
         ],
         [
@@ -280,37 +159,32 @@
         ],
         [
           "EQ",
-          "responsible_person_deregistration_notified",
+          "responsible_person_duty_suspended",
           true
         ],
         [
           "EQ",
-          "responsible_person_suspended",
+          "special_asset_approval_obtained",
           true
         ],
         [
           "EQ",
-          "special_asset_acquisition_approved",
+          "special_asset_disposed",
           true
         ],
         [
           "EQ",
-          "special_asset_disposal_ordered",
+          "credit_restriction_applied",
           true
         ],
         [
           "EQ",
-          "related_party_credit_restriction",
+          "responsible_person_compensation_reduced",
           true
         ],
         [
-          "LE",
-          "responsible_person_compensation_ratio",
-          70.0
-        ],
-        [
           "EQ",
-          "branch_restriction_or_closure",
+          "branch_restriction_applied",
           true
         ]
       ]
@@ -319,29 +193,14 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:capital_severely_insufficient_measures_ok",
-    "desc": "資本嚴重不足等級措施執行完成",
+    "id": "insurance:capital_severely_insufficient_measures_executed",
+    "desc": "資本嚴重不足者已採取第一百四十九條第三項第一款規定之處分",
     "expr": [
       "EQ",
-      "capital_severely_insufficient_measures_ok",
+      "capital_severely_insufficient_measures_executed",
       [
         "EQ",
-        "capital_severely_insufficient",
-        true
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:capital_severely_insufficient_measures_ok",
-    "desc": "資本嚴重不足等級措施執行完成（採取第149條第3項第1款處分）",
-    "expr": [
-      "EQ",
-      "capital_severely_insufficient_measures_ok",
-      [
-        "EQ",
-        "capital_severely_insufficient",
+        "article_149_3_1_measures_executed",
         true
       ]
     ],
@@ -361,7 +220,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：資本嚴重不足且未完成第149條第3項第1款處分，或資本顯著不足且未執行對應措施，或資本不足且未執行對應措施時處罰",
+    "desc": "處罰條件：資本不足等級未執行對應措施時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -378,7 +237,7 @@
             "NOT",
             [
               "EQ",
-              "capital_severely_insufficient_measures_ok",
+              "capital_severely_insufficient_measures_executed",
               true
             ]
           ]
@@ -394,7 +253,7 @@
             "NOT",
             [
               "EQ",
-              "capital_significantly_insufficient_measures_ok",
+              "capital_significantly_insufficient_measures_executed",
               true
             ]
           ]
@@ -407,11 +266,22 @@
             2
           ],
           [
-            "NOT",
+            "OR",
             [
-              "EQ",
-              "capital_insufficient_measures_ok",
-              true
+              "NOT",
+              [
+                "EQ",
+                "capital_insufficient_measures_submitted",
+                true
+              ]
+            ],
+            [
+              "NOT",
+              [
+                "EQ",
+                "capital_insufficient_measures_executed",
+                true
+              ]
             ]
           ]
         ]

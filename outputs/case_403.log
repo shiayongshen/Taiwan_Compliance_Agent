@@ -1,0 +1,130 @@
+
+============================================================
+Step 1: Law Parser
+============================================================
+✅ Checkpoint [step1_law_parser]: PASS (5456 chars)
+
+============================================================
+Step 2: Law Completion
+============================================================
+✅ Checkpoint [step2_completion]: PASS (6092 chars)
+
+============================================================
+Step 3: Ensure JSON Valid
+============================================================
+✅ Checkpoint [step3_json_valid]: PASS (13 constraints)
+
+============================================================
+Step 4: VarSpec Extraction
+============================================================
+✅ Checkpoint [step4_varspec]: PASS (36 varspecs)
+
+🔧 Phase 0: Removing colon prefixes from variable names in expr...
+
+🔧 Phase 1: Replacing MIN/MAX with CASE...
+
+🔍 Phase 2: Analyzing expressions...
+   Found 0 variables to convert: set()
+
+🔧 Phase 3: Updating VarSpecs...
+
+🔧 Phase 4: Fixing CASE expressions...
+
+✅ Phase 4 completed
+
+📊 sync_types_constraints_and_varspecs Summary:
+   - Prefix removals: 0
+   - MIN/MAX replacements: 0
+   - Variables converted to Real: 0
+   - CASE fixes: 0
+   - Total fixes: 0
+
+============================================================
+Step 5: Check Constraints Parseable
+============================================================
+✅ Constraints successfully parsed into Z3 expressions
+✅ Checkpoint [step5_constraints_parseable]: PASS (13 constraints)
+
+============================================================
+Step 6: Constraints Consistency
+============================================================
+✅ Constraints are consistent
+✅ Checkpoint [consistency_check]: PASS (Consistent after 0 attempts)
+✅ Constraints passed consistency check
+✅ Checkpoint [step6_consistency_check]: PASS (SAT)
+✅ Checkpoint [step6_repair_success]: PASS (Repair successful)
+
+============================================================
+Step 7: Case Mapper
+============================================================
+✅ Checkpoint [step7_case_mapper]: PASS (27 facts)
+
+============================================================
+Step 7.2: Test Facts with Z3
+============================================================
+❌ Facts validation failed: Fact 'loan_secured_by_company_securities' should be bool, got int
+
+============================================================
+Step 7.2.1: Repair Facts
+============================================================
+✅ Facts repaired and validated with Z3
+✅ Checkpoint [step7_z3_validation]: PASS (35 constraints (repaired))
+
+============================================================
+Step 8: Case+Law Hard Check
+============================================================
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['insurance:penalty_conditions', 'insurance:penalty_default_false', 'c30'])
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
+✅ Checkpoint [step8_violation_detected]: PASS (['insurance:penalty_conditions', 'insurance:penalty_default_false', 'c30'])
+
+============================================================
+Step 9: Z3 Optimize
+============================================================
+✅ Optimization success for case_403
+
+📊 Model (filtered):
+   loan_guaranteed_by_bank_or_authority = False
+   loan_secured_by_approved_securities = False
+   social_housing_only_rental = True
+   self_use_real_estate_investment = 300000000
+   board_approval_ratio = 7/10
+   loan_secured_by_company_securities = False
+   loan_secured_by_movable_or_immovable = True
+   real_estate_immediate_use_and_income = 0
+   loan_secured_by_life_insurance_policy = False
+   total_loan_amount = 400000000
+   company_owner_equity = 500000000
+   owner_equity = 500000000
+   capital_fund = 1000000000
+   related_party_loan_amount = 19/2
+   investment_in_company_securities = 60000000
+   total_real_estate_investment = 400000000
+   board_attendance_ratio = 3/5
+   authority_threshold = 10
+   single_loan_amount = 60000000
+   related_party_loan_condition_not_better = True
+   real_estate_investment_limit = 1
+   internal_control_and_audit_established = True
+   real_estate_valuation_done = True
+   internal_handling_system_established = True
+   internal_handling_system_and_procedure_established = True
+   related_party_loan_full_guarantee = True
+   related_party_loan_approval = True
+   real_estate_use_and_income = 1
+   related_party_loan_guarantee_condition = True
+   total_loan_amount_limit = 1
+   internal_control_and_audit_system_established = True
+   real_estate_valuation_required = True
+   penalty = False
+   single_loan_amount_limit = 1
+   combined_investment_and_loan_limit = 1
+   loan_type_limit = 1
+✅ Model saved to: outputs/case_403.model.txt
+✅ Checkpoint [step9_z3_optimize]: PASS (success)
+
+============================================================
+Step 10: Export to SMT2
+============================================================
+✅ SMT2 file saved to: outputs/case_403.smt2
+✅ SMT2 exported successfully
+   You can run: z3 outputs/case_403.smt2

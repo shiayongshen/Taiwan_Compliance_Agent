@@ -1,15 +1,15 @@
 {
   "case_id": "case_379",
-  "success": false,
-  "error_message": "Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01'",
-  "total_time_sec": 154.14,
+  "success": true,
+  "error_message": null,
+  "total_time_sec": 117.81,
   "repair_attempts": 0,
-  "total_agent_calls": 7,
-  "total_input_tokens": 21718,
-  "total_output_tokens": 9409,
-  "total_tokens": 31127,
-  "total_cost_usd": 0.023742,
-  "timestamp": "2025-10-21T08:27:35.065003",
+  "total_agent_calls": 5,
+  "total_input_tokens": 15702,
+  "total_output_tokens": 8162,
+  "total_tokens": 23864,
+  "total_cost_usd": 0.01934,
+  "timestamp": "2025-10-21T22:29:49.131368",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -22,153 +22,117 @@
   "step7_case_mapper": "PASS",
   "step7_facts_validation": "NOT_RUN",
   "step7_z3_validation": "PASS",
-  "step8_case_law_check": "FAIL",
-  "step8_repair_success": "FAIL",
-  "step8_violation_detected": "SKIP",
-  "step9_z3_optimize": "FAIL",
+  "step8_case_law_check": "PASS",
+  "step8_repair_success": "NOT_RUN",
+  "step8_violation_detected": "PASS",
+  "step9_z3_optimize": "PASS",
   "consistency_check": "PASS",
-  "case_law_repair_start": "PASS",
-  "case_law_repair_diagnosis": "PASS",
-  "case_law_repair": "FAIL",
   "agent_calls": [
     {
       "agent": "parser",
       "input_tokens": 2175,
-      "output_tokens": 2862,
-      "elapsed_time": 52.832502603530884,
-      "cost": 0.0054492
+      "output_tokens": 2417,
+      "elapsed_time": 34.626944065093994,
+      "cost": 0.0047372000000000004
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 7576,
-      "output_tokens": 2854,
-      "elapsed_time": 42.16692066192627,
-      "cost": 0.007596800000000001
+      "input_tokens": 7131,
+      "output_tokens": 2423,
+      "elapsed_time": 31.907193183898926,
+      "cost": 0.0067292
     },
     {
       "agent": "varspec",
-      "input_tokens": 368,
-      "output_tokens": 1390,
-      "elapsed_time": 20.361966371536255,
-      "cost": 0.0023712000000000004
+      "input_tokens": 327,
+      "output_tokens": 1434,
+      "elapsed_time": 21.850646018981934,
+      "cost": 0.0024252
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 368,
-      "output_tokens": 1368,
-      "elapsed_time": 21.50105047225952,
-      "cost": 0.0023360000000000004
+      "input_tokens": 327,
+      "output_tokens": 1434,
+      "elapsed_time": 20.606817960739136,
+      "cost": 0.0024252
     },
     {
       "agent": "mapper",
-      "input_tokens": 6007,
-      "output_tokens": 498,
-      "elapsed_time": 9.27756142616272,
-      "cost": 0.0031996000000000004
-    },
-    {
-      "agent": "case_law_repair_fhc:shareholding_5_to_10_percent_declaration_before_2009_1",
-      "input_tokens": 2396,
-      "output_tokens": 215,
-      "elapsed_time": 4.884038686752319,
-      "cost": 0.0013024
-    },
-    {
-      "agent": "case_law_repair_fhc:shareholding_5_to_10_percent_declaration_before_2009_2",
-      "input_tokens": 2828,
-      "output_tokens": 222,
-      "elapsed_time": 3.0835721492767334,
-      "cost": 0.0014864000000000001
+      "input_tokens": 5742,
+      "output_tokens": 454,
+      "elapsed_time": 8.738546133041382,
+      "cost": 0.0030232
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "7870 chars",
-      "timestamp": 52.832502603530884
+      "details": "6815 chars",
+      "timestamp": 34.62696599960327
     },
     "step2_completion": {
       "passed": true,
-      "details": "7825 chars",
-      "timestamp": 94.99942326545715
+      "details": "6828 chars",
+      "timestamp": 66.53421807289124
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "19 constraints",
-      "timestamp": 94.99942326545715
+      "details": "15 constraints",
+      "timestamp": 66.53439402580261
     },
     "step4_varspec": {
       "passed": true,
-      "details": "42 varspecs",
-      "timestamp": 115.36138963699341
+      "details": "43 varspecs",
+      "timestamp": 88.38528418540955
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "19 constraints",
-      "timestamp": 115.36738705635071
+      "details": "15 constraints",
+      "timestamp": 88.39767599105835
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
       "details": "SAT",
-      "timestamp": 115.37438917160034
+      "timestamp": 88.40919804573059
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 115.37438917160034
+      "timestamp": 88.4092001914978
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "38 facts",
-      "timestamp": 146.1540036201477
+      "details": "39 facts",
+      "timestamp": 117.75764393806458
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
       "passed": true,
-      "details": "38 constraints",
-      "timestamp": 146.15500259399414
+      "details": "39 constraints",
+      "timestamp": 117.76031827926636
     },
     "step8_case_law_check": {
-      "passed": false,
-      "details": "Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01'",
-      "timestamp": 146.15800166130066
+      "passed": true,
+      "details": "UNSAT",
+      "timestamp": 117.78028512001038
     },
-    "step8_repair_success": {
-      "passed": false,
-      "details": "Repair failed",
-      "timestamp": 154.13161444664001
-    },
+    "step8_repair_success": null,
     "step8_violation_detected": {
-      "passed": null,
-      "details": "REPAIR_FAILED",
-      "timestamp": 154.13161444664001
+      "passed": true,
+      "details": "['c19', 'meta:penalty_default_false']",
+      "timestamp": 117.78029108047485
     },
     "step9_z3_optimize": {
-      "passed": false,
-      "details": "Failed to build constraint {'id': 'fhc:shareholding_5_to_10_percent_declaration_before_2009', 'desc': '修正施行前持股5%至10%者應於6個月內申報', 'expr': ['EQ', 'shareholding_5_to_10_percent_declaration_before_2009', ['IMPLIES', ['AND', ['GE', 'shareholding_percent_before_2009', 5.0], ['LE', 'shareholding_percent_before_2009', 10.0], ['LT', 'date_of_shareholding', '2009-01-01']], ['LE', 'days_since_2009_revision', 180]]], 'weight': 1, 'domain': 'fhc'}: Unknown variable name '2009-01-01'",
-      "timestamp": 154.13361263275146
+      "passed": true,
+      "details": "success",
+      "timestamp": 117.80077910423279
     },
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 0 attempts",
-      "timestamp": 115.37438917160034
-    },
-    "case_law_repair_start": {
-      "passed": true,
-      "details": "Starting repair with 19 constraints",
-      "timestamp": 146.15800166130066
-    },
-    "case_law_repair_diagnosis": {
-      "passed": true,
-      "details": "Found 1 problematic constraints",
-      "timestamp": 146.16200184822083
-    },
-    "case_law_repair": {
-      "passed": false,
-      "details": "Some constraints still have issues: Unknown variable name '2009-01-01'",
-      "timestamp": 154.13161444664001
+      "timestamp": 88.40919327735901
     }
   },
   "fix_logs": []
