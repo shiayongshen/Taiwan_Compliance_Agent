@@ -2,12 +2,12 @@
 ============================================================
 Step 1: Law Parser
 ============================================================
-✅ Checkpoint [step1_law_parser]: PASS (1824 chars)
+✅ Checkpoint [step1_law_parser]: PASS (1854 chars)
 
 ============================================================
 Step 2: Law Completion
 ============================================================
-✅ Checkpoint [step2_completion]: PASS (4957 chars)
+✅ Checkpoint [step2_completion]: PASS (3284 chars)
 
 ============================================================
 Step 3: Ensure JSON Valid
@@ -59,20 +59,33 @@ Step 6: Constraints Consistency
 ============================================================
 Step 7: Case Mapper
 ============================================================
-✅ Checkpoint [step7_case_mapper]: PASS (9 facts)
+✅ Checkpoint [step7_case_mapper]: PASS (8 facts)
 
 ============================================================
 Step 7.2: Test Facts with Z3
 ============================================================
 ✅ Facts validated with Z3
-✅ Checkpoint [step7_z3_validation]: PASS (9 constraints)
+✅ Checkpoint [step7_z3_validation]: PASS (8 constraints)
 
 ============================================================
 Step 8: Case+Law Hard Check
 ============================================================
-✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c11'])
-✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
-✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c11'])
+⚠️ Case+Law SAT → 案例可能無違規，但資料集為違規案例，嘗試修復以達成 UNSAT
+❌ Checkpoint [step8_case_law_check]: FAIL (SAT (unexpected))
+
+============================================================
+Step 8.1: SAT→UNSAT Repair
+============================================================
+🔧 Starting SAT→UNSAT repair process...
+
+--- Strategy 1: Repair Facts ---
+✅ Generated new aggressive facts: ['own_capital', 'risk_capital', 'net_worth', 'net_worth_ratio_prev1', 'net_worth_ratio_prev2', 'capital_increase_completed', 'financial_or_business_improvement_plan_completed', 'merger_completed']
+✅ Facts修復成功！UNSAT achieved: ['c10', 'c4', 'meta:penalty_conditions', 'insurance:capital_level', 'meta:penalty_default_false', 'c9', 'c8', 'c3']
+✅ SAT→UNSAT 修復成功
+✅ Final check: UNSAT - ['meta:penalty_default_false', 'c10', 'c8', 'meta:penalty_conditions', 'c4', 'insurance:capital_level', 'c3', 'c9']
+✅ Checkpoint [step8_case_law_check]: PASS (UNSAT after repair)
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c10', 'c8', 'meta:penalty_conditions', 'c4', 'insurance:capital_level', 'c3', 'c9'])
+✅ Checkpoint [step8_repair_success]: PASS (SAT→UNSAT repair successful)
 
 ============================================================
 Step 9: Z3 Optimize
@@ -80,23 +93,23 @@ Step 9: Z3 Optimize
 ✅ Optimization success for case_340
 
 📊 Model (filtered):
+   net_worth = 1
    financial_or_business_improvement_plan_completed = False
-   net_worth = 50
-   merger_completed = False
-   net_worth_ratio_prev1 = 50
-   own_capital = 180
-   net_worth_ratio_prev2 = 50
+   merger_completed = True
+   net_worth_ratio_prev1 = 1/100
    capital_increase_completed = False
-   risk_capital = 100
-   capital_level = 2
+   own_capital = 2/5
+   net_worth_ratio_prev2 = 1/100
+   risk_capital = 1
+   capital_level = 4
    penalty = False
-   /0 = [else -> 9/5]
-✅ Model saved to: outputs\case_340.model.txt
+   /0 = [else -> 2/5]
+✅ Model saved to: outputs/case_340.model.txt
 ✅ Checkpoint [step9_z3_optimize]: PASS (success)
 
 ============================================================
 Step 10: Export to SMT2
 ============================================================
-✅ SMT2 file saved to: outputs\case_340.smt2
+✅ SMT2 file saved to: outputs/case_340.smt2
 ✅ SMT2 exported successfully
-   You can run: z3 outputs\case_340.smt2
+   You can run: z3 outputs/case_340.smt2

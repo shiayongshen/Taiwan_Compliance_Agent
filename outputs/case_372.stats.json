@@ -2,14 +2,14 @@
   "case_id": "case_372",
   "success": true,
   "error_message": null,
-  "total_time_sec": 82.6,
+  "total_time_sec": 88.09,
   "repair_attempts": 0,
   "total_agent_calls": 5,
-  "total_input_tokens": 13478,
-  "total_output_tokens": 5067,
-  "total_tokens": 18545,
-  "total_cost_usd": 0.013498,
-  "timestamp": "2025-10-21T08:18:56.963917",
+  "total_input_tokens": 14713,
+  "total_output_tokens": 6506,
+  "total_tokens": 21219,
+  "total_cost_usd": 0.016295,
+  "timestamp": "2025-10-22T19:55:18.657715",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -30,110 +30,669 @@
   "agent_calls": [
     {
       "agent": "parser",
-      "input_tokens": 2222,
-      "output_tokens": 1736,
-      "elapsed_time": 21.962003469467163,
-      "cost": 0.0036664
+      "input_tokens": 2221,
+      "output_tokens": 2217,
+      "elapsed_time": 32.577674865722656,
+      "cost": 0.0044356000000000005
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 6545,
-      "output_tokens": 1751,
-      "elapsed_time": 20.90164065361023,
-      "cost": 0.0054196
+      "input_tokens": 7024,
+      "output_tokens": 2217,
+      "elapsed_time": 24.243433952331543,
+      "cost": 0.006356800000000001
     },
     {
       "agent": "varspec",
-      "input_tokens": 200,
-      "output_tokens": 689,
-      "elapsed_time": 24.172316551208496,
-      "cost": 0.0011824000000000001
+      "input_tokens": 261,
+      "output_tokens": 831,
+      "elapsed_time": 11.15689992904663,
+      "cost": 0.001434
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 200,
-      "output_tokens": 689,
-      "elapsed_time": 11.847902536392212,
-      "cost": 0.0011824000000000001
+      "input_tokens": 261,
+      "output_tokens": 831,
+      "elapsed_time": 12.44048523902893,
+      "cost": 0.001434
     },
     {
       "agent": "mapper",
-      "input_tokens": 4311,
-      "output_tokens": 202,
-      "elapsed_time": 3.6782991886138916,
-      "cost": 0.0020476
+      "input_tokens": 4946,
+      "output_tokens": 410,
+      "elapsed_time": 7.608957052230835,
+      "cost": 0.0026344000000000003
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "4384 chars",
-      "timestamp": 21.962003469467163
+      "details": "5769 chars",
+      "timestamp": 32.57769298553467
     },
     "step2_completion": {
       "passed": true,
-      "details": "4400 chars",
-      "timestamp": 42.86364412307739
+      "details": "5769 chars",
+      "timestamp": 56.821178913116455
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "12 constraints",
-      "timestamp": 42.86364412307739
+      "details": "15 constraints",
+      "timestamp": 56.821375131607056
     },
     "step4_varspec": {
       "passed": true,
-      "details": "27 varspecs",
-      "timestamp": 67.03596067428589
+      "details": "31 varspecs",
+      "timestamp": 67.97857308387756
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "12 constraints",
-      "timestamp": 67.039959192276
+      "details": "15 constraints",
+      "timestamp": 67.9859631061554
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
       "details": "SAT",
-      "timestamp": 67.04596138000488
+      "timestamp": 67.99462294578552
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 67.04596138000488
+      "timestamp": 67.99462509155273
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "18 facts",
-      "timestamp": 82.57316136360168
+      "details": "31 facts",
+      "timestamp": 88.04725885391235
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
       "passed": true,
-      "details": "18 constraints",
-      "timestamp": 82.57416105270386
+      "details": "30 constraints",
+      "timestamp": 88.0505428314209
     },
     "step8_case_law_check": {
       "passed": true,
       "details": "UNSAT",
-      "timestamp": 82.58216190338135
+      "timestamp": 88.06861186027527
     },
     "step8_repair_success": null,
     "step8_violation_detected": {
       "passed": true,
-      "details": "['meta:penalty_default_false', 'c29']",
-      "timestamp": 82.58216190338135
+      "details": "['c37', 'meta:penalty_default_false']",
+      "timestamp": 88.06861805915833
     },
     "step9_z3_optimize": {
       "passed": true,
       "details": "success",
-      "timestamp": 82.59416174888611
+      "timestamp": 88.08441305160522
     },
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 0 attempts",
-      "timestamp": 67.04596138000488
+      "timestamp": 67.99461793899536
     }
   },
-  "fix_logs": []
+  "fix_logs": [
+    {
+      "id": "bank:investment_limit_stock_and_equity",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_stock_and_equity",
+        [
+          "LE",
+          "investment_stock_and_equity_cost",
+          [
+            "MUL",
+            "accounting_base",
+            0.3
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_stock_and_equity",
+        [
+          "LE",
+          "investment_stock_and_equity_cost",
+          [
+            "MUL",
+            "accounting_base",
+            0.3
+          ]
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_otc_stock_and_equity",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_otc_stock_and_equity",
+        [
+          "LE",
+          "investment_otc_stock_and_equity_cost",
+          [
+            "MUL",
+            "accounting_base",
+            0.05
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_otc_stock_and_equity",
+        [
+          "LE",
+          "investment_otc_stock_and_equity_cost",
+          [
+            "MUL",
+            "accounting_base",
+            0.05
+          ]
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_unrated_or_lowrated_shortterm",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_unrated_or_lowrated_shortterm",
+        [
+          "LE",
+          "investment_unrated_or_lowrated_shortterm_cost",
+          [
+            "MUL",
+            "accounting_base",
+            0.1
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_unrated_or_lowrated_shortterm",
+        [
+          "LE",
+          "investment_unrated_or_lowrated_shortterm_cost",
+          [
+            "MUL",
+            "accounting_base",
+            0.1
+          ]
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_shortterm_exceptions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_shortterm_exceptions",
+        [
+          "EQ",
+          "unrated_shortterm_exceptions_applied",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_shortterm_exceptions",
+        [
+          "EQ",
+          "unrated_shortterm_exceptions_applied",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_total_shortterm_and_others",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_total_shortterm_and_others",
+        [
+          "LE",
+          "investment_total_shortterm_and_others_cost",
+          [
+            "MUL",
+            [
+              "ADD",
+              "total_deposits",
+              "financial_bond_issuance"
+            ],
+            0.25
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_total_shortterm_and_others",
+        [
+          "LE",
+          "investment_total_shortterm_and_others_cost",
+          [
+            "MUL",
+            [
+              "ADD",
+              "total_deposits",
+              "financial_bond_issuance"
+            ],
+            0.25
+          ]
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_securities_broker_holdings",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_securities_broker_holdings",
+        [
+          "EQ",
+          "securities_broker_holdings_over_one_year_included",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_securities_broker_holdings",
+        [
+          "EQ",
+          "securities_broker_holdings_over_one_year_included",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_sell_back_shortterm_exclusion",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_sell_back_shortterm_exclusion",
+        [
+          "EQ",
+          "sell_back_shortterm_exclusion_applied",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_sell_back_shortterm_exclusion",
+        [
+          "EQ",
+          "sell_back_shortterm_exclusion_applied",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_buy_back_shortterm_inclusion",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_buy_back_shortterm_inclusion",
+        [
+          "EQ",
+          "buy_back_shortterm_inclusion_applied",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_buy_back_shortterm_inclusion",
+        [
+          "EQ",
+          "buy_back_shortterm_inclusion_applied",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_per_company_stock_and_bond",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_per_company_stock_and_bond",
+        [
+          "LE",
+          "investment_per_company_stock_and_bond",
+          [
+            "MUL",
+            "company_total_issued_shares",
+            0.05
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_per_company_stock_and_bond",
+        [
+          "LE",
+          "investment_per_company_stock_and_bond",
+          [
+            "MUL",
+            "company_total_issued_shares",
+            0.05
+          ]
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:accounting_base_definition",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:accounting_base_definition",
+        [
+          "EQ",
+          "accounting_base_correctly_calculated",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "accounting_base_definition",
+        [
+          "EQ",
+          "accounting_base_correctly_calculated",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:accounting_base_deductions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:accounting_base_deductions",
+        [
+          "EQ",
+          "accounting_base_deductions_applied",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "accounting_base_deductions",
+        [
+          "EQ",
+          "accounting_base_deductions_applied",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:total_deposits_definition",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:total_deposits_definition",
+        [
+          "EQ",
+          "total_deposits_correctly_calculated",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "total_deposits_definition",
+        [
+          "EQ",
+          "total_deposits_correctly_calculated",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "bank:investment_limit_adjustable",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "bank:investment_limit_adjustable",
+        [
+          "EQ",
+          "regulator_adjusted_limit",
+          true
+        ]
+      ],
+      "after": [
+        "EQ",
+        "investment_limit_adjustable",
+        [
+          "EQ",
+          "regulator_adjusted_limit",
+          true
+        ]
+      ],
+      "timestamp": 67.98
+    },
+    {
+      "id": "meta:penalty_conditions",
+      "rule": "Remove colon prefix",
+      "before": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_stock_and_equity",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_otc_stock_and_equity",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_unrated_or_lowrated_shortterm",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_shortterm_exceptions",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_total_shortterm_and_others",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_securities_broker_holdings",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_sell_back_shortterm_exclusion",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_buy_back_shortterm_inclusion",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:investment_limit_per_company_stock_and_bond",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:accounting_base_definition",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:accounting_base_deductions",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "bank:total_deposits_definition",
+              true
+            ]
+          ]
+        ]
+      ],
+      "after": [
+        "EQ",
+        "penalty",
+        [
+          "OR",
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_stock_and_equity",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_otc_stock_and_equity",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_unrated_or_lowrated_shortterm",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_shortterm_exceptions",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_total_shortterm_and_others",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_securities_broker_holdings",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_sell_back_shortterm_exclusion",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_buy_back_shortterm_inclusion",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "investment_limit_per_company_stock_and_bond",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "accounting_base_definition",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "accounting_base_deductions",
+              true
+            ]
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "total_deposits_definition",
+              true
+            ]
+          ]
+        ]
+      ],
+      "timestamp": 67.98
+    }
+  ]
 }

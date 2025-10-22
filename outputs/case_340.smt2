@@ -1,6 +1,6 @@
 ; SMT2 file generated from compliance case automatic
 ; Case ID: case_340
-; Generated at: 2025-10-21T07:37:14.452815
+; Generated at: 2025-10-22T19:53:50.561928
 ;
 ; This file can be executed with Z3:
 ;   z3 case_340.smt2
@@ -27,20 +27,23 @@
 ; Constraints (Legal Rules)
 ; ============================================================
 
-; [insurance:capital_level] 保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）
-(assert (let ((a!1 (or (not (>= (/ own_capital risk_capital) (/ 1.0 2.0)))
-               (not (<= 0.0 net_worth))))
-      (a!2 (and (>= (/ own_capital risk_capital) (/ 1.0 2.0))
-                (not (>= (/ own_capital risk_capital) (/ 3.0 2.0)))
-                (<= 0.0 net_worth_ratio_prev1)
-                (not (<= 2.0 net_worth_ratio_prev1))))
-      (a!3 (and (>= (/ own_capital risk_capital) (/ 3.0 2.0))
-                (not (>= (/ own_capital risk_capital) 2.0)))))
-(let ((a!4 (or a!3
-               (and (not (<= 3.0 net_worth_ratio_prev1))
-                    (<= 2.0 net_worth_ratio_prev2)))))
-(let ((a!5 (ite a!4 2 (ite (>= (/ own_capital risk_capital) 2.0) 1 0))))
-  (= capital_level (ite a!1 4 (ite a!2 3 a!5)))))))
+; [insurance:capital_level] 資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）
+(assert (let ((a!1 (or (not (<= 0.0 net_worth))
+               (not (<= (/ 1.0 2.0) (/ own_capital risk_capital)))))
+      (a!2 (and (<= (/ 1.0 2.0) (/ own_capital risk_capital))
+                (not (<= (/ 3.0 2.0) (/ own_capital risk_capital)))
+                (not (<= (/ 1.0 50.0) net_worth_ratio_prev1))
+                (<= 0.0 net_worth_ratio_prev2)))
+      (a!3 (and (<= (/ 3.0 2.0) (/ own_capital risk_capital))
+                (not (<= 2.0 (/ own_capital risk_capital)))
+                (or (<= (/ 1.0 50.0) net_worth_ratio_prev1)
+                    (<= (/ 3.0 100.0) net_worth_ratio_prev2))))
+      (a!4 (ite (and (<= 2.0 (/ own_capital risk_capital))
+                     (or (<= (/ 3.0 100.0) net_worth_ratio_prev1)
+                         (<= (/ 3.0 100.0) net_worth_ratio_prev2)))
+                1
+                0)))
+  (= capital_level (ite a!1 4 (ite a!2 3 (ite a!3 2 a!4))))))
 
 ; [meta:penalty_default_false] 預設不處罰
 (assert (not penalty))
@@ -56,15 +59,14 @@
 ; Facts (Case Specific)
 ; ============================================================
 
-(assert (= own_capital 180))
-(assert (= risk_capital 100))
-(assert (= net_worth 50))
-(assert (= net_worth_ratio_prev1 50))
-(assert (= net_worth_ratio_prev2 50))
+(assert (= own_capital (/ 2.0 5.0)))
+(assert (= risk_capital 1.0))
+(assert (= net_worth 1.0))
+(assert (= net_worth_ratio_prev1 (/ 1.0 100.0)))
+(assert (= net_worth_ratio_prev2 (/ 1.0 100.0)))
 (assert (= capital_increase_completed false))
 (assert (= financial_or_business_improvement_plan_completed false))
 (assert (= merger_completed false))
-(assert (= penalty true))
 
 ; ============================================================
 ; Check Satisfiability
@@ -78,7 +80,7 @@
 ; ============================================================
 ; Total constraints: 3
 ; Total variables: 10
-; Total facts: 9
+; Total facts: 8
 ;
 ; Expected result:
 ;   - If UNSAT: Case violates legal rules

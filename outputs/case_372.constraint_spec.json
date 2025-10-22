@@ -1,17 +1,17 @@
 [
   {
-    "id": "bank:investment_limit_stock_etc",
+    "id": "bank:investment_limit_stock_and_equity",
     "desc": "商業銀行投資於集中交易市場與店頭市場股票等原始取得成本總餘額不得超過核算基數30%",
     "expr": [
       "EQ",
-      "investment_limit_stock_etc",
+      "investment_limit_stock_and_equity",
       [
         "LE",
-        "cost_stock_etc",
+        "investment_stock_and_equity_cost",
         [
           "MUL",
-          "capital_base",
-          30.0
+          "accounting_base",
+          0.3
         ]
       ]
     ],
@@ -19,18 +19,18 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_otsm_stock",
-    "desc": "商業銀行投資於店頭市場股票等原始取得成本總餘額不得超過核算基數5%",
+    "id": "bank:investment_limit_otc_stock_and_equity",
+    "desc": "商業銀行投資於店頭市場股票及相關權證原始取得成本總餘額不得超過核算基數5%",
     "expr": [
       "EQ",
-      "investment_limit_otsm_stock",
+      "investment_limit_otc_stock_and_equity",
       [
         "LE",
-        "cost_otsm_stock",
+        "investment_otc_stock_and_equity_cost",
         [
           "MUL",
-          "capital_base",
-          5.0
+          "accounting_base",
+          0.05
         ]
       ]
     ],
@@ -38,18 +38,18 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_unrated_shortterm",
-    "desc": "商業銀行投資於無信用評等或信用評等未達標準短期票券等原始取得成本總餘額不得超過核算基數10%",
+    "id": "bank:investment_limit_unrated_or_lowrated_shortterm",
+    "desc": "商業銀行投資於無信用評等或信用評等未達一定等級短期票券等原始取得成本總餘額不得超過核算基數10%，但符合信用評等例外不計入",
     "expr": [
       "EQ",
-      "investment_limit_unrated_shortterm",
+      "investment_limit_unrated_or_lowrated_shortterm",
       [
         "LE",
-        "cost_unrated_shortterm",
+        "investment_unrated_or_lowrated_shortterm_cost",
         [
           "MUL",
-          "capital_base",
-          10.0
+          "accounting_base",
+          0.1
         ]
       ]
     ],
@@ -57,22 +57,37 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_total_except_gov",
-    "desc": "銀行投資於第二點第一項各種有價證券總餘額（除政府公債等）不得超過存款總餘額及金融債券發售額和25%",
+    "id": "bank:investment_limit_shortterm_exceptions",
+    "desc": "符合信用評等例外之短期票券不計入10%限額",
     "expr": [
       "EQ",
-      "investment_limit_total_except_gov",
+      "investment_limit_shortterm_exceptions",
+      [
+        "EQ",
+        "unrated_shortterm_exceptions_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_total_shortterm_and_others",
+    "desc": "銀行投資於第二點第一項各種有價證券總餘額（除政府公債等）不得超過存款總餘額及金融債券發售額和的25%",
+    "expr": [
+      "EQ",
+      "investment_limit_total_shortterm_and_others",
       [
         "LE",
-        "cost_total_except_gov",
+        "investment_total_shortterm_and_others_cost",
         [
           "MUL",
           [
             "ADD",
-            "deposit_total",
-            "bond_issuance_amount"
+            "total_deposits",
+            "financial_bond_issuance"
           ],
-          25.0
+          0.25
         ]
       ]
     ],
@@ -80,14 +95,14 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_securities_hold_over_1yr",
-    "desc": "銀行兼營證券商持有一年以上有價證券應計入前三款限額",
+    "id": "bank:investment_limit_securities_broker_holdings",
+    "desc": "銀行兼營證券商持有一年以上未賣出有價證券應計入前三款限額",
     "expr": [
       "EQ",
-      "investment_limit_securities_hold_over_1yr",
+      "investment_limit_securities_broker_holdings",
       [
         "EQ",
-        "securities_hold_over_1yr_included",
+        "securities_broker_holdings_over_one_year_included",
         true
       ]
     ],
@@ -95,14 +110,14 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_repo_shortterm_exclusion",
-    "desc": "銀行以附賣回條件買入短期票券及債券餘額不計入前三款限額",
+    "id": "bank:investment_limit_sell_back_shortterm_exclusion",
+    "desc": "銀行以附賣回條件買入短期票券及債券餘額不計入限額",
     "expr": [
       "EQ",
-      "investment_limit_repo_shortterm_exclusion",
+      "investment_limit_sell_back_shortterm_exclusion",
       [
         "EQ",
-        "repo_shortterm_excluded",
+        "sell_back_shortterm_exclusion_applied",
         true
       ]
     ],
@@ -110,14 +125,14 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_reverse_repo_shortterm_inclusion",
-    "desc": "銀行以附買回條件賣出短期票券及債券餘額應計入前三款限額",
+    "id": "bank:investment_limit_buy_back_shortterm_inclusion",
+    "desc": "銀行以附買回條件賣出短期票券及債券餘額應計入限額",
     "expr": [
       "EQ",
-      "investment_limit_reverse_repo_shortterm_inclusion",
+      "investment_limit_buy_back_shortterm_inclusion",
       [
         "EQ",
-        "reverse_repo_shortterm_included",
+        "buy_back_shortterm_inclusion_applied",
         true
       ]
     ],
@@ -125,18 +140,18 @@
     "domain": "bank"
   },
   {
-    "id": "bank:investment_limit_per_company_stock_bond",
-    "desc": "商業銀行投資於每一公司股票及債券換股權利證書股份總額不得超過該公司已發行股份總數5%",
+    "id": "bank:investment_limit_per_company_stock_and_bond",
+    "desc": "商業銀行投資於每一公司股票及相關權證股份總額不得超過該公司已發行股份總數5%",
     "expr": [
       "EQ",
-      "investment_limit_per_company_stock_bond",
+      "investment_limit_per_company_stock_and_bond",
       [
         "LE",
-        "investment_per_company",
+        "investment_per_company_stock_and_bond",
         [
           "MUL",
-          "company_total_shares",
-          5.0
+          "company_total_issued_shares",
+          0.05
         ]
       ]
     ],
@@ -144,38 +159,60 @@
     "domain": "bank"
   },
   {
-    "id": "bank:capital_base_definition",
-    "desc": "核算基數為上會計年度決算後淨值扣除特定項目後餘額，年度中現金增資計入，現金股利減除",
+    "id": "bank:accounting_base_definition",
+    "desc": "核算基數為上會計年度決算後淨值扣除特定項目後餘額，年度中現金增資計入，現金股利扣除",
     "expr": [
       "EQ",
-      "capital_base",
+      "accounting_base_definition",
       [
-        "SUB",
-        [
-          "ADD",
-          "net_worth_last_year",
-          "cash_increase_this_year"
-        ],
-        "cash_dividend_this_year"
+        "EQ",
+        "accounting_base_correctly_calculated",
+        true
       ]
     ],
     "weight": 1,
     "domain": "bank"
   },
   {
-    "id": "bank:capital_base_deductions",
-    "desc": "核算基數扣除對其他銀行持股超過一年原始取得成本及轉投資銀行以外其他企業原始取得成本",
+    "id": "bank:accounting_base_deductions",
+    "desc": "核算基數扣除銀行對其他銀行持股超過一年以上原始取得成本及轉投資銀行以外其他企業原始取得成本",
     "expr": [
       "EQ",
-      "capital_base_deductions",
+      "accounting_base_deductions",
       [
-        "SUB",
-        [
-          "SUB",
-          "capital_base",
-          "cost_other_bank_shares_over_1yr"
-        ],
-        "cost_other_enterprise_investments"
+        "EQ",
+        "accounting_base_deductions_applied",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:total_deposits_definition",
+    "desc": "存款總餘額包括活期、定期、支票、中華郵政轉存款及外幣存款",
+    "expr": [
+      "EQ",
+      "total_deposits_definition",
+      [
+        "EQ",
+        "total_deposits_correctly_calculated",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "bank"
+  },
+  {
+    "id": "bank:investment_limit_adjustable",
+    "desc": "主管機關得視國內經濟金融情形調整第一款投資有價證券限額",
+    "expr": [
+      "EQ",
+      "investment_limit_adjustable",
+      [
+        "EQ",
+        "regulator_adjusted_limit",
+        true
       ]
     ],
     "weight": 1,
@@ -194,7 +231,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反投資有價證券種類及限額規定時處罰",
+    "desc": "處罰條件：違反任一投資有價證券限額規定時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -204,7 +241,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_stock_etc",
+            "investment_limit_stock_and_equity",
             true
           ]
         ],
@@ -212,7 +249,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_otsm_stock",
+            "investment_limit_otc_stock_and_equity",
             true
           ]
         ],
@@ -220,7 +257,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_unrated_shortterm",
+            "investment_limit_unrated_or_lowrated_shortterm",
             true
           ]
         ],
@@ -228,7 +265,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_total_except_gov",
+            "investment_limit_shortterm_exceptions",
             true
           ]
         ],
@@ -236,7 +273,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_securities_hold_over_1yr",
+            "investment_limit_total_shortterm_and_others",
             true
           ]
         ],
@@ -244,7 +281,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_repo_shortterm_exclusion",
+            "investment_limit_securities_broker_holdings",
             true
           ]
         ],
@@ -252,7 +289,7 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_reverse_repo_shortterm_inclusion",
+            "investment_limit_sell_back_shortterm_exclusion",
             true
           ]
         ],
@@ -260,7 +297,39 @@
           "NOT",
           [
             "EQ",
-            "investment_limit_per_company_stock_bond",
+            "investment_limit_buy_back_shortterm_inclusion",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "investment_limit_per_company_stock_and_bond",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "accounting_base_definition",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "accounting_base_deductions",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "total_deposits_definition",
             true
           ]
         ]

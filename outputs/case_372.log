@@ -2,24 +2,38 @@
 ============================================================
 Step 1: Law Parser
 ============================================================
-✅ Checkpoint [step1_law_parser]: PASS (4384 chars)
+✅ Checkpoint [step1_law_parser]: PASS (5769 chars)
 
 ============================================================
 Step 2: Law Completion
 ============================================================
-✅ Checkpoint [step2_completion]: PASS (4400 chars)
+✅ Checkpoint [step2_completion]: PASS (5769 chars)
 
 ============================================================
 Step 3: Ensure JSON Valid
 ============================================================
-✅ Checkpoint [step3_json_valid]: PASS (12 constraints)
+✅ Checkpoint [step3_json_valid]: PASS (15 constraints)
 
 ============================================================
 Step 4: VarSpec Extraction
 ============================================================
-✅ Checkpoint [step4_varspec]: PASS (27 varspecs)
+✅ Checkpoint [step4_varspec]: PASS (31 varspecs)
 
 🔧 Phase 0: Removing colon prefixes from variable names in expr...
+   ✅ Removed prefixes in [bank:investment_limit_stock_and_equity]
+   ✅ Removed prefixes in [bank:investment_limit_otc_stock_and_equity]
+   ✅ Removed prefixes in [bank:investment_limit_unrated_or_lowrated_shortterm]
+   ✅ Removed prefixes in [bank:investment_limit_shortterm_exceptions]
+   ✅ Removed prefixes in [bank:investment_limit_total_shortterm_and_others]
+   ✅ Removed prefixes in [bank:investment_limit_securities_broker_holdings]
+   ✅ Removed prefixes in [bank:investment_limit_sell_back_shortterm_exclusion]
+   ✅ Removed prefixes in [bank:investment_limit_buy_back_shortterm_inclusion]
+   ✅ Removed prefixes in [bank:investment_limit_per_company_stock_and_bond]
+   ✅ Removed prefixes in [bank:accounting_base_definition]
+   ✅ Removed prefixes in [bank:accounting_base_deductions]
+   ✅ Removed prefixes in [bank:total_deposits_definition]
+   ✅ Removed prefixes in [bank:investment_limit_adjustable]
+   ✅ Removed prefixes in [meta:penalty_conditions]
 
 🔧 Phase 1: Replacing MIN/MAX with CASE...
 
@@ -33,17 +47,17 @@ Step 4: VarSpec Extraction
 ✅ Phase 4 completed
 
 📊 sync_types_constraints_and_varspecs Summary:
-   - Prefix removals: 0
+   - Prefix removals: 14
    - MIN/MAX replacements: 0
    - Variables converted to Real: 0
    - CASE fixes: 0
-   - Total fixes: 0
+   - Total fixes: 14
 
 ============================================================
 Step 5: Check Constraints Parseable
 ============================================================
 ✅ Constraints successfully parsed into Z3 expressions
-✅ Checkpoint [step5_constraints_parseable]: PASS (12 constraints)
+✅ Checkpoint [step5_constraints_parseable]: PASS (15 constraints)
 
 ============================================================
 Step 6: Constraints Consistency
@@ -57,20 +71,21 @@ Step 6: Constraints Consistency
 ============================================================
 Step 7: Case Mapper
 ============================================================
-✅ Checkpoint [step7_case_mapper]: PASS (18 facts)
+✅ Checkpoint [step7_case_mapper]: PASS (31 facts)
 
 ============================================================
 Step 7.2: Test Facts with Z3
 ============================================================
+⚠️ Removed invalid keys from facts: {'investment_limit_unrated_or_lowrated_shortterm_cost'}
 ✅ Facts validated with Z3
-✅ Checkpoint [step7_z3_validation]: PASS (18 constraints)
+✅ Checkpoint [step7_z3_validation]: PASS (30 constraints)
 
 ============================================================
 Step 8: Case+Law Hard Check
 ============================================================
-✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c29'])
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c37', 'meta:penalty_default_false'])
 ✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
-✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c29'])
+✅ Checkpoint [step8_violation_detected]: PASS (['c37', 'meta:penalty_default_false'])
 
 ============================================================
 Step 9: Z3 Optimize
@@ -78,39 +93,43 @@ Step 9: Z3 Optimize
 ✅ Optimization success for case_372
 
 📊 Model (filtered):
-   cost_unrated_shortterm = 130000000
-   cash_increase_this_year = 0
-   company_total_shares = 0
-   capital_base_deductions = 1000000000
-   cost_other_enterprise_investments = 0
-   cost_stock_etc = 0
-   cost_total_except_gov = 0
-   bond_issuance_amount = 0
-   deposit_total = 0
-   cost_other_bank_shares_over_1yr = 0
-   cost_otsm_stock = 0
-   cash_dividend_this_year = 0
-   investment_per_company = 0
-   reverse_repo_shortterm_included = True
-   investment_limit_total_except_gov = 1
-   capital_base = 1000000000
-   securities_hold_over_1yr_included = True
-   repo_shortterm_excluded = True
-   investment_limit_per_company_stock_bond = 1
-   investment_limit_repo_shortterm_exclusion = 1
-   investment_limit_unrated_shortterm = 1
-   investment_limit_securities_hold_over_1yr = 1
-   investment_limit_reverse_repo_shortterm_inclusion = 1
+   regulator_adjusted_limit = 0
+   investment_unrated_or_lowrated_shortterm_cost = 0
+   investment_per_company_stock_and_bond = 4000000
+   financial_bond_issuance = 2000000
+   investment_otc_stock_and_equity_cost = 400000
+   company_total_issued_shares = 100000000
+   investment_stock_and_equity_cost = 2500000
+   investment_total_shortterm_and_others_cost = 2500000
+   accounting_base = 10000000
+   total_deposits = 8000000
+   investment_limit_buy_back_shortterm_inclusion = True
+   investment_limit_unrated_or_lowrated_shortterm = True
+   sell_back_shortterm_exclusion_applied = True
+   accounting_base_correctly_calculated = True
+   accounting_base_deductions = 1
+   investment_limit_sell_back_shortterm_exclusion = True
+   investment_limit_otc_stock_and_equity = 1
+   total_deposits_correctly_calculated = True
+   buy_back_shortterm_inclusion_applied = True
+   investment_limit_per_company_stock_and_bond = 1
+   accounting_base_deductions_applied = True
+   investment_limit_adjustable = False
+   investment_limit_shortterm_exceptions = True
+   total_deposits_definition = True
+   unrated_shortterm_exceptions_applied = True
+   accounting_base_definition = True
+   investment_limit_total_shortterm_and_others = 1
+   investment_limit_securities_broker_holdings = 1
    penalty = False
-   investment_limit_otsm_stock = 1
-   net_worth_last_year = 1000000000
-   investment_limit_stock_etc = 1
-✅ Model saved to: outputs\case_372.model.txt
+   securities_broker_holdings_over_one_year_included = True
+   investment_limit_stock_and_equity = 1
+✅ Model saved to: outputs/case_372.model.txt
 ✅ Checkpoint [step9_z3_optimize]: PASS (success)
 
 ============================================================
 Step 10: Export to SMT2
 ============================================================
-✅ SMT2 file saved to: outputs\case_372.smt2
+✅ SMT2 file saved to: outputs/case_372.smt2
 ✅ SMT2 exported successfully
-   You can run: z3 outputs\case_372.smt2
+   You can run: z3 outputs/case_372.smt2

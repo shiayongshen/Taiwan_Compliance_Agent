@@ -815,5 +815,5 @@ def main(failed_indices=None):
 
 
 if __name__ == "__main__":
-    fail_list_path =  [76, 87, 146, 216, 223, 225, 240, 251, 255, 257, 305, 306, 308, 324, 352, 360, 371, 378, 379, 403, 410, 411, 429, 430, 434, 448, 453, 454, 463]
+    fail_list_path = [139,340,372,476]
     main(failed_indices=fail_list_path)

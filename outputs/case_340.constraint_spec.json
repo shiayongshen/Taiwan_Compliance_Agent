@@ -1,7 +1,7 @@
 [
   {
     "id": "insurance:capital_level",
-    "desc": "保險業資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足, 0=未分類）",
     "expr": [
       "EQ",
       "capital_level",
@@ -12,15 +12,11 @@
           [
             "LT",
             [
-              "MUL",
-              [
-                "DIV",
-                "own_capital",
-                "risk_capital"
-              ],
-              100.0
+              "DIV",
+              "own_capital",
+              "risk_capital"
             ],
-            50.0
+            0.5
           ],
           [
             "LT",
@@ -34,99 +30,92 @@
           [
             "GE",
             [
-              "MUL",
-              [
-                "DIV",
-                "own_capital",
-                "risk_capital"
-              ],
-              100.0
+              "DIV",
+              "own_capital",
+              "risk_capital"
             ],
-            50.0
+            0.5
           ],
           [
             "LT",
-            [
-              "MUL",
-              [
-                "DIV",
-                "own_capital",
-                "risk_capital"
-              ],
-              100.0
-            ],
-            150.0
-          ],
-          [
-            "GE",
-            "net_worth_ratio_prev1",
-            0.0
-          ],
-          [
-            "LT",
-            "net_worth_ratio_prev1",
-            2.0
-          ]
-        ],
-        3,
-        [
-          "OR",
-          [
-            "AND",
-            [
-              "GE",
-              [
-                "MUL",
-                [
-                  "DIV",
-                  "own_capital",
-                  "risk_capital"
-                ],
-                100.0
-              ],
-              150.0
-            ],
-            [
-              "LT",
-              [
-                "MUL",
-                [
-                  "DIV",
-                  "own_capital",
-                  "risk_capital"
-                ],
-                100.0
-              ],
-              200.0
-            ]
-          ],
-          [
-            "AND",
-            [
-              "LT",
-              "net_worth_ratio_prev1",
-              3.0
-            ],
-            [
-              "GE",
-              "net_worth_ratio_prev2",
-              2.0
-            ]
-          ]
-        ],
-        2,
-        [
-          "GE",
-          [
-            "MUL",
             [
               "DIV",
               "own_capital",
               "risk_capital"
             ],
-            100.0
+            1.5
           ],
-          200.0
+          [
+            "LT",
+            "net_worth_ratio_prev1",
+            0.02
+          ],
+          [
+            "GE",
+            "net_worth_ratio_prev2",
+            0.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            1.5
+          ],
+          [
+            "LT",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            2.0
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "net_worth_ratio_prev1",
+              0.02
+            ],
+            [
+              "GE",
+              "net_worth_ratio_prev2",
+              0.03
+            ]
+          ]
+        ],
+        2,
+        [
+          "AND",
+          [
+            "GE",
+            [
+              "DIV",
+              "own_capital",
+              "risk_capital"
+            ],
+            2.0
+          ],
+          [
+            "OR",
+            [
+              "GE",
+              "net_worth_ratio_prev1",
+              0.03
+            ],
+            [
+              "GE",
+              "net_worth_ratio_prev2",
+              0.03
+            ]
+          ]
         ],
         1,
         0

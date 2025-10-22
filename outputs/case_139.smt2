@@ -1,6 +1,6 @@
 ; SMT2 file generated from compliance case automatic
 ; Case ID: case_139
-; Generated at: 2025-10-21T02:52:18.094245
+; Generated at: 2025-10-22T19:53:12.801329
 ;
 ; This file can be executed with Z3:
 ;   z3 case_139.smt2
@@ -12,223 +12,223 @@
 ; Variable Declarations
 ; ============================================================
 
-(declare-const broker_reinsurance_dual_business_disclosure Bool)
-(declare-const broker_reinsurance_written_delegation Bool)
-(declare-const broker_reinsurer_confirmation_and_check Bool)
-(declare-const complete_reinsurance_contract_delivered_within_6_months Bool)
+(declare-const broker_foreign_broker_qualified Bool)
+(declare-const broker_reinsurance_conditions_consistent Bool)
+(declare-const broker_reinsurance_confirmation_obtained_before_effective Bool)
+(declare-const broker_reinsurance_confirmation_ok Bool)
+(declare-const complete_contract_delivered Bool)
+(declare-const complete_contract_delivered_within_6_months Bool)
 (declare-const conflict_of_interest Bool)
-(declare-const contract_documents_obtained_within_time_limit Bool)
-(declare-const contract_signed_documents_delivered_within_60_days Bool)
-(declare-const correction_order_issued Bool)
-(declare-const correction_order_or_penalty Bool)
-(declare-const domestic_reinsurance_company_approved Bool)
-(declare-const domestic_reinsurance_participation_percentage Real)
-(declare-const dual_business_disclosed_in_contract Bool)
+(declare-const deliver_complete_contract_within_6_months Bool)
+(declare-const deliver_signed_contract_within_60_days Bool)
+(declare-const documents_retained_min_5_years Bool)
+(declare-const documents_saved_min_5_years Bool)
+(declare-const domestic_participation_ratio Real)
+(declare-const domestic_participation_sufficient Bool)
+(declare-const domestic_reinsurance_approved Bool)
+(declare-const dual_agency_disclosed Bool)
+(declare-const dual_agency_disclosed_in_contract Bool)
 (declare-const eligible_reinsurance_target Bool)
-(declare-const foreign_broker_approved_by_home_regulator Bool)
-(declare-const foreign_broker_deductible_percentage Real)
-(declare-const foreign_broker_insurance_period_uninterrupted Bool)
-(declare-const foreign_broker_professional_liability_insurance_aggregate_usd Real)
-(declare-const foreign_broker_professional_liability_insurance_per_accident_usd Real)
-(declare-const foreign_broker_qualification Bool)
-(declare-const foreign_broker_qualification_checked Bool)
-(declare-const foreign_reinsurance_company_approved Bool)
-(declare-const foreign_reinsurance_credit_rating_level Int)
-(declare-const internal_control_segregated Bool)
-(declare-const internal_control_segregation Bool)
-(declare-const international_reinsurer_credit_rating_level Int)
-(declare-const legal_reinsurance_organization Bool)
-(declare-const license_revoked Bool)
-(declare-const market_information_notification Bool)
+(declare-const ethics_and_self_regulation_ok Bool)
+(declare-const exempted_by_risk_management_standards Bool)
+(declare-const follow_ethics_and_self_regulation Bool)
+(declare-const foreign_broker_aggregate_limit_usd Real)
+(declare-const foreign_broker_approved_by_home_authority Bool)
+(declare-const foreign_broker_deductible_rate Real)
+(declare-const foreign_broker_insurance_period_uninterrupted Int)
+(declare-const foreign_broker_per_accident_limit_usd Real)
+(declare-const foreign_broker_professional_liability_insurance_valid Bool)
+(declare-const foreign_broker_qualified Bool)
+(declare-const foreign_reinsurance_approved Bool)
+(declare-const foreign_reinsurance_credit_rating Real)
+(declare-const internal_control_segregation_established Bool)
+(declare-const internal_control_segregation_ok Bool)
+(declare-const legal_reinsurance_entity Bool)
 (declare-const non_eligible_reinsurance_target Bool)
-(declare-const original_insurer_consent Bool)
-(declare-const other_approved_reinsurance_organization Bool)
+(declare-const notify_major_info_after_effective Bool)
+(declare-const notify_original_insurer_after_effective Bool)
+(declare-const other_approved_reinsurance_entity Bool)
 (declare-const penalty Bool)
-(declare-const penalty_fine_imposed Bool)
-(declare-const post_contract_major_info_notified_to_original_insurer Bool)
-(declare-const property_insurance_temporary_reinsurance_compliance Bool)
-(declare-const property_insurance_temporary_reinsurance_non_compliance Bool)
-(declare-const reinsurance_business_operational_rules_compliance Bool)
-(declare-const reinsurance_conditions_and_rates_compliant Bool)
-(declare-const reinsurance_conditions_compliance Bool)
-(declare-const reinsurance_confirmation_before_effective Bool)
-(declare-const reinsurance_contract_document_delivery Bool)
-(declare-const reinsurance_document_preservation Bool)
-(declare-const reinsurance_documents_preservation_period_years Int)
-(declare-const reinsurance_documents_preserved Bool)
-(declare-const reinsurance_documents_properly_preserved Bool)
-(declare-const reinsurance_information_delivery Bool)
-(declare-const reinsurance_major_info_delivered_before_effective Bool)
-(declare-const reinsurance_risk_management_plan_complied Bool)
-(declare-const reinsurer_confirmation_document_obtained_before_effective Bool)
-(declare-const reinsurer_credit_rating_compliance Bool)
-(declare-const reinsurer_credit_rating_level Int)
-(declare-const required_credit_rating_level Int)
-(declare-const violate_163_7 Bool)
-(declare-const violate_165_1_or_163_5_applied Bool)
-(declare-const violate_financial_or_business_management_rules_163_4 Bool)
-(declare-const violation_of_management_rules Bool)
-(declare-const written_delegation_from_original_insurer Bool)
+(declare-const penalty_imposed Bool)
+(declare-const registered_professional_reinsurance Bool)
+(declare-const reinsurance_confirmation_before_effective_ok Bool)
+(declare-const reinsurance_confirmation_obtained_before_effective Bool)
+(declare-const reinsurance_consent_obtained Bool)
+(declare-const reinsurance_credit_and_consent_ok Bool)
+(declare-const reinsurance_credit_rating Real)
+(declare-const reinsurance_documents_retained Bool)
+(declare-const reinsurance_documents_saved Bool)
+(declare-const reinsurance_info_delivered Bool)
+(declare-const reinsurance_info_delivered_before_effective Bool)
+(declare-const reinsurance_target_qualified Bool)
+(declare-const reinsurance_written_delegation_obtained Bool)
+(declare-const reinsurance_written_delegation_ok Bool)
+(declare-const required_credit_rating Real)
+(declare-const risk_management_plan_arranged Bool)
+(declare-const risk_management_plan_compliant Bool)
+(declare-const serious_violation Bool)
+(declare-const signed_contract_delivered Bool)
+(declare-const signed_contract_delivered_within_60_days Bool)
+(declare-const temporary_non_proportional_reinsurance_compliant Bool)
+(declare-const temporary_non_proportional_reinsurance_non_compliant Bool)
+(declare-const temporary_non_proportional_reinsurance_ok Bool)
+(declare-const violated_163_7 Bool)
+(declare-const violated_165_1_or_163_5 Bool)
+(declare-const violated_management_rules Bool)
+(declare-const violation_163_7 Bool)
+(declare-const violation_165_1_or_163_5 Bool)
+(declare-const violation_any Bool)
+(declare-const violation_management_rules Bool)
 
 ; ============================================================
 ; Constraints (Legal Rules)
 ; ============================================================
 
-; [insurance:internal_control_segregation] 經紀人公司內部控制制度及處理程序應區隔且無利益衝突
-(assert (= internal_control_segregation
-   (and internal_control_segregated (not conflict_of_interest))))
+; [insurance_broker:internal_control_segregation] 經紀人公司內部控制制度及處理程序應區隔且無利益衝突
+(assert (= internal_control_segregation_ok
+   (and internal_control_segregation_established (not conflict_of_interest))))
 
-; [insurance:broker_reinsurance_written_delegation] 經紀人公司經營再保險經紀業務應取得原保險人書面委任
-(assert (= broker_reinsurance_written_delegation
-   written_delegation_from_original_insurer))
+; [insurance_broker:follow_ethics_and_self_regulation] 遵循經紀人商業同業公會執業道德及自律規範
+(assert (= ethics_and_self_regulation_ok follow_ethics_and_self_regulation))
 
-; [insurance:reinsurer_credit_rating_compliance] 再保險人信用評等等級符合規定且原保險人同意
-(assert (= reinsurer_credit_rating_compliance
-   (and (>= reinsurer_credit_rating_level required_credit_rating_level)
-        original_insurer_consent)))
+; [insurance_broker:reinsurance_written_delegation] 經營再保險經紀業務應取得原保險人書面委任
+(assert (= reinsurance_written_delegation_ok reinsurance_written_delegation_obtained))
 
-; [insurance:broker_reinsurance_dual_business_disclosure] 同時受託辦理保險經紀及再保險經紀業務事項載明於委任契約或文件
-(assert (= broker_reinsurance_dual_business_disclosure
-   dual_business_disclosed_in_contract))
+; [insurance_broker:reinsurance_credit_rating_and_consent] 再保險人信用評等等級符合規定且經原保險人同意
+(assert (= reinsurance_credit_and_consent_ok
+   (and (>= reinsurance_credit_rating required_credit_rating)
+        reinsurance_consent_obtained)))
 
-; [insurance:reinsurance_confirmation_before_effective] 原保險契約生效前或分出保險責任開始前取得再保險人確認認受文件
-(assert (= reinsurance_confirmation_before_effective
-   reinsurer_confirmation_document_obtained_before_effective))
+; [insurance_broker:disclose_dual_agency] 同時受託辦理保險經紀及再保險經紀業務事項載明於委任契約或文件
+(assert (= dual_agency_disclosed dual_agency_disclosed_in_contract))
 
-; [insurance:reinsurance_information_delivery] 於原保險契約生效前或分出保險責任開始前交付再保險相關重大資訊予原保險人
-(assert (= reinsurance_information_delivery
-   reinsurance_major_info_delivered_before_effective))
+; [insurance_broker:reinsurance_confirmation_before_effective] 原保險契約生效前取得再保險人確認認受文件
+(assert (= reinsurance_confirmation_before_effective_ok
+   reinsurance_confirmation_obtained_before_effective))
 
-; [insurance:reinsurance_contract_document_delivery] 再保險契約生效日起60日內交付再保險人簽署契約文件，合約再保險於6個月內交付完整書面文件
-(assert (= reinsurance_contract_document_delivery
-   (and contract_signed_documents_delivered_within_60_days
-        complete_reinsurance_contract_delivered_within_6_months)))
+; [insurance_broker:deliver_reinsurance_info_before_effective] 原保險契約生效前交付再保險人相關資訊予原保險人
+(assert (= reinsurance_info_delivered_before_effective reinsurance_info_delivered))
 
-; [insurance:reinsurance_document_preservation] 完整保存再保險相關證明文件，保存期間不得低於保險責任終了後五年
-(assert (= reinsurance_document_preservation
-   (and reinsurance_documents_preserved
-        (<= 5 reinsurance_documents_preservation_period_years))))
+; [insurance_broker:deliver_signed_contract_within_60_days] 再保險契約生效日起60日內交付再保險人簽署契約文件
+(assert (= signed_contract_delivered_within_60_days signed_contract_delivered))
 
-; [insurance:foreign_broker_qualification] 委任國外經紀人安排再保險業務須符合主管機關核准及專業責任保險條件
-(assert (= foreign_broker_qualification
-   (and foreign_broker_approved_by_home_regulator
-        (<= 5000000.0
-            foreign_broker_professional_liability_insurance_per_accident_usd)
-        (<= 10000000.0
-            foreign_broker_professional_liability_insurance_aggregate_usd)
-        (>= 5.0 foreign_broker_deductible_percentage)
-        foreign_broker_insurance_period_uninterrupted)))
+; [insurance_broker:deliver_complete_contract_within_6_months] 合約再保險於生效日起6個月內交付完整再保險契約書面文件
+(assert (= complete_contract_delivered_within_6_months complete_contract_delivered))
 
-; [insurance:market_information_notification] 再保險合約生效後通知原保險人影響再保險人財務業務之重大資訊
-(assert (= market_information_notification
-   post_contract_major_info_notified_to_original_insurer))
+; [insurance_broker:retain_reinsurance_documents] 完整保存再保險相關證明文件供主管機關查核
+(assert (= reinsurance_documents_retained reinsurance_documents_saved))
 
-; [insurance:reinsurance_conditions_compliance] 再保險條件及各再保費率符合管理辦法第10條及第11條規定
-(assert (= reinsurance_conditions_compliance reinsurance_conditions_and_rates_compliant))
+; [insurance_broker:foreign_broker_qualification] 委任國外經紀人安排再保險業務符合資格條件
+(assert (= foreign_broker_qualified
+   (and foreign_broker_approved_by_home_authority
+        foreign_broker_professional_liability_insurance_valid
+        (<= 5000000.0 foreign_broker_per_accident_limit_usd)
+        (<= 10000000.0 foreign_broker_aggregate_limit_usd)
+        (>= 5.0 foreign_broker_deductible_rate)
+        (= foreign_broker_insurance_period_uninterrupted 1))))
 
-; [insurance:eligible_reinsurance_target] 再保險分出對象符合管理辦法第7條規定
+; [insurance_broker:notify_original_insurer_after_effective] 再保險合約生效後通知原保險人重大財務業務資訊
+(assert (= notify_original_insurer_after_effective notify_major_info_after_effective))
+
+; [insurance_reinsurance:eligible_reinsurance_target] 符合適格再保險分出對象條件
 (assert (= eligible_reinsurance_target
-   (or (>= foreign_reinsurance_credit_rating_level required_credit_rating_level)
-       domestic_reinsurance_company_approved
-       other_approved_reinsurance_organization
-       foreign_reinsurance_company_approved
-       legal_reinsurance_organization)))
+   (or domestic_reinsurance_approved
+       foreign_reinsurance_approved
+       legal_reinsurance_entity
+       other_approved_reinsurance_entity
+       (>= foreign_reinsurance_credit_rating required_credit_rating))))
 
-; [insurance:non_eligible_reinsurance_target] 再保險分出對象不符合管理辦法第7條規定
+; [insurance_reinsurance:non_eligible_reinsurance_target] 不符合適格再保險分出對象
 (assert (not (= eligible_reinsurance_target non_eligible_reinsurance_target)))
 
-; [insurance:property_insurance_temporary_reinsurance_compliance] 財產保險業非比例性臨時再保險分出符合管理辦法第11條規定
-(assert (= property_insurance_temporary_reinsurance_compliance
-   (or (>= international_reinsurer_credit_rating_level
-           required_credit_rating_level)
-       domestic_reinsurance_company_approved
-       (<= 30.0 domestic_reinsurance_participation_percentage))))
+; [property_insurance:temporary_non_proportional_reinsurance_requirements] 非比例性臨時再保險分出應符合國際信用評等及國內再保險業參與比例規定
+(assert (= temporary_non_proportional_reinsurance_ok
+   (or domestic_reinsurance_approved
+       (>= foreign_reinsurance_credit_rating required_credit_rating))))
 
-; [insurance:property_insurance_temporary_reinsurance_non_compliance] 財產保險業非比例性臨時再保險分出不符合管理辦法第11條規定
-(assert (not (= property_insurance_temporary_reinsurance_compliance
-        property_insurance_temporary_reinsurance_non_compliance)))
+; [property_insurance:temporary_non_proportional_reinsurance_minimum_participation] 國內財產保險業承接部分業務比例達30%以上
+(assert (= domestic_participation_sufficient (<= 30.0 domestic_participation_ratio)))
 
-; [insurance:reinsurance_business_operational_rules_compliance] 保險業辦理再保險業務遵守管理辦法第3條作業規定
-(assert (= reinsurance_business_operational_rules_compliance
-   (and reinsurance_risk_management_plan_complied
-        reinsurer_confirmation_document_obtained_before_effective
-        broker_reinsurer_confirmation_and_check
-        foreign_broker_qualification_checked
-        contract_documents_obtained_within_time_limit
-        reinsurance_documents_properly_preserved)))
+; [property_insurance:temporary_non_proportional_reinsurance_compliance] 非比例性臨時再保險分出符合信用評等及國內參與比例規定
+(assert (= temporary_non_proportional_reinsurance_compliant
+   (and temporary_non_proportional_reinsurance_ok
+        domestic_participation_sufficient)))
 
-; [insurance:violation_of_management_rules] 違反保險法第163條第4項管理規則、163條第7項、165條第1項或163條第5項準用規定
-(assert (= violation_of_management_rules
-   (or violate_financial_or_business_management_rules_163_4
-       violate_165_1_or_163_5_applied
-       violate_163_7)))
+; [property_insurance:temporary_non_proportional_reinsurance_non_compliance] 非比例性臨時再保險分出不符合規定
+(assert (not (= temporary_non_proportional_reinsurance_compliant
+        temporary_non_proportional_reinsurance_non_compliant)))
 
-; [insurance:correction_order_or_penalty] 違反管理規則者應限期改正或處罰鍰，情節重大者廢止許可並註銷執業證照
-(assert (= correction_order_or_penalty
-   (or correction_order_issued
-       license_revoked
-       penalty_fine_imposed
-       (not violation_of_management_rules))))
+; [insurance_reinsurance:reinsurance_target_qualification] 分出對象符合營業登記或信用評等等級或主管機關核准
+(assert (= reinsurance_target_qualified
+   (or other_approved_reinsurance_entity
+       registered_professional_reinsurance
+       (>= foreign_reinsurance_credit_rating required_credit_rating))))
+
+; [insurance_reinsurance:reinsurance_risk_management_plan_compliance] 配合再保險風險管理計畫安排分出並取得確認認受文件
+(assert (= risk_management_plan_compliant
+   (and risk_management_plan_arranged
+        (or exempted_by_risk_management_standards
+            reinsurance_confirmation_obtained_before_effective))))
+
+; [insurance_reinsurance:broker_reinsurance_confirmation_and_check] 保險經紀人於原保險契約生效前取得確認認受文件並檢核一致性
+(assert (= broker_reinsurance_confirmation_ok
+   (and broker_reinsurance_confirmation_obtained_before_effective
+        broker_reinsurance_conditions_consistent)))
+
+; [insurance_reinsurance:broker_foreign_broker_qualification_check] 委任國外保險經紀人安排再保險業務符合資格條件
+(assert (= broker_foreign_broker_qualified
+   (and foreign_broker_approved_by_home_authority
+        foreign_broker_professional_liability_insurance_valid
+        (<= 5000000.0 foreign_broker_per_accident_limit_usd)
+        (<= 10000000.0 foreign_broker_aggregate_limit_usd)
+        (>= 5.0 foreign_broker_deductible_rate)
+        (= foreign_broker_insurance_period_uninterrupted 1))))
+
+; [insurance_reinsurance:deliver_signed_contract_within_60_days] 再保險契約生效日起60日內交付再保險人簽署契約文件
+(assert (= deliver_signed_contract_within_60_days signed_contract_delivered))
+
+; [insurance_reinsurance:deliver_complete_contract_within_6_months] 合約再保險於生效日起6個月內交付完整再保險契約書面文件
+(assert (= deliver_complete_contract_within_6_months complete_contract_delivered))
+
+; [insurance_reinsurance:retain_documents_min_5_years] 妥善保存再保險相關文件保存期間不得低於保險責任終了後五年
+(assert (= documents_retained_min_5_years documents_saved_min_5_years))
+
+; [insurance:violation_of_management_rules] 違反保險法第163條相關管理規則財務或業務管理規定
+(assert (= violation_management_rules violated_management_rules))
+
+; [insurance:violation_of_163_7] 違反保險法第163條第七項規定
+(assert (= violation_163_7 violated_163_7))
+
+; [insurance:violation_of_165_1_or_163_5] 違反保險法第165條第一項或第163條第五項準用規定
+(assert (= violation_165_1_or_163_5 violated_165_1_or_163_5))
+
+; [insurance:violation_any] 違反任一相關規定
+(assert (= violation_any
+   (or violation_163_7 violation_165_1_or_163_5 violation_management_rules)))
+
+; [insurance:penalty_imposed] 違反規定時應限期改正或處罰
+(assert (= penalty_imposed (or serious_violation violation_any)))
 
 ; [meta:penalty_default_false] 預設不處罰
 (assert (not penalty))
 
-; [meta:penalty_conditions] 處罰條件：違反管理規則且未限期改正或未處罰鍰或未廢止許可註銷執照時處罰
-(assert (= penalty
-   (and violation_of_management_rules
-        (not (or correction_order_issued license_revoked penalty_fine_imposed)))))
+; [meta:penalty_conditions] 處罰條件：違反任一相關規定時處罰
+(assert (= penalty (or serious_violation violation_any)))
 
 ; ============================================================
 ; Facts (Case Specific)
 ; ============================================================
 
-(assert (= reinsurer_confirmation_document_obtained_before_effective false))
-(assert (= violate_163_7 true))
-(assert (= violation_of_management_rules true))
-(assert (= correction_order_issued true))
-(assert (= penalty_fine_imposed true))
-(assert (= license_revoked false))
+(assert (= reinsurance_confirmation_obtained_before_effective false))
+(assert (= reinsurance_written_delegation_obtained true))
+(assert (= violated_165_1_or_163_5 true))
+(assert (= violation_165_1_or_163_5 true))
+(assert (= violation_any true))
+(assert (= penalty_imposed true))
 (assert (= penalty true))
-(assert (= written_delegation_from_original_insurer true))
-(assert (= broker_reinsurance_written_delegation true))
-(assert (= broker_reinsurer_confirmation_and_check false))
-(assert (= contract_signed_documents_delivered_within_60_days true))
-(assert (= complete_reinsurance_contract_delivered_within_6_months true))
-(assert (= contract_documents_obtained_within_time_limit true))
-(assert (= reinsurance_documents_properly_preserved true))
-(assert (= reinsurance_documents_preserved true))
-(assert (= reinsurance_documents_preservation_period_years 5))
-(assert (= internal_control_segregated true))
-(assert (= conflict_of_interest false))
-(assert (= internal_control_segregation true))
-(assert (= dual_business_disclosed_in_contract true))
-(assert (= broker_reinsurance_dual_business_disclosure true))
-(assert (= original_insurer_consent true))
-(assert (= reinsurance_major_info_delivered_before_effective true))
-(assert (= reinsurance_information_delivery true))
-(assert (= post_contract_major_info_notified_to_original_insurer true))
-(assert (= market_information_notification true))
-(assert (= reinsurance_conditions_and_rates_compliant true))
-(assert (= reinsurance_conditions_compliance true))
-(assert (= reinsurance_risk_management_plan_complied true))
-(assert (= foreign_broker_approved_by_home_regulator true))
-(assert (= foreign_broker_professional_liability_insurance_per_accident_usd 5000000.0))
-(assert (= foreign_broker_professional_liability_insurance_aggregate_usd 10000000.0))
-(assert (= foreign_broker_deductible_percentage 5.0))
-(assert (= foreign_broker_insurance_period_uninterrupted true))
-(assert (= foreign_broker_qualification_checked true))
-(assert (= foreign_broker_qualification true))
-(assert (= domestic_reinsurance_company_approved true))
-(assert (= foreign_reinsurance_company_approved true))
-(assert (= foreign_reinsurance_credit_rating_level 5))
-(assert (= required_credit_rating_level 3))
-(assert (= eligible_reinsurance_target true))
-(assert (= non_eligible_reinsurance_target false))
-(assert (= legal_reinsurance_organization false))
-(assert (= other_approved_reinsurance_organization false))
-(assert (= property_insurance_temporary_reinsurance_compliance true))
-(assert (= property_insurance_temporary_reinsurance_non_compliance false))
-(assert (= correction_order_or_penalty true))
+(assert (= broker_reinsurance_confirmation_obtained_before_effective false))
+(assert (= broker_reinsurance_conditions_consistent false))
+(assert (= broker_reinsurance_confirmation_ok false))
 
 ; ============================================================
 ; Check Satisfiability
@@ -240,9 +240,9 @@
 ; ============================================================
 ; Additional Information
 ; ============================================================
-; Total constraints: 20
-; Total variables: 57
-; Total facts: 47
+; Total constraints: 32
+; Total variables: 67
+; Total facts: 10
 ;
 ; Expected result:
 ;   - If UNSAT: Case violates legal rules

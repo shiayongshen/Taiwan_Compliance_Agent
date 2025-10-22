@@ -2,7 +2,7 @@
 ============================================================
 Step 1: Law Parser
 ============================================================
-✅ Checkpoint [step1_law_parser]: PASS (1490 chars)
+✅ Checkpoint [step1_law_parser]: PASS (1541 chars)
 
 ============================================================
 Step 2: Law Completion
@@ -12,12 +12,12 @@ Step 2: Law Completion
 ============================================================
 Step 3: Ensure JSON Valid
 ============================================================
-✅ Checkpoint [step3_json_valid]: PASS (5 constraints)
+✅ Checkpoint [step3_json_valid]: PASS (6 constraints)
 
 ============================================================
 Step 4: VarSpec Extraction
 ============================================================
-✅ Checkpoint [step4_varspec]: PASS (9 varspecs)
+✅ Checkpoint [step4_varspec]: PASS (10 varspecs)
 
 🔧 Phase 0: Removing colon prefixes from variable names in expr...
 
@@ -43,7 +43,7 @@ Step 4: VarSpec Extraction
 Step 5: Check Constraints Parseable
 ============================================================
 ✅ Constraints successfully parsed into Z3 expressions
-✅ Checkpoint [step5_constraints_parseable]: PASS (5 constraints)
+✅ Checkpoint [step5_constraints_parseable]: PASS (6 constraints)
 
 ============================================================
 Step 6: Constraints Consistency
@@ -57,20 +57,20 @@ Step 6: Constraints Consistency
 ============================================================
 Step 7: Case Mapper
 ============================================================
-✅ Checkpoint [step7_case_mapper]: PASS (9 facts)
+✅ Checkpoint [step7_case_mapper]: PASS (10 facts)
 
 ============================================================
 Step 7.2: Test Facts with Z3
 ============================================================
 ✅ Facts validated with Z3
-✅ Checkpoint [step7_z3_validation]: PASS (9 constraints)
+✅ Checkpoint [step7_z3_validation]: PASS (10 constraints)
 
 ============================================================
 Step 8: Case+Law Hard Check
 ============================================================
-✅ Case+Law UNSAT → 違規案例 (Unsat core: ['c13', 'meta:penalty_default_false'])
+✅ Case+Law UNSAT → 違規案例 (Unsat core: ['meta:penalty_default_false', 'c15'])
 ✅ Checkpoint [step8_case_law_check]: PASS (UNSAT)
-✅ Checkpoint [step8_violation_detected]: PASS (['c13', 'meta:penalty_default_false'])
+✅ Checkpoint [step8_violation_detected]: PASS (['meta:penalty_default_false', 'c15'])
 
 ============================================================
 Step 9: Z3 Optimize
@@ -78,21 +78,22 @@ Step 9: Z3 Optimize
 ✅ Optimization success for case_476
 
 📊 Model (filtered):
-   penalty_according_to_article_66 = True
-   director_violation = True
-   violation_affects_normal_business = True
-   order_dismiss_officer = True
-   order_stop_business_within_one_year = True
-   penalty_imposed = True
-   supervisor_order_stop_or_dismiss = True
+   violate_law_or_related_regulations = True
+   affect_normal_business_execution = False
+   remove_duty_ordered_flag = True
+   stop_business_within_one_year_ordered = True
+   penalty_according_to_article_66 = False
+   stop_business_ordered = False
+   penalty_imposed = False
+   remove_duty_ordered = False
    penalty = False
-   violation_affects_business = True
-✅ Model saved to: outputs\case_476.model.txt
+   violation_found = False
+✅ Model saved to: outputs/case_476.model.txt
 ✅ Checkpoint [step9_z3_optimize]: PASS (success)
 
 ============================================================
 Step 10: Export to SMT2
 ============================================================
-✅ SMT2 file saved to: outputs\case_476.smt2
+✅ SMT2 file saved to: outputs/case_476.smt2
 ✅ SMT2 exported successfully
-   You can run: z3 outputs\case_476.smt2
+   You can run: z3 outputs/case_476.smt2

@@ -1,20 +1,20 @@
 [
   {
-    "id": "securities:violation_affects_business",
-    "desc": "董事、監察人及受僱人違反法令且影響證券業務正常執行",
+    "id": "securities:violation_found",
+    "desc": "證券商董事、監察人及受僱人違反法令且影響業務正常執行",
     "expr": [
       "EQ",
-      "violation_affects_business",
+      "violation_found",
       [
         "AND",
         [
           "EQ",
-          "director_violation",
+          "violate_law_or_related_regulations",
           true
         ],
         [
           "EQ",
-          "violation_affects_normal_business",
+          "affect_normal_business_execution",
           true
         ]
       ]
@@ -23,21 +23,44 @@
     "domain": "securities"
   },
   {
-    "id": "securities:supervisor_order_stop_or_dismiss",
-    "desc": "主管機關得命令停止一年以下業務或解除職務",
+    "id": "securities:stop_business_ordered",
+    "desc": "主管機關命令停止一年以下業務執行",
     "expr": [
       "EQ",
-      "supervisor_order_stop_or_dismiss",
+      "stop_business_ordered",
       [
-        "OR",
+        "AND",
         [
           "EQ",
-          "order_stop_business_within_one_year",
+          "violation_found",
           true
         ],
         [
           "EQ",
-          "order_dismiss_officer",
+          "stop_business_within_one_year_ordered",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "securities"
+  },
+  {
+    "id": "securities:remove_duty_ordered",
+    "desc": "主管機關命令解除職務",
+    "expr": [
+      "EQ",
+      "remove_duty_ordered",
+      [
+        "AND",
+        [
+          "EQ",
+          "violation_found",
+          true
+        ],
+        [
+          "EQ",
+          "remove_duty_ordered_flag",
           true
         ]
       ]
@@ -47,7 +70,7 @@
   },
   {
     "id": "securities:penalty_imposed",
-    "desc": "依情節輕重對證券商處以第六十六條所定處分",
+    "desc": "依第六十六條規定對證券商處分",
     "expr": [
       "EQ",
       "penalty_imposed",
@@ -55,7 +78,7 @@
         "AND",
         [
           "EQ",
-          "violation_affects_business",
+          "violation_found",
           true
         ],
         [
@@ -81,25 +104,14 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反法令且影響業務正常執行，且未依規定處分時處罰",
+    "desc": "處罰條件：違反法令且影響業務正常執行時處罰",
     "expr": [
       "EQ",
       "penalty",
       [
-        "AND",
-        [
-          "EQ",
-          "violation_affects_business",
-          true
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "penalty_imposed",
-            true
-          ]
-        ]
+        "EQ",
+        "violation_found",
+        true
       ]
     ],
     "weight": 0,
