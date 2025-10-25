@@ -31,31 +31,8 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:real_estate_investment_usable",
-    "desc": "不動產投資以即時利用並有收益者為限，除依住宅法興辦社會住宅且僅供租賃者不受此限",
-    "expr": [
-      "EQ",
-      "real_estate_investment_usable",
-      [
-        "OR",
-        [
-          "EQ",
-          "social_housing_only_rental",
-          true
-        ],
-        [
-          "EQ",
-          "real_estate_investment_usable_flag",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
     "id": "insurance:real_estate_valuation_required",
-    "desc": "不動產取得及處分應經合法不動產鑑價機構評價",
+    "desc": "不動產取得及處分應經合法鑑價機構評價",
     "expr": [
       "EQ",
       "real_estate_valuation_required",
@@ -69,8 +46,54 @@
     "domain": "insurance"
   },
   {
+    "id": "insurance:social_housing_exemption",
+    "desc": "依住宅法興辦社會住宅且僅供租賃者，不受即時利用並有收益限制",
+    "expr": [
+      "EQ",
+      "social_housing_exemption",
+      [
+        "EQ",
+        "social_housing_only_rental",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:real_estate_investment_compliance",
+    "desc": "不動產投資符合即時利用並有收益限制或符合社會住宅例外",
+    "expr": [
+      "EQ",
+      "real_estate_investment_compliance",
+      [
+        "OR",
+        [
+          "AND",
+          [
+            "EQ",
+            "real_estate_in_use",
+            true
+          ],
+          [
+            "EQ",
+            "real_estate_has_income",
+            true
+          ]
+        ],
+        [
+          "EQ",
+          "social_housing_only_rental",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
     "id": "insurance:loan_type_limit",
-    "desc": "放款限於銀行或主管機關認可信用保證機構保證、以動產不動產擔保、有價證券質押、人壽保險單質押",
+    "desc": "放款類型限銀行或主管機關認可信用保證機構保證、以動產不動產擔保、有價證券質押、人壽保險單質押",
     "expr": [
       "EQ",
       "loan_type_limit",
@@ -149,13 +172,16 @@
         "AND",
         [
           "EQ",
-          "related_party_loan_full_guarantee",
+          "related_party_loan_fully_secured",
           true
         ],
         [
-          "EQ",
-          "related_party_loan_conditions_not_preferential",
-          true
+          "NOT",
+          [
+            "EQ",
+            "related_party_loan_better_terms",
+            true
+          ]
         ]
       ]
     ],
@@ -164,7 +190,7 @@
   },
   {
     "id": "insurance:related_party_loan_approval",
-    "desc": "利害關係人放款達主管機關規定金額以上，須經三分之二以上董事出席及出席董事四分之三以上同意",
+    "desc": "利害關係人放款達規定金額以上須董事會三分之二出席且四分之三同意",
     "expr": [
       "EQ",
       "related_party_loan_approval",
@@ -179,12 +205,12 @@
           "AND",
           [
             "GE",
-            "board_directors_attendance_ratio",
+            "board_attendance_ratio",
             0.6666667
           ],
           [
             "GE",
-            "board_directors_approval_ratio",
+            "board_approval_ratio",
             0.75
           ]
         ]
@@ -195,7 +221,7 @@
   },
   {
     "id": "insurance:combined_investment_limit",
-    "desc": "同一公司有價證券投資與以該公司有價證券為質放款合併計算不得超過資金10%及公司業主權益10%",
+    "desc": "有價證券投資與以該公司有價證券為質放款合併計算不得超過資金10%及該公司業主權益10%",
     "expr": [
       "EQ",
       "combined_investment_limit",
@@ -203,11 +229,7 @@
         "AND",
         [
           "LE",
-          [
-            "ADD",
-            "investment_in_company_securities",
-            "loan_secured_by_company_securities"
-          ],
+          "combined_investment_amount",
           [
             "MUL",
             "capital_fund",
@@ -216,14 +238,10 @@
         ],
         [
           "LE",
-          [
-            "ADD",
-            "investment_in_company_securities",
-            "loan_secured_by_company_securities"
-          ],
+          "combined_investment_amount",
           [
             "MUL",
-            "company_owner_equity",
+            "issuer_owner_equity",
             10.0
           ]
         ]
@@ -233,11 +251,11 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:foreign_investment_types_limit",
-    "desc": "國外投資限於外匯存款、國外有價證券、核准之國外保險相關事業及其他核准投資",
+    "id": "insurance:foreign_investment_types",
+    "desc": "國外投資限外匯存款、國外有價證券、核准保險相關事業投資及其他核准投資",
     "expr": [
       "EQ",
-      "foreign_investment_types_limit",
+      "foreign_investment_types",
       [
         "OR",
         [
@@ -252,7 +270,7 @@
         ],
         [
           "EQ",
-          "foreign_investment_approved_foreign_insurance_related",
+          "foreign_investment_approved_insurance_related",
           true
         ],
         [
@@ -266,11 +284,11 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:foreign_investment_total_limit",
-    "desc": "國外投資總額最高不得超過資金45%，但有核准不計入項目除外",
+    "id": "insurance:foreign_investment_limit",
+    "desc": "國外投資總額最高不得超過資金45%，特定金額及項目不計入限額",
     "expr": [
       "EQ",
-      "foreign_investment_total_limit",
+      "foreign_investment_limit",
       [
         "LE",
         "foreign_investment_total",
@@ -285,45 +303,32 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:foreign_investment_exclusion",
-    "desc": "核准不計入國外投資限額之金額",
+    "id": "insurance:foreign_investment_exclusions",
+    "desc": "特定投資金額不計入國外投資限額",
     "expr": [
       "EQ",
-      "foreign_investment_exclusion",
+      "foreign_investment_exclusions",
       [
-        "ADD",
+        "AND",
         [
-          "ADD",
-          [
-            "ADD",
-            "approved_non_investment_foreign_currency_insurance_amount",
-            "approved_foreign_currency_securities_amount"
-          ],
-          "approved_foreign_insurance_related_investment_amount"
+          "EQ",
+          "foreign_investment_non_investment_life_insurance_approved",
+          true
         ],
-        "other_approved_exclusion_amount"
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:foreign_investment_net_limit",
-    "desc": "國外投資淨額不得超過資金45%減除核准不計入金額",
-    "expr": [
-      "EQ",
-      "foreign_investment_net_limit",
-      [
-        "LE",
-        "foreign_investment_total",
         [
-          "SUB",
-          [
-            "MUL",
-            "capital_fund",
-            45.0
-          ],
-          "foreign_investment_exclusion"
+          "EQ",
+          "foreign_investment_domestic_foreign_currency_securities",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_approved_foreign_insurance_related",
+          true
+        ],
+        [
+          "EQ",
+          "foreign_investment_other_approved_items",
+          true
         ]
       ]
     ],
@@ -332,13 +337,13 @@
   },
   {
     "id": "insurance:related_party_loan_and_transaction_limit",
-    "desc": "主管機關得限制同一人、同一關係人或同一關係企業之放款及其他交易",
+    "desc": "主管機關得限制同一人、關係人及關係企業放款及其他交易之限額及範圍",
     "expr": [
       "EQ",
       "related_party_loan_and_transaction_limit",
       [
         "EQ",
-        "authority_limit_enforced",
+        "authority_limit_related_party_loan_and_transaction",
         true
       ]
     ],
@@ -347,7 +352,7 @@
   },
   {
     "id": "insurance:prohibited_shareholder_rights_actions",
-    "desc": "不得以信託、委任或其他方式進行股權交換或利益輸送，不得損及要保人等利益",
+    "desc": "不得以信託、委任等方式進行股權交換或利益輸送，不得損及要保人利益",
     "expr": [
       "EQ",
       "prohibited_shareholder_rights_actions",
@@ -355,7 +360,7 @@
         "NOT",
         [
           "EQ",
-          "prohibited_actions_occurred",
+          "shareholder_rights_prohibited_actions",
           true
         ]
       ]
@@ -365,7 +370,7 @@
   },
   {
     "id": "insurance:shareholder_meeting_vote_documentation",
-    "desc": "出席股東會前應作成表決權評估分析，會後應提報董事會書面紀錄",
+    "desc": "出席股東會前應作表決權評估分析，會後應提報董事會書面紀錄",
     "expr": [
       "EQ",
       "shareholder_meeting_vote_documentation",
@@ -387,16 +392,16 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:prohibited_proxy_actions",
+    "id": "insurance:proxy_prohibition",
     "desc": "不得擔任被投資公司委託書徵求人或委託他人擔任",
     "expr": [
       "EQ",
-      "prohibited_proxy_actions",
+      "proxy_prohibition",
       [
         "NOT",
         [
           "EQ",
-          "proxy_actions_occurred",
+          "proxy_agent_appointed",
           true
         ]
       ]
@@ -405,14 +410,14 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:internal_control_and_audit_established",
+    "id": "insurance:internal_control_established",
     "desc": "建立內部控制及稽核制度",
     "expr": [
       "EQ",
-      "internal_control_and_audit_established",
+      "internal_control_established",
       [
         "EQ",
-        "internal_control_and_audit_system_established",
+        "internal_control_system_established",
         true
       ]
     ],
@@ -420,11 +425,11 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:internal_handling_system_established",
-    "desc": "建立資產品質評估、準備金提存、逾期放款催收、呆帳轉銷及保單招攬核保理賠之內部處理制度及程序",
+    "id": "insurance:internal_handling_established",
+    "desc": "建立資產品質評估、準備金提存、逾期放款等內部處理制度及程序",
     "expr": [
       "EQ",
-      "internal_handling_system_established",
+      "internal_handling_established",
       [
         "EQ",
         "internal_handling_system_established",
@@ -435,161 +440,129 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:penalty_default_false",
-    "desc": "預設不處罰",
+    "id": "insurance:supervisory_measures_classification",
+    "desc": "資本等級分類（1=適足, 2=不足, 3=顯著不足, 4=嚴重不足）",
     "expr": [
       "EQ",
-      "penalty",
-      false
+      "capital_level",
+      [
+        "CASE",
+        [
+          "OR",
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "net_worth",
+            0.0
+          ]
+        ],
+        4,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            50.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "GE",
+            "net_worth_ratio",
+            0.0
+          ],
+          [
+            "LT",
+            "net_worth_ratio",
+            2.0
+          ]
+        ],
+        3,
+        [
+          "AND",
+          [
+            "GE",
+            "capital_adequacy_ratio",
+            150.0
+          ],
+          [
+            "LT",
+            "capital_adequacy_ratio",
+            200.0
+          ]
+        ],
+        2,
+        [
+          "GE",
+          "capital_adequacy_ratio",
+          200.0
+        ],
+        1,
+        0
+      ]
     ],
-    "weight": 0,
-    "domain": "meta"
+    "weight": 1,
+    "domain": "insurance"
   },
   {
-    "id": "insurance:penalty_conditions",
-    "desc": "處罰條件：違反不動產投資限制、放款限制、國外投資限制、內部控制及稽核制度等規定時處罰",
+    "id": "insurance:supervisory_measures_penalty",
+    "desc": "處分條件：資本嚴重不足且未依主管機關規定完成增資或改善計畫",
     "expr": [
       "EQ",
       "penalty",
       [
         "OR",
         [
-          "NOT",
+          "AND",
           [
             "EQ",
-            "real_estate_investment_limit",
-            true
+            "capital_level",
+            4
+          ],
+          [
+            "NOT",
+            [
+              "EQ",
+              "capital_increase_or_improvement_completed",
+              true
+            ]
           ]
         ],
         [
-          "NOT",
+          "AND",
           [
             "EQ",
-            "real_estate_investment_usable",
-            true
-          ]
-        ],
-        [
-          "NOT",
+            "capital_level",
+            3
+          ],
           [
-            "EQ",
-            "real_estate_valuation_required",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "loan_type_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "single_loan_amount_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "total_loan_amount_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "related_party_loan_guarantee",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "related_party_loan_approval",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "combined_investment_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "foreign_investment_types_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "foreign_investment_net_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "related_party_loan_and_transaction_limit",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "prohibited_shareholder_rights_actions",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "shareholder_meeting_vote_documentation",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "prohibited_proxy_actions",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_control_and_audit_established",
-            true
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "internal_handling_system_established",
-            true
+            "NOT",
+            [
+              "EQ",
+              "capital_increase_or_improvement_completed",
+              true
+            ]
           ]
         ]
       ]
+    ],
+    "weight": 0,
+    "domain": "meta"
+  },
+  {
+    "id": "meta:penalty_default_false",
+    "desc": "預設不處罰",
+    "expr": [
+      "EQ",
+      "penalty",
+      false
     ],
     "weight": 0,
     "domain": "meta"

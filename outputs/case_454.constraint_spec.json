@@ -1,21 +1,21 @@
 [
   {
-    "id": "insurance:agent_license_and_guarantee",
-    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，領有執業證照後始得經營或執行業務",
+    "id": "insurance:license_and_bond_insurance_required",
+    "desc": "保險代理人、經紀人、公證人須經主管機關許可，繳存保證金並投保相關保險，且領有執業證照後始得經營或執行業務",
     "expr": [
       "EQ",
-      "agent_license_and_guarantee",
+      "license_and_bond_insurance_required",
       [
         "AND",
         [
           "EQ",
-          "license_permitted",
+          "approved_by_authority",
           true
         ],
         [
-          "GE",
-          "guarantee_deposit_amount",
-          "guarantee_minimum_amount"
+          "EQ",
+          "bond_deposited",
+          true
         ],
         [
           "EQ",
@@ -24,7 +24,7 @@
         ],
         [
           "EQ",
-          "practice_certificate_held",
+          "license_held",
           true
         ]
       ]
@@ -33,44 +33,44 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:related_insurance_type_compliance",
-    "desc": "相關保險類型符合代理人、公證人為責任保險，經紀人為責任保險及保證保險",
+    "id": "insurance:related_insurance_type_correct",
+    "desc": "相關保險類型依身份區分：代理人、公證人為責任保險；經紀人為責任保險及保證保險",
     "expr": [
       "EQ",
-      "related_insurance_type_compliance",
+      "related_insurance_type_correct",
       [
         "OR",
         [
           "AND",
           [
             "EQ",
-            "agent_type",
-            1
+            "agent",
+            true
           ],
           [
             "EQ",
-            "insurance_type",
-            "liability_insurance"
+            "insurance_type_responsibility",
+            true
           ]
         ],
         [
           "AND",
           [
             "EQ",
-            "agent_type",
-            2
+            "broker",
+            true
           ],
           [
-            "OR",
+            "AND",
             [
               "EQ",
-              "insurance_type",
-              "liability_insurance"
+              "insurance_type_responsibility",
+              true
             ],
             [
               "EQ",
-              "insurance_type",
-              "guarantee_insurance"
+              "insurance_type_guarantee",
+              true
             ]
           ]
         ],
@@ -78,141 +78,12 @@
           "AND",
           [
             "EQ",
-            "agent_type",
-            3
-          ],
-          [
-            "EQ",
-            "insurance_type",
-            "liability_insurance"
-          ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:agent_type",
-    "desc": "代理人類型分類（1=保險代理人, 2=保險經紀人, 3=保險公證人）",
-    "expr": [
-      "EQ",
-      "agent_type",
-      [
-        "CASE",
-        [
-          "EQ",
-          "is_insurance_agent",
-          true
-        ],
-        1,
-        [
-          "EQ",
-          "is_insurance_broker",
-          true
-        ],
-        2,
-        [
-          "EQ",
-          "is_insurance_notary",
-          true
-        ],
-        3,
-        0
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:guarantee_minimum_amount",
-    "desc": "主管機關定最低保證金及保險金額",
-    "expr": [
-      "EQ",
-      "guarantee_minimum_amount",
-      [
-        "CASE",
-        [
-          "GE",
-          "guarantee_minimum_amount",
-          0.0
-        ],
-        "guarantee_minimum_amount",
-        0.0
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:agent_company_and_bank_compliance",
-    "desc": "銀行得經主管機關許可擇一兼營保險代理人或保險經紀人業務，並應分別準用相關規定",
-    "expr": [
-      "EQ",
-      "agent_company_and_bank_compliance",
-      [
-        "OR",
-        [
-          "EQ",
-          "bank_permitted_as_agent",
-          true
-        ],
-        [
-          "EQ",
-          "bank_permitted_as_broker",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:broker_duties",
-    "desc": "保險經紀人應以善良管理人注意義務及忠實義務為被保險人洽訂保險契約或提供服務",
-    "expr": [
-      "EQ",
-      "broker_duties_complied",
-      [
-        "AND",
-        [
-          "EQ",
-          "broker_duty_care",
-          true
-        ],
-        [
-          "EQ",
-          "broker_duty_fidelity",
-          true
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:broker_report_and_fee_disclosure",
-    "desc": "保險經紀人於主管機關指定範圍內洽訂契約前，應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
-    "expr": [
-      "EQ",
-      "broker_report_and_fee_disclosure_complied",
-      [
-        "AND",
-        [
-          "EQ",
-          "broker_report_provided",
-          true
-        ],
-        [
-          "IMPLIES",
-          [
-            "EQ",
-            "broker_fee_charged",
+            "notary",
             true
           ],
           [
             "EQ",
-            "broker_fee_disclosed",
+            "insurance_type_responsibility",
             true
           ]
         ]
@@ -222,14 +93,14 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:agent_qualification_and_management_rules_compliance",
-    "desc": "代理人資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他管理規則遵行",
+    "id": "insurance:minimum_amount_and_implementation_set_by_authority",
+    "desc": "保證金及相關保險最低金額及實施方式由主管機關依經營業務範圍及規模定之",
     "expr": [
       "EQ",
-      "agent_qualification_and_management_rules_complied",
+      "minimum_amount_and_implementation_set_by_authority",
       [
         "EQ",
-        "management_rules_complied",
+        "authority_set_minimum_and_implementation",
         true
       ]
     ],
@@ -237,21 +108,36 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:violation_finance_or_business_management",
-    "desc": "違反財務或業務管理規定",
+    "id": "insurance:management_rules_set_by_authority",
+    "desc": "資格取得、申請許可條件、程序、文件、董事監察人經理人資格、解任事由、分支機構條件、財務業務管理、教育訓練、廢止許可及其他應遵行事項由主管機關定之",
     "expr": [
       "EQ",
-      "violation_finance_or_business_management",
+      "management_rules_set_by_authority",
       [
-        "OR",
+        "EQ",
+        "authority_set_management_rules",
+        true
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:bank_permission_and_apply_agent_broker_rules",
+    "desc": "銀行經主管機關許可擇一兼營保險代理人或經紀人業務，並分別準用相關規定",
+    "expr": [
+      "EQ",
+      "bank_permission_and_apply_agent_broker_rules",
+      [
+        "IMPLIES",
         [
           "EQ",
-          "violate_finance_management",
+          "bank_permitted_to_operate",
           true
         ],
         [
           "EQ",
-          "violate_business_management",
+          "apply_agent_broker_rules",
           true
         ]
       ]
@@ -260,16 +146,21 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:violation_broker_duties",
-    "desc": "違反保險經紀人忠實義務",
+    "id": "insurance:broker_duty_of_care_and_fidelity",
+    "desc": "保險經紀人應以善良管理人注意義務洽訂保險契約並負忠實義務",
     "expr": [
       "EQ",
-      "violation_broker_duties",
+      "broker_duty_of_care_and_fidelity",
       [
-        "NOT",
+        "AND",
         [
           "EQ",
-          "broker_duties_complied",
+          "broker_exercise_duty_of_care",
+          true
+        ],
+        [
+          "EQ",
+          "broker_fulfill_fidelity",
           true
         ]
       ]
@@ -278,45 +169,60 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:violation_management_rules_or_broker_duties",
-    "desc": "違反管理規則或保險經紀人義務",
+    "id": "insurance:broker_provide_written_report_and_disclose_fee",
+    "desc": "保險經紀人洽訂契約前應主動提供書面分析報告，收取報酬者應明確告知報酬標準",
     "expr": [
       "EQ",
-      "violation_management_or_broker",
+      "broker_provide_written_report_and_disclose_fee",
       [
-        "OR",
+        "AND",
         [
-          "NOT",
+          "EQ",
+          "broker_provide_written_report",
+          true
+        ],
+        [
+          "IMPLIES",
           [
             "EQ",
-            "agent_qualification_and_management_rules_complied",
+            "broker_charge_fee",
+            true
+          ],
+          [
+            "EQ",
+            "broker_disclose_fee_standard",
             true
           ]
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_qualification_and_employment_conditions",
+    "desc": "代理人具資格且無禁止情事，得以個人名義或受代理人公司或銀行任用取得執業證照後執行業務",
+    "expr": [
+      "EQ",
+      "agent_qualification_and_employment_conditions",
+      [
+        "AND",
+        [
+          "EQ",
+          "agent_qualification_met",
+          true
         ],
         [
           "NOT",
           [
             "EQ",
-            "broker_duties_complied",
+            "agent_prohibited_condition",
             true
           ]
-        ]
-      ]
-    ],
-    "weight": 1,
-    "domain": "insurance"
-  },
-  {
-    "id": "insurance:agent_personal_and_company_employment_restriction",
-    "desc": "個人執業代理人及受代理人公司或銀行任用代理人不得同時受任於其他代理人公司、經紀人公司、公證人公司或銀行",
-    "expr": [
-      "EQ",
-      "agent_employment_restriction_complied",
-      [
-        "NOT",
+        ],
         [
           "EQ",
-          "agent_employed_multiple_companies",
+          "license_held",
           true
         ]
       ]
@@ -325,21 +231,21 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:agent_company_must_employ_minimum_agents",
-    "desc": "代理人公司及銀行應任用代理人至少一人，並視業務規模及品質調整，主管機關得要求增加",
+    "id": "insurance:agent_company_and_bank_must_employ_minimum_agents",
+    "desc": "代理人公司及銀行應任用代理人至少一人，並視業務規模及品質適當調整，主管機關得要求增加",
     "expr": [
       "EQ",
-      "agent_company_employment_complied",
+      "agent_company_and_bank_employ_minimum_agents",
       [
         "AND",
         [
           "GE",
-          "agent_company_employed_agents",
+          "agent_employed_count",
           1
         ],
         [
           "EQ",
-          "agent_company_adjusted_as_required",
+          "agent_employment_adjusted_appropriately",
           true
         ]
       ]
@@ -348,21 +254,21 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:agent_company_registration_compliance",
-    "desc": "依規定辦理許可登記後，依法向公司登記主管機關辦理登記",
+    "id": "insurance:agent_company_and_bank_must_register_permit",
+    "desc": "代理人公司及銀行依規定辦理許可登記並依法向公司登記主管機關辦理登記",
     "expr": [
       "EQ",
-      "agent_company_registration_complied",
+      "agent_company_and_bank_must_register_permit",
       [
         "AND",
         [
           "EQ",
-          "license_registration_done",
+          "permit_registered_with_authority",
           true
         ],
         [
           "EQ",
-          "company_registration_done",
+          "company_registration_completed",
           true
         ]
       ]
@@ -371,76 +277,94 @@
     "domain": "insurance"
   },
   {
-    "id": "insurance:agent_contract_content_compliance",
-    "desc": "保險代理合約內容符合規定至少包括指定項目",
+    "id": "insurance:agent_cannot_be_employed_by_multiple_companies",
+    "desc": "個人執業代理人及受代理人公司或銀行任用之代理人，不得同時受任於其他代理人公司、保險經紀人公司、公證人公司或銀行",
     "expr": [
       "EQ",
-      "agent_contract_content_complied",
+      "agent_cannot_be_employed_by_multiple_companies",
+      [
+        "NOT",
+        [
+          "EQ",
+          "agent_employed_by_multiple_companies",
+          true
+        ]
+      ]
+    ],
+    "weight": 1,
+    "domain": "insurance"
+  },
+  {
+    "id": "insurance:agent_contract_must_include_required_items",
+    "desc": "保險代理合約內容至少應包括主管機關規定之十二項目",
+    "expr": [
+      "EQ",
+      "agent_contract_must_include_required_items",
       [
         "AND",
         [
           "EQ",
-          "contract_party_names_included",
+          "contract_include_parties_names",
           true
         ],
         [
           "EQ",
-          "contract_term_included",
+          "contract_include_agent_period",
           true
         ],
         [
           "EQ",
-          "contract_authority_scope_included",
+          "contract_include_agent_scope",
           true
         ],
         [
           "EQ",
-          "commission_payment_standard_included",
+          "contract_include_commission_standard",
           true
         ],
         [
           "EQ",
-          "commission_payment_method_included",
+          "contract_include_commission_method",
           true
         ],
         [
           "EQ",
-          "law_compliance_clause_included",
+          "contract_include_law_compliance",
           true
         ],
         [
           "EQ",
-          "prohibited_acts_clause_included",
+          "contract_include_prohibited_behaviors",
           true
         ],
         [
           "EQ",
-          "conflict_of_interest_prevention_included",
+          "contract_include_conflict_of_interest_prevention",
           true
         ],
         [
           "EQ",
-          "breach_liability_clause_included",
+          "contract_include_breach_liability",
           true
         ],
         [
           "EQ",
-          "dispute_resolution_clause_included",
+          "contract_include_dispute_resolution",
           true
         ],
         [
           "EQ",
-          "contract_termination_clause_included",
+          "contract_include_contract_termination",
           true
         ],
         [
           "EQ",
-          "financial_account_included",
+          "contract_include_financial_institution_account",
           true
         ],
         [
           "EQ",
-          "other_regulatory_requirements_included",
+          "contract_include_other_authority_requirements",
           true
         ]
       ]
@@ -461,7 +385,7 @@
   },
   {
     "id": "meta:penalty_conditions",
-    "desc": "處罰條件：違反許可、保證金、保險、執業證照、管理規則、經紀人義務或代理人限制規定時處罰",
+    "desc": "處罰條件：未經主管機關許可、未繳存保證金、未投保相關保險、未領執業證照、保險類型不符、銀行未依規定申請許可、經紀人未履行義務、代理人資格不符、代理人公司或銀行未任用足夠代理人、未辦理登記、代理人同時受多公司任用、代理合約未包含必要項目時處罰",
     "expr": [
       "EQ",
       "penalty",
@@ -471,7 +395,7 @@
           "NOT",
           [
             "EQ",
-            "agent_license_and_guarantee",
+            "license_and_bond_insurance_required",
             true
           ]
         ],
@@ -479,7 +403,7 @@
           "NOT",
           [
             "EQ",
-            "related_insurance_type_compliance",
+            "related_insurance_type_correct",
             true
           ]
         ],
@@ -487,7 +411,7 @@
           "NOT",
           [
             "EQ",
-            "agent_qualification_and_management_rules_complied",
+            "bank_permission_and_apply_agent_broker_rules",
             true
           ]
         ],
@@ -495,15 +419,7 @@
           "NOT",
           [
             "EQ",
-            "violation_finance_or_business_management",
-            false
-          ]
-        ],
-        [
-          "NOT",
-          [
-            "EQ",
-            "broker_duties_complied",
+            "broker_duty_of_care_and_fidelity",
             true
           ]
         ],
@@ -511,7 +427,7 @@
           "NOT",
           [
             "EQ",
-            "broker_report_and_fee_disclosure_complied",
+            "broker_provide_written_report_and_disclose_fee",
             true
           ]
         ],
@@ -519,7 +435,7 @@
           "NOT",
           [
             "EQ",
-            "agent_employment_restriction_complied",
+            "agent_qualification_and_employment_conditions",
             true
           ]
         ],
@@ -527,7 +443,7 @@
           "NOT",
           [
             "EQ",
-            "agent_company_employment_complied",
+            "agent_company_and_bank_employ_minimum_agents",
             true
           ]
         ],
@@ -535,7 +451,7 @@
           "NOT",
           [
             "EQ",
-            "agent_company_registration_complied",
+            "agent_company_and_bank_must_register_permit",
             true
           ]
         ],
@@ -543,7 +459,15 @@
           "NOT",
           [
             "EQ",
-            "agent_contract_content_complied",
+            "agent_cannot_be_employed_by_multiple_companies",
+            true
+          ]
+        ],
+        [
+          "NOT",
+          [
+            "EQ",
+            "agent_contract_must_include_required_items",
             true
           ]
         ]

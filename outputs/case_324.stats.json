@@ -1,15 +1,15 @@
 {
   "case_id": "case_324",
   "success": false,
-  "error_message": "Fact 'loan_secured_by_company_securities' should be bool, got int",
-  "total_time_sec": 191.96,
+  "error_message": "b'parser error'",
+  "total_time_sec": 189.11,
   "repair_attempts": 0,
   "total_agent_calls": 6,
-  "total_input_tokens": 48200,
-  "total_output_tokens": 12589,
-  "total_tokens": 60789,
-  "total_cost_usd": 0.039422,
-  "timestamp": "2025-10-21T22:20:18.013387",
+  "total_input_tokens": 48350,
+  "total_output_tokens": 12854,
+  "total_tokens": 61204,
+  "total_cost_usd": 0.039906,
+  "timestamp": "2025-10-24T20:22:16.164445",
   "step1_law_parser": "PASS",
   "step2_completion": "PASS",
   "step3_json_valid": "PASS",
@@ -31,94 +31,94 @@
     {
       "agent": "parser",
       "input_tokens": 9897,
-      "output_tokens": 3175,
-      "elapsed_time": 47.87769889831543,
-      "cost": 0.0090388
+      "output_tokens": 3031,
+      "elapsed_time": 37.72427725791931,
+      "cost": 0.008808400000000001
     },
     {
       "agent": "parser_completion",
-      "input_tokens": 23333,
-      "output_tokens": 5237,
-      "elapsed_time": 80.75775933265686,
-      "cost": 0.017712400000000003
+      "input_tokens": 23189,
+      "output_tokens": 5367,
+      "elapsed_time": 77.1003086566925,
+      "cost": 0.0178628
     },
     {
       "agent": "varspec",
-      "input_tokens": 396,
-      "output_tokens": 1502,
-      "elapsed_time": 20.154065132141113,
-      "cost": 0.0025616000000000002
+      "input_tokens": 419,
+      "output_tokens": 1682,
+      "elapsed_time": 28.40645170211792,
+      "cost": 0.0028588000000000003
     },
     {
       "agent": "varspec_post_repair",
-      "input_tokens": 396,
-      "output_tokens": 1502,
-      "elapsed_time": 23.58164882659912,
-      "cost": 0.0025616000000000002
+      "input_tokens": 419,
+      "output_tokens": 1682,
+      "elapsed_time": 27.301841259002686,
+      "cost": 0.0028588000000000003
     },
     {
       "agent": "mapper",
-      "input_tokens": 7062,
-      "output_tokens": 563,
-      "elapsed_time": 9.892356157302856,
-      "cost": 0.0037256000000000004
+      "input_tokens": 7186,
+      "output_tokens": 595,
+      "elapsed_time": 10.346500396728516,
+      "cost": 0.0038264
     },
     {
       "agent": "mapper_repair",
-      "input_tokens": 7116,
-      "output_tokens": 610,
-      "elapsed_time": 9.657944917678833,
-      "cost": 0.0038224
+      "input_tokens": 7240,
+      "output_tokens": 497,
+      "elapsed_time": 8.163477897644043,
+      "cost": 0.0036912000000000004
     }
   ],
   "checkpoints_detail": {
     "step1_law_parser": {
       "passed": true,
-      "details": "9325 chars",
-      "timestamp": 47.87772583961487
+      "details": "8247 chars",
+      "timestamp": 37.72427725791931
     },
     "step2_completion": {
       "passed": true,
-      "details": "15133 chars",
-      "timestamp": 128.63552713394165
+      "details": "15274 chars",
+      "timestamp": 114.82458591461182
     },
     "step3_json_valid": {
       "passed": true,
-      "details": "21 constraints",
-      "timestamp": 128.63569402694702
+      "details": "22 constraints",
+      "timestamp": 114.82458591461182
     },
     "step4_varspec": {
       "passed": true,
-      "details": "57 varspecs",
-      "timestamp": 148.79000282287598
+      "details": "63 varspecs",
+      "timestamp": 143.23103761672974
     },
     "step5_constraints_parseable": {
       "passed": true,
-      "details": "21 constraints",
-      "timestamp": 148.80354809761047
+      "details": "22 constraints",
+      "timestamp": 143.25349473953247
     },
     "step5_repair_needed": false,
     "step5_repair_success": null,
     "step6_consistency_check": {
       "passed": true,
       "details": "SAT",
-      "timestamp": 148.81664204597473
+      "timestamp": 143.29417824745178
     },
     "step6_repair_success": {
       "passed": true,
       "details": "Repair successful",
-      "timestamp": 148.81664395332336
+      "timestamp": 143.29417824745178
     },
     "step7_case_mapper": {
       "passed": true,
-      "details": "46 facts",
-      "timestamp": 182.29327511787415
+      "details": "52 facts",
+      "timestamp": 180.94352006912231
     },
     "step7_facts_validation": null,
     "step7_z3_validation": {
       "passed": false,
-      "details": "Repair failed: Fact 'loan_secured_by_company_securities' should be bool, got int",
-      "timestamp": 191.95528173446655
+      "details": "Repair failed: b'parser error'",
+      "timestamp": 189.10999703407288
     },
     "step8_case_law_check": null,
     "step8_repair_success": null,
@@ -127,8 +127,16 @@
     "consistency_check": {
       "passed": true,
       "details": "Consistent after 0 attempts",
-      "timestamp": 148.81663608551025
+      "timestamp": 143.29417824745178
     }
   },
-  "fix_logs": []
+  "fix_logs": [
+    {
+      "id": "varspec:capital_level",
+      "rule": "Auto convert to Real",
+      "before": "Int",
+      "after": "Real",
+      "timestamp": 143.25
+    }
+  ]
 }

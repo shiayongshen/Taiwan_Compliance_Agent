@@ -764,7 +764,7 @@ def main(failed_indices=None):
     stats_df = stats_df[column_order]
     
     # 儲存到 Excel
-    excel_path = OUT / "pipeline_statistics.xlsx"
+    excel_path = OUT / "pipeline_statisticsv2.xlsx"
     with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:
         # Sheet 1: 摘要統計
         stats_df.to_excel(writer, sheet_name='Summary', index=False)
@@ -815,5 +815,5 @@ def main(failed_indices=None):
 
 
 if __name__ == "__main__":
-    fail_list_path = [139,340,372,476]
+    fail_list_path = [324,429,454]
     main(failed_indices=fail_list_path)

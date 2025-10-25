@@ -10,7 +10,7 @@ from openpyxl.styles import PatternFill
 # 基本設定
 # ============================================================
 output_dir = Path("outputs")
-excel_path = output_dir / "pipeline_statistics.xlsx"
+excel_path = output_dir / "pipeline_statisticsv3.xlsx"
 
 # ============================================================
 # 1️⃣ 收集所有統計資料
