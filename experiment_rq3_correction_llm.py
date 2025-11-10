@@ -52,7 +52,7 @@ except ImportError:
 from marco.json2z3 import declare_vars, build_expr
 
 
-def load_rq3_ground_truth(rq3_excel_path="outputs_RQ3/experiment_results_20251024_210218.xlsx"):
+def load_rq3_ground_truth(output_dir="outputs_RQ3"):
     """
     Load pre-computed ground truth from RQ3 experiment results.
     Returns a dict mapping case_id -> "SAT" or "UNSAT"
@@ -62,6 +62,17 @@ def load_rq3_ground_truth(rq3_excel_path="outputs_RQ3/experiment_results_2025102
     """
     gt_dict = {}
     try:
+        # Find the latest experiment results file
+        output_path = Path(output_dir)
+        excel_files = sorted(output_path.glob("experiment_results_*.xlsx"), reverse=True)
+        
+        if not excel_files:
+            print(f"Warning: No experiment results found in {output_dir}")
+            return gt_dict
+        
+        rq3_excel_path = excel_files[0]
+        print(f"Loading ground truth from: {rq3_excel_path}")
+        
         df = pd.read_excel(rq3_excel_path, sheet_name="Results")
         for _, row in df.iterrows():
             case_id = row["case_id"]
@@ -120,8 +131,11 @@ def load_case_data(case_id, data_dir="outputs", case_dataset_csv=None):
 
 def test_smt_with_modified_facts(constraints, varspecs, facts_modified):
     """
-    Test whether modified facts (suggested by LLM) satisfy all constraints.
-    Does NOT remove PENALTY - it's treated as a variable to be determined by constraints.
+    Test whether modified facts (suggested by LLM) satisfy all constraints using Z3 Solver.
+    
+    Uses SOLVER (not Optimizer) to fairly evaluate LLM's correction ability.
+    LLM's suggested facts are added as HARD constraints, so if they don't satisfy
+    the legal constraints, it will be UNSAT.
     
     Returns ("SAT", model) or ("UNSAT", core) or ("ERROR", error_msg)
     """
@@ -135,7 +149,7 @@ def test_smt_with_modified_facts(constraints, varspecs, facts_modified):
     
     solver = z3.Solver()
     
-    # add constraints as hard constraints
+    # Add all constraints as hard constraints (legal requirements)
     for i, c in enumerate(constraints):
         try:
             expr = c.get("expr") or c.get("expression")
@@ -146,7 +160,8 @@ def test_smt_with_modified_facts(constraints, varspecs, facts_modified):
         except Exception as e:
             return ("ERROR", f"Failed to build constraint {i}: {e}")
     
-    # add modified facts as hard constraints (all facts, including PENALTY if present)
+    # Add LLM-suggested facts as hard constraints
+    # If LLM's suggestions don't satisfy the legal constraints, result will be UNSAT
     for k, v in facts_modified.items():
         try:
             fact_expr = build_expr(["EQ", ["VAR", k], v], z3_vars)
@@ -194,7 +209,14 @@ def build_llm_prompt(case_id, constraints, facts, hard_constraint_keys, case_des
     hard_cs = [c for c in constraints if c.get("type") == "hard"]
     soft_cs = [c for c in constraints if c.get("type") != "hard"]
     
+    # 固定的 facts（不能修改）
     hard_facts = {k: facts[k] for k in hard_constraint_keys if k in facts}
+    
+    # 可修改的 facts（排除固定的和 penalty）
+    modifiable_facts = {
+        k: v for k, v in facts.items() 
+        if k not in hard_constraint_keys and 'penalty' not in k.lower()
+    }
     
     # Build case context section
     case_context = ""
@@ -209,9 +231,9 @@ def build_llm_prompt(case_id, constraints, facts, hard_constraint_keys, case_des
 根據以下法律約束和案例事實，提建議修改以達到「無罰款」(PENALTY=false) 的合規狀態。
 {case_context}
 
-### 案例事實 (Case Facts)
+### 可修改的案例事實 (Case Facts - You can modify these)
 ```json
-{json.dumps(facts, indent=2, ensure_ascii=False)}
+{json.dumps(modifiable_facts, indent=2, ensure_ascii=False)}
 ```
 
 ### 已固定的限制條件 (HARD CONSTRAINTS - 無法修改)
@@ -231,11 +253,11 @@ def build_llm_prompt(case_id, constraints, facts, hard_constraint_keys, case_des
 
 ### 您的任務
 
-您可以修改案例事實中的任何變數，EXCEPT 上述「已固定的限制條件」中的變數。
+您可以修改上述「可修改的案例事實」中的任何變數，以達到合規。
 
 請判斷：
 1. 是否存在一組變數調整方案，使得系統滿足所有硬性約束並達到 PENALTY=false？
-2. 如果存在，提出具體的調整建議（JSON 格式）。
+2. 如果存在，提出具體的調整建議（JSON 格式，只列出要修改的變數）。
 3. 如果不存在，宣告為 UNSAT（無可行解）。
 
 ### 回應格式（只回應 JSON，不要有其他文字）
@@ -379,6 +401,7 @@ def run_case_experiment(case_id, hard_constraint_keys, data_dir="outputs", case_
     
     result = {
         "case_id": case_id,
+        "num_hard_constraint_facts": len(hard_constraint_keys),  # 記錄有多少個 facts 被固定
         "ground_truth_result": None,
         "ground_truth_model": None,
         "llm_judgment": None,
@@ -427,8 +450,17 @@ def run_case_experiment(case_id, hard_constraint_keys, data_dir="outputs", case_
     # Step 5: Evaluate LLM correctness
     if llm_judgment == "SAT":
         if llm_mods and isinstance(llm_mods, dict):
-            # validate the suggested modifications
-            facts_modified = {**facts, **llm_mods}
+            # Build the complete facts with:
+            # - Fixed facts (hard_constraint_keys) kept as is
+            # - Modifiable facts updated with LLM's suggestions
+            facts_modified = dict(facts)  # Start with all original facts
+            
+            # Apply LLM's modifications (只改可修改的 facts)
+            for k, v in llm_mods.items():
+                if k not in hard_constraint_keys:  # Only allow modifications to non-fixed facts
+                    facts_modified[k] = v
+            
+            # Validate with Solver
             val_result, _ = test_smt_with_modified_facts(constraints, varspecs, facts_modified)
             result["llm_validation_result"] = val_result
             result["llm_correctness"] = (val_result == "SAT") and (truth_result == "SAT")
@@ -446,13 +478,13 @@ def run_case_experiment(case_id, hard_constraint_keys, data_dir="outputs", case_
 def load_hard_constraints_from_log(output_dir="outputs_RQ3"):
     """Load hard constraint keys from the previous experiment output."""
     output_path = Path(output_dir)
-    excel_files = list(output_path.glob("experiment_results_*.xlsx"))
+    excel_files = sorted(list(output_path.glob("experiment_results_*.xlsx")), reverse=True)
     
     if not excel_files:
         print(f"Warning: No experiment results found in {output_dir}")
         return {}
     
-    excel_file = sorted(excel_files)[-1]
+    excel_file = excel_files[0]
     print(f"Loading hard constraints from: {excel_file}")
     
     df = pd.read_excel(excel_file, sheet_name="Results")
@@ -460,15 +492,46 @@ def load_hard_constraints_from_log(output_dir="outputs_RQ3"):
     
     for _, row in df.iterrows():
         case_id = row["case_id"]
-        hard_cs_json = row.get("hard_constraints")
-        if hard_cs_json:
+        
+        # Try to get hard_constraint_keys column (新的欄位名)
+        hard_cs_json = None
+        if "hard_constraint_keys" in df.columns:
+            hard_cs_json = row["hard_constraint_keys"]
+        elif "hard_constraints" in df.columns:
+            hard_cs_json = row["hard_constraints"]
+        
+        if hard_cs_json and pd.notna(hard_cs_json):
             try:
-                hard_cs_list = json.loads(hard_cs_json) if isinstance(hard_cs_json, str) else hard_cs_json
-                hard_cs_keys = [hc.get("var") for hc in hard_cs_list if "var" in hc]
-                hard_constraints_map[case_id] = hard_cs_keys
-            except Exception:
+                # Parse JSON string
+                if isinstance(hard_cs_json, str):
+                    hard_cs_list = json.loads(hard_cs_json)
+                else:
+                    hard_cs_list = hard_cs_json
+                
+                # Extract keys from the list
+                if isinstance(hard_cs_list, list):
+                    hard_cs_keys = []
+                    for item in hard_cs_list:
+                        if isinstance(item, dict):
+                            # If it's a dict with "key" or "var" field
+                            if "key" in item:
+                                hard_cs_keys.append(item["key"])
+                            elif "var" in item:
+                                hard_cs_keys.append(item["var"])
+                        elif isinstance(item, str):
+                            # If it's just a string
+                            hard_cs_keys.append(item)
+                    
+                    if hard_cs_keys:
+                        hard_constraints_map[case_id] = hard_cs_keys
+                        print(f"  {case_id}: {len(hard_cs_keys)} hard constraints")
+            except Exception as e:
+                print(f"  Warning: Failed to parse hard constraints for {case_id}: {e}")
                 hard_constraints_map[case_id] = []
+        else:
+            hard_constraints_map[case_id] = []
     
+    print(f"Total cases with hard constraints: {sum(1 for v in hard_constraints_map.values() if v)}")
     return hard_constraints_map
 
 
@@ -493,7 +556,7 @@ def main():
     print(f"API Key: {api_key[:20]}...")
     
     # Load RQ3 ground truth (pre-computed SMT results)
-    rq3_ground_truth = load_rq3_ground_truth(f"{output_dir_prev}/experiment_results_20251024_210218.xlsx")
+    rq3_ground_truth = load_rq3_ground_truth(output_dir_prev)
     print()
     
     # Load case dataset CSV for case descriptions and statutes

@@ -161,6 +161,89 @@ def z3_optimize_case(constraints, facts, z3_vars, build_expr):
 
     except Exception as e:
         return False, f"Optimize failed: {e}"
+
+
+def calculate_min_flips(model, facts, z3_vars):
+    """
+    計算最小翻轉數 (minimum flips)
+    
+    比較 Z3 model 的值與原始 facts 中的值，
+    計算有多少個變數被改變（翻轉）
+    
+    Args:
+        model: Z3 Model 物件
+        facts: 原始事實字典
+        z3_vars: Z3 變數字典
+    
+    Returns:
+        dict: {
+            'total_variables': 總變數數,
+            'flipped_count': 翻轉數,
+            'unchanged_count': 未改變數,
+            'flipped_variables': [變數名列表],
+            'unchanged_variables': [變數名列表],
+            'flip_rate': 翻轉比例 (%)
+        }
+    """
+    flipped = []
+    unchanged = []
+    
+    for var_name, original_value in facts.items():
+        if var_name in z3_vars:
+            try:
+                model_value = model.eval(z3_vars[var_name], model_completion=True)
+                # 轉換 Z3 值為 Python 值以便比較
+                if hasattr(model_value, 'as_long'):
+                    model_value = model_value.as_long()
+                elif hasattr(model_value, 'as_fraction'):
+                    try:
+                        model_value = model_value.as_fraction()
+                    except:
+                        # 如果 as_fraction 失敗，嘗試轉換為浮點數
+                        try:
+                            model_value = float(str(model_value))
+                            # 如果原始值是浮點數，進行浮點比較
+                            if isinstance(original_value, (int, float)):
+                                original_value = float(original_value)
+                        except:
+                            model_value = str(model_value)
+                elif str(model_value) == 'True':
+                    model_value = True
+                elif str(model_value) == 'False':
+                    model_value = False
+                else:
+                    # 嘗試解析為浮點數
+                    try:
+                        model_value = float(str(model_value))
+                        if isinstance(original_value, (int, float)):
+                            original_value = float(original_value)
+                    except:
+                        model_value = str(model_value)
+                
+                if model_value != original_value:
+                    flipped.append({
+                        'variable': var_name,
+                        'original': original_value,
+                        'modified': model_value
+                    })
+                else:
+                    unchanged.append(var_name)
+            except Exception as e:
+                # 即使評估失敗，也將其視為 unchanged（為了統計的完整性）
+                unchanged.append(var_name)
+    
+    total = len(facts)
+    flipped_count = len(flipped)
+    unchanged_count = len(unchanged)
+    
+    return {
+        'total_variables': total,
+        'flipped_count': flipped_count,
+        'unchanged_count': unchanged_count,
+        'flipped_variables': flipped,
+        'unchanged_variables': unchanged,
+        'flip_rate': round((flipped_count / total * 100) if total > 0 else 0, 2)
+    }
     
 
 def calculate_cost(input_tokens, output_tokens):
