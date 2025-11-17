@@ -730,7 +730,7 @@ if __name__ == "__main__":
     
     # 可選：指定特定的案例索引
     # case_indices = [0, 1, 2]  # 只測試前 3 個案例
-    case_indices = None  # 自動發現所有案例
+    case_indices =list(range(0, 87))  # 自動發現所有案例
     
     all_stats, excel_path = main(
         case_indices=case_indices,

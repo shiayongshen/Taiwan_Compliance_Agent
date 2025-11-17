@@ -535,6 +535,136 @@ def load_hard_constraints_from_log(output_dir="outputs_RQ3"):
     return hard_constraints_map
 
 
+# def main():
+#     data_dir = "outputs"
+#     output_dir_prev = "outputs_RQ3"
+#     output_dir = "outputs_RQ3_llm_correction"
+    
+#     # Check if OpenAI is available
+#     if OpenAI is None:
+#         print("ERROR: OpenAI library not installed. Please install with: pip install openai")
+#         return
+    
+#     api_key = os.getenv("OPENAI_API_KEY")
+#     model = os.getenv("OPENAI_MODEL", "gpt-4-mini")
+    
+#     if not api_key:
+#         print("ERROR: OPENAI_API_KEY not found in .env file")
+#         return
+    
+#     print(f"Using model: {model}")
+#     print(f"API Key: {api_key[:20]}...")
+    
+#     # Load RQ3 ground truth (pre-computed SMT results)
+#     rq3_ground_truth = load_rq3_ground_truth(output_dir_prev)
+#     print()
+    
+#     # Load case dataset CSV for case descriptions and statutes
+#     try:
+#         case_dataset_csv = pd.read_csv("dataset/updated_processed_cases.csv", encoding="utf-8")
+#         print(f"Loaded case dataset with {len(case_dataset_csv)} rows")
+#     except Exception as e:
+#         print(f"Warning: Could not load case dataset CSV: {e}")
+#         case_dataset_csv = None
+    
+#     # Load hard constraints from previous experiment
+#     hard_constraints_map = load_hard_constraints_from_log(output_dir_prev)
+    
+#     if not hard_constraints_map:
+#         print("Warning: No hard constraints found from previous experiment")
+#         hard_constraints_map = {}
+#     else:
+#         print(f"Loaded {len(hard_constraints_map)} cases with hard constraints")
+    
+#     # Generate list of all cases to process
+#     # Get all available cases from outputs directory
+#     data_path = Path(data_dir)
+#     all_cases = set()
+#     for constraint_file in data_path.glob("*.constraint_spec.json"):
+#         case_id = constraint_file.stem.replace(".constraint_spec", "")
+#         all_cases.add(case_id)
+    
+#     all_cases = sorted(list(all_cases), key=lambda x: int(x.split("_")[-1]))
+#     print(f"\nFound {len(all_cases)} total cases in {data_dir}")
+    
+#     results = []
+#     for i, case_id in enumerate(all_cases, 1):
+#         # Get hard constraints for this case if available
+#         hard_keys = hard_constraints_map.get(case_id, [])
+#         has_hard_constraint = len(hard_keys) > 0
+        
+#         print(f"[{i}/{len(all_cases)}] {case_id} (hard: {len(hard_keys)} keys, augmented: {has_hard_constraint})...", flush=True)
+#         r = run_case_experiment(case_id, hard_keys, data_dir=data_dir, case_dataset_csv=case_dataset_csv, rq3_ground_truth_dict=rq3_ground_truth)
+#         r["has_hard_constraint"] = has_hard_constraint
+#         results.append(r)
+        
+#         # Print result summary
+#         if r["ground_truth_result"] and r["llm_judgment"]:
+#             match = "✓" if r["llm_correctness"] else "✗"
+#             print(f"     Ground truth: {r['ground_truth_result']:5} | LLM: {r['llm_judgment']:5} | {match} ({r['elapsed_time_sec']:.2f}s)")
+#         else:
+#             print(f"     ERROR: {r.get('error', 'Unknown error')[:80]}")
+    
+#     # Save results to Excel
+#     outdir = Path(output_dir)
+#     outdir.mkdir(parents=True, exist_ok=True)
+    
+#     df = pd.DataFrame(results)
+#     excel_path = outdir / f"rq3_llm_correction_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    
+#     with pd.ExcelWriter(excel_path, engine="openpyxl") as writer:
+#         df.to_excel(writer, sheet_name="results", index=False)
+        
+#         # Add summary sheet
+#         total = len(df)
+#         augmented_count = (df["has_hard_constraint"] == True).sum()
+#         original_count = total - augmented_count
+        
+#         truth_sat = (df["ground_truth_result"] == "SAT").sum()
+#         truth_unsat = (df["ground_truth_result"] == "UNSAT").sum()
+#         llm_sat = (df["llm_judgment"] == "SAT").sum()
+#         llm_unsat = (df["llm_judgment"] == "UNSAT").sum()
+#         llm_error = (df["llm_judgment"] == "ERROR").sum()
+#         correct = df["llm_correctness"].sum()
+        
+#         summary = {
+#             "Metric": [
+#                 "Total Cases",
+#                 "Augmented Cases (with hard constraints)",
+#                 "Original Cases (no hard constraints)",
+#                 "Ground Truth SAT",
+#                 "Ground Truth UNSAT",
+#                 "LLM SAT",
+#                 "LLM UNSAT",
+#                 "LLM ERROR",
+#                 "LLM Correct Judgments",
+#                 "Accuracy (%)"
+#             ],
+#             "Value": [
+#                 total,
+#                 augmented_count,
+#                 original_count,
+#                 truth_sat,
+#                 truth_unsat,
+#                 llm_sat,
+#                 llm_unsat,
+#                 llm_error,
+#                 correct,
+#                 f"{(correct / total * 100):.1f}%" if total > 0 else "N/A"
+#             ]
+#         }
+#         summary_df = pd.DataFrame(summary)
+#         summary_df.to_excel(writer, sheet_name="summary", index=False)
+    
+#     print(f"\n{'='*60}")
+#     print(f"Results saved to: {excel_path}")
+#     print(f"{'='*60}")
+#     print(summary_df.to_string(index=False))
+
+
+# if __name__ == "__main__":
+#     main()
+
 def main():
     data_dir = "outputs"
     output_dir_prev = "outputs_RQ3"
@@ -576,16 +706,9 @@ def main():
     else:
         print(f"Loaded {len(hard_constraints_map)} cases with hard constraints")
     
-    # Generate list of all cases to process
-    # Get all available cases from outputs directory
-    data_path = Path(data_dir)
-    all_cases = set()
-    for constraint_file in data_path.glob("*.constraint_spec.json"):
-        case_id = constraint_file.stem.replace(".constraint_spec", "")
-        all_cases.add(case_id)
-    
-    all_cases = sorted(list(all_cases), key=lambda x: int(x.split("_")[-1]))
-    print(f"\nFound {len(all_cases)} total cases in {data_dir}")
+    # 只處理 case_0 到 case_86
+    all_cases = [f"case_{i}" for i in range(0, 87)]
+    print(f"\nProcessing cases: case_0 to case_86 (total: {len(all_cases)} cases)")
     
     results = []
     for i, case_id in enumerate(all_cases, 1):
